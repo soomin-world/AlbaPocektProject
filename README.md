@@ -1,46 +1,30 @@
-# Getting Started with Create React App
+# Alba Poket Project!!!!!!!!!!!
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 나만의 알바 일지와 알바생 커뮤니티
 
-## Available Scripts
+### 서비스 배경
 
-In the project directory, you can run:
+- 알바생 중 26.9%는 한번에 2개 이상의 알바를 병행한다.
+- 알바 주기별로 보면 1년 내내 알바를 하는 알바생들의 경우 41.5%가
+  2개 이상의 알바를 동시에 하고 있다.
+- 알바생 10명 중 3명 정도는 아르바이트하면서 부당대우를 당했던 경험이 있는 것으로
+  나타났으며, 부당대우로는 임금체불이 가장 많았다.
 
-### `npm start`
+### 목적 및 기대효과
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- 월 또는 주 단위로 자신이 받을 금액을 미리 계산하고 확인할 수 있다.
+- 알하면서 생긴 궁금증을 커뮤니티를 통해 해결할 수 있다.
+- 알바 관련 고민을 해결할 수 있고, 알바 Tip을 알 수 있다.
+- 급하게 알바를 못 하게 되었거나 대타가 필요할 때 대신 알바 해줄 사람을 찾을 수 있다.
+- 자신의 근무 일정을 쉽고 간편하게 관리할 수 있다.
+- 임금체불 신고 시 증거로 사용될 수 있다.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### 컨셉
 
-### `npm test`
+- 심플하고 직관적인 UI를 통한 스케줄 관리 및 급여 확인
+- 반응형 웹을 통해 접속한 기기에 맞게 해상도와 레이아웃이 유동적으로 변하게 한다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 서비스 타겟
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- 본인의 알바 시간을 정리해 기록 하고싶은 알바생
+- 알바생들끼리의 커뮤니티를 이용하고 싶은 알바생
