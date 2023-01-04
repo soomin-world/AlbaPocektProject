@@ -51,5 +51,5 @@ export const nicknameCheckApi = async (nickname: INickname) => {
 
 export const loginApi = async (userInfo: ILogin) => {
   const { data } = await instance.post<ILogin>("/api/user/login", userInfo);
-  return data;
+  console.log(data);
 };
