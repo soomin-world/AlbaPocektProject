@@ -66,6 +66,5 @@ export const loginApi = async (userInfo: ILogin) => {
   const data: IData = await instance.post("/api/user/login", userInfo);
   const accessToken = data.headers.authorization;
   setAccessToken(accessToken);
-  // localStorage.setItem("is_login", data.headers.authorization);
-  // console.log(headers.authorization);
+  window.location.href = "/";
 };
