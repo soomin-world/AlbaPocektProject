@@ -23,12 +23,21 @@ interface ILogin {
   password: string;
 }
 
+interface IData {
+  headers: {
+    authorization: string;
+  };
+}
+
 // export const registerApi = () => {
 //   return useMutation(async (registerInfo: IForm) => {
 //     const { data } = await instance.post("api/quests", {});
 //     return data;
 //   });
 // };
+const setAccessToken = (accessToken: string) => {
+  localStorage.setItem("is_login", accessToken);
+};
 
 export const registerApi = async (registerInfo: IForm) => {
   const { data } = await instance.post<IForm>("/api/user/signup", {
@@ -39,17 +48,24 @@ export const registerApi = async (registerInfo: IForm) => {
   return data;
 };
 
-export const userIdCheckApi = async (userId: IUserId) => {
-  const { data } = await instance.post<IUserId>("/api/user/userid", userId);
+export const userIdCheckApi = async (userId: IForm) => {
+  const { data } = await instance.post<IUserId>("/api/user/userid", {
+    userId: userId.email,
+  });
   return data;
 };
 
-export const nicknameCheckApi = async (nickname: INickname) => {
-  const { data } = await instance.post<INickname>("/api/user/userid", nickname);
+export const nicknameCheckApi = async (nickname: IForm) => {
+  const { data } = await instance.post<INickname>("/api/user/nickname", {
+    nickname: nickname.nickname,
+  });
   return data;
 };
 
 export const loginApi = async (userInfo: ILogin) => {
-  const { data } = await instance.post<ILogin>("/api/user/login", userInfo);
-  console.log(data);
+  const data: IData = await instance.post("/api/user/login", userInfo);
+  const accessToken = data.headers.authorization;
+  setAccessToken(accessToken);
+  // localStorage.setItem("is_login", data.headers.authorization);
+  // console.log(headers.authorization);
 };

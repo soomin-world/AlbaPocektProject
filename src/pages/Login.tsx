@@ -2,15 +2,25 @@ import { useState } from "react";
 import { useMutation } from "react-query";
 import { loginApi } from "../APIs/api";
 
-interface ILogin {
-  userId?: string;
-  password?: string;
+interface IErrormsg {
+  response: {
+    data: {
+      msg: string;
+    };
+  };
 }
 
 const Login = () => {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
-  const { mutate } = useMutation(loginApi);
+  const { mutateAsync, isError, error } = useMutation(loginApi);
+
+  const [errorMsg, setErrorMsg] = useState("");
+
+  // if (error) {
+  //   // const errormsg:IErrormsg = error;
+  //   console.log(error.response.data.msg);
+  // }
 
   return (
     <div>
@@ -20,7 +30,10 @@ const Login = () => {
           e.preventDefault();
           const userInfo = { userId: userId, password: password };
           console.log(userInfo);
-          mutate(userInfo);
+          mutateAsync(userInfo).catch((error) => {
+            console.log(error.response.data.msg);
+            setErrorMsg(error.response.data.msg);
+          });
         }}
       >
         <input
@@ -37,6 +50,7 @@ const Login = () => {
           type="password"
         ></input>
         <button>로그인</button>
+        <span>{errorMsg}</span>
       </form>
     </div>
   );

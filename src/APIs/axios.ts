@@ -15,16 +15,16 @@ export const instance = axios.create({
   },
 });
 
-//   instance.interceptors.request.use(
-//     (config: AxiosRequestConfig) => {
-//       const token = getCookieToken();
-//       if (token) {
-//         config.headers = { authorization: token };
-//         return config;
-//       }
-//       return config;
-//     },
-//     () => {
-//       return;
-//     },
-//   );
+instance.interceptors.request.use(
+  (config: AxiosRequestConfig) => {
+    const token = localStorage.getItem("is_login");
+    if (token) {
+      config.headers = { authorization: token };
+      return config;
+    }
+    return config;
+  },
+  () => {
+    return;
+  }
+);
