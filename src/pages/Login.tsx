@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useMutation } from "react-query";
 import { loginApi } from "../APIs/api";
+import { KAKAO_AUTH_URL } from "../APIs/OAuth";
 
 interface IErrormsg {
   response: {
@@ -51,6 +52,7 @@ const Login = () => {
         ></input>
         <button>로그인</button>
         <span>{errorMsg}</span>
+        <a href={KAKAO_AUTH_URL}>카카오로 시작하기</a>
       </form>
     </div>
   );
