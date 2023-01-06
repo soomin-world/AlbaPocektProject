@@ -21,23 +21,26 @@ export const deletePost = async (payload: any) => {
 //댓글 작성
 export const addComment = async (payload: any) => {
   console.log(payload);
-  await instance.post(`/api/comments/${payload[0]}`, payload[1]);
+  await instance.post(`/api/comments/${payload[0]}`, { comment: payload[1] });
 };
 
 //댓글 조회
 export const getComments = async (payload: any) => {
-  console.log(payload);
-  await instance.post(`/api/comments/${payload}`);
+  const res = await instance.get(`/api/comments/${payload}`);
+  console.log(res);
+  return res.data;
 };
 
 //댓글 수정
 export const editComment = async (payload: any) => {
-  await instance.put(`/api/comments/${payload.id}`, payload.comment);
+  const res = await instance.put(`/api/comments/${payload[0]}`, {
+    comment: payload[1],
+  });
 };
 
 //댓글 삭제
-export const deleteComment = async (payload: any) => {
-  await instance.delete(`/api/comments/${payload.id}`);
+export const deleteComment = async (payload: number) => {
+  await instance.delete(`/api/comments/${payload}`);
 };
 
 /*----------좋아요 --------- 감 안잡힘 ㅋ*/

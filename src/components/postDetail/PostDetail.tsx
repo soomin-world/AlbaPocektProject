@@ -13,7 +13,7 @@ function PostDetail() {
   );
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error!!!!!!</div>;
-
+  console.log(data.data);
   return (
     <SContainer className="detailContainer">
       <div className="header">
@@ -52,6 +52,53 @@ const SContainer = styled.div`
   justify-content: center;
   flex-direction: column;
   padding: 10%;
+  width: 80%;
+  margin-left: 10%;
+  .header {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    .info {
+      display: flex;
+      justify-content: space-between;
+    }
+    .title {
+      margin-right: 70px;
+      width: 100%;
+      font-size: 60px;
+    }
+    img {
+      margin-right: 5px;
+      width: 15px;
+      height: 15px;
+      border-radius: 100px;
+    }
+    span {
+      font-size: 15px;
+    }
+  }
+  .body {
+    border: 1px solid black;
+    padding: 20px;
+    margin-bottom: 40px;
+    .imageBox {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin: 30px 0px 50px 0px;
+      img {
+        width: 50%;
+      }
+    }
+    .contentArea {
+      width: 100%;
+      margin-bottom: 50px;
+      margin-left: 40px;
+      .contentBody {
+        font-size: 20px;
+      }
+    }
+  }
 `;
 
 export default PostDetail;

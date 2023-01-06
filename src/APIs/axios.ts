@@ -10,12 +10,24 @@ export const instance = axios.create({
   baseURL: "https://woooo.shop",
   headers: {
     // "content-type": "application/json;charset=UTF-8",
-    // accept: "application/json,",
+    //accept: "application/json,",
     "Access-Control-Allow-Origin": "*",
+    //"Content-type": "application/json",
   },
 });
 
-instance.interceptors.request.use(
+export const postInstance = axios.create({
+  baseURL: "https://woooo.shop",
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+    "Content-type": "multipart/form-data",
+    //"Content-type": "application/json",
+  },
+});
+
+// -----------------토큰 -------------------
+
+postInstance.interceptors.request.use(
   (config: AxiosRequestConfig) => {
     const token = localStorage.getItem("is_login");
     if (token) {
@@ -29,16 +41,7 @@ instance.interceptors.request.use(
   }
 );
 
-export const postInstance = axios.create({
-  baseURL: "https://woooo.shop",
-  headers: {
-    "Access-Control-Allow-Origin": "*",
-    "Content-type": "multipart/form-data",
-    //"Content-type": "application/json",
-  },
-});
-
-postInstance.interceptors.request.use(
+instance.interceptors.request.use(
   (config: AxiosRequestConfig) => {
     const token = localStorage.getItem("is_login");
     if (token) {
