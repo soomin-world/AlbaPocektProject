@@ -18,6 +18,7 @@ const kakaoLogin = (code: string | null) => {
   axios
     .get(`https://woooo.shop/api/user/kakao/callback?code=${code}`)
     .then((res) => {
+      // const response:IData = res;
       console.log(res.headers.authorization); // 토큰이 넘어올 것임
       const accessToken = res.headers.authorization;
       setAccessToken(accessToken);

@@ -1,17 +1,11 @@
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
 import { nicknameCheckApi, registerApi, userIdCheckApi } from "../APIs/api";
-import { instance } from "../APIs/axios";
-
-interface IForm {
-  email: string;
-  nickname: string;
-  password: string;
-  passwordCheck: string;
-  extraError?: string;
-}
+import { IForm } from "../types/loginRegisterType";
 
 const Register = () => {
+  const navigate = useNavigate();
   const {
     register,
     watch,
@@ -20,7 +14,7 @@ const Register = () => {
     setError,
   } = useForm<IForm>({ mode: "onBlur" });
 
-  const { mutate: registerMutate } = useMutation(registerApi);
+  const { mutateAsync: registerMutate } = useMutation(registerApi);
   const { mutateAsync: userIdCheckMutate } = useMutation(userIdCheckApi);
   const { mutateAsync: nicknameCheckMutate } = useMutation(nicknameCheckApi);
 
@@ -33,7 +27,13 @@ const Register = () => {
       );
     } else {
       const registerInfo: IForm = data;
-      registerMutate(registerInfo);
+      registerMutate(registerInfo)
+        .then((res) => {
+          navigate("/login");
+        })
+        .catch((error) => {
+          setError("extraError", { message: error.response.data.msg });
+        });
     }
     // setError("extraError", { message: "Server offline." });
   };

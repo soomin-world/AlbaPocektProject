@@ -1,40 +1,15 @@
 import axios from "axios";
 import { useMutation } from "react-query";
 import { instance } from "./axios";
+import {
+  IForm,
+  IUserId,
+  INickname,
+  ILogin,
+  IData,
+} from "../types/loginRegisterType";
+// import useAccessToken from "../hooks/useAccessToken";
 
-interface IForm {
-  email: string;
-  nickname: string;
-  password: string;
-  passwordCheck: string;
-  extraError?: string;
-}
-
-interface IUserId {
-  userId: string;
-}
-
-interface INickname {
-  nickName: string;
-}
-
-interface ILogin {
-  userId: string;
-  password: string;
-}
-
-interface IData {
-  headers: {
-    authorization: string;
-  };
-}
-
-// export const registerApi = () => {
-//   return useMutation(async (registerInfo: IForm) => {
-//     const { data } = await instance.post("api/quests", {});
-//     return data;
-//   });
-// };
 const setAccessToken = (accessToken: string) => {
   localStorage.setItem("is_login", accessToken);
 };

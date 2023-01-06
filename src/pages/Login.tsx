@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useMutation } from "react-query";
 import { loginApi } from "../APIs/api";
 import { KAKAO_AUTH_URL } from "../APIs/OAuth";
+import { useNavigate } from "react-router-dom";
 
 interface IErrormsg {
   response: {
@@ -12,16 +13,20 @@ interface IErrormsg {
 }
 
 const Login = () => {
+  const navigate = useNavigate();
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const { mutateAsync, isError, error } = useMutation(loginApi);
-
   const [errorMsg, setErrorMsg] = useState("");
 
-  // if (error) {
-  //   // const errormsg:IErrormsg = error;
-  //   console.log(error.response.data.msg);
-  // }
+  const onSubmitHandler = () => {
+    const userInfo = { userId: userId, password: password };
+    console.log(userInfo);
+    mutateAsync(userInfo).catch((error) => {
+      console.log(error.response.data.msg);
+      setErrorMsg(error.response.data.msg);
+    });
+  };
 
   return (
     <div>
@@ -30,11 +35,7 @@ const Login = () => {
         onSubmit={(e) => {
           e.preventDefault();
           const userInfo = { userId: userId, password: password };
-          console.log(userInfo);
-          mutateAsync(userInfo).catch((error) => {
-            console.log(error.response.data.msg);
-            setErrorMsg(error.response.data.msg);
-          });
+          onSubmitHandler();
         }}
       >
         <input
@@ -52,6 +53,13 @@ const Login = () => {
         ></input>
         <button>로그인</button>
         <span>{errorMsg}</span>
+        <div
+          onClick={() => {
+            navigate("/register");
+          }}
+        >
+          회원가입
+        </div>
         <a href={KAKAO_AUTH_URL}>카카오로 시작하기</a>
       </form>
     </div>
