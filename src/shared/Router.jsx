@@ -6,6 +6,9 @@ import KakaoSocial from "../APIs/KakaoSocial";
 import Board from "../pages/Board";
 import Post from "../pages/Post";
 import Posting from "../pages/Posting";
+import Free from "../components/category/Free";
+import PartTime from "../components/category/PartTime";
+import Cover from "../components/category/Cover";
 
 function Router() {
   return (
@@ -14,9 +17,15 @@ function Router() {
         <Route path="/" element={<Main />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/oauth/callback/kakao" element={<KakaoSocial />}></Route>
+        <Route path="/oauth/callback/kakao" element={<KakaoSocial />} />
         <Route path="/posting/:id?" element={<Posting />} />
-        <Route path="/board" element={<Board />} />
+
+        <Route path="/board" element={<Board />}>
+          <Route path="free" element={<Free />} />
+          <Route path="partTime" element={<PartTime />} />
+          <Route path="cover" element={<Cover />} />
+        </Route>
+
         <Route path="/post/:id" element={<Post />} />
       </Routes>
     </BrowserRouter>

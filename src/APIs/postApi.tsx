@@ -1,4 +1,4 @@
-import { postInstance } from "./api";
+import { instance, postInstance } from "./axios";
 
 /* 커뮤니티 게시판 글작성 */
 export const addPost = async (payload: any) => {
