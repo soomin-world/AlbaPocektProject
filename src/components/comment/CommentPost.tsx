@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { addComment } from "../../api/detailPostApi";
+import { addComment } from "../../APIs/detailPostApi";
 import CommentList from "./CommentList";
 
 const CommentPost = () => {

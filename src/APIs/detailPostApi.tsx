@@ -1,5 +1,4 @@
-import { postInstance } from "./api";
-import { instance } from "../APIs/axios";
+import { instance, postInstance } from "../APIs/axios";
 
 // 게시글 상세조회 get
 export const getPost = async (id: any) => {

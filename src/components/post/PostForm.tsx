@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import styled from "styled-components";
-import { addPost } from "../../api/postApi";
+import { addPost } from "../../APIs/postApi";
 
 function PostForm() {
   const [post, setPost] = useState({

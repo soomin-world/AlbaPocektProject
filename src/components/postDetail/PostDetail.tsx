@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getPost } from "../../api/detailPostApi";
+import { getPost } from "../../APIs/detailPostApi";
 import CommentList from "../comment/CommentList";
 import CommentPost from "../comment/CommentPost";
 

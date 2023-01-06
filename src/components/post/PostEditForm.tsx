@@ -1,8 +1,8 @@
 import { useMutation, useQuery } from "react-query";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getPost, putPost } from "../../api/detailPostApi";
 import styled from "styled-components";
+import { getPost, putPost } from "../../APIs/detailPostApi";
 
 function PostEditForm() {
   const [editPost, setEditPost] = useState({

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { getComments } from "../../api/detailPostApi";
+import { getComments } from "../../APIs/detailPostApi";
 
 const CommentList = () => {
   const { id } = useParams();

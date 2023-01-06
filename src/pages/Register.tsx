@@ -1,7 +1,11 @@
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { nicknameCheckApi, registerApi, userIdCheckApi } from "../APIs/api";
+import {
+  nicknameCheckApi,
+  registerApi,
+  userIdCheckApi,
+} from "../APIs/loginRegisterApi";
 import { IForm } from "../types/loginRegisterType";
 
 const Register = () => {

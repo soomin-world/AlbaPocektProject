@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "react-query";
-import { loginApi } from "../APIs/api";
+import { loginApi } from "../APIs/loginRegisterApi";
 import { KAKAO_AUTH_URL } from "../APIs/OAuth";
 import { useNavigate } from "react-router-dom";
 

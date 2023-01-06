@@ -1,6 +1,6 @@
 // infinite scroll을 구현할 예정 back 과 얘기해봐야함
 
-import { postInstance } from "./api";
+import { postInstance } from "./axios";
 
 //전체 게시글 조회
 
