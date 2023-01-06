@@ -1,4 +1,5 @@
-<<<<<<< HEAD
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createGlobalStyle } from "styled-components";
 import Router from "./shared/Router";
 
@@ -64,24 +65,15 @@ a {
 `;
 
 function App() {
-  return (
-    <>
-      <GlobalStyle />
-      <Router />
-    </>
-=======
-import { QueryClientProvider } from "@tanstack/react-query";
-import Router from "./shared/Router";
-import { QueryClient } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-function App() {
   const queryClient = new QueryClient();
   return (
-    <QueryClientProvider client={queryClient}>
-      <Router />;
-      <ReactQueryDevtools />
-    </QueryClientProvider>
->>>>>>> 5262055166698e47f54238cda53fb396721dc5a3
+    <>
+      <QueryClientProvider client={queryClient}>
+        <GlobalStyle />
+        <Router />
+        <ReactQueryDevtools />
+      </QueryClientProvider>
+    </>
   );
 }
 
