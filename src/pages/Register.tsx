@@ -1,17 +1,11 @@
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
-import { registerApi, userIdCheckApi } from "../APIs/api";
-import { instance } from "../APIs/axios";
-
-interface IForm {
-  email: string;
-  nickname: string;
-  password: string;
-  passwordCheck: string;
-  extraError?: string;
-}
+import { useNavigate } from "react-router-dom";
+import { nicknameCheckApi, registerApi, userIdCheckApi } from "../APIs/api";
+import { IForm } from "../types/loginRegisterType";
 
 const Register = () => {
+  const navigate = useNavigate();
   const {
     register,
     watch,
@@ -20,8 +14,9 @@ const Register = () => {
     setError,
   } = useForm<IForm>({ mode: "onBlur" });
 
-  const { mutate: registerMutate } = useMutation(registerApi);
-  const { mutate: userIdCheckMutate } = useMutation(userIdCheckApi);
+  const { mutateAsync: registerMutate } = useMutation(registerApi);
+  const { mutateAsync: userIdCheckMutate } = useMutation(userIdCheckApi);
+  const { mutateAsync: nicknameCheckMutate } = useMutation(nicknameCheckApi);
 
   const onValid = (data: IForm) => {
     if (data.password !== data.passwordCheck) {
@@ -31,15 +26,42 @@ const Register = () => {
         { shouldFocus: true }
       );
     } else {
-      // console.log(watch());
-      const registerInfo: IForm = watch();
-      // registerApi(registerInfo);
-      console.log(registerInfo);
-      registerMutate(registerInfo);
+      const registerInfo: IForm = data;
+      registerMutate(registerInfo)
+        .then((res) => {
+          navigate("/login");
+        })
+        .catch((error) => {
+          setError("extraError", { message: error.response.data.msg });
+        });
     }
     // setError("extraError", { message: "Server offline." });
   };
-  console.log(errors);
+  // console.log(errors);
+
+  const userIdCheck = () => {
+    const userId: IForm = watch();
+    userIdCheckMutate(userId)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error.response.data.msg);
+        setError("email", { message: error.response.data.msg });
+      });
+  };
+
+  const nicknameCheck = () => {
+    const nickname: IForm = watch();
+    nicknameCheckMutate(nickname)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error.response.data.msg);
+        setError("nickname", { message: error.response.data.msg });
+      });
+  };
 
   return (
     <div>
@@ -54,35 +76,28 @@ const Register = () => {
               value: /\w+@\w+\.\w{2,4}\.?\w{0,2}/,
               message: "올바른 이메일 형식이 아닙니다.",
             },
-            // validate: {
-            //   checkUrl: async () => await fetch("https://woooo.shop/api/user/userid", {
-            //       method: "POST",
-            //       body: JSON.stringify({
-            //         userId: 1,
-            //       }),
-            //     }),
-            //   message: "이미 가입된 이메일입니다.",
-            // },
           })}
           placeholder="이메일"
         />
         <span>{errors?.email?.message}</span>
+        <div onClick={userIdCheck}>중복 확인</div>
 
         <input
           {...register("nickname", {
             required: "필수 정보입니다.",
             minLength: {
-              value: 3,
-              message: "3글자 이상 적어주세요.",
+              value: 5,
+              message: "5~10글자를 적어주세요.",
             },
             pattern: {
-              value: /^[A-za-z0-9가-힣]{3,20}$/,
-              message: "가능한 문자: 영문 대소문자, 글자 단위 한글, 숫자",
+              value: /^[A-za-z0-9가-힣]{5,10}$/,
+              message: "가능한 문자 : 영문 대소문자, 글자 단위 한글, 숫자 ",
             },
           })}
           placeholder="닉네임"
         />
         <span>{errors?.nickname?.message}</span>
+        <div onClick={nicknameCheck}>중복 확인</div>
         <input
           {...register("password", {
             required: "필수 정보입니다.",
@@ -91,8 +106,9 @@ const Register = () => {
               message: "8글자 이상 적어주세요.",
             },
             pattern: {
-              value: /^[A-za-z0-9가-힣]{8,30}$/,
-              message: "가능한 문자: 영문 대소문자, 글자 단위 한글, 숫자",
+              value:
+                /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&].{8,20}$/,
+              message: "영문 대소문자, 숫자, 특수문자를 포함한 8~20글자",
             },
           })}
           placeholder="비밀번호"
