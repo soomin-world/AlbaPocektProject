@@ -8,7 +8,18 @@ export const postInstance = axios.create({
     "Content-type": "multipart/form-data",
     //"Content-type": "application/json",
     Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3b29vbzk2QGdhbWlsLmNvbSIsImV4cCI6MTY3MjkzNTY5MSwiaWF0IjoxNjcyODk5NjkxfQ.YYN6C39g9mPcGZWcQpdtx1r2RKnHhIqy57ecDNgJszo",
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3b29vbzk2QGdhbWlsLmNvbSIsImV4cCI6MTY3Mjk2ODU5MiwiaWF0IjoxNjcyOTMyNTkyfQ.twoHLq4UHtQcAxy3BRWkddO7TZI9MpKJVGbiT1biamw",
+  },
+});
+
+export const Instance = axios.create({
+  baseURL: "https://woooo.shop",
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+    //"Content-type": "multipart/form-data",
+    "Content-type": "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3b29vbzk2QGdhbWlsLmNvbSIsImV4cCI6MTY3Mjk2ODU5MiwiaWF0IjoxNjcyOTMyNTkyfQ.twoHLq4UHtQcAxy3BRWkddO7TZI9MpKJVGbiT1biamw",
   },
 });
 

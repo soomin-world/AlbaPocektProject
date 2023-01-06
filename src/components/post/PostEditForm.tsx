@@ -1,14 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useMutation, useQuery } from "react-query";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getPost } from "../../api/detailPostApi";
+import { getPost, putPost } from "../../api/detailPostApi";
 import styled from "styled-components";
-
-interface dataType {
-  title: string;
-  category: string;
-  content: string;
-}
 
 function PostEditForm() {
   const [editPost, setEditPost] = useState({
@@ -23,42 +17,51 @@ function PostEditForm() {
     getPost(id)
   );
   console.log(data);
-  // if (data) {
-  //   setEditPost({
-  //     title: data.title,
-  //     category: data.category,
-  //     content: data.content,
-  //   });
-  // }
+
+  useEffect(() => {
+    if (data) {
+      console.log("useeffect 실헹됨 ");
+      setEditPost({
+        title: data.data.title,
+        category: data.data.category,
+        content: data.data.content,
+      });
+    }
+  }, [data]);
 
   const getImage = (e: any) => {
     setFile(e.target.files[0]);
   };
 
-  //   const submitHandler = (e: any) => {
-  //     e.preventDefault();
-  //     if (file) {
-  //       const formData = new FormData();
-  //       const payload = [formData, id];
-  //       formData.append(
-  //         "data",
-  //         new Blob([JSON.stringify(post)], { type: "application/json" })
-  //       );
-  //       formData.append("file", file);
-  //       console.log(file);
-  //       editPost(payload);
-  //     } else {
-  //       const formData = new FormData();
-  //       formData.append(
-  //         "data",
-  //         new Blob([JSON.stringify(post)], { type: "application/json" })
-  //       );
-  //       editPost(payload);
-  //     }
-  //   };
+  const formData = new FormData();
+  const payload = [id, formData];
+
+  const submitHandler = (e: any) => {
+    e.preventDefault();
+    if (file) {
+      formData.append(
+        "data",
+        new Blob([JSON.stringify(editPost)], { type: "application/json" })
+      );
+      formData.append("file", file);
+      console.log("서버전송payload:", payload);
+      mutatePost.mutate(payload);
+    } else {
+      formData.append(
+        "data",
+        new Blob([JSON.stringify(editPost)], { type: "application/json" })
+      );
+      mutatePost.mutate(payload);
+    }
+  };
+
+  const mutatePost = useMutation(putPost);
+
+  if (isError) return <div>Error!!!!!!</div>;
+  if (isLoading) return <div>Loading~~~</div>;
   return (
     <SContianer>
-      <SForm>
+      <SForm onSubmit={submitHandler}>
         <div className="titleForm">
           <label className="title">제목</label>
           <input

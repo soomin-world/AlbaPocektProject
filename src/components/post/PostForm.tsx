@@ -1,3 +1,4 @@
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import styled from "styled-components";
 import { addPost } from "../../api/postApi";
@@ -10,7 +11,6 @@ function PostForm() {
   });
 
   const [file, setFile] = useState<string | Blob>();
-
   const getImage = (e: any) => {
     setFile(e.target.files[0]);
   };
@@ -24,17 +24,19 @@ function PostForm() {
         new Blob([JSON.stringify(post)], { type: "application/json" })
       );
       formData.append("file", file);
-      console.log(file);
-      addPost(formData);
+      console.log("formData 값:", formData);
+      writePost.mutate(formData);
+      //addPost(formData);
     } else {
       const formData = new FormData();
       formData.append(
         "data",
         new Blob([JSON.stringify(post)], { type: "application/json" })
       );
+      writePost.mutate(formData);
     }
   };
-
+  const writePost = useMutation(addPost);
   return (
     <SContianer>
       <SForm onSubmit={submitHandler}>
