@@ -23,4 +23,7 @@ export interface IData {
   headers: {
     authorization: string;
   };
+  data: {
+    nickname: string;
+  };
 }
