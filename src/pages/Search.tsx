@@ -18,9 +18,9 @@ const Search = () => {
     // }
   );
 
-  useEffect(() => {
-    getSearch(keyword);
-  }, [keyword]);
+  // useEffect(() => {
+  //   getSearch(keyword);
+  // }, [keyword]);
 
   // console.log(data);
   const onClickSearchBtnHandler = () => {
