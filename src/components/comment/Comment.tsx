@@ -1,5 +1,6 @@
 import { QueryClient, useMutation } from "@tanstack/react-query";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { deleteComment, editComment } from "../../APIs/detailPostApi";
 import { CommentType } from "./CommentList";
 
@@ -15,23 +16,27 @@ const Comment: React.FC<CommentType> = (props) => {
     // isLikecomment,
     createAt,
   } = props;
+  const { id } = useParams();
   const [newComment, setNewComment] = useState(comment);
   const delComment = useMutation(deleteComment, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["comment"]);
+      queryClient.invalidateQueries(["comment", id]);
     },
   });
   const putComment = useMutation(editComment, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["comment"]);
+      queryClient.invalidateQueries(["comment", id]);
     },
   });
+
+  //-----------------
   const commentDelete = (id: number) => {
     delComment.mutate(id);
   };
   const commentEdit = (id: number) => {
     const payload = [id, newComment];
     putComment.mutate(payload);
+    alert("수정되었습니다");
   };
 
   return (

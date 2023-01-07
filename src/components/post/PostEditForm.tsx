@@ -1,10 +1,11 @@
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getPost, putPost } from "../../APIs/detailPostApi";
 
 function PostEditForm() {
+  const navigate = useNavigate();
   const [editPost, setEditPost] = useState({
     title: "",
     category: "",
@@ -36,6 +37,7 @@ function PostEditForm() {
     //onst formData = new FormData();
     const payload = [id, editPost];
     mutatePost.mutate(payload);
+    window.location.href = `/post/${id}`;
     // if (file) {
     //   formData.append(
     //     "data",

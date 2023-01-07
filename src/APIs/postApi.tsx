@@ -4,5 +4,5 @@ import { postInstance } from "./axios";
 export const addPost = async (payload: any) => {
   console.log("addpost payload:", payload);
   await postInstance.post("/api/posts", payload);
-  //return (window.location.href = "/board");
+  return (window.location.href = "/board");
 };

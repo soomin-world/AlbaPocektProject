@@ -23,7 +23,7 @@ const CommentPost = () => {
 
   const postComment = useMutation(addComment, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["comment"]);
+      queryClient.invalidateQueries(["comment", id]);
     },
   });
   return (

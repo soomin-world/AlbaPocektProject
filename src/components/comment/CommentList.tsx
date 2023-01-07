@@ -15,21 +15,16 @@ export interface CommentType {
 
 const CommentList = () => {
   const { id } = useParams();
+  const [dataList, setDataList] = useState([]);
   const { data } = useQuery(["comment", id], () => getComments(id));
   useEffect(() => {
-    getComments(id);
+    if (data) {
+      setDataList(data);
+    }
   }, [data]);
-  // console.log(data);
-  // useEffect(() => {
-  //   console.log("실헹");
-  //   getComments(id);
-  // }, []);
-
-  //비동기 처리 omg
-
   return (
     <div>
-      {data?.map((e: CommentType) => (
+      {dataList.map((e: CommentType) => (
         <div key={e.commentId}>
           <Comment
             commentId={e.commentId}

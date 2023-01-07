@@ -14,14 +14,17 @@ export const putPost = async (payload: any) => {
 
 //게시글 삭제
 export const deletePost = async (payload: any) => {
-  await postInstance.delete(`/api/posts/${payload.id}`);
+  await instance.delete(`/api/posts/${payload}`);
 };
 
 /* -----------댓글 ---------*/
 //댓글 작성
 export const addComment = async (payload: any) => {
   console.log(payload);
-  await instance.post(`/api/comments/${payload[0]}`, { comment: payload[1] });
+  const res = await instance.post(`/api/comments/${payload[0]}`, {
+    comment: payload[1],
+  });
+  return;
 };
 
 //댓글 조회
@@ -36,11 +39,13 @@ export const editComment = async (payload: any) => {
   const res = await instance.put(`/api/comments/${payload[0]}`, {
     comment: payload[1],
   });
+  return alert("수정되었습니다");
 };
 
 //댓글 삭제
 export const deleteComment = async (payload: number) => {
   await instance.delete(`/api/comments/${payload}`);
+  return alert("삭제되었습니다");
 };
 
 /*----------좋아요 --------- 감 안잡힘 ㅋ*/
