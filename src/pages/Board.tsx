@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import styled from "styled-components";
 import { getAllPosts } from "../APIs/communityBoard";
+import PostCard from "../components/category/PostCard";
 import { IAllPosts } from "../types/postType";
 
 type TotalProps = {
@@ -21,25 +22,9 @@ const Board = () => {
   const boardMatch = useMatch("/board");
   const [state, setState] = useState([]);
 
-  // const { id } = useParams();
-
-  // console.log(id);
-  // const { isLoading, isError, data } = useQuery({
-  //   queryKey: ["allPosts"],
-  //   queryFn: getAllPosts,
-  //   onSuccess: (data) => {
-  //     console.log(data);
-  //     setState(data);
-  //   },
-  // });
   const { isLoading, isError, data } = useQuery<IAllPosts[]>(["allPosts"], () =>
     getAllPosts()
   );
-  // useEffect(() => {
-  //   getAllPosts();
-  // }, [data]);
-  // console.log(data);
-  // console.log(isLoading);
 
   return (
     <>
@@ -71,40 +56,15 @@ const Board = () => {
         ? null
         : data?.map((post) => {
             console.log(post);
-            return (
-              <PostCard key={post.postId}>
-                <PostCardProfile>
-                  <img src={post.profileImage} />
-                  <PostCardProfileInfo>
-                    <div>{post.nickname}</div>
-                    <div>01-06</div>
-                  </PostCardProfileInfo>
-                </PostCardProfile>
-                <PostCardContent>
-                  <p>{post.content}</p>
-                  <img src={post.imgUrl} />
-                  <Heart>❤️ {post.postLikeNum}</Heart>
-                </PostCardContent>
-              </PostCard>
-            );
+            return <PostCard key={post.postId} post={post} />;
           })}
-      {/* <PostCard>
-        <PostCardProfile>
-          <img src="https://pbs.twimg.com/profile_images/1374979417915547648/vKspl9Et_400x400.jpg" />
-          <PostCardProfileInfo>
-            <div>nickname</div>
-            <div>01-06</div>
-          </PostCardProfileInfo>
-        </PostCardProfile>
-        <PostCardContent>
-          <p>
-            주말알바 고민있어요!주말알바 고민있어요!주말알바 고민있어요!주말알바
-            고민있어요!
-          </p>
-          <img src="https://pbs.twimg.com/profile_images/1374979417915547648/vKspl9Et_400x400.jpg" />
-          <Heart>❤️ 10</Heart>
-        </PostCardContent>
-      </PostCard> */}
+      <Plus
+        onClick={() => {
+          navigate("/posting");
+        }}
+      >
+        +
+      </Plus>
     </>
   );
 };
@@ -127,50 +87,20 @@ const Select = styled.select`
   width: 150px;
   height: 30px;
 `;
-const PostCard = styled.div`
-  width: 300px;
-  height: 330px;
-  border: 2px solid black;
-  margin: auto;
-  margin-top: 25px;
-  border-radius: 10px;
-`;
 
-const PostCardProfile = styled.div`
-  height: 60px;
-  border-bottom: 2px solid black;
+const Plus = styled.div`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 35px;
+  font-weight: 300;
+  background-color: skyblue;
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+
   display: flex;
+  justify-content: center;
   align-items: center;
-  img {
-    width: 40px;
-    height: 40px;
-    margin: 0px 10px 0px 10px;
-    border-radius: 50%;
-  }
 `;
-
-const PostCardProfileInfo = styled.div``;
-
-const PostCardContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  p {
-    width: 280px;
-    margin: 9px 0px 9px 0px;
-  }
-  img {
-    width: 280px;
-    height: 170px;
-    object-fit: cover;
-    border-radius: 10px;
-  }
-`;
-
-const Heart = styled.div`
-  width: 280px;
-  margin-top: 10px;
-`;
-
-const PostCardList = styled.div``;
 export default Board;

@@ -16,3 +16,8 @@ export const getPosts = async (payload: string) => {
   );
   return data;
 };
+
+// 게시물 좋아요
+export const changeLikePost = async (payload: number) => {
+  await instance.post(`/api/posts/${payload}/like`);
+};
