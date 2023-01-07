@@ -1,10 +1,11 @@
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getPost, putPost } from "../../APIs/detailPostApi";
 
 function PostEditForm() {
+  const navigate = useNavigate();
   const [editPost, setEditPost] = useState({
     title: "",
     category: "",
@@ -13,46 +14,45 @@ function PostEditForm() {
   const [file, setFile] = useState<string | Blob>();
   const { id } = useParams();
 
-  const { data, isError, isLoading } = useQuery(["post", id], () =>
+  const { data, isError, isLoading, isSuccess } = useQuery(["post", id], () =>
     getPost(id)
   );
-  console.log(data);
 
   useEffect(() => {
-    if (data) {
-      console.log("useeffect 실헹됨 ");
+    if (isSuccess) {
       setEditPost({
         title: data.data.title,
         category: data.data.category,
         content: data.data.content,
       });
     }
-  }, [data]);
+  }, [isSuccess]);
 
   const getImage = (e: any) => {
     setFile(e.target.files[0]);
   };
 
-  const formData = new FormData();
-  const payload = [id, formData];
-
   const submitHandler = (e: any) => {
     e.preventDefault();
-    if (file) {
-      formData.append(
-        "data",
-        new Blob([JSON.stringify(editPost)], { type: "application/json" })
-      );
-      formData.append("file", file);
-      console.log("서버전송payload:", payload);
-      mutatePost.mutate(payload);
-    } else {
-      formData.append(
-        "data",
-        new Blob([JSON.stringify(editPost)], { type: "application/json" })
-      );
-      mutatePost.mutate(payload);
-    }
+    //onst formData = new FormData();
+    const payload = [id, editPost];
+    mutatePost.mutate(payload);
+    window.location.href = `/post/${id}`;
+    // if (file) {
+    //   formData.append(
+    //     "data",
+    //     new Blob([JSON.stringify(editPost)], { type: "application/json" })
+    //   );
+    //   formData.append("file", file);
+    //   console.log("서버전송payload:", payload);
+    //   mutatePost.mutate(payload);
+    // } else {
+    //   formData.append(
+    //     "data",
+    //     new Blob([JSON.stringify(editPost)], { type: "application/json" })
+    //   );
+    //   mutatePost.mutate(payload);
+    // }
   };
 
   const mutatePost = useMutation(putPost);
@@ -61,7 +61,7 @@ function PostEditForm() {
   if (isLoading) return <div>Loading~~~</div>;
   return (
     <SContianer>
-      <SForm onSubmit={submitHandler}>
+      <SForm>
         <div className="titleForm">
           <label className="title">제목</label>
           <input
@@ -108,7 +108,7 @@ function PostEditForm() {
             }}
           />
         </div>
-        <button>등록</button>
+        <button onClick={submitHandler}>등록</button>
       </SForm>
     </SContianer>
   );
