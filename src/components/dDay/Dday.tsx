@@ -1,5 +1,5 @@
 import { Carousel } from "antd";
-import { WorkType } from "../workplace/WorkPlace";
+import { useState } from "react";
 
 const contentStyle: React.CSSProperties = {
   width: "70%",
@@ -7,9 +7,9 @@ const contentStyle: React.CSSProperties = {
   height: "100px",
   borderRadius: "10px",
   color: "#fff",
-  lineHeight: "160px",
   textAlign: "center",
   background: "#364d79",
+  display: "flex",
 };
 
 interface propsType {
@@ -27,13 +27,25 @@ const Dday: React.FC<propsType> = (props) => {
   const onChange = (currentSlide: number) => {
     console.log(currentSlide);
   };
-  console.log(props);
+  const today = new Date();
+  const next = new Date(
+    today.getFullYear(),
+    today.getMonth() + 1,
+    props.workList[0].salaryDay
+  );
+  const nextString = next.toISOString();
+  //const nextSalary = next.split(" ");
+
+  console.log(typeof props.workList);
   return (
     <Carousel afterChange={onChange}>
-      {props.workList.map((w) => {
+      {props?.workList?.map((w) => {
         return (
-          <div>
-            <div style={contentStyle}>월급날 :일</div>
+          <div key={w.workId}>
+            <div style={contentStyle}>
+              <div className="1">111</div>
+              <div className="1">222</div>
+            </div>
           </div>
         );
       })}

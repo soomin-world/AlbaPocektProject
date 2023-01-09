@@ -74,19 +74,19 @@ const STAdd = styled.div`
   }
 `;
 
-const STDday = styled.div`
-  width: 70%;
-  height: 100px;
-  border: 2px solid grey;
-  display: flex;
-  justify-content: center;
-  padding-top: 35px;
-  border-radius: 10px;
-  margin: 30px auto 30px auto;
-  h2 {
-    cursor: pointer;
-  }
-`;
+// const STDday = styled.div`
+//   width: 70%;
+//   height: 100px;
+//   border: 2px solid grey;
+//   display: flex;
+//   justify-content: center;
+//   padding-top: 35px;
+//   border-radius: 10px;
+//   margin: 30px auto 30px auto;
+//   h2 {
+//     cursor: pointer;
+//   }
+// `;
 
 const STCard = styled.div`
   width: 70%;
