@@ -9,6 +9,9 @@ import Posting from "../pages/Posting";
 import Free from "../components/category/Free";
 import PartTime from "../components/category/PartTime";
 import Cover from "../components/category/Cover";
+import Search from "../pages/Search";
+import MyPage from "../pages/MyPage";
+import MyPageEdit from "../pages/MyPageEdit";
 
 function Router() {
   return (
@@ -26,7 +29,10 @@ function Router() {
           <Route path="cover" element={<Cover />} />
         </Route>
 
+        <Route path="/search" element={<Search />} />
         <Route path="/post/:id" element={<Post />} />
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage/edit" element={<MyPageEdit />} />
       </Routes>
     </BrowserRouter>
   );

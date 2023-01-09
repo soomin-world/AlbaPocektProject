@@ -78,6 +78,7 @@ const PostCardProfile = styled.div`
   img {
     width: 40px;
     height: 40px;
+    object-fit: cover;
     margin: 0px 10px 0px 10px;
     border-radius: 50%;
   }

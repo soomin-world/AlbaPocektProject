@@ -48,11 +48,13 @@ const Board = () => {
             대타 구해요 게시판
           </option>
         </Select>
-        <img
-          src="../../public/icon-search-mono.png"
-          alt="돋보기"
-          onClick={() => navigate("/search")}
-        />
+        <Search
+          onClick={() => {
+            navigate("/search");
+          }}
+        >
+          🔍
+        </Search>
       </Navigate>
       <Outlet></Outlet>
       {/* {isLoading ? <div>로딩중</div> : null} */}
@@ -85,12 +87,17 @@ const Navigate = styled.div`
   border: 2px solid black;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding-left: 10px;
 `;
 
 const Select = styled.select`
   width: 150px;
   height: 30px;
+`;
+
+const Search = styled.div`
+  margin-right: 10px;
 `;
 
 const Plus = styled.div`
@@ -108,4 +115,5 @@ const Plus = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 export default Board;
