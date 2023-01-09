@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { QueryClient } from "react-query";
 import { useParams } from "react-router-dom";
@@ -7,7 +7,7 @@ import { addComment } from "../../APIs/detailPostApi";
 
 const CommentPost = () => {
   const { id } = useParams();
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
   const [comment, setComment] = useState("");
   const postCommentHandler = (e: any) => {
     e.preventDefault();
@@ -43,14 +43,20 @@ const CommentPost = () => {
 };
 
 const STContainer = styled.div`
-  border: 1px solid black;
-  padding: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0% 10% 5% 10%;
+  width: 90%;
+  margin-left: 10%;
   form {
     display: flex;
     justify-content: space-between;
     input {
-      width: 80%;
+      width: 85%;
       height: 30px;
+    }
+    button {
     }
   }
 `;

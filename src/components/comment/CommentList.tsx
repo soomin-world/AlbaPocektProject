@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import styled from "styled-components";
 import { getComments } from "../../APIs/detailPostApi";
 import Comment from "./Comment";
 
@@ -14,7 +15,7 @@ export interface CommentType {
 }
 
 const CommentList = () => {
-  const { id } = useParams();
+  const { id } = useParams<string>();
   const [dataList, setDataList] = useState([]);
   const { data } = useQuery(["comment", id], () => getComments(id));
   useEffect(() => {
@@ -23,7 +24,7 @@ const CommentList = () => {
     }
   }, [data]);
   return (
-    <div>
+    <Stcontainer>
       {dataList.map((e: CommentType) => (
         <div key={e.commentId}>
           <Comment
@@ -36,8 +37,16 @@ const CommentList = () => {
           />
         </div>
       ))}
-    </div>
+    </Stcontainer>
   );
 };
+const Stcontainer = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0% 10% 10% 10%;
+  width: 80%;
+  margin-left: 10%;
+`;
 
 export default CommentList;

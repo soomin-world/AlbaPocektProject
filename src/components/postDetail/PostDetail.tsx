@@ -1,19 +1,37 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { changeLikePost } from "../../APIs/communityBoard";
 import { deletePost, getPost } from "../../APIs/detailPostApi";
-import CommentList from "../comment/CommentList";
-import CommentPost from "../comment/CommentPost";
 
 function PostDetail() {
   const { id } = useParams();
-  const { data, isError, isLoading } = useQuery(["post", id], () =>
+  const navigate = useNavigate();
+  const { data, isLoading, isError } = useQuery(["post", id], () =>
     getPost(id)
   );
-  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  console.log(data);
+  const [likePost, setLikePost] = useState<boolean>(false);
+  const [postLikeNum, setPostLikeNum] = useState<number>(0);
+
+  useEffect(() => {
+    if (data) {
+      setLikePost(data.postLike);
+      setPostLikeNum(data.postLikeNum);
+    }
+  }, [data]);
+
   const nickname = localStorage.getItem("nickname");
+
+  const mutatelike = useMutation(changeLikePost, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["post"]);
+    },
+  });
   const mutatedelete = useMutation(deletePost);
+
   const deleteHandler = () => {
     mutatedelete.mutate(id);
     alert("삭제되었습니다!");
@@ -23,11 +41,20 @@ function PostDetail() {
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error!!!!!!</div>;
 
+  const onClickLikeHandler = () => {
+    if (likePost) {
+      setPostLikeNum(postLikeNum - 1);
+    } else {
+      setPostLikeNum(postLikeNum + 1);
+    }
+    setLikePost(!likePost);
+    mutatelike.mutate(Number(id));
+  };
   return (
     <SContainer className="detailContainer">
       <div className="header">
         <div className="title">
-          <h1>{data?.data.title}</h1>
+          <h1>{data.title}</h1>
         </div>
         <div className="info">
           <div className="userInfo">
@@ -35,12 +62,12 @@ function PostDetail() {
               src="https://velog.velcdn.com/images/ojudge/post/124c9204-dd77-44dd-96c6-b63b7e6db60c/image.PNG"
               alt="유저프로필사진"
             />
-            <span>{data?.data.nickname}</span>
+            <span>{data.nickname}</span>
           </div>
           <div className="timeline">
-            <span>{data?.data.createAt}</span>
+            <span>{data.createAt}</span>
           </div>
-          {data.data.nickname === nickname ? (
+          {data.nickname === nickname ? (
             <div className="btn">
               <button onClick={() => navigate(`/posting/${id}`)}>수정</button>
               <button onClick={deleteHandler}>삭제</button>
@@ -50,14 +77,22 @@ function PostDetail() {
       </div>
       <div className="body">
         <div className="imageBox">
-          <img src={data?.data.imgUrl} alt="유저업로드 사진입니다" />
+          <img src={data.imgUrl} alt="유저업로드 사진입니다" />
         </div>
         <div className="contentArea">
-          <div className="contentBody">{data?.data.content}</div>
+          <div className="contentBody">{data.content}</div>
         </div>
       </div>
-      <CommentPost />
-      <CommentList />
+      <div className="like">
+        <span
+          onClick={() => {
+            onClickLikeHandler();
+          }}
+        >
+          {data.likePost === true ? "❤️" : "🤍"}
+        </span>
+        <span>{data.postLikeNum}</span>
+      </div>
     </SContainer>
   );
 }
@@ -66,7 +101,7 @@ const SContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  padding: 10%;
+  padding: 5%;
   width: 80%;
   margin-left: 10%;
   .header {
@@ -95,7 +130,6 @@ const SContainer = styled.div`
   .body {
     border: 1px solid black;
     padding: 20px;
-    margin-bottom: 40px;
     .imageBox {
       width: 100%;
       display: flex;
@@ -107,12 +141,17 @@ const SContainer = styled.div`
     }
     .contentArea {
       width: 100%;
-      margin-bottom: 50px;
       margin-left: 40px;
       .contentBody {
         font-size: 20px;
       }
     }
+  }
+  .like {
+    border: 1px solid grey;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 10px;
   }
 `;
 

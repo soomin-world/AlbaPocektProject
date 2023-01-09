@@ -1,19 +1,21 @@
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+
 import { useParams } from "react-router-dom";
+import styled from "styled-components";
 import { deleteComment, editComment } from "../../APIs/detailPostApi";
 import { CommentType } from "./CommentList";
 
 const Comment: React.FC<CommentType> = (props) => {
   const userNickname = localStorage.getItem("nickname");
   const [isClicked, setIsClicked] = useState(false);
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
   const {
     commentId,
     comment,
     nickname,
-    // commentLikeNum,
-    // isLikecomment,
+    commentLikeNum,
+    isLikecomment,
     createAt,
   } = props;
   const { id } = useParams();
@@ -32,17 +34,20 @@ const Comment: React.FC<CommentType> = (props) => {
   //-----------------
   const commentDelete = (id: number) => {
     delComment.mutate(id);
+    alert("삭제되었습니다");
   };
   const commentEdit = (id: number) => {
     const payload = [id, newComment];
     putComment.mutate(payload);
+    setIsClicked(false);
+
     alert("수정되었습니다");
   };
 
   return (
     <>
       {isClicked === false ? (
-        <div className="commentContainer">
+        <STContainer>
           <div className="header">
             <div className="info">
               <div>{nickname}</div>
@@ -58,12 +63,11 @@ const Comment: React.FC<CommentType> = (props) => {
             </div>
           </div>
           <div className="body">
-            {}
             <div>{comment}</div>
           </div>
-        </div>
+        </STContainer>
       ) : (
-        <div className="commentContainer">
+        <STContainer>
           <div className="header">
             <div className="info">
               <div>{nickname}</div>
@@ -86,10 +90,27 @@ const Comment: React.FC<CommentType> = (props) => {
               onChange={(e) => setNewComment(e.target.value)}
             />
           </div>
-        </div>
+        </STContainer>
       )}
     </>
   );
 };
 
+const STContainer = styled.div`
+  margin-bottom: 20px;
+  .header {
+    .info {
+      display: flex;
+      margin-right: 10px;
+    }
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid grey;
+    font-size: 15px;
+  }
+  .body {
+    border: 1px solid grey;
+    font-size: 17px;
+  }
+`;
 export default Comment;
