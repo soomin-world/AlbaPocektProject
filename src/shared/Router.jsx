@@ -12,6 +12,7 @@ import Cover from "../components/category/Cover";
 import Search from "../pages/Search";
 import MyPage from "../pages/MyPage";
 import MyPageEdit from "../pages/MyPageEdit";
+import Calendar from "../pages/Calendar";
 
 function Router() {
   return (
@@ -33,6 +34,7 @@ function Router() {
         <Route path="/post/:id" element={<Post />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/edit" element={<MyPageEdit />} />
+        <Route path="/calendar" element={<Calendar />} />
       </Routes>
     </BrowserRouter>
   );

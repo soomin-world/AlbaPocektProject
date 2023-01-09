@@ -1,7 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import styled from "styled-components";
-import { getMyPage } from "../APIs/myPageApi";
+import { editMyPage, getMyPage } from "../APIs/myPageApi";
 import { IMyPage } from "../types/myPageType";
 
 const MyPageEdit = () => {
@@ -9,9 +9,41 @@ const MyPageEdit = () => {
     getMyPage()
   );
 
-  const [nickName, setNickName] = useState("");
-  const [profileImg, setprofileImg] = useState("");
+  const { mutate } = useMutation(editMyPage, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["myPage"]);
+    },
+  });
+  const queryClient = useQueryClient();
 
+  const [nickname, setNickname] = useState("");
+  const [file, setFile] = useState<string | Blob>();
+
+  const getImage = (e: any) => {
+    setFile(e.target.files[0]);
+  };
+
+  const onSubmitHandler = (e: any) => {
+    e.preventDefault();
+    console.log("submit!!!");
+
+    if (file) {
+      console.log(nickname);
+      const formData = new FormData();
+      formData.append(
+        "data",
+        new Blob([JSON.stringify({ nickname: nickname })], {
+          type: "application/json",
+        })
+      );
+      formData.append("file", file);
+
+      console.log("호출 직전!!!");
+      mutate(formData);
+    } else {
+      alert("사진을 선택하세요!");
+    }
+  };
   return (
     <>
       <EditBar>마이페이지 수정</EditBar>
@@ -20,19 +52,24 @@ const MyPageEdit = () => {
         <div>{data?.nickname}</div>
       </UserProfile>
 
-      <UserProfileForm>
+      <UserProfileForm onSubmit={onSubmitHandler}>
         <div>
           <span>닉네임</span>
           <input
             onChange={(e) => {
-              setNickName(e.target.value);
+              setNickname(e.target.value);
             }}
           ></input>
         </div>
 
         <div>
           <span>프로필 이미지</span>
-          <input></input>
+          <input
+            type="file"
+            accept="image/jpg,impge/png,image/jpeg,image/gif"
+            onChange={getImage}
+            multiple
+          ></input>
         </div>
 
         <button>내정보 변경</button>
