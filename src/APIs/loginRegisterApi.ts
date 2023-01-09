@@ -14,8 +14,8 @@ const setAccessToken = (accessToken: string) => {
   localStorage.setItem("is_login", accessToken);
 };
 
-const setNickname = (nickname: string) => {
-  localStorage.setItem("nickname", nickname);
+const setUserId = (userId: string) => {
+  localStorage.setItem("userId", userId);
 };
 
 export const registerApi = async (registerInfo: IForm) => {
@@ -44,8 +44,9 @@ export const nicknameCheckApi = async (nickname: IForm) => {
 export const loginApi = async (userInfo: ILogin) => {
   const data: IData = await instance.post("/api/user/login", userInfo);
   const accessToken = data.headers.authorization;
-  const nickname = data.data.nickname;
+  const userId = data.data.userId;
+  console.log(data);
   setAccessToken(accessToken);
-  setNickname(nickname);
+  setUserId(userId);
   window.location.href = "/";
 };

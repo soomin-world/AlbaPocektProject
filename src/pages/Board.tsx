@@ -22,7 +22,7 @@ const Board = () => {
   const boardMatch = useMatch("/board");
   const [state, setState] = useState([]);
 
-  const { isLoading, isError, data } = useQuery<IAllPosts[]>(["allPosts"], () =>
+  const { isLoading, isError, data } = useQuery<IAllPosts[]>(["post"], () =>
     getAllPosts()
   );
 
