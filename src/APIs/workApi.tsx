@@ -8,8 +8,9 @@ export const addWork = async (payload: any) => {
 };
 
 //근무지 조회
-export const getWork = () => {
-  return instance.get("/api/workplace");
-  // console.log(data);
+export const getWork = async () => {
+  const res = await instance.get("/api/workplace");
+  return res;
+
   // return data;
 };
