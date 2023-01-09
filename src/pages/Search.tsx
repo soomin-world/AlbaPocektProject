@@ -22,12 +22,13 @@ const Search = () => {
   //   getSearch(keyword);
   // }, [keyword]);
 
-  // console.log(data);
+  console.log(isBtnClick);
   const onClickSearchBtnHandler = () => {
     if (keyword.length === 0) return alert("한 글자 이상 입력해주세요.");
     refetch();
     // queryClient.invalidateQueries(); // stale로 만든 뒤 refetch(?)
     seIsBtnClick(true);
+    console.log(isBtnClick);
   };
 
   return (

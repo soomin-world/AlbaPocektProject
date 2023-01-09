@@ -1,9 +1,7 @@
-// infinite scroll을 구현할 예정 back 과 얘기해봐야함
-
+// infinite scroll을 구현할 예정 back과 얘기해봐야함
 import { instance, postInstance } from "./axios";
 
 //전체 게시글 조회
-
 export const getAllPosts = async () => {
   const { data } = await instance.get("/api/posts");
   return data;
