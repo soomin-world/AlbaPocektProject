@@ -1,14 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getPost } from "../../api/detailPostApi";
 import styled from "styled-components";
-
-interface dataType {
-  title: string;
-  category: string;
-  content: string;
-}
+import { getPost, putPost } from "../../APIs/detailPostApi";
 
 function PostEditForm() {
   const [editPost, setEditPost] = useState({
@@ -19,43 +13,52 @@ function PostEditForm() {
   const [file, setFile] = useState<string | Blob>();
   const { id } = useParams();
 
-  const { data, isError, isLoading } = useQuery(["post", id], () =>
+  const { data, isError, isLoading, isSuccess } = useQuery(["post", id], () =>
     getPost(id)
   );
   console.log(data);
-  // if (data) {
-  //   setEditPost({
-  //     title: data.title,
-  //     category: data.category,
-  //     content: data.content,
-  //   });
-  // }
-
+  useEffect(() => {
+    if (isSuccess) {
+      setEditPost({
+        title: data.title,
+        category: data.category,
+        content: data.content,
+      });
+    }
+  }, [isSuccess]);
+  const queryClient = useQueryClient();
   const getImage = (e: any) => {
     setFile(e.target.files[0]);
   };
 
-  //   const submitHandler = (e: any) => {
-  //     e.preventDefault();
-  //     if (file) {
-  //       const formData = new FormData();
-  //       const payload = [formData, id];
-  //       formData.append(
-  //         "data",
-  //         new Blob([JSON.stringify(post)], { type: "application/json" })
-  //       );
-  //       formData.append("file", file);
-  //       console.log(file);
-  //       editPost(payload);
-  //     } else {
-  //       const formData = new FormData();
-  //       formData.append(
-  //         "data",
-  //         new Blob([JSON.stringify(post)], { type: "application/json" })
-  //       );
-  //       editPost(payload);
-  //     }
-  //   };
+  const submitHandler = (e: any) => {
+    e.preventDefault();
+    //onst formData = new FormData();
+    if (editPost.title === "") {
+      alert("제목을 입력해주세요!");
+      return;
+    }
+    if (editPost.category === "") {
+      alert("카테고리를 선택해주세요");
+      return;
+    }
+    if (editPost.content === "") {
+      alert("내용을 입력해 주세요");
+      return;
+    }
+    const payload = [id, editPost];
+    mutatePost.mutate(payload);
+    window.location.href = `/post/${id}`;
+  };
+
+  const mutatePost = useMutation(putPost, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["post", id]);
+    },
+  });
+
+  if (isError) return <div>Error!!!!!!</div>;
+  if (isLoading) return <div>Loading~~~</div>;
   return (
     <SContianer>
       <SForm>
@@ -105,7 +108,7 @@ function PostEditForm() {
             }}
           />
         </div>
-        <button>등록</button>
+        <button onClick={submitHandler}>등록</button>
       </SForm>
     </SContianer>
   );

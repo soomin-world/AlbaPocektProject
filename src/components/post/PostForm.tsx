@@ -1,6 +1,7 @@
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import styled from "styled-components";
-import { addPost } from "../../api/postApi";
+import { addPost } from "../../APIs/postApi";
 
 function PostForm() {
   const [post, setPost] = useState({
@@ -10,13 +11,24 @@ function PostForm() {
   });
 
   const [file, setFile] = useState<string | Blob>();
-
   const getImage = (e: any) => {
     setFile(e.target.files[0]);
   };
 
   const submitHandler = (e: any) => {
     e.preventDefault();
+    if (post.title === "") {
+      alert("제목을 입력해주세요!");
+      return;
+    }
+    if (post.category === "") {
+      alert("카테고리를 선택해주세요");
+      return;
+    }
+    if (post.content === "") {
+      alert("내용을 입력해 주세요");
+      return;
+    }
     if (file) {
       const formData = new FormData();
       formData.append(
@@ -24,17 +36,21 @@ function PostForm() {
         new Blob([JSON.stringify(post)], { type: "application/json" })
       );
       formData.append("file", file);
-      console.log(file);
-      addPost(formData);
+      console.log("formData 값:", formData);
+      writePost.mutate(formData);
+      alert("작성되었습니다");
+      //addPost(formData);
     } else {
       const formData = new FormData();
       formData.append(
         "data",
         new Blob([JSON.stringify(post)], { type: "application/json" })
       );
+      writePost.mutate(formData);
+      alert("작성되었습니다");
     }
   };
-
+  const writePost = useMutation(addPost);
   return (
     <SContianer>
       <SForm onSubmit={submitHandler}>
@@ -100,7 +116,7 @@ const SForm = styled.form`
   }
   .content {
     input {
-      width: 100%;
+      width: 90%;
       height: 300px;
     }
   }

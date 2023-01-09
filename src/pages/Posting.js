@@ -1,14 +1,11 @@
 import { useParams } from "react-router-dom";
-import PostEditForm from "../components/post/PostEditForm";
+
 import PostForm from "../components/post/PostForm";
+import PostEditForm from "../components/post/PostEditForm";
 
 function Posting() {
-  const { id } = useParams();
-  return(
-  {id? 
-     <PostEditForm />; : <PostForm />;
-  }
-  )
+  const id = useParams().id;
+  return <>{id ? <PostEditForm /> : <PostForm />}</>;
 }
 
 export default Posting;
