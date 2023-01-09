@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -17,17 +17,17 @@ function PostEditForm() {
   const { data, isError, isLoading, isSuccess } = useQuery(["post", id], () =>
     getPost(id)
   );
-
+  console.log(data);
   useEffect(() => {
     if (isSuccess) {
       setEditPost({
-        title: data.data.title,
-        category: data.data.category,
-        content: data.data.content,
+        title: data.title,
+        category: data.category,
+        content: data.content,
       });
     }
   }, [isSuccess]);
-
+  const queryClient = useQueryClient();
   const getImage = (e: any) => {
     setFile(e.target.files[0]);
   };
@@ -35,6 +35,18 @@ function PostEditForm() {
   const submitHandler = (e: any) => {
     e.preventDefault();
     //onst formData = new FormData();
+    if (editPost.title === "") {
+      alert("제목을 입력해주세요!");
+      return;
+    }
+    if (editPost.category === "") {
+      alert("카테고리를 선택해주세요");
+      return;
+    }
+    if (editPost.content === "") {
+      alert("내용을 입력해 주세요");
+      return;
+    }
     const payload = [id, editPost];
     mutatePost.mutate(payload);
     window.location.href = `/post/${id}`;
@@ -55,7 +67,11 @@ function PostEditForm() {
     // }
   };
 
-  const mutatePost = useMutation(putPost);
+  const mutatePost = useMutation(putPost, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["post", id]);
+    },
+  });
 
   if (isError) return <div>Error!!!!!!</div>;
   if (isLoading) return <div>Loading~~~</div>;

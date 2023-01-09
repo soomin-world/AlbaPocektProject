@@ -32,7 +32,7 @@ const PostCard = ({ post }: postProps) => {
       //   }}
     >
       <PostCardProfile>
-        <img src={post.profileImage} />
+        <img src={post.profileImage} alt="프로필사진" />
         <PostCardProfileInfo>
           <div>{post.nickname}</div>
           <div>01-06</div>
@@ -41,6 +41,7 @@ const PostCard = ({ post }: postProps) => {
       <PostCardContent>
         <p>{post.content}</p>
         <img
+          alt="이미지"
           src={post.imgUrl}
           onClick={() => {
             navigate(`/post/${post.postId}`);

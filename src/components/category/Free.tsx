@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import { getPosts } from "../../APIs/communityBoard";
 import { IAllPosts } from "../../types/postType";
