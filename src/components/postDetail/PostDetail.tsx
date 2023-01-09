@@ -21,7 +21,6 @@ function PostDetail() {
       setPostLikeNum(data.postLikeNum);
     }
   }, [data]);
-
   const myId = localStorage.getItem("userId");
 
   const mutatelike = useMutation(changeLikePost, {
@@ -61,7 +60,7 @@ function PostDetail() {
             <span>{data.nickname}</span>
           </div>
           <div className="timeline">
-            <span>{data.createAt}</span>
+            <span>{data.createAt.substr(2, 8)}</span>
           </div>
           {data.userId === myId ? (
             <div className="btn">
@@ -111,7 +110,7 @@ const SContainer = styled.div`
     .title {
       margin-right: 70px;
       width: 100%;
-      font-size: 60px;
+      font-size: 2rem;
     }
     img {
       margin-right: 5px;

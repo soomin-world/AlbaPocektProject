@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getSearch } from "../APIs/communityBoard";
 import PostCard from "../components/category/PostCard";
+import Footer from "../components/footer/Footer";
 import { IAllPosts } from "../types/postType";
 
 const Search = () => {
@@ -32,24 +33,27 @@ const Search = () => {
   };
 
   return (
-    <SearchInputBox>
-      <SearchBar>게시물 검색</SearchBar>
-      <div>
-        <SearchInput
-          onChange={(e) => {
-            // seIsBtnClick(false);
-            setKeyword(e.target.value);
-          }}
-        />
-        <SearchBtn onClick={onClickSearchBtnHandler}>검색</SearchBtn>
-        {isBtnClick === false
-          ? null
-          : data?.map((post) => {
-              // console.log(post);
-              return <PostCard key={post.postId} post={post} />;
-            })}
-      </div>
-    </SearchInputBox>
+    <>
+      <SearchInputBox>
+        <SearchBar>게시물 검색</SearchBar>
+        <div>
+          <SearchInput
+            onChange={(e) => {
+              // seIsBtnClick(false);
+              setKeyword(e.target.value);
+            }}
+          />
+          <SearchBtn onClick={onClickSearchBtnHandler}>검색</SearchBtn>
+          {isBtnClick === false
+            ? null
+            : data?.map((post) => {
+                // console.log(post);
+                return <PostCard key={post.postId} post={post} />;
+              })}
+        </div>
+      </SearchInputBox>
+      <Footer />
+    </>
   );
 };
 

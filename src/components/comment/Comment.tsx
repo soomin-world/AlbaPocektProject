@@ -25,7 +25,7 @@ const Comment: React.FC<CommentType> = (props) => {
   } = props;
   const [like, setLike] = useState(isLikecomment);
   const [likeNum, setLikeNum] = useState(commentLikeNum);
-
+  console.log(typeof createAt);
   const { id } = useParams();
   const [newComment, setNewComment] = useState(comment);
   const delComment = useMutation(deleteComment, {
@@ -73,7 +73,7 @@ const Comment: React.FC<CommentType> = (props) => {
           <div className="header">
             <div className="info">
               <div>{nickname}</div>
-              <div> {createAt}</div>
+              <div> {createAt.substring(2, 8)}</div>
             </div>
             <div className="btn">
               {myId === userId ? (
@@ -101,10 +101,10 @@ const Comment: React.FC<CommentType> = (props) => {
       ) : (
         <STContainer>
           <div className="header">
-            <div className="info">
+            {/* <div className="info">
               <div>{nickname}</div>
-              <div> {createAt}</div>
-            </div>
+              <div> {createAt.substr(2, 8)}</div>
+            </div> */}
             <div className="btn">
               {myId === userId ? (
                 <>

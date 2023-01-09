@@ -20,10 +20,11 @@ function AddWorkForm() {
     .fill(i)
     .map((v, i) => i + 1 + "일");
   const workPlaceForm = {
-    pladcName: placeName,
-    salaryDay: salaryDay,
+    placeName: placeName,
+    salaryDay: salaryDay.substring(0, 1),
     placeColor: color,
   };
+  console.log(workPlaceForm);
   const queryClient = useQueryClient();
   const addWorkHandler = () => {
     mutateWork.mutate(workPlaceForm);
@@ -52,12 +53,7 @@ function AddWorkForm() {
           <p>월급일</p>
           <div>
             <div>{salaryDay}</div>
-            <img
-              src="../../../public/icon-arrow-decrease-mono.png"
-              style={{ width: "auto", height: "auto" }}
-              onClick={openModal}
-              alt="화살표"
-            />
+            <div onClick={openModal}>🔻</div>
             <Modal open={modalOpen} close={closeModal}>
               <STModal>
                 <select onChange={(e) => setSalaryday(e.target.value)}>
@@ -75,7 +71,6 @@ function AddWorkForm() {
         </div>
         <div className="color">
           <span>색상</span>
-
           <select onChange={(e) => setColor(e.target.value)}>
             <option value="yellow">노란색</option>
             <option value="blue">파란색</option>

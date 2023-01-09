@@ -12,6 +12,7 @@ import styled from "styled-components";
 import { getAllPosts } from "../APIs/communityBoard";
 import PostCard from "../components/category/PostCard";
 import { IAllPosts } from "../types/postType";
+import Footer from "../components/footer/Footer";
 
 type TotalProps = {
   children: JSX.Element | JSX.Element[];
@@ -72,6 +73,7 @@ const Board = () => {
       >
         +
       </Plus>
+      <Footer />
     </>
   );
 };
