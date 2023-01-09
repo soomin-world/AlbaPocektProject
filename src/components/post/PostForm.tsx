@@ -17,6 +17,18 @@ function PostForm() {
 
   const submitHandler = (e: any) => {
     e.preventDefault();
+    if (post.title === "") {
+      alert("제목을 입력해주세요!");
+      return;
+    }
+    if (post.category === "") {
+      alert("카테고리를 선택해주세요");
+      return;
+    }
+    if (post.content === "") {
+      alert("내용을 입력해 주세요");
+      return;
+    }
     if (file) {
       const formData = new FormData();
       formData.append(
