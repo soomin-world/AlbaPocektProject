@@ -1,106 +1,18 @@
 import React, { useState } from "react";
-import { Icon } from "@iconify/react";
 import { format, addMonths, subMonths, toDate } from "date-fns";
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from "date-fns";
 import { isSameMonth, isSameDay, addDays, parse } from "date-fns";
 import styled from "styled-components";
 import { stringify } from "querystring";
-
-type IHeaderProps = {
-  currentMonth: Date;
-  prevMonth: () => Date;
-  nextMonth: () => Date; // 부모컴포넌트에서 import 해온 타입을 재사용 해 줍시다.
-};
+import RenderHeader from "../components/calendar/RenderHeader";
+import RenderDays from "../components/calendar/RenderDays";
+import RenderTodos from "../components/calendar/RenderTodos";
+import RenderDayTotal from "../components/calendar/RenderDayTotal";
 
 type ICellsProps = {
   currentMonth: Date;
   selectedDate: Date;
   onDateClick: (day: Date) => Date; // 부모컴포넌트에서 import 해온 타입을 재사용 해 줍시다.
-};
-
-type ITodosProps = {
-  day: Date;
-  Month: string;
-  todos: ITodos[];
-};
-
-type ITodos = {
-  todoId: number;
-  year: string;
-  month: string;
-  date: string;
-  placeName: string;
-  workingTime: string;
-  range: { startTime: string; endTime: string };
-  hourlyWage: string;
-  dayWage: string;
-  dayTotalWage: string;
-  color: string;
-};
-
-const RenderHeader = ({ currentMonth, prevMonth, nextMonth }: IHeaderProps) => {
-  return (
-    <Header>
-      <div>
-        <HeaderText>
-          <span>{format(currentMonth, "M")}월</span>
-          <span>{format(currentMonth, "yyyy")}</span>
-        </HeaderText>
-      </div>
-      <HeaderIcon>
-        <Icon
-          icon="bi:arrow-left-circle-fill"
-          onClick={prevMonth}
-          style={{ marginRight: "4px" }}
-        />
-        <Icon icon="bi:arrow-right-circle-fill" onClick={nextMonth} />
-      </HeaderIcon>
-    </Header>
-  );
-};
-
-const RenderDays = () => {
-  const days = [];
-  const date = ["Sun", "Mon", "Thu", "Wed", "Thrs", "Fri", "Sat"];
-
-  for (let i = 0; i < 7; i++) {
-    days.push(<div key={i}>{date[i]}</div>);
-  }
-
-  return <Days>{days}</Days>;
-};
-
-const RenderTodos = ({ day, Month, todos }: ITodosProps) => {
-  const key = ["15", "18"];
-  // console.log(day);
-  const date = String(day).split(" ");
-  // console.log(date);
-  const todoList = [];
-
-  // console.log(date[2] === "15");
-  // console.log(Month);
-  // if (Month)
-  // 현재 달에 해당하지 않으면 표시 X...다음달에 표시 X
-  for (const todo of todos) {
-    if (
-      todo.date === date[2] &&
-      todo.month === Month &&
-      todo.year === date[3]
-    ) {
-      todoList.push(
-        <CellTodo key={todo.todoId} color={todo.color}>
-          {todo.placeName}
-        </CellTodo>
-      );
-    }
-  }
-  return <div>{todoList}</div>;
-};
-
-const RenderDayTotal = ({ day, Month, todos }: ITodosProps) => {
-  const dayMonth = format(day, "M");
-  console.log(dayMonth);
-  return <DayTotal>최종금액</DayTotal>;
 };
 
 const RenderCells = ({
@@ -260,39 +172,6 @@ const Calendar = () => {
   );
 };
 
-const Header = styled.div`
-  width: 100%;
-  height: 50px;
-  border: 2px solid black;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0px 10px 0px 10px;
-  div:first-child {
-    margin-right: 10px;
-  }
-`;
-
-const HeaderText = styled.div`
-  span {
-    font-size: 20px;
-  }
-  span:first-child {
-    margin-right: 10px;
-  }
-`;
-
-const HeaderIcon = styled.div`
-  height: 16px;
-`;
-
-const Days = styled.div`
-  margin: 5px 0px 5px 0px;
-  display: flex;
-  justify-content: space-around;
-  font-size: 18px;
-`;
-
 const CellsRow = styled.div`
   display: flex;
 `;
@@ -316,19 +195,4 @@ const CellsNum = styled.span<{ color: string }>`
   color: ${(props) => props.color};
 `;
 
-const CellTodo = styled.div<{ color: string }>`
-  width: 45px;
-  height: 15px;
-  margin-bottom: 2px;
-  border-radius: 3px;
-  background-color: ${(props) => props.color};
-  font-size: small;
-`;
-
-const DayTotal = styled.div`
-  font-size: 10px;
-  position: absolute;
-  left: 0px;
-  bottom: 0px;
-`;
 export default Calendar;
