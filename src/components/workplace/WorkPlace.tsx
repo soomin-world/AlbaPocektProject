@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getWork } from "../../APIs/workApi";
@@ -14,19 +15,20 @@ export interface WorkType {
 function WorkPlace() {
   const navigate = useNavigate();
   const { data } = useQuery(["work"], getWork);
+  const [isOpen, setIsOpen] = useState(false);
   console.log(data);
   return (
     <STContainer>
       <STHeader>
         <div className="logo">로고</div>
         <div className="nav">
-          <div className="chat">챝</div>
-          <div className="mypage">마이페이지</div>
+          <img src="/iconChat.png" alt="채팅" />
+          <img src="/iconUser.png" alt="마이페이지" />
         </div>
       </STHeader>
       <Dday workList={data?.data.workList} />
       <STAdd onClick={() => navigate("/addwork")}>
-        <h2>+ 근무지추가</h2>
+        <h2>+ 근무지추가⋮</h2>
       </STAdd>
       {data
         ? data.data.workList.map((w: WorkType) => {
@@ -40,7 +42,7 @@ function WorkPlace() {
                     <div>{w.placeName}</div>
                     <div>23.01.16~23.02.15</div>
                   </div>
-                  <div className="button">⋮</div>
+                  <div className="button"></div>
                 </div>
                 <div className="money"> ₩1,000,000(번돈)</div>
               </STCard>
@@ -93,7 +95,7 @@ const STCard = styled.div`
   height: 100px;
   border: 2px solid transparent;
   border-radius: 10px;
-  margin: 30px auto 30px auto;
+  margin: 30px auto 20px auto;
   color: white;
   font-weight: bold;
   padding: 5px;
@@ -118,6 +120,9 @@ const STHeader = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  height: 50px;
+  margin-bottom: 20px;
+  padding: 10px;
   .nav {
     display: flex;
   }
