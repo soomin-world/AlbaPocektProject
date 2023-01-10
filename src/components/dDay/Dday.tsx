@@ -84,7 +84,7 @@ const Dday: React.FC<propsType> = (props) => {
               <div className="1">
                 {year}-{month}-{w.salaryDay}까지
               </div>
-              <div>{diffDay[i]}일 남았습니다</div>;
+              <div>{diffDay[i]}일 남았습니다</div>
             </div>
           </div>
         );

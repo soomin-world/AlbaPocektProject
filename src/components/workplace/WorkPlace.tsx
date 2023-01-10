@@ -1,12 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getWork } from "../../APIs/workApi";
 import Dday from "../dDay/Dday";
-
-import { DownOutlined } from "@ant-design/icons";
-import type { MenuProps } from "antd";
-import { Dropdown, Space } from "antd";
 
 export interface WorkType {
   placeName: string;
@@ -15,27 +12,10 @@ export interface WorkType {
   salaryDay: number;
 }
 
-const items: MenuProps["items"] = [
-  {
-    label: "색상변경",
-    key: "0",
-  },
-  // {
-  //   label: <a href="https://www.aliyun.com">2nd menu item</a>,
-  //   key: "1",
-  // },
-  // {
-  //   type: "divider",
-  // },
-  // {
-  //   label: "3rd menu item",
-  //   key: "3",
-  // },
-];
-
 function WorkPlace() {
   const navigate = useNavigate();
   const { data } = useQuery(["work"], getWork);
+  const [isOpen, setIsOpen] = useState(false);
   console.log(data);
   return (
     <STContainer>
@@ -48,7 +28,7 @@ function WorkPlace() {
       </STHeader>
       <Dday workList={data?.data.workList} />
       <STAdd onClick={() => navigate("/addwork")}>
-        <h2>+ 근무지추가</h2>
+        <h2>+ 근무지추가⋮</h2>
       </STAdd>
       {data
         ? data.data.workList.map((w: WorkType) => {
@@ -62,13 +42,7 @@ function WorkPlace() {
                     <div>{w.placeName}</div>
                     <div>23.01.16~23.02.15</div>
                   </div>
-                  <div className="button">
-                    <Dropdown menu={{ items }} trigger={["click"]}>
-                      <a onClick={(e) => e.preventDefault()}>
-                        <Space>⋮</Space>
-                      </a>
-                    </Dropdown>
-                  </div>
+                  <div className="button"></div>
                 </div>
                 <div className="money"> ₩1,000,000(번돈)</div>
               </STCard>

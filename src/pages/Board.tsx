@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import {
   Outlet,
   Route,
@@ -13,6 +13,7 @@ import { getAllPosts } from "../APIs/communityBoard";
 import PostCard from "../components/category/PostCard";
 import { IAllPosts } from "../types/postType";
 import Footer from "../components/footer/Footer";
+import { instance } from "../APIs/axios";
 
 type TotalProps = {
   children: JSX.Element | JSX.Element[];
