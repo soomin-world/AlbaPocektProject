@@ -4,12 +4,34 @@ import styled from "styled-components";
 import { getWork } from "../../APIs/workApi";
 import Dday from "../dDay/Dday";
 
+import { DownOutlined } from "@ant-design/icons";
+import type { MenuProps } from "antd";
+import { Dropdown, Space } from "antd";
+
 export interface WorkType {
   placeName: string;
   placeColor: string;
   workId: number;
   salaryDay: number;
 }
+
+const items: MenuProps["items"] = [
+  {
+    label: "색상변경",
+    key: "0",
+  },
+  // {
+  //   label: <a href="https://www.aliyun.com">2nd menu item</a>,
+  //   key: "1",
+  // },
+  // {
+  //   type: "divider",
+  // },
+  // {
+  //   label: "3rd menu item",
+  //   key: "3",
+  // },
+];
 
 function WorkPlace() {
   const navigate = useNavigate();
@@ -20,8 +42,8 @@ function WorkPlace() {
       <STHeader>
         <div className="logo">로고</div>
         <div className="nav">
-          <div className="chat">챝</div>
-          <div className="mypage">마이페이지</div>
+          <img src="/iconChat.png" alt="채팅" />
+          <img src="/iconUser.png" alt="마이페이지" />
         </div>
       </STHeader>
       <Dday workList={data?.data.workList} />
@@ -40,7 +62,13 @@ function WorkPlace() {
                     <div>{w.placeName}</div>
                     <div>23.01.16~23.02.15</div>
                   </div>
-                  <div className="button">⋮</div>
+                  <div className="button">
+                    <Dropdown menu={{ items }} trigger={["click"]}>
+                      <a onClick={(e) => e.preventDefault()}>
+                        <Space>⋮</Space>
+                      </a>
+                    </Dropdown>
+                  </div>
                 </div>
                 <div className="money"> ₩1,000,000(번돈)</div>
               </STCard>
@@ -93,7 +121,7 @@ const STCard = styled.div`
   height: 100px;
   border: 2px solid transparent;
   border-radius: 10px;
-  margin: 30px auto 30px auto;
+  margin: 30px auto 20px auto;
   color: white;
   font-weight: bold;
   padding: 5px;
@@ -118,6 +146,9 @@ const STHeader = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  height: 50px;
+  margin-bottom: 20px;
+  padding: 10px;
   .nav {
     display: flex;
   }
