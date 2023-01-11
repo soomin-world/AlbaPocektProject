@@ -35,6 +35,7 @@ function Router() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/edit" element={<MyPageEdit />} />
         <Route path="/calendar" element={<Calendar />} />
+        <Route path="/calendar/:id" element={<Calendar />} />
       </Routes>
     </BrowserRouter>
   );

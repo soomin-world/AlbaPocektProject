@@ -1,8 +1,10 @@
 import styled from "styled-components";
+import { format } from "date-fns";
 import { ITodosProps } from "../../types/calendar";
 
 const RenderTodos = ({ day, Month, todos }: ITodosProps) => {
   // console.log(day);
+  const dayMonth = format(day, "MM");
   const date = String(day).split(" ");
   // console.log(date);
   const todoList = [];
@@ -14,7 +16,8 @@ const RenderTodos = ({ day, Month, todos }: ITodosProps) => {
   for (const todo of todos) {
     if (
       todo.year === date[3] &&
-      todo.month === Month &&
+      todo.month === dayMonth &&
+      dayMonth === Month &&
       todo.date === date[2]
     ) {
       todoList.push(

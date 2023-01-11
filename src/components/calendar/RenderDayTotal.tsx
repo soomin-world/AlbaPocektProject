@@ -4,15 +4,16 @@ import styled from "styled-components";
 
 const RenderDayTotal = ({ day, Month, todos }: ITodosProps) => {
   const dayYear = format(day, "Y");
-  const dayMonth = format(day, "M");
+  const dayMonth = format(day, "MM");
   const dayDate = format(day, "dd");
-  console.log(dayDate);
+  // console.log(dayDate);
 
   for (const todo of todos) {
     if (
-      Month === todo.month &&
-      dayYear === todo.year &&
-      dayDate === todo.date
+      todo.year === dayYear &&
+      todo.month === dayMonth &&
+      dayMonth === Month &&
+      todo.date === dayDate
     ) {
       return <DayTotal>{todo.dayTotalWage}</DayTotal>;
     }

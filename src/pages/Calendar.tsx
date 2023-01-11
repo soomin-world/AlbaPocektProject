@@ -8,6 +8,9 @@ import RenderHeader from "../components/calendar/RenderHeader";
 import RenderDays from "../components/calendar/RenderDays";
 import RenderTodos from "../components/calendar/RenderTodos";
 import RenderDayTotal from "../components/calendar/RenderDayTotal";
+import TodosModal from "../components/CalendarModal.tsx/TodosModal";
+import { useNavigate } from "react-router-dom";
+import { useMatch } from "react-router-dom";
 
 type ICellsProps = {
   currentMonth: Date;
@@ -24,13 +27,19 @@ const RenderCells = ({
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
+  const navigate = useNavigate();
 
   // 예시 데이터
+
+  // const todo = {
+  //   "20230105": [{}, {}],
+  // };
+
   const todos = [
     {
       todoId: 1,
       year: "2023",
-      month: "1",
+      month: "01",
       date: "05",
       placeName: "카페",
       workingTime: "03:30",
@@ -43,7 +52,7 @@ const RenderCells = ({
     {
       todoId: 2,
       year: "2023",
-      month: "1",
+      month: "01",
       date: "05",
       placeName: "영화관",
       workingTime: "05:00",
@@ -56,7 +65,7 @@ const RenderCells = ({
     {
       todoId: 3,
       year: "2023",
-      month: "1",
+      month: "01",
       date: "18",
       placeName: "카페",
       workingTime: "04:00",
@@ -69,8 +78,8 @@ const RenderCells = ({
     {
       todoId: 4,
       year: "2023",
-      month: "2",
-      date: "25",
+      month: "02",
+      date: "01",
       placeName: "카페",
       workingTime: "04:00",
       range: { startTime: "14:00", endTime: "18:00" },
@@ -86,18 +95,22 @@ const RenderCells = ({
   let day = startDate;
   let formattedDate = "";
   let currentDay = new Date();
-  // const Month = format(currentMonth, "M");
-  // console.log(currentDay);
 
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
       formattedDate = format(day, "d");
       const cloneDay = day;
-      const date = String(day);
-      const Month = format(currentMonth, "M");
+      const dayMonth = format(day, "MM");
+      const Month = format(currentMonth, "MM");
+
+      const id = `${String(day).split(" ")[3]}${dayMonth}${
+        String(day).split(" ")[2]
+      }`;
+      console.log(id);
+
       days.push(
         <Cells
-          key={date}
+          key={String(day)}
           color={
             !isSameMonth(day, monthStart)
               ? "#adb5bd"
@@ -112,7 +125,10 @@ const RenderCells = ({
               ? "#EDE1E3"
               : "transparent"
           }
-          onClick={() => onDateClick(toDate(cloneDay))}
+          onClick={() => {
+            onDateClick(toDate(cloneDay));
+            navigate(`/calendar/${id}`);
+          }}
         >
           <CellsNum
             color={
@@ -155,20 +171,32 @@ const Calendar = () => {
     return selectedDate;
   };
 
+  /////// 모달창 기능
+  const [isOpen, setIsOpen] = useState(false);
+  const dayMatch = useMatch("/calendar/:id");
+  console.log(dayMatch);
+  // const modalOpen = () => {
+  //   setIsOpen(!isOpen);
+  // };
+
   return (
-    <div className="calendar">
-      <RenderHeader
-        currentMonth={currentMonth}
-        prevMonth={prevMonth}
-        nextMonth={nextMonth}
-      />
-      <RenderDays />
-      <RenderCells
-        currentMonth={currentMonth}
-        selectedDate={selectedDate}
-        onDateClick={onDateClick}
-      />
-    </div>
+    <>
+      <div className="calendar">
+        <RenderHeader
+          currentMonth={currentMonth}
+          prevMonth={prevMonth}
+          nextMonth={nextMonth}
+        />
+        <RenderDays />
+        <RenderCells
+          currentMonth={currentMonth}
+          selectedDate={selectedDate}
+          onDateClick={onDateClick}
+        />
+      </div>
+
+      {dayMatch && <TodosModal></TodosModal>}
+    </>
   );
 };
 
@@ -185,7 +213,7 @@ const CellsBody = styled.div`
 const Cells = styled.div<{ color: string; backgroundColor: string }>`
   width: 47px;
   height: 85px;
-  padding-top: 2px;
+  padding-top: 3px;
   border-top: 1px solid ${(props) => props.color};
   background-color: ${(props) => props.backgroundColor};
   position: relative;
