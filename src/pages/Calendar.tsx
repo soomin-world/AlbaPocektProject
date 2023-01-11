@@ -3,7 +3,6 @@ import { format, addMonths, subMonths, toDate } from "date-fns";
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from "date-fns";
 import { isSameMonth, isSameDay, addDays, parse } from "date-fns";
 import styled from "styled-components";
-import { stringify } from "querystring";
 import RenderHeader from "../components/calendar/RenderHeader";
 import RenderDays from "../components/calendar/RenderDays";
 import RenderTodos from "../components/calendar/RenderTodos";
@@ -11,6 +10,10 @@ import RenderDayTotal from "../components/calendar/RenderDayTotal";
 import TodosModal from "../components/CalendarModal.tsx/TodosModal";
 import { useNavigate } from "react-router-dom";
 import { useMatch } from "react-router-dom";
+import MoreBtnsModal from "../components/CalendarModal.tsx/MoreBtnsModal";
+import { useRecoilValue } from "recoil";
+import { moreBtnsAtom, workplaceBtnsAtom } from "../atoms";
+import WorkplaceBtnsModal from "../components/CalendarModal.tsx/WorkplaceBtnsModal";
 
 type ICellsProps = {
   currentMonth: Date;
@@ -106,7 +109,7 @@ const RenderCells = ({
       const id = `${String(day).split(" ")[3]}${dayMonth}${
         String(day).split(" ")[2]
       }`;
-      console.log(id);
+      // console.log(id);
 
       days.push(
         <Cells
@@ -174,10 +177,9 @@ const Calendar = () => {
   /////// 모달창 기능
   const [isOpen, setIsOpen] = useState(false);
   const dayMatch = useMatch("/calendar/:id");
-  console.log(dayMatch);
-  // const modalOpen = () => {
-  //   setIsOpen(!isOpen);
-  // };
+  // console.log(dayMatch);
+  const isMoreBtns = useRecoilValue(moreBtnsAtom);
+  const isWorkplaceBtns = useRecoilValue(workplaceBtnsAtom);
 
   return (
     <>
@@ -195,7 +197,9 @@ const Calendar = () => {
         />
       </div>
 
-      {dayMatch && <TodosModal></TodosModal>}
+      {dayMatch && <TodosModal />}
+      {isMoreBtns && <MoreBtnsModal />}
+      {isWorkplaceBtns && <WorkplaceBtnsModal />}
     </>
   );
 };
