@@ -1,5 +1,4 @@
 import { Carousel } from "antd";
-import derivative from "antd/es/theme/themes/default";
 import { useState } from "react";
 
 const contentStyle: React.CSSProperties = {
