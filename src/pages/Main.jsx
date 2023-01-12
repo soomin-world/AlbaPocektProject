@@ -1,5 +1,13 @@
+import Footer from "../components/footer/Footer";
+import WorkPlace from "../components/workplace/WorkPlace";
+
 function Main() {
-  return <div>메인페이지 테스트 111</div>;
+  return (
+    <>
+      <WorkPlace />
+      <Footer />
+    </>
+  );
 }
 
 export default Main;

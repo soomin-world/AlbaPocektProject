@@ -116,7 +116,7 @@ const SForm = styled.form`
   }
   .content {
     input {
-      width: 100%;
+      width: 90%;
       height: 300px;
     }
   }

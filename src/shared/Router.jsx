@@ -12,6 +12,8 @@ import Cover from "../components/category/Cover";
 import Search from "../pages/Search";
 import MyPage from "../pages/MyPage";
 import MyPageEdit from "../pages/MyPageEdit";
+import AddWork from "../pages/Addwork";
+import AddShift from "../pages/Addshift";
 
 function Router() {
   return (
@@ -33,6 +35,9 @@ function Router() {
         <Route path="/post/:id" element={<Post />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/edit" element={<MyPageEdit />} />
+
+        <Route path="/addWork/:id?" element={<AddWork />} />
+        <Route path="/addShift/:id" element={<AddShift />} />
       </Routes>
     </BrowserRouter>
   );

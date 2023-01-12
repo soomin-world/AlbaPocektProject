@@ -12,7 +12,6 @@ function PostDetail() {
     getPost(id)
   );
   const queryClient = useQueryClient();
-  console.log(data);
   const [likePost, setLikePost] = useState<boolean>(false);
   const [postLikeNum, setPostLikeNum] = useState<number>(0);
 
@@ -22,8 +21,7 @@ function PostDetail() {
       setPostLikeNum(data.postLikeNum);
     }
   }, [data]);
-
-  const nickname = localStorage.getItem("nickname");
+  const myId = localStorage.getItem("userId");
 
   const mutatelike = useMutation(changeLikePost, {
     onSuccess: () => {
@@ -58,16 +56,13 @@ function PostDetail() {
         </div>
         <div className="info">
           <div className="userInfo">
-            <img
-              src="https://velog.velcdn.com/images/ojudge/post/124c9204-dd77-44dd-96c6-b63b7e6db60c/image.PNG"
-              alt="유저프로필사진"
-            />
+            <img src={data.profileImage} alt="유저프로필사진" />
             <span>{data.nickname}</span>
           </div>
           <div className="timeline">
-            <span>{data.createAt}</span>
+            <span>{data.createAt.substr(2, 8)}</span>
           </div>
-          {data.nickname === nickname ? (
+          {data.userId === myId ? (
             <div className="btn">
               <button onClick={() => navigate(`/posting/${id}`)}>수정</button>
               <button onClick={deleteHandler}>삭제</button>
@@ -115,7 +110,7 @@ const SContainer = styled.div`
     .title {
       margin-right: 70px;
       width: 100%;
-      font-size: 60px;
+      font-size: 2rem;
     }
     img {
       margin-right: 5px;

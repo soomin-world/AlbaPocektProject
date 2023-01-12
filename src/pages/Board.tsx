@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import {
   Outlet,
   Route,
@@ -12,6 +12,8 @@ import styled from "styled-components";
 import { getAllPosts } from "../APIs/communityBoard";
 import PostCard from "../components/category/PostCard";
 import { IAllPosts } from "../types/postType";
+import Footer from "../components/footer/Footer";
+import { instance } from "../APIs/axios";
 
 type TotalProps = {
   children: JSX.Element | JSX.Element[];
@@ -22,7 +24,7 @@ const Board = () => {
   const boardMatch = useMatch("/board");
   const [state, setState] = useState([]);
 
-  const { isLoading, isError, data } = useQuery<IAllPosts[]>(["allPosts"], () =>
+  const { isLoading, isError, data } = useQuery<IAllPosts[]>(["post"], () =>
     getAllPosts()
   );
 
@@ -72,6 +74,7 @@ const Board = () => {
       >
         +
       </Plus>
+      <Footer />
     </>
   );
 };

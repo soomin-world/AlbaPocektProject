@@ -24,6 +24,6 @@ export interface IData {
     authorization: string;
   };
   data: {
-    nickname: string;
+    userId: string;
   };
 }

@@ -3,14 +3,19 @@ import { useState } from "react";
 
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { deleteComment, editComment } from "../../APIs/detailPostApi";
+import {
+  changeLikeComment,
+  deleteComment,
+  editComment,
+} from "../../APIs/detailPostApi";
 import { CommentType } from "./CommentList";
 
 const Comment: React.FC<CommentType> = (props) => {
-  const userNickname = localStorage.getItem("nickname");
+  const myId = localStorage.getItem("userId");
   const [isClicked, setIsClicked] = useState(false);
   const queryClient = useQueryClient();
   const {
+    userId,
     commentId,
     comment,
     nickname,
@@ -18,6 +23,9 @@ const Comment: React.FC<CommentType> = (props) => {
     isLikecomment,
     createAt,
   } = props;
+  const [like, setLike] = useState(isLikecomment);
+  const [likeNum, setLikeNum] = useState(commentLikeNum);
+  console.log(typeof createAt);
   const { id } = useParams();
   const [newComment, setNewComment] = useState(comment);
   const delComment = useMutation(deleteComment, {
@@ -43,7 +51,21 @@ const Comment: React.FC<CommentType> = (props) => {
 
     alert("수정되었습니다");
   };
+  const mutatelike = useMutation(changeLikeComment, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["post"]);
+    },
+  });
 
+  const onClickLikeHandler = () => {
+    if (like) {
+      setLikeNum(commentLikeNum - 1);
+    } else {
+      setLikeNum(commentLikeNum + 1);
+    }
+    setLike(!isLikecomment);
+    mutatelike.mutate(commentId);
+  };
   return (
     <>
       {isClicked === false ? (
@@ -51,10 +73,10 @@ const Comment: React.FC<CommentType> = (props) => {
           <div className="header">
             <div className="info">
               <div>{nickname}</div>
-              <div> {createAt}</div>
+              <div> {createAt.substring(2, 8)}</div>
             </div>
             <div className="btn">
-              {userNickname === nickname ? (
+              {myId === userId ? (
                 <>
                   <button onClick={() => commentDelete(commentId)}>삭제</button>
                   <button onClick={() => setIsClicked(true)}>수정</button>
@@ -65,16 +87,26 @@ const Comment: React.FC<CommentType> = (props) => {
           <div className="body">
             <div>{comment}</div>
           </div>
+          <div className="like">
+            <span
+              onClick={() => {
+                onClickLikeHandler();
+              }}
+            >
+              {like === true ? "❤️" : "🤍"}
+            </span>
+            <span>{likeNum}</span>
+          </div>
         </STContainer>
       ) : (
         <STContainer>
           <div className="header">
-            <div className="info">
+            {/* <div className="info">
               <div>{nickname}</div>
-              <div> {createAt}</div>
-            </div>
+              <div> {createAt.substr(2, 8)}</div>
+            </div> */}
             <div className="btn">
-              {userNickname === nickname ? (
+              {myId === userId ? (
                 <>
                   <button onClick={() => commentEdit(commentId)}>
                     수정완료
