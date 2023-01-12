@@ -1,15 +1,17 @@
 import { QueryClient, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { getSearch } from "../APIs/communityBoard";
+import { searchAtom, searchKeywordAtom } from "../atoms";
 import PostCard from "../components/category/PostCard";
 import Footer from "../components/footer/Footer";
 import { IAllPosts } from "../types/postType";
 
 const Search = () => {
   const queryClient = new QueryClient();
-  const [keyword, setKeyword] = useState("");
-  const [isBtnClick, seIsBtnClick] = useState(false);
+  const [keyword, setKeyword] = useRecoilState(searchKeywordAtom);
+  const [isBtnClick, seIsBtnClick] = useRecoilState(searchAtom);
   const { isLoading, data, refetch } = useQuery<IAllPosts[]>(
     ["searchPost"],
     () => getSearch(keyword)
@@ -23,13 +25,17 @@ const Search = () => {
   //   getSearch(keyword);
   // }, [keyword]);
 
-  console.log(isBtnClick);
+  console.log(data);
   const onClickSearchBtnHandler = () => {
-    if (keyword.length === 0) return alert("한 글자 이상 입력해주세요.");
-    refetch();
-    // queryClient.invalidateQueries(); // stale로 만든 뒤 refetch(?)
-    seIsBtnClick(true);
-    console.log(isBtnClick);
+    if (keyword.length === 0) {
+      alert("한 글자 이상 입력해주세요.");
+      seIsBtnClick(false);
+    } else {
+      refetch();
+      // queryClient.invalidateQueries();
+      seIsBtnClick(true);
+      console.log(isBtnClick);
+    }
   };
 
   return (
@@ -38,6 +44,7 @@ const Search = () => {
         <SearchBar>게시물 검색</SearchBar>
         <div>
           <SearchInput
+            value={keyword}
             onChange={(e) => {
               // seIsBtnClick(false);
               setKeyword(e.target.value);

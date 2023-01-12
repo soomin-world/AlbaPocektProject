@@ -40,6 +40,8 @@ const RenderBonus = ({ day, Month, bonus }: IBonusProps) => {
   const dayMonth = format(day, "MM");
   const dayDate = format(day, "dd");
 
+  const bonusList = [];
+
   for (const b of bonus) {
     if (
       b.year === dayYear &&
@@ -47,15 +49,15 @@ const RenderBonus = ({ day, Month, bonus }: IBonusProps) => {
       dayMonth === Month &&
       b.date === dayDate
     ) {
-      return (
-        <WeeklyBonusWage>
+      bonusList.push(
+        <BonusWage>
           <div style={{ backgroundColor: `${b.color}` }}></div>
           <span>주휴수당</span>
-        </WeeklyBonusWage>
+        </BonusWage>
       );
     }
   }
-  return null;
+  return <div>{bonusList}</div>;
 };
 
 const RenderCells = ({
@@ -155,6 +157,13 @@ const RenderCells = ({
       date: "08",
       bonus: "33,000",
       color: "#FFDD94",
+    },
+    {
+      year: "2023",
+      month: "01",
+      date: "08",
+      bonus: "46,000",
+      color: "#D0E6A5",
     },
     {
       year: "2023",
@@ -312,10 +321,11 @@ const MonthlyTotalWage = styled.div`
   margin-right: 10px;
 `;
 
-const WeeklyBonusWage = styled.div`
+const BonusWage = styled.div`
   font-size: 10px;
   display: flex;
   align-items: center;
+  margin-bottom: 1px;
 
   div {
     width: 7px;
@@ -324,4 +334,5 @@ const WeeklyBonusWage = styled.div`
     border-radius: 50%;
   }
 `;
+
 export default Calendar;
