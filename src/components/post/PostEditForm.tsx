@@ -1,11 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getPost, putPost } from "../../APIs/detailPostApi";
 
 function PostEditForm() {
-  const navigate = useNavigate();
   const [editPost, setEditPost] = useState({
     title: "",
     category: "",
@@ -50,21 +49,6 @@ function PostEditForm() {
     const payload = [id, editPost];
     mutatePost.mutate(payload);
     window.location.href = `/post/${id}`;
-    // if (file) {
-    //   formData.append(
-    //     "data",
-    //     new Blob([JSON.stringify(editPost)], { type: "application/json" })
-    //   );
-    //   formData.append("file", file);
-    //   console.log("서버전송payload:", payload);
-    //   mutatePost.mutate(payload);
-    // } else {
-    //   formData.append(
-    //     "data",
-    //     new Blob([JSON.stringify(editPost)], { type: "application/json" })
-    //   );
-    //   mutatePost.mutate(payload);
-    // }
   };
 
   const mutatePost = useMutation(putPost, {

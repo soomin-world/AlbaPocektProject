@@ -13,6 +13,10 @@ const setAccessToken = (accessToken: any) => {
   localStorage.setItem("is_login", accessToken);
 };
 
+const setUserId = (userId: string) => {
+  localStorage.setItem("userId", userId);
+};
+
 const kakaoLogin = (code: string | null) => {
   console.log(code);
   axios
@@ -21,7 +25,9 @@ const kakaoLogin = (code: string | null) => {
       // const response:IData = res;
       console.log(res.headers.authorization); // 토큰이 넘어올 것임
       const accessToken = res.headers.authorization;
+      const userId = res.data.userId;
       setAccessToken(accessToken);
+      setUserId(userId);
 
       window.location.href = "/"; // 토큰 받았았고 로그인됐으니 화면 전환시켜줌(메인으로)
     })

@@ -1,7 +1,11 @@
-
 // infinite scroll을 구현할 예정 back과 얘기해봐야함
 import { instance, postInstance } from "./axios";
 
+//무한 스크롤
+export const getInfinitePost = async () => {
+  const res = await instance.get("/api/posts");
+  return res;
+};
 
 //전체 게시글 조회
 export const getAllPosts = async () => {
@@ -19,7 +23,6 @@ export const getPosts = async (payload: string) => {
 export const changeLikePost = async (payload: number) => {
   await instance.post(`/api/posts/${payload}/like`);
 };
-
 
 // 게시물 검색
 export const getSearch = async (payload: string) => {

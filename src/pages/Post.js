@@ -1,5 +1,6 @@
 import CommentList from "../components/comment/CommentList";
 import CommentPost from "../components/comment/CommentPost";
+import Footer from "../components/footer/Footer";
 import PostDetail from "../components/postDetail/PostDetail";
 
 function Post() {
@@ -8,6 +9,7 @@ function Post() {
       <PostDetail />;
       <CommentPost />
       <CommentList />
+      <Footer />
     </>
   );
 }

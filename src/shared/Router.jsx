@@ -12,7 +12,12 @@ import Cover from "../components/category/Cover";
 import Search from "../pages/Search";
 import MyPage from "../pages/MyPage";
 import MyPageEdit from "../pages/MyPageEdit";
+<<<<<<< HEAD
 import Calendar from "../pages/Calendar";
+=======
+import AddWork from "../pages/Addwork";
+import AddShift from "../pages/Addshift";
+>>>>>>> 73ae6158740a6336ef3e0098718bd62852893f5f
 
 function Router() {
   return (
@@ -34,8 +39,14 @@ function Router() {
         <Route path="/post/:id" element={<Post />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/edit" element={<MyPageEdit />} />
+<<<<<<< HEAD
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/calendar/:id" element={<Calendar />} />
+=======
+
+        <Route path="/addWork/:id?" element={<AddWork />} />
+        <Route path="/addShift/:id" element={<AddShift />} />
+>>>>>>> 73ae6158740a6336ef3e0098718bd62852893f5f
       </Routes>
     </BrowserRouter>
   );
