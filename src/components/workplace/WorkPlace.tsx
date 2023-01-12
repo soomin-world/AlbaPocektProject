@@ -2,19 +2,20 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { getWork } from "../../APIs/workApi";
+import { getWorks } from "../../APIs/workApi";
 import Dday from "../dDay/Dday";
+import DropDown from "../dropDown/DropDown";
 
 export interface WorkType {
   placeName: string;
   placeColor: string;
-  workId: number;
+  placeId: number;
   salaryDay: number;
 }
 
 function WorkPlace() {
   const navigate = useNavigate();
-  const { data } = useQuery(["work"], getWork);
+  const { data } = useQuery(["work"], getWorks);
   const [isOpen, setIsOpen] = useState(false);
   console.log(data);
   return (
@@ -28,13 +29,13 @@ function WorkPlace() {
       </STHeader>
       <Dday workList={data?.data.workList} />
       <STAdd onClick={() => navigate("/addwork")}>
-        <h2>+ 근무지추가⋮</h2>
+        <h2>+ 근무지추가</h2>
       </STAdd>
       {data
         ? data.data.workList.map((w: WorkType) => {
             return (
               <STCard
-                key={w.workId}
+                key={w.placeId}
                 style={{ backgroundColor: `${w.placeColor}` }}
               >
                 <div className="wrap">
@@ -42,9 +43,20 @@ function WorkPlace() {
                     <div>{w.placeName}</div>
                     <div>23.01.16~23.02.15</div>
                   </div>
-                  <div className="button"></div>
+                  <ul
+                    className="button"
+                    onBlur={() => setIsOpen(false)}
+                    onClick={() => setIsOpen(!isOpen)}
+                  >
+                    {/* 모달로 변경  */}⋮{isOpen && <DropDown id={w.placeId} />}
+                  </ul>
                 </div>
-                <div className="money"> ₩1,000,000(번돈)</div>
+                <div className="footer">
+                  <button onClick={() => navigate(`/addShift/${w.placeId}`)}>
+                    근무추가
+                  </button>
+                  <div className="money"> ₩1,000</div>
+                </div>
               </STCard>
             );
           })
@@ -108,11 +120,23 @@ const STCard = styled.div`
     justify-content: space-between;
     margin-bottom: 30px;
   }
-  .money {
+  .footer {
     display: flex;
-    justify-content: flex-end;
-    font-size: 23px;
-    font-weight: bold;
+    justify-content: space-between;
+    button {
+      border: 1px solid transparent;
+      width: 50px;
+      height: 25px;
+      font-size: 10px;
+      border-radius: 10px;
+      background-color: #ffffff84;
+    }
+    .money {
+      display: flex;
+      justify-content: flex-end;
+      font-size: 23px;
+      font-weight: bold;
+    }
   }
 `;
 

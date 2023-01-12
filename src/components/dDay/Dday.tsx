@@ -69,7 +69,7 @@ const Dday: React.FC<propsType> = (props) => {
   });
 
   let diffDay: number[] = [];
-
+  console.log(diff);
   diff.map((d) => {
     diffDay.push(Math.floor(d / (1000 * 60 * 60 * 24)));
   });

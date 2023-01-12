@@ -1,17 +1,30 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { addWork, getWork } from "../../APIs/workApi";
+import { getWork, putWork } from "../../APIs/workApi";
 import Modal from "../modal/Modal";
-import { WorkType } from "./WorkPlace";
 
-function AddWorkForm() {
+function WorkEditForm() {
   const { id } = useParams();
-  const [placeName, setPlaceName] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  const [salaryDay, setSalaryday] = useState("");
-  const [color, setColor] = useState("");
+  const [editWork, setEditWork] = useState({
+    placeName: "",
+    salaryDay: "",
+    placeColor: "",
+  });
+
+  const { data, isSuccess } = useQuery(["work", id], () => getWork(id));
+  console.log(data);
+  useEffect(() => {
+    if (isSuccess) {
+      setEditWork({
+        placeName: data.placeName,
+        salaryDay: data.salaryDay,
+        placeColor: data.placeColor,
+      });
+    }
+  }, [isSuccess]);
   const openModal = () => {
     setModalOpen(true);
   };
@@ -22,33 +35,24 @@ function AddWorkForm() {
   const days = Array(31)
     .fill(i)
     .map((v, i) => i + 1 + "일");
-  const workPlaceForm = {
-    placeName: placeName,
-    salaryDay: salaryDay.slice(0, -1),
-    placeColor: color,
-  };
-  console.log(salaryDay.slice(0, -1));
-  const queryClient = useQueryClient();
+  const payload = [id, editWork];
   const addWorkHandler = () => {
-    if (placeName === "") {
+    if (editWork.placeName === "") {
       alert("근무지명을 입력하세요 ");
       return;
     }
-    if (salaryDay === "" || null) {
+    if (editWork.salaryDay === "" || null) {
       alert("월급일을 입력해주세요");
       return;
     }
-    if (color === "" || null) {
+    if (editWork.placeColor === "" || null) {
       alert("색상을 선택해주세요");
       return;
     }
-    mutateWork.mutate(workPlaceForm);
+    mutateEditwork.mutate(payload);
   };
-  const mutateWork = useMutation(addWork, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["work"]);
-    },
-  });
+  console.log(editWork.salaryDay);
+  const mutateEditwork = useMutation(putWork);
   return (
     <STContainer>
       <STHeader>
@@ -61,17 +65,30 @@ function AddWorkForm() {
           <input
             placeholder="근무지명"
             type="text"
-            onChange={(e) => setPlaceName(e.target.value)}
+            value={editWork.placeName}
+            onChange={(e) => {
+              const { value } = e.target;
+              setEditWork({ ...editWork, placeName: value });
+            }}
           />
         </div>
         <div className="salary">
           <p>월급일</p>
           <div>
-            <div>{salaryDay}</div>
+            <div>{editWork.salaryDay}</div>
             <div onClick={openModal}>🔻</div>
             <Modal open={modalOpen} close={closeModal}>
               <STModal>
-                <select onChange={(e) => setSalaryday(e.target.value)}>
+                <select
+                  value={editWork.salaryDay}
+                  onChange={(e) => {
+                    const { value } = e.target;
+                    setEditWork({
+                      ...editWork,
+                      salaryDay: value.slice(0, -1),
+                    });
+                  }}
+                >
                   {days.map((day, i) => {
                     return (
                       <option key={i} value={day}>
@@ -86,7 +103,13 @@ function AddWorkForm() {
         </div>
         <div className="color">
           <span>색상</span>
-          <select onChange={(e) => setColor(e.target.value)}>
+          <select
+            value={editWork.placeColor}
+            onChange={(e) => {
+              const { value } = e.target;
+              setEditWork({ ...editWork, placeColor: value });
+            }}
+          >
             <option defaultValue={""}>색상선택</option>
             <option value="#e6d05f">노란색</option>
             <option value="#256b96">파란색</option>
@@ -101,18 +124,17 @@ function AddWorkForm() {
               border: "1px solid black",
               width: "1rem",
               height: "1rem",
-              backgroundColor: `${color}`,
+              backgroundColor: `${editWork.placeColor}`,
             }}
           />
         </div>
       </STBody>
-      <button onClick={addWorkHandler}>저장하기</button>
+      <button onClick={addWorkHandler}>수정하기</button>
     </STContainer>
   );
 }
 
 const STContainer = styled.div`
-  background-color: #3abc7b;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -140,4 +162,4 @@ const STBody = styled.div`
   border: 1px solid black;
 `;
 
-export default AddWorkForm;
+export default WorkEditForm;
