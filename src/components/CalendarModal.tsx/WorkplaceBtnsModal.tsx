@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { moreBtnsAtom, workplaceBtnsAtom } from "../../atoms";
 
@@ -9,7 +9,7 @@ const WorkplaceBtnsModal = ({ children }: any) => {
   const setIsWorkplaceBtns = useSetRecoilState(workplaceBtnsAtom);
 
   return ReactDOM.createPortal(
-    <>
+    <div>
       <Overlay
         onClick={() => {
           setIsWorkplaceBtns(false);
@@ -26,7 +26,7 @@ const WorkplaceBtnsModal = ({ children }: any) => {
           <span>찜질방</span>
         </Button>
       </Modal>
-    </>,
+    </div>,
     document.getElementById("modal") as Element
   );
 };
@@ -36,7 +36,7 @@ const Modal = styled.div`
   width: 150px;
   left: 0;
   right: 0;
-  bottom: 20px;
+  bottom: 40%;
   margin: auto;
 
   background-color: white;
@@ -66,6 +66,7 @@ const Button = styled.div`
   & {
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   }
+
   &:last-child {
     border: none;
   }

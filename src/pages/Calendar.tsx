@@ -21,6 +21,43 @@ type ICellsProps = {
   onDateClick: (day: Date) => Date; // 부모컴포넌트에서 import 해온 타입을 재사용 해 줍시다.
 };
 
+type IBonusProps = {
+  day: Date;
+  Month: string;
+  bonus: IBonus[];
+};
+
+type IBonus = {
+  year: string;
+  month: string;
+  date: string;
+  bonus: string;
+  color: string;
+};
+
+const RenderBonus = ({ day, Month, bonus }: IBonusProps) => {
+  const dayYear = format(day, "Y");
+  const dayMonth = format(day, "MM");
+  const dayDate = format(day, "dd");
+
+  for (const b of bonus) {
+    if (
+      b.year === dayYear &&
+      b.month === dayMonth &&
+      dayMonth === Month &&
+      b.date === dayDate
+    ) {
+      return (
+        <WeeklyBonusWage>
+          <div style={{ backgroundColor: `${b.color}` }}></div>
+          <span>주휴수당</span>
+        </WeeklyBonusWage>
+      );
+    }
+  }
+  return null;
+};
+
 const RenderCells = ({
   currentMonth,
   selectedDate,
@@ -46,7 +83,8 @@ const RenderCells = ({
       date: "05",
       placeName: "카페",
       workingTime: "03:30",
-      range: { startTime: "09:00", endTime: "12:30" },
+      startTime: "09:00",
+      endTime: "12:30",
       hourlyWage: "9,620",
       dayWage: "33,670",
       dayTotalWage: "81,770",
@@ -59,7 +97,22 @@ const RenderCells = ({
       date: "05",
       placeName: "영화관",
       workingTime: "05:00",
-      range: { startTime: "13:00", endTime: "18:00" },
+      startTime: "13:00",
+      endTime: "18:00",
+      hourlyWage: "9,620",
+      dayWage: "48,100",
+      dayTotalWage: "81,770",
+      color: "#D0E6A5",
+    },
+    {
+      todoId: 2,
+      year: "2023",
+      month: "01",
+      date: "08",
+      placeName: "영화관",
+      workingTime: "05:00",
+      startTime: "13:00",
+      endTime: "18:00",
       hourlyWage: "9,620",
       dayWage: "48,100",
       dayTotalWage: "81,770",
@@ -72,7 +125,8 @@ const RenderCells = ({
       date: "18",
       placeName: "카페",
       workingTime: "04:00",
-      range: { startTime: "14:00", endTime: "18:00" },
+      startTime: "14:00",
+      endTime: "18:00",
       hourlyWage: "9,620",
       dayWage: "38,480",
       dayTotalWage: "38,480",
@@ -85,10 +139,28 @@ const RenderCells = ({
       date: "01",
       placeName: "카페",
       workingTime: "04:00",
-      range: { startTime: "14:00", endTime: "18:00" },
+      startTime: "14:00",
+      endTime: "18:00",
       hourlyWage: "9,620",
       dayWage: "38,480",
       dayTotalWage: "38,480",
+      color: "#FFDD94",
+    },
+  ];
+
+  const bonus = [
+    {
+      year: "2023",
+      month: "01",
+      date: "08",
+      bonus: "33,000",
+      color: "#FFDD94",
+    },
+    {
+      year: "2023",
+      month: "01",
+      date: "22",
+      bonus: "56,000",
       color: "#FFDD94",
     },
   ];
@@ -143,6 +215,7 @@ const RenderCells = ({
             {formattedDate}
           </CellsNum>
           <RenderTodos day={day} Month={Month} todos={todos} />
+          <RenderBonus day={day} Month={Month} bonus={bonus} />
           <RenderDayTotal day={day} Month={Month} todos={todos} />
         </Cells>
       );
@@ -180,10 +253,12 @@ const Calendar = () => {
   // console.log(dayMatch);
   const isMoreBtns = useRecoilValue(moreBtnsAtom);
   const isWorkplaceBtns = useRecoilValue(workplaceBtnsAtom);
+  console.log(isMoreBtns);
+  console.log(isWorkplaceBtns);
 
   return (
     <>
-      <div className="calendar">
+      <div>
         <RenderHeader
           currentMonth={currentMonth}
           prevMonth={prevMonth}
@@ -195,6 +270,7 @@ const Calendar = () => {
           selectedDate={selectedDate}
           onDateClick={onDateClick}
         />
+        <MonthlyTotalWage>1,875,000원</MonthlyTotalWage>
       </div>
 
       {dayMatch && <TodosModal />}
@@ -206,6 +282,9 @@ const Calendar = () => {
 
 const CellsRow = styled.div`
   display: flex;
+  &:last-child {
+    border-bottom: 1px solid #adb5bd;
+  }
 `;
 
 const CellsBody = styled.div`
@@ -227,4 +306,22 @@ const CellsNum = styled.span<{ color: string }>`
   color: ${(props) => props.color};
 `;
 
+const MonthlyTotalWage = styled.div`
+  position: absolute;
+  right: 0px;
+  margin-right: 10px;
+`;
+
+const WeeklyBonusWage = styled.div`
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+
+  div {
+    width: 7px;
+    height: 7px;
+    margin-right: 2px;
+    border-radius: 50%;
+  }
+`;
 export default Calendar;

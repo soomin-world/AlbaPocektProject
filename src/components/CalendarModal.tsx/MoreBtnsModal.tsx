@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { moreBtnsAtom } from "../../atoms";
 
@@ -9,7 +9,7 @@ const MoreBtnsModal = ({ children }: any) => {
   const setIsMoreBtns = useSetRecoilState(moreBtnsAtom);
 
   return ReactDOM.createPortal(
-    <>
+    <div>
       <Overlay
         onClick={() => {
           setIsMoreBtns(false);
@@ -23,7 +23,7 @@ const MoreBtnsModal = ({ children }: any) => {
           <span>삭제</span>
         </Button>
       </Modal>
-    </>,
+    </div>,
     document.getElementById("modal") as Element
   );
 };

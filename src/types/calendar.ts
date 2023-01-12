@@ -17,7 +17,8 @@ type ITodos = {
   date: string;
   placeName: string;
   workingTime: string;
-  range: { startTime: string; endTime: string };
+  startTime: string;
+  endTime: string;
   hourlyWage: string;
   dayWage: string;
   dayTotalWage: string;

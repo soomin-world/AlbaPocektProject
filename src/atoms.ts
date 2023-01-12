@@ -1,11 +1,11 @@
 import { atom } from "recoil";
 
 export const moreBtnsAtom = atom({
-  key: "isOpen",
+  key: "isMoreBtnsOpen",
   default: false,
 });
 
 export const workplaceBtnsAtom = atom({
-  key: "isOpen",
+  key: "isWorkplaceBtnsOpen",
   default: false,
 });

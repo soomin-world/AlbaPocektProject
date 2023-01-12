@@ -1,8 +1,10 @@
 import ReactDOM from "react-dom";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { moreBtnsAtom, workplaceBtnsAtom } from "../../atoms";
+import MoreBtnsModal from "./MoreBtnsModal";
+import WorkplaceBtnsModal from "./WorkplaceBtnsModal";
 
 const TodosModal = ({ children, onClose }: any) => {
   const navigate = useNavigate();
