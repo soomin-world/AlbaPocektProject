@@ -19,3 +19,8 @@ export const searchKeywordAtom = atom({
   key: "isSearchKeywordOpen",
   default: "",
 });
+
+export const calendarAtom = atom({
+  key: "isCalendarOpen",
+  default: false,
+});

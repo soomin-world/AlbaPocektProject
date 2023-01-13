@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { format, addMonths, subMonths, toDate } from "date-fns";
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from "date-fns";
-import { isSameMonth, isSameDay, addDays, parse } from "date-fns";
+import { isSameMonth, isSameDay, addDays } from "date-fns";
 import styled from "styled-components";
 import RenderHeader from "../components/calendar/RenderHeader";
 import RenderDays from "../components/calendar/RenderDays";
@@ -16,6 +16,7 @@ import { moreBtnsAtom, workplaceBtnsAtom } from "../atoms";
 import WorkplaceBtnsModal from "../components/calendarModal/WorkplaceBtnsModal";
 import { useQuery } from "@tanstack/react-query";
 import { getBonus, getMonthly, getTotal } from "../APIs/calendarApi";
+import Footer from "../components/footer/Footer";
 
 type ICellsProps = {
   currentMonth: Date;
@@ -74,8 +75,6 @@ const RenderCells = ({
   const endDate = endOfWeek(monthEnd);
   const navigate = useNavigate();
 
-  //console.log(format(currentMonth, "MM"));
-  // console.log(format(currentMonth, "Y"));
   const YYYYMM = `${format(currentMonth, "Y")}${format(currentMonth, "MM")}`;
   // console.log(YYYYMM);
 
@@ -84,7 +83,7 @@ const RenderCells = ({
     ["monthly"],
     () => getMonthly(YYYYMM)
   );
-  // console.log(todosData);
+  console.log(todosData);
 
   // 근무달력 조회 (주휴수당)
   const { isLoading: isLoadingBonus, data: bonusData } = useQuery(
@@ -316,6 +315,7 @@ const Calendar = () => {
           onDateClick={onDateClick}
         />
         <TotalWage>{data?.total}원</TotalWage>
+        <Footer />
       </Total>
 
       {dayMatch || dayBtnMatch ? <TodosModal /> : null}

@@ -21,40 +21,6 @@ const TodosModal = ({ children, onClose }: any) => {
     getDaily(id)
   );
   console.log(data);
-  // console.log(id?.slice(4, 6));
-  // console.log(id?.slice(6, 8));
-
-  // 예시 데이터
-  // const todos = [
-  //   {
-  //     todoId: 1,
-  //     year: "2023",
-  //     month: "01",
-  //     date: "05",
-  //     placeName: "카페",
-  //     workingTime: "03:30",
-  //     startTime: "09:00",
-  //     endTime: "12:30",
-  //     hourlyWage: "9,620",
-  //     dayWage: "33,670",
-  //     dayTotalWage: "81,770",
-  //     color: "#FFDD94",
-  //   },
-  //   {
-  //     todoId: 2,
-  //     year: "2023",
-  //     month: "01",
-  //     date: "05",
-  //     placeName: "영화관",
-  //     workingTime: "05:00",
-  //     startTime: "13:00",
-  //     endTime: "18:00",
-  //     hourlyWage: "9,620",
-  //     dayWage: "48,100",
-  //     dayTotalWage: "81,770",
-  //     color: "#D0E6A5",
-  //   },
-  // ];
 
   return ReactDOM.createPortal(
     <>
