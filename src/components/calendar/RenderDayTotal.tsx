@@ -7,6 +7,7 @@ const RenderDayTotal = ({ day, Month, todos }: ITodosProps) => {
   const dayMonth = format(day, "MM");
   const dayDate = format(day, "dd");
   // console.log(dayDate);
+  // console.log(todos);
 
   for (const todo of todos) {
     if (

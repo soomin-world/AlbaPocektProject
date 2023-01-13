@@ -10,7 +10,7 @@ export interface ITodosProps {
   todos: ITodos[];
 }
 
-type ITodos = {
+export interface ITodos {
   todoId: number;
   year: string;
   month: string;
@@ -23,4 +23,4 @@ type ITodos = {
   dayWage: string;
   dayTotalWage: string;
   color: string;
-};
+}

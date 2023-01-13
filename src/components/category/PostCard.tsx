@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { changeLikePost } from "../../APIs/communityBoard";
+import { changeLikePost } from "../../APIs/communityBoardApi";
 import { IAllPosts } from "../../types/postType";
 
 type postProps = {

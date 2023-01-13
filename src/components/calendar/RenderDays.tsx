@@ -12,13 +12,13 @@ const RenderDays = () => {
 };
 
 const Day = styled.div`
-  width: 47px;
+  width: 55px;
   padding: 5px;
   margin-left: 7px;
 `;
 
 const Days = styled.div`
-  width: 329px;
+  width: 385px;
   margin: 5px 0px 5px 0px;
   display: flex;
   justify-content: space-around;

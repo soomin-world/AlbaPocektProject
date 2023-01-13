@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { changeLikePost } from "../../APIs/communityBoard";
+import { changeLikePost } from "../../APIs/communityBoardApi";
 import { deletePost, getPost } from "../../APIs/detailPostApi";
 
 function PostDetail() {

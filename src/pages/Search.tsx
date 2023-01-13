@@ -2,7 +2,7 @@ import { QueryClient, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { getSearch } from "../APIs/communityBoard";
+import { getSearch } from "../APIs/communityBoardApi";
 import { searchAtom, searchKeywordAtom } from "../atoms";
 import PostCard from "../components/category/PostCard";
 import Footer from "../components/footer/Footer";
@@ -20,10 +20,6 @@ const Search = () => {
     //   refetchOnWindowFocus: true,
     // }
   );
-
-  // useEffect(() => {
-  //   getSearch(keyword);
-  // }, [keyword]);
 
   console.log(data);
   const onClickSearchBtnHandler = () => {
@@ -57,6 +53,9 @@ const Search = () => {
                 // console.log(post);
                 return <PostCard key={post.postId} post={post} />;
               })}
+          {data?.length === 0 && isBtnClick ? (
+            <SearchEmpty>게시물이 없습니다.</SearchEmpty>
+          ) : null}
         </div>
       </SearchInputBox>
       <Footer />
@@ -91,4 +90,12 @@ const SearchBtn = styled.button`
   height: 30px;
   border: none;
 `;
+
+const SearchEmpty = styled.div`
+  position: fixed;
+  top: 43%;
+  left: 29%;
+  font-size: 20px;
+`;
+
 export default Search;

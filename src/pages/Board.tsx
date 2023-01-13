@@ -9,7 +9,7 @@ import {
   useParams,
 } from "react-router-dom";
 import styled from "styled-components";
-import { getAllPosts } from "../APIs/communityBoard";
+import { getAllPosts } from "../APIs/communityBoardApi";
 import PostCard from "../components/category/PostCard";
 import { IAllPosts } from "../types/postType";
 import Footer from "../components/footer/Footer";
