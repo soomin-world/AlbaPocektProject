@@ -24,3 +24,8 @@ export const calendarAtom = atom({
   key: "isCalendarOpen",
   default: false,
 });
+
+export const calendarDayList = atom<string[]>({
+  key: "dayList",
+  default: [],
+});

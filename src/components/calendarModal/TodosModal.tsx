@@ -140,7 +140,7 @@ const ModalPlus = styled.div`
   justify-content: center;
   align-items: center;
   position: fixed;
-  bottom: 222px;
+  bottom: 200px;
 
   background-color: #d0e6a5;
   border-radius: 10px;

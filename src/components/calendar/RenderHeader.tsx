@@ -6,18 +6,24 @@ import styled from "styled-components";
 const RenderHeader = ({ currentMonth, prevMonth, nextMonth }: IHeaderProps) => {
   return (
     <Header>
-      <div>
+      {/* <div>
         <HeaderText>
           <span>{format(currentMonth, "M")}월</span>
           <span>{format(currentMonth, "yyyy")}</span>
         </HeaderText>
-      </div>
+      </div> */}
       <HeaderIcon>
         <Icon
           icon="bi:arrow-left-circle-fill"
           onClick={prevMonth}
-          style={{ marginRight: "4px" }}
+          style={{ marginRight: "9px" }}
         />
+        <div>
+          <HeaderText>
+            <div>{format(currentMonth, "M")}월</div>
+            <div>{format(currentMonth, "yyyy")}</div>
+          </HeaderText>
+        </div>
         <Icon icon="bi:arrow-right-circle-fill" onClick={nextMonth} />
       </HeaderIcon>
     </Header>
@@ -29,7 +35,7 @@ const Header = styled.div`
   height: 50px;
   border: 2px solid black;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 0px 10px 0px 10px;
   div:first-child {
@@ -38,16 +44,20 @@ const Header = styled.div`
 `;
 
 const HeaderText = styled.div`
-  span {
+  display: flex;
+  div {
     font-size: 20px;
+    height: 21px;
   }
-  span:first-child {
+  div:first-child {
     margin-right: 10px;
   }
 `;
 
 const HeaderIcon = styled.div`
   height: 16px;
+  display: flex;
+  align-items: center;
 `;
 
 export default RenderHeader;

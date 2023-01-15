@@ -10,18 +10,21 @@ import { calendarAtom } from "../atoms";
 import RenderDays from "../components/calendar/RenderDays";
 import RenderHeader from "../components/calendar/RenderHeader";
 import TodosModal from "../components/calendarModal/TodosModal";
+import CalendarTest from "../components/calendar/CalendarTest";
 
 type ICellsProps = {
   currentMonth: Date;
   selectedDate: Date;
-  onDateClick: (day: Date) => Date; // 부모컴포넌트에서 import 해온 타입을 재사용 해 줍시다.
+  onDateClick: (day: Date) => Date;
+  // dayList: string[];
 };
 
 const RenderCells = ({
   currentMonth,
   selectedDate,
   onDateClick,
-}: ICellsProps) => {
+}: // dayList,
+ICellsProps) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
@@ -34,7 +37,7 @@ const RenderCells = ({
   let formattedDate = "";
   let currentDay = new Date();
 
-  const dayList: Date[] = [];
+  // const dayList: string[] = [];
 
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
@@ -45,41 +48,53 @@ const RenderCells = ({
       // const [isActive, setIsActive] = useState(false);
 
       days.push(
-        <Cells
-          key={String(day)}
-          color={
-            !isSameMonth(day, monthStart)
-              ? "#adb5bd"
-              : format(currentMonth, "M") !== format(day, "M")
-              ? "#adb5bd"
-              : "black"
-          }
-          backgroundColor={
-            isSameDay(day, selectedDate) ? "#D1DFE8" : "transparent"
-          }
-          onClick={() => {
-            onDateClick(toDate(cloneDay));
-            dayList.push(day);
-          }}
-        >
-          <CellsNum
-            color={
-              format(currentMonth, "M") !== format(day, "M")
-                ? "#adb5bd"
-                : "black"
-            }
-          >
-            {formattedDate}
-          </CellsNum>
-        </Cells>
+        <CalendarTest
+          day={day}
+          monthStart={monthStart}
+          currentMonth={currentMonth}
+          selectedDate={selectedDate}
+          onDateClick={onDateClick}
+          cloneDay={cloneDay}
+          formattedDate={formattedDate}
+          // dayList={dayList}
+        />
+
+        // <Cells
+        //   key={String(day)}
+        //   color={
+        //     !isSameMonth(day, monthStart)
+        //       ? "#adb5bd"
+        //       : format(currentMonth, "M") !== format(day, "M")
+        //       ? "#adb5bd"
+        //       : "black"
+        //   }
+        //   backgroundColor={
+        //     isSameDay(day, selectedDate) ? "#D1DFE8" : "transparent"
+        //   }
+        //   onClick={() => {
+        //     onDateClick(toDate(cloneDay));
+        //     dayList.push(day);
+        //   }}
+        // >
+        //   <CellsNum
+        //     color={
+        //       format(currentMonth, "M") !== format(day, "M")
+        //         ? "#adb5bd"
+        //         : "black"
+        //     }
+        //   >
+        //     {formattedDate}
+        //   </CellsNum>
+        // </Cells>
       );
       day = addDays(day, 1);
     }
-    console.log(dayList);
+
     // 아마도 여기다 key값을 주어야 warning이 사라질듯함...그런데 줄 방법이 없음ㅋ
     rows.push(<CellsRow>{days}</CellsRow>);
     days = [];
   }
+  // console.log(dayList);
   return <CellsBody>{rows}</CellsBody>;
 };
 
@@ -87,6 +102,7 @@ const Calendar = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isCalendarBtns, setIsCalendarBtns] = useRecoilState(calendarAtom);
+  // const dayList: string[] = [];
 
   const prevMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
@@ -116,6 +132,7 @@ const Calendar = () => {
           currentMonth={currentMonth}
           selectedDate={selectedDate}
           onDateClick={onDateClick}
+          // dayList={dayList}
         />
       </Modal>
     </>
@@ -126,7 +143,7 @@ const Test = () => {
   const [isCalendarBtns, setIsCalendarBtns] = useRecoilState(calendarAtom);
   return (
     <>
-      <button onClick={() => setIsCalendarBtns(true)}>달력 열기</button>
+      <button onClick={() => setIsCalendarBtns((pre) => !pre)}>달력</button>
       {isCalendarBtns && <Calendar />}
     </>
   );
