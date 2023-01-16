@@ -1,5 +1,4 @@
 import { atom } from "recoil";
-import type { Value } from "react-multi-date-picker";
 
 const today = new Date();
 
