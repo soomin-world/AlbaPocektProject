@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { calendarDayList } from "../../atoms";
+import RenderSelected from "./RenderSelected";
 
 interface ITest {
   day: Date;
@@ -26,7 +27,9 @@ const CalendarTest = ({
 }: ITest) => {
   const [isActive, setIsActive] = useState(false);
   const [dayList, setDayList] = useRecoilState(calendarDayList);
+  const Month = format(currentMonth, "MM");
   let currentDay = new Date();
+
   console.log(dayList);
 
   // useEffect(() => {
@@ -69,11 +72,10 @@ const CalendarTest = ({
       backgroundColor={
         // dayList와 같은 날이라면......skyblue로....
 
-        isActive
-          ? "skyblue"
-          : isSameDay(day, currentDay)
-          ? "#EDE1E3"
-          : "transparent"
+        // isActive
+        //   ? "skyblue"
+        //   :
+        isSameDay(day, currentDay) ? "#EDE1E3" : "transparent"
       }
     >
       <CellsNum
@@ -83,6 +85,7 @@ const CalendarTest = ({
       >
         {formattedDate}
       </CellsNum>
+      <RenderSelected day={day} Month={Month} />
     </Cells>
   );
 };
@@ -90,6 +93,7 @@ const CalendarTest = ({
 const Cells = styled.div<{ color: string; backgroundColor: string }>`
   width: 40px;
   height: 40px;
+  position: relative;
   padding-top: 3px;
   border-radius: 15px;
   background-color: ${(props) => props.backgroundColor};

@@ -107,7 +107,7 @@ const Calendar = () => {
   );
 };
 
-const CalendarModal = () => {
+export const CalendarModal = () => {
   const [isCalendarBtns, setIsCalendarBtns] = useRecoilState(calendarAtom);
   const [dayList, setDayList] = useRecoilState(calendarDayList);
 
