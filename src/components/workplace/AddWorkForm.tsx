@@ -1,10 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { addWork, getWork } from "../../APIs/workApi";
+import { addWork } from "../../APIs/workApi";
 import Modal from "../modal/Modal";
-import { WorkType } from "./WorkPlace";
 
 function AddWorkForm() {
   const { id } = useParams();
@@ -15,20 +14,21 @@ function AddWorkForm() {
   const openModal = () => {
     setModalOpen(true);
   };
+  console.log(modalOpen);
   const closeModal = () => {
     setModalOpen(false);
   };
   let i = 0;
   const days = Array(31)
     .fill(i)
-    .map((v, i) => i + 1 + "일");
+    .map((v, i) => i + 1);
   const workPlaceForm = {
     placeName: placeName,
-    salaryDay: salaryDay.slice(0, -1),
+    salaryDay: salaryDay,
     placeColor: color,
   };
-  console.log(salaryDay.slice(0, -1));
   const queryClient = useQueryClient();
+  console.log(workPlaceForm);
   const addWorkHandler = () => {
     if (placeName === "") {
       alert("근무지명을 입력하세요 ");
@@ -67,7 +67,7 @@ function AddWorkForm() {
         <div className="salary">
           <p>월급일</p>
           <div>
-            <div>{salaryDay}</div>
+            <div>{salaryDay} 일</div>
             <div onClick={openModal}>🔻</div>
             <Modal open={modalOpen} close={closeModal}>
               <STModal>
@@ -75,7 +75,7 @@ function AddWorkForm() {
                   {days.map((day, i) => {
                     return (
                       <option key={i} value={day}>
-                        {day}
+                        {day}일
                       </option>
                     );
                   })}
@@ -112,7 +112,6 @@ function AddWorkForm() {
 }
 
 const STContainer = styled.div`
-  background-color: #3abc7b;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -131,8 +130,9 @@ const STHeader = styled.div`
 
 const STModal = styled.div`
   width: 90%;
-  div {
-    width: 30%;
+  select {
+    width: 100%;
+    border-radius: 10px;
   }
 `;
 

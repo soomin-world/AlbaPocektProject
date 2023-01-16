@@ -22,6 +22,7 @@ export const getWork = async (payload: any) => {
 //근무지 삭제
 export const deleteWork = async (payload: number) => {
   await instance.delete(`/api/workplace/${payload}`);
+  return window.location.reload;
 };
 
 export const putWork = async (payload: any) => {
