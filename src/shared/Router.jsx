@@ -14,7 +14,7 @@ import MyPage from "../pages/MyPage";
 import MyPageEdit from "../pages/MyPageEdit";
 import Calendar from "../pages/Calendar";
 import AddWork from "../pages/Addwork";
-import AddShift from "../pages/Addshift";
+// import AddShift from "../pages/Addshift";
 import Test from "../pages/Test";
 
 function Router() {
@@ -42,7 +42,7 @@ function Router() {
         </Route>
 
         <Route path="/addWork/:id?" element={<AddWork />} />
-        <Route path="/addShift/:id" element={<AddShift />} />
+        {/* <Route path="/addShift/:id" element={<AddShift />} /> */}
 
         <Route path="/test" element={<Test />} />
       </Routes>
