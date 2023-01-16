@@ -13,7 +13,7 @@ export const workplaceBtnsAtom = atom({
   default: false,
 });
 
-export const workDays = atom<Value>({
+export const workDays = atom({
   key: "workDay",
-  default: new Date(),
+  default: [""],
 });
