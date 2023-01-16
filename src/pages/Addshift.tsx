@@ -1,7 +1,11 @@
 import { useState } from "react";
+import { useRecoilState } from "recoil";
+import { calendarAtom } from "../atoms";
+import { CalendarModal } from "./Test";
 
 function AddShift() {
   const [hourlyWage, setHourlyWage] = useState("");
+  const [isCalendarBtns, setIsCalendarBtns] = useRecoilState(calendarAtom);
   return (
     <div className="container">
       <h1>언제 얼마나 일하시나요?</h1>
@@ -12,6 +16,8 @@ function AddShift() {
           onChange={(e) => console.log(e.target.value)}
         />
       </div>
+      <button onClick={() => setIsCalendarBtns((pre) => !pre)}>달력</button>
+      {isCalendarBtns && <CalendarModal />}
     </div>
   );
 }

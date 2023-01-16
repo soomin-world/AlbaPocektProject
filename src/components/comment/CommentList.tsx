@@ -10,7 +10,7 @@ export interface CommentType {
   comment: string;
   nickname: string;
   commentLikeNum: number;
-  isLikecomment: Boolean;
+  likeComment: Boolean;
   createAt: string;
   userId: string;
 }
@@ -19,21 +19,22 @@ const CommentList = () => {
   const { id } = useParams<string>();
   const [dataList, setDataList] = useState([]);
   const { data } = useQuery(["comment", id], () => getComments(id));
-  useEffect(() => {
-    if (data) {
-      setDataList(data);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data) {
+  //     setDataList(data);
+  //   }
+  // }, [data]);
+  console.log(data);
   return (
     <Stcontainer>
-      {dataList.map((e: CommentType) => (
+      {data?.map((e: CommentType) => (
         <div key={e.commentId}>
           <Comment
             commentId={e.commentId}
             nickname={e.nickname}
             comment={e.comment}
             commentLikeNum={e.commentLikeNum}
-            isLikecomment={e.isLikecomment}
+            likeComment={e.likeComment}
             createAt={e.createAt}
             userId={e.userId}
           />

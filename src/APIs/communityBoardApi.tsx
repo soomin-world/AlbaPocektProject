@@ -29,6 +29,6 @@ export const getSearch = async (payload: string) => {
   const { data } = await postInstance.get(
     `/api/posts/search?keyword=${payload}`
   );
-
+  console.log(data);
   return data;
 };
