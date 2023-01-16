@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useMatch, useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { calendarAtom } from "../atoms";
+import { calendarAtom, calendarDayList } from "../atoms";
 import RenderDays from "../components/calendar/RenderDays";
 import RenderHeader from "../components/calendar/RenderHeader";
 import TodosModal from "../components/calendarModal/TodosModal";
@@ -37,8 +37,6 @@ ICellsProps) => {
   let formattedDate = "";
   let currentDay = new Date();
 
-  // const dayList: string[] = [];
-
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
       formattedDate = format(day, "d");
@@ -56,36 +54,7 @@ ICellsProps) => {
           onDateClick={onDateClick}
           cloneDay={cloneDay}
           formattedDate={formattedDate}
-          // dayList={dayList}
         />
-
-        // <Cells
-        //   key={String(day)}
-        //   color={
-        //     !isSameMonth(day, monthStart)
-        //       ? "#adb5bd"
-        //       : format(currentMonth, "M") !== format(day, "M")
-        //       ? "#adb5bd"
-        //       : "black"
-        //   }
-        //   backgroundColor={
-        //     isSameDay(day, selectedDate) ? "#D1DFE8" : "transparent"
-        //   }
-        //   onClick={() => {
-        //     onDateClick(toDate(cloneDay));
-        //     dayList.push(day);
-        //   }}
-        // >
-        //   <CellsNum
-        //     color={
-        //       format(currentMonth, "M") !== format(day, "M")
-        //         ? "#adb5bd"
-        //         : "black"
-        //     }
-        //   >
-        //     {formattedDate}
-        //   </CellsNum>
-        // </Cells>
       );
       day = addDays(day, 1);
     }
@@ -94,7 +63,6 @@ ICellsProps) => {
     rows.push(<CellsRow>{days}</CellsRow>);
     days = [];
   }
-  // console.log(dayList);
   return <CellsBody>{rows}</CellsBody>;
 };
 
@@ -121,7 +89,7 @@ const Calendar = () => {
 
   return (
     <>
-      <Modal>
+      <Total>
         <RenderHeader
           currentMonth={currentMonth}
           prevMonth={prevMonth}
@@ -134,8 +102,28 @@ const Calendar = () => {
           onDateClick={onDateClick}
           // dayList={dayList}
         />
-      </Modal>
+      </Total>
     </>
+  );
+};
+
+const CalendarModal = () => {
+  const [isCalendarBtns, setIsCalendarBtns] = useRecoilState(calendarAtom);
+  const [dayList, setDayList] = useRecoilState(calendarDayList);
+
+  return ReactDOM.createPortal(
+    <>
+      <Overlay
+        onClick={() => {
+          setIsCalendarBtns(false);
+          setDayList([]);
+        }}
+      ></Overlay>
+      <Modal>
+        <Calendar />
+      </Modal>
+    </>,
+    document.getElementById("modal") as Element
   );
 };
 
@@ -144,12 +132,12 @@ const Test = () => {
   return (
     <>
       <button onClick={() => setIsCalendarBtns((pre) => !pre)}>달력</button>
-      {isCalendarBtns && <Calendar />}
+      {isCalendarBtns && <CalendarModal />}
     </>
   );
 };
 
-const Modal = styled.div`
+const Total = styled.div`
   width: 300px;
   display: flex;
   flex-direction: column;
@@ -164,6 +152,22 @@ const Overlay = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.3);
+`;
+
+const Modal = styled.div`
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
 `;
 
 const Cells = styled.div<{ color: string; backgroundColor: string }>`

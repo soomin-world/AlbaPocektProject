@@ -5,6 +5,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { getDaily } from "../../APIs/calendarApi";
 import { moreBtnsAtom, workplaceBtnsAtom } from "../../atoms";
+import comma from "../../hooks/comma";
 import workingTime from "../../hooks/workingTime";
 import { ITodos } from "../../types/calendar";
 
@@ -52,7 +53,7 @@ const TodosModal = ({ children, onClose }: any) => {
               >
                 <ModalContentTop>
                   <div>{todo.placeName}</div>
-                  <div>{todo.dayWage}</div>
+                  <div>{comma(todo.dayWage)}</div>
                 </ModalContentTop>
                 <ModalContentBottom>
                   <div>

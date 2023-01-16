@@ -11,9 +11,12 @@ function PostDetail() {
   const { data, isLoading, isError } = useQuery(["post", id], () =>
     getPost(id)
   );
+  console.log(data);
   const queryClient = useQueryClient();
-  const [likePost, setLikePost] = useState<boolean>(false);
-  const [postLikeNum, setPostLikeNum] = useState<number>(0);
+  const [likePost, setLikePost] = useState<boolean>(data?.likePost);
+  const [postLikeNum, setPostLikeNum] = useState<number>(data?.postLikeNum);
+
+  // console.log(likePost, postLikeNum);
 
   useEffect(() => {
     if (data) {
@@ -21,11 +24,13 @@ function PostDetail() {
       setPostLikeNum(data.postLikeNum);
     }
   }, [data]);
+
   const myId = localStorage.getItem("userId");
 
   const mutatelike = useMutation(changeLikePost, {
     onSuccess: () => {
       queryClient.invalidateQueries(["post"]);
+      queryClient.invalidateQueries(["categoryPosts"]);
     },
   });
   const mutatedelete = useMutation(deletePost);
@@ -46,7 +51,7 @@ function PostDetail() {
       setPostLikeNum(postLikeNum + 1);
     }
     setLikePost(!likePost);
-    mutatelike.mutate(Number(id));
+    mutatelike.mutateAsync(Number(id));
   };
   return (
     <SContainer className="detailContainer">

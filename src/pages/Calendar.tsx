@@ -17,6 +17,7 @@ import WorkplaceBtnsModal from "../components/calendarModal/WorkplaceBtnsModal";
 import { useQuery } from "@tanstack/react-query";
 import { getBonus, getMonthly, getTotal } from "../APIs/calendarApi";
 import Footer from "../components/footer/Footer";
+import comma from "../hooks/comma";
 
 type ICellsProps = {
   currentMonth: Date;
@@ -298,7 +299,6 @@ const Calendar = () => {
 
   // TotalWage get 요청
   const { isLoading, data } = useQuery(["totalWage"], () => getTotal(YYYYMM));
-  // console.log(data?.total);
 
   return (
     <>
@@ -314,7 +314,7 @@ const Calendar = () => {
           selectedDate={selectedDate}
           onDateClick={onDateClick}
         />
-        <TotalWage>{data?.total}원</TotalWage>
+        <TotalWage>{comma(String(data?.total))}원</TotalWage>
         <Footer />
       </Total>
 

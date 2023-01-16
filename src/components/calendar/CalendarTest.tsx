@@ -1,5 +1,5 @@
 import { format, isSameDay, isSameMonth, toDate } from "date-fns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { calendarDayList } from "../../atoms";
@@ -23,12 +23,23 @@ const CalendarTest = ({
   onDateClick,
   cloneDay,
   formattedDate,
-}: // dayList,
-ITest) => {
+}: ITest) => {
   const [isActive, setIsActive] = useState(false);
   const [dayList, setDayList] = useRecoilState(calendarDayList);
   let currentDay = new Date();
   console.log(dayList);
+
+  // useEffect(() => {
+  //   for (const d of dayList) {
+  //     if (String(day) === d) {
+  //       console.log("같을 때", d);
+  //       setIsActive(true);
+  //     } else {
+  //       console.log("다를 때", d);
+  //       setIsActive(false);
+  //     }
+  //   }
+  // }, [currentMonth]);
 
   const onClickCellHandler = () => {
     onDateClick(toDate(cloneDay));
@@ -54,14 +65,16 @@ ITest) => {
           ? "#adb5bd"
           : "black"
       }
+      onClick={onClickCellHandler}
       backgroundColor={
+        // dayList와 같은 날이라면......skyblue로....
+
         isActive
           ? "skyblue"
           : isSameDay(day, currentDay)
           ? "#EDE1E3"
           : "transparent"
       }
-      onClick={onClickCellHandler}
     >
       <CellsNum
         color={
