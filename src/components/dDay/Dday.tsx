@@ -1,12 +1,11 @@
 import { Carousel } from "antd";
-import derivative from "antd/es/theme/themes/default";
 import { useState } from "react";
+import styled from "styled-components";
 
 const contentStyle: React.CSSProperties = {
   width: "70%",
   marginLeft: "15%",
-  marginBottom: "30px",
-  height: "100px",
+  height: "120px",
   borderRadius: "10px",
   color: "#fff",
   textAlign: "center",
@@ -35,8 +34,22 @@ const Dday: React.FC<propsType> = (props) => {
 
   //------------- 디데이를 구해보자 ----------
   const today = new Date();
-  const todayToTime = today.getTime();
   // 오늘 날짜 -> 밀리초로 바꾼부분
+  const thisMonth = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate()
+  );
+
+  const thisMonthToString = thisMonth.toISOString();
+  const thisSalary = thisMonthToString.split("-");
+
+  const myYear = thisSalary[0];
+  const myMonth = thisSalary[1];
+  const myDay = thisSalary[2];
+
+  const myDate = new Date(`${myYear}-${myMonth}-${myDay}`);
+
   const nextMonth = new Date(today.getFullYear(), today.getMonth() + 2);
   // 2023 -03
   const nextMonthToString = nextMonth.toISOString();
@@ -49,12 +62,32 @@ const Dday: React.FC<propsType> = (props) => {
   let nextSalaryDay: string[] = [];
 
   props?.workList?.map((w) => {
-    nextSalaryDay.push(`${year}-${month}-${w.salaryDay}`);
+    if (
+      myDate.getTime() -
+        new Date(`${myYear}-${myMonth}-${w.salaryDay}`).getTime() >
+      0
+    ) {
+      nextSalaryDay.push(`${year}-${month}-${w.salaryDay}`);
+    } else if (
+      myDate.getTime() -
+        new Date(`${myYear}-${myMonth}-${w.salaryDay}`).getTime() ===
+      0
+    ) {
+      nextSalaryDay.push("dday");
+    } else {
+      nextSalaryDay.push(`${myYear}-${myMonth}-${w.salaryDay}`);
+    }
   });
 
   let finalDate: Date[] = [];
 
-  nextSalaryDay.map((d) => finalDate.push(new Date(d)));
+  nextSalaryDay.map((d) => {
+    if (d === "dday") {
+      finalDate.push(myDate);
+    } else {
+      finalDate.push(new Date(d));
+    }
+  });
 
   let toTime: number[] = [];
 
@@ -65,32 +98,41 @@ const Dday: React.FC<propsType> = (props) => {
   let diff: number[] = [];
 
   toTime.map((t) => {
-    diff.push(t - todayToTime);
+    diff.push(t - myDate.getTime());
   });
 
   let diffDay: number[] = [];
-
+  console.log(diff);
   diff.map((d) => {
     diffDay.push(Math.floor(d / (1000 * 60 * 60 * 24)));
   });
-  console.log("남은 날수:", diffDay);
+
   //-------------------------------------------
   return (
-    <Carousel afterChange={onChange}>
-      {props?.workList?.map((w, i) => {
-        return (
-          <div key={w.workId}>
-            <div style={contentStyle}>
-              <div className="1">
+    <Container>
+      <Carousel afterChange={onChange}>
+        {props?.workList?.map((w, i) => {
+          return (
+            <div key={w.workId}>
+              <div style={contentStyle}>
                 {year}-{month}-{w.salaryDay}까지
+                {diffDay[i] === 0 ? (
+                  <div> D-Day 입니다!!!</div>
+                ) : (
+                  <div>{diffDay[i]}일 남았습니다</div>
+                )}
               </div>
-              <div>{diffDay[i]}일 남았습니다</div>
             </div>
-          </div>
-        );
-      })}
-    </Carousel>
+          );
+        })}
+      </Carousel>
+    </Container>
   );
 };
 
+export const Container = styled.div`
+  button {
+    border: 1px solid black;
+  }
+`;
 export default Dday;

@@ -4,7 +4,7 @@ import PostForm from "../components/post/PostForm";
 import PostEditForm from "../components/post/PostEditForm";
 
 function Posting() {
-  const id = useParams().id;
+  const { id } = useParams();
   return <>{id ? <PostEditForm /> : <PostForm />}</>;
 }
 

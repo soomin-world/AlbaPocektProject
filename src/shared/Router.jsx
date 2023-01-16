@@ -12,7 +12,9 @@ import Cover from "../components/category/Cover";
 import Search from "../pages/Search";
 import MyPage from "../pages/MyPage";
 import MyPageEdit from "../pages/MyPageEdit";
+import Calendar from "../pages/Calendar";
 import AddWork from "../pages/Addwork";
+import AddShift from "../components/shitf/Addshift";
 
 function Router() {
   return (
@@ -23,19 +25,19 @@ function Router() {
         <Route path="/login" element={<Login />} />
         <Route path="/oauth/callback/kakao" element={<KakaoSocial />} />
         <Route path="/posting/:id?" element={<Posting />} />
-
         <Route path="/board" element={<Board />}>
           <Route path="free" element={<Free />} />
           <Route path="partTime" element={<PartTime />} />
           <Route path="cover" element={<Cover />} />
         </Route>
-
         <Route path="/search" element={<Search />} />
         <Route path="/post/:id" element={<Post />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/edit" element={<MyPageEdit />} />
-
-        <Route path="/addWork" element={<AddWork />} />
+        <Route path="/calendar" element={<Calendar />} />
+        <Route path="/calendar/:id" element={<Calendar />} />
+        <Route path="/addWork/:id?" element={<AddWork />} />
+        <Route path="/addShift/:id" element={<AddShift />} />{" "}
       </Routes>
     </BrowserRouter>
   );
