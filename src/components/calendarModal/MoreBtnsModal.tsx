@@ -1,12 +1,39 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import ReactDOM from "react-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import { deleteTodo } from "../../APIs/calendarApi";
 import { moreBtnsAtom } from "../../atoms";
 
 const MoreBtnsModal = ({ children }: any) => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const setIsMoreBtns = useSetRecoilState(moreBtnsAtom);
+
+  const { todoId, id } = useParams();
+  console.log(id);
+
+  const { mutateAsync } = useMutation(deleteTodo, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["monthly"]);
+      queryClient.invalidateQueries(["todos", id]);
+      queryClient.invalidateQueries(["bonus"]);
+      queryClient.invalidateQueries(["totalWage"]);
+    },
+  });
+
+  // const deleteHandler = () => {
+  //   mutate(id);
+  // };
+
+  const onClickDeleteBtn = () => {
+    if (todoId) {
+      console.log(todoId);
+      mutateAsync(todoId);
+      setIsMoreBtns(false);
+    }
+  };
 
   return ReactDOM.createPortal(
     <div>
@@ -20,7 +47,7 @@ const MoreBtnsModal = ({ children }: any) => {
           <span>수정</span>
         </Button>
         <Button>
-          <span>삭제</span>
+          <span onClick={onClickDeleteBtn}>삭제</span>
         </Button>
       </Modal>
     </div>,

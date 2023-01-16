@@ -20,11 +20,13 @@ const Comment: React.FC<CommentType> = (props) => {
     comment,
     nickname,
     commentLikeNum,
-    isLikecomment,
+    likeComment,
     createAt,
   } = props;
-  const [like, setLike] = useState(isLikecomment);
+  const [like, setLike] = useState(likeComment);
   const [likeNum, setLikeNum] = useState(commentLikeNum);
+  console.log("댓글 좋아요", likeComment, commentLikeNum);
+
   console.log(typeof createAt);
   const { id } = useParams();
   const [newComment, setNewComment] = useState(comment);
@@ -59,13 +61,15 @@ const Comment: React.FC<CommentType> = (props) => {
 
   const onClickLikeHandler = () => {
     if (like) {
-      setLikeNum(commentLikeNum - 1);
+      setLikeNum(likeNum - 1);
     } else {
-      setLikeNum(commentLikeNum + 1);
+      setLikeNum(likeNum + 1);
     }
-    setLike(!isLikecomment);
-    mutatelike.mutate(commentId);
+    setLike(!like);
+    mutatelike.mutateAsync(commentId);
   };
+
+  console.log(like);
   return (
     <>
       {isClicked === false ? (

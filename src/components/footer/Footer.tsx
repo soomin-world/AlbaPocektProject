@@ -6,7 +6,11 @@ function Footer() {
   return (
     <STContainer>
       <img src="/iconHome.png" alt="홈" onClick={() => navigate("/")} />
-      <img src="/iconCal.png" alt="캘린더" />
+      <img
+        src="/iconCal.png"
+        alt="캘린더"
+        onClick={() => navigate("/calendar")}
+      />
       <img
         src="/iconCommunity.png"
         alt="커뮤니티"
