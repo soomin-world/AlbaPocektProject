@@ -1,5 +1,5 @@
 import { TimePicker } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { calendarAtom, calendarDayList } from "../atoms";
 import { CalendarModal } from "./Test";
@@ -21,7 +21,6 @@ function AddShift() {
   const workdays = useRecoilValue(calendarDayList);
   const [workingTime, setWorkingTime] = useState<string[]>([]);
   const format = "HH:mm";
-  console.log(hourlyWage);
   const onChangeHandler = (
     time: RangeValue<dayjs.Dayjs>,
     timestring: [string, string]
@@ -35,7 +34,6 @@ function AddShift() {
     endTime: workingTime[1],
     workDay: workdays,
   };
-  console.log(work);
 
   const payload = [id, work];
   const mutateWork = useMutation(addShift);
@@ -49,13 +47,35 @@ function AddShift() {
     }
     if (workdays.length === 0) {
       alert("근무일자를 입력해주세요!");
+      return;
     }
     mutateWork.mutate(payload);
   };
+  console.log(workdays[0]);
   return (
     <>
-      <div className="container">
-        <h1>언제 얼마나 일하시나요?</h1>
+      <STContainer>
+        <h1>날짜</h1>
+        <WorkDayInput>
+          <div>
+            {workdays[0]
+              ? workdays[0].slice(4, 6) + "." + workdays[0].slice(6, 8)
+              : null}
+            {workdays[1]
+              ? "/" +
+                workdays[1].slice(4, 6) +
+                "." +
+                workdays[1].slice(6, 8) +
+                "..."
+              : null}
+          </div>
+          <img
+            src="/icon-calendar-check-mono.png"
+            onClick={() => setIsCalendarBtns((pre) => !pre)}
+            alt="달력"
+          />
+        </WorkDayInput>
+        {isCalendarBtns && <CalendarModal />}
         <div className="hourlyWage">
           <label>시급</label>
           <input
@@ -63,15 +83,7 @@ function AddShift() {
             onChange={(e) => setHourlyWage(e.target.value)}
           />
         </div>
-        <HourlyWageInput>
-          <div>{workdays[0]} ...</div>
-          <img
-            src="/icon-calendar-check-mono.png"
-            onClick={() => setIsCalendarBtns((pre) => !pre)}
-            alt="달력"
-          />
-        </HourlyWageInput>
-        {isCalendarBtns && <CalendarModal />}
+
         <TimeSelector className="workingTime">
           <div>근무시간</div>
           <TimePicker.RangePicker
@@ -84,26 +96,32 @@ function AddShift() {
             className={"timeSelection"}
           />
         </TimeSelector>
-      </div>
-      <button onClick={onClickHandler}>저장하기</button>
+        <button onClick={onClickHandler}>저장하기</button>
+      </STContainer>
     </>
   );
 }
 
+const STContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+`;
+
 const TimeSelector = styled.div`
   .timeSelection {
-    width: 200px;
+    width: 90%;
     border: 3px solid;
     border-color: #30b130;
     background-color: #f0eeee;
   }
 `;
 
-const HourlyWageInput = styled.div`
+const WorkDayInput = styled.div`
   display: flex;
   justify-content: space-between;
   border: 1px solid black;
-  width: 30%;
+  width: 90%;
   div {
     width: 60%;
   }

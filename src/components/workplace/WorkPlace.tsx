@@ -48,7 +48,7 @@ function WorkPlace() {
                     onBlur={() => setIsOpen(false)}
                     onClick={() => setIsOpen(!isOpen)}
                   >
-                    {/* 모달로 변경  */}⋮{isOpen && <DropDown id={w.placeId} />}
+                    ⋮{isOpen && <DropDown id={w.placeId} />}
                   </ul>
                 </div>
                 <div className="footer">

@@ -30,7 +30,6 @@ function PostDetail() {
   const mutatelike = useMutation(changeLikePost, {
     onSuccess: () => {
       queryClient.invalidateQueries(["post"]);
-      queryClient.invalidateQueries(["categoryPosts"]);
     },
   });
   const mutatedelete = useMutation(deletePost);
@@ -51,7 +50,7 @@ function PostDetail() {
       setPostLikeNum(postLikeNum + 1);
     }
     setLikePost(!likePost);
-    mutatelike.mutateAsync(Number(id));
+    mutatelike.mutate(Number(id));
   };
   return (
     <SContainer className="detailContainer">

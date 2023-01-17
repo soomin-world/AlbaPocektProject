@@ -33,4 +33,5 @@ export const putWork = async (payload: any) => {
 //근무 추가
 export const addShift = async (payload: any) => {
   await instance.post(`/api/work/${payload[0]}`, payload[1]);
+  return (window.location.href = "/");
 };
