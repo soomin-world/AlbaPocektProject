@@ -3,16 +3,16 @@ import { useState } from "react";
 import styled from "styled-components";
 
 const contentStyle: React.CSSProperties = {
-  width: "70%",
-  marginLeft: "15%",
-  height: "120px",
+  width: "90%",
+  marginLeft: "5%",
+  height: "90px",
   borderRadius: "10px",
-  color: "#fff",
+  color: "#000000",
   textAlign: "center",
-  background: "#364d79",
+  background: "#c2edbe",
   display: "flex",
   flexDirection: "column",
-  paddingTop: "30px",
+  paddingTop: "17px",
 };
 
 interface propsType {
@@ -102,7 +102,6 @@ const Dday: React.FC<propsType> = (props) => {
   });
 
   let diffDay: number[] = [];
-  console.log(diff);
   diff.map((d) => {
     diffDay.push(Math.floor(d / (1000 * 60 * 60 * 24)));
   });
@@ -115,12 +114,19 @@ const Dday: React.FC<propsType> = (props) => {
           return (
             <div key={w.workId}>
               <div style={contentStyle}>
-                {year}-{month}-{w.salaryDay}까지
-                {diffDay[i] === 0 ? (
-                  <div> D-Day 입니다!!!</div>
-                ) : (
-                  <div>{diffDay[i]}일 남았습니다</div>
-                )}
+                <SalaryWrap>
+                  <div className="wrap">
+                    <img src="/image/image 118.png" alt="돈" />
+                    {w.placeName} 월급날까지
+                  </div>
+                  <div>
+                    {diffDay[i] === 0 ? (
+                      <div> D-Day 입니다!!!</div>
+                    ) : (
+                      <div>D-{diffDay[i]}</div>
+                    )}
+                  </div>
+                </SalaryWrap>
               </div>
             </div>
           );
@@ -133,6 +139,24 @@ const Dday: React.FC<propsType> = (props) => {
 export const Container = styled.div`
   button {
     border: 1px solid black;
+  }
+`;
+
+export const SalaryWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  .wrap {
+    display: flex;
+    gap: 15px;
+  }
+  img {
+    width: 30px;
+    height: 30px;
+  }
+  div {
+    font-size: 17px;
+    font-weight: bold;
   }
 `;
 export default Dday;

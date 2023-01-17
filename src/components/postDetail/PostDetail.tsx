@@ -18,18 +18,19 @@ function PostDetail() {
 
   // console.log(likePost, postLikeNum);
 
-  useEffect(() => {
-    if (data) {
-      setLikePost(data.postLike);
-      setPostLikeNum(data.postLikeNum);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data) {
+  //     setLikePost(data.postLike);
+  //     setPostLikeNum(data.postLikeNum);
+  //   }
+  // }, [data]);
 
   const myId = localStorage.getItem("userId");
 
   const mutatelike = useMutation(changeLikePost, {
     onSuccess: () => {
       queryClient.invalidateQueries(["post"]);
+      queryClient.invalidateQueries(["categoryPosts"]);
     },
   });
   const mutatedelete = useMutation(deletePost);

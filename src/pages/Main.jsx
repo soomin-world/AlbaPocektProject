@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/footer/Footer";
+import LayOut from "../components/layout/LayOut";
 import WorkPlace from "../components/workplace/WorkPlace";
 
 function Main() {
@@ -15,8 +16,10 @@ function Main() {
 
   return (
     <>
-      <WorkPlace />
-      <Footer />
+      <LayOut>
+        <WorkPlace />
+        <Footer />
+      </LayOut>
     </>
   );
 }
