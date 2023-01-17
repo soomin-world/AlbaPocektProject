@@ -36,7 +36,6 @@ const kakaoLogin = (code: string | null) => {
       window.alert("로그인에 실패하였습니다.");
       window.location.href = "/login"; // 로그인 실패하면 로그인화면으로 돌려보냄
     });
-  //   };
 };
 
 const KakaoSocial = () => {

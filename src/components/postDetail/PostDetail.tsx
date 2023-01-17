@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { changeLikePost } from "../../APIs/communityBoard";
+import { changeLikePost } from "../../APIs/communityBoardApi";
 import { deletePost, getPost } from "../../APIs/detailPostApi";
 
 function PostDetail() {
@@ -11,21 +11,26 @@ function PostDetail() {
   const { data, isLoading, isError } = useQuery(["post", id], () =>
     getPost(id)
   );
+  console.log(data);
   const queryClient = useQueryClient();
-  const [likePost, setLikePost] = useState<boolean>(false);
-  const [postLikeNum, setPostLikeNum] = useState<number>(0);
+  const [likePost, setLikePost] = useState<boolean>(data?.likePost);
+  const [postLikeNum, setPostLikeNum] = useState<number>(data?.postLikeNum);
 
-  useEffect(() => {
-    if (data) {
-      setLikePost(data.postLike);
-      setPostLikeNum(data.postLikeNum);
-    }
-  }, [data]);
+  // console.log(likePost, postLikeNum);
+
+  // useEffect(() => {
+  //   if (data) {
+  //     setLikePost(data.postLike);
+  //     setPostLikeNum(data.postLikeNum);
+  //   }
+  // }, [data]);
+
   const myId = localStorage.getItem("userId");
 
   const mutatelike = useMutation(changeLikePost, {
     onSuccess: () => {
       queryClient.invalidateQueries(["post"]);
+      queryClient.invalidateQueries(["categoryPosts"]);
     },
   });
   const mutatedelete = useMutation(deletePost);

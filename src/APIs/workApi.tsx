@@ -1,4 +1,5 @@
 import { instance } from "./axios";
+import { IworkType } from "../types/workType";
 
 // 근무지 추가
 export const addWork = async (payload: any) => {
@@ -27,5 +28,11 @@ export const deleteWork = async (payload: number) => {
 
 export const putWork = async (payload: any) => {
   await instance.put(`/api/workplace/${payload[0]}`, payload[1]);
+  return (window.location.href = "/");
+};
+
+//근무 추가
+export const addShift = async (payload: any) => {
+  await instance.post(`/api/work/${payload[0]}`, payload[1]);
   return (window.location.href = "/");
 };

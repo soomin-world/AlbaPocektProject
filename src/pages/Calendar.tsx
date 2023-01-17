@@ -1,19 +1,23 @@
 import React, { useState } from "react";
 import { format, addMonths, subMonths, toDate } from "date-fns";
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from "date-fns";
-import { isSameMonth, isSameDay, addDays, parse } from "date-fns";
+import { isSameMonth, isSameDay, addDays } from "date-fns";
 import styled from "styled-components";
 import RenderHeader from "../components/calendar/RenderHeader";
 import RenderDays from "../components/calendar/RenderDays";
 import RenderTodos from "../components/calendar/RenderTodos";
 import RenderDayTotal from "../components/calendar/RenderDayTotal";
-import TodosModal from "../components/CalendarModal.tsx/TodosModal";
+import TodosModal from "../components/calendarModal/TodosModal";
 import { useNavigate } from "react-router-dom";
 import { useMatch } from "react-router-dom";
-import MoreBtnsModal from "../components/CalendarModal.tsx/MoreBtnsModal";
+import MoreBtnsModal from "../components/calendarModal/MoreBtnsModal";
 import { useRecoilValue } from "recoil";
 import { moreBtnsAtom, workplaceBtnsAtom } from "../atoms";
-import WorkplaceBtnsModal from "../components/CalendarModal.tsx/WorkplaceBtnsModal";
+import WorkplaceBtnsModal from "../components/calendarModal/WorkplaceBtnsModal";
+import { useQuery } from "@tanstack/react-query";
+import { getBonus, getMonthly, getTotal } from "../APIs/calendarApi";
+import Footer from "../components/footer/Footer";
+import comma from "../hooks/comma";
 
 type ICellsProps = {
   currentMonth: Date;
@@ -40,6 +44,9 @@ const RenderBonus = ({ day, Month, bonus }: IBonusProps) => {
   const dayMonth = format(day, "MM");
   const dayDate = format(day, "dd");
 
+  // console.log(bonus);
+  const bonusList = [];
+
   for (const b of bonus) {
     if (
       b.year === dayYear &&
@@ -47,15 +54,15 @@ const RenderBonus = ({ day, Month, bonus }: IBonusProps) => {
       dayMonth === Month &&
       b.date === dayDate
     ) {
-      return (
-        <WeeklyBonusWage>
+      bonusList.push(
+        <BonusWage>
           <div style={{ backgroundColor: `${b.color}` }}></div>
           <span>주휴수당</span>
-        </WeeklyBonusWage>
+        </BonusWage>
       );
     }
   }
-  return null;
+  return <div>{bonusList}</div>;
 };
 
 const RenderCells = ({
@@ -69,12 +76,24 @@ const RenderCells = ({
   const endDate = endOfWeek(monthEnd);
   const navigate = useNavigate();
 
+  const YYYYMM = `${format(currentMonth, "Y")}${format(currentMonth, "MM")}`;
+  // console.log(YYYYMM);
+
+  // 근무달력 조회 (월별)
+  const { isLoading: isLoadingTodos, data: todosData } = useQuery(
+    ["monthly"],
+    () => getMonthly(YYYYMM)
+  );
+  console.log(todosData);
+
+  // 근무달력 조회 (주휴수당)
+  const { isLoading: isLoadingBonus, data: bonusData } = useQuery(
+    ["bonus"],
+    () => getBonus(YYYYMM)
+  );
+  // console.log(bonusData);
+
   // 예시 데이터
-
-  // const todo = {
-  //   "20230105": [{}, {}],
-  // };
-
   const todos = [
     {
       todoId: 1,
@@ -96,7 +115,7 @@ const RenderCells = ({
       month: "01",
       date: "05",
       placeName: "영화관",
-      workingTime: "05:00",
+      workingTime: "10:00",
       startTime: "13:00",
       endTime: "18:00",
       hourlyWage: "9,620",
@@ -110,7 +129,7 @@ const RenderCells = ({
       month: "01",
       date: "08",
       placeName: "영화관",
-      workingTime: "05:00",
+      workingTime: "05:05",
       startTime: "13:00",
       endTime: "18:00",
       hourlyWage: "9,620",
@@ -155,6 +174,13 @@ const RenderCells = ({
       date: "08",
       bonus: "33,000",
       color: "#FFDD94",
+    },
+    {
+      year: "2023",
+      month: "01",
+      date: "08",
+      bonus: "46,000",
+      color: "#D0E6A5",
     },
     {
       year: "2023",
@@ -214,9 +240,18 @@ const RenderCells = ({
           >
             {formattedDate}
           </CellsNum>
-          <RenderTodos day={day} Month={Month} todos={todos} />
-          <RenderBonus day={day} Month={Month} bonus={bonus} />
-          <RenderDayTotal day={day} Month={Month} todos={todos} />
+
+          {isLoadingTodos ? null : (
+            <RenderTodos day={day} Month={Month} todos={todosData} />
+          )}
+
+          {isLoadingBonus ? null : (
+            <RenderBonus day={day} Month={Month} bonus={bonusData} />
+          )}
+
+          {isLoadingTodos ? null : (
+            <RenderDayTotal day={day} Month={Month} todos={todosData} />
+          )}
         </Cells>
       );
       day = addDays(day, 1);
@@ -250,15 +285,24 @@ const Calendar = () => {
   /////// 모달창 기능
   const [isOpen, setIsOpen] = useState(false);
   const dayMatch = useMatch("/calendar/:id");
+  const dayBtnMatch = useMatch("/calendar/:id/:todoId");
   // console.log(dayMatch);
+  // console.log(dayBtnMatch);
+
   const isMoreBtns = useRecoilValue(moreBtnsAtom);
   const isWorkplaceBtns = useRecoilValue(workplaceBtnsAtom);
-  console.log(isMoreBtns);
-  console.log(isWorkplaceBtns);
+  // console.log(isMoreBtns);
+  // console.log(isWorkplaceBtns);
+
+  const YYYYMM = `${format(currentMonth, "Y")}${format(currentMonth, "MM")}`;
+  // console.log(YYYYMM);
+
+  // TotalWage get 요청
+  const { isLoading, data } = useQuery(["totalWage"], () => getTotal(YYYYMM));
 
   return (
     <>
-      <div>
+      <Total>
         <RenderHeader
           currentMonth={currentMonth}
           prevMonth={prevMonth}
@@ -270,15 +314,22 @@ const Calendar = () => {
           selectedDate={selectedDate}
           onDateClick={onDateClick}
         />
-        <MonthlyTotalWage>1,875,000원</MonthlyTotalWage>
-      </div>
+        <TotalWage>{comma(String(data?.total))}원</TotalWage>
+        <Footer />
+      </Total>
 
-      {dayMatch && <TodosModal />}
+      {dayMatch || dayBtnMatch ? <TodosModal /> : null}
       {isMoreBtns && <MoreBtnsModal />}
       {isWorkplaceBtns && <WorkplaceBtnsModal />}
     </>
   );
 };
+
+const Total = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const CellsRow = styled.div`
   display: flex;
@@ -294,7 +345,7 @@ const CellsBody = styled.div`
 `;
 
 const Cells = styled.div<{ color: string; backgroundColor: string }>`
-  width: 47px;
+  width: 55px;
   height: 85px;
   padding-top: 3px;
   border-top: 1px solid ${(props) => props.color};
@@ -306,16 +357,17 @@ const CellsNum = styled.span<{ color: string }>`
   color: ${(props) => props.color};
 `;
 
-const MonthlyTotalWage = styled.div`
-  position: absolute;
-  right: 0px;
+const TotalWage = styled.div`
+  width: 385px;
+  text-align: right;
   margin-right: 10px;
 `;
 
-const WeeklyBonusWage = styled.div`
+const BonusWage = styled.div`
   font-size: 10px;
   display: flex;
   align-items: center;
+  margin-bottom: 1px;
 
   div {
     width: 7px;
@@ -324,4 +376,5 @@ const WeeklyBonusWage = styled.div`
     border-radius: 50%;
   }
 `;
+
 export default Calendar;

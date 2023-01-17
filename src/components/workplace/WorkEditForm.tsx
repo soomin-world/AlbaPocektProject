@@ -1,17 +1,19 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getWork, putWork } from "../../APIs/workApi";
 import Modal from "../modal/Modal";
 
 function WorkEditForm() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
+  const [color, setColor] = useState("");
   const [editWork, setEditWork] = useState({
     placeName: "",
     salaryDay: "",
-    placeColor: "",
+    placeColor: color,
   });
 
   const { data, isSuccess } = useQuery(["work", id], () => getWork(id));
@@ -58,12 +60,12 @@ function WorkEditForm() {
   return (
     <STContainer>
       <STHeader>
-        <div> &lt; </div>
-        <h1>근무지추가</h1>
+        <img src="/image/leftArrow.png" alt="<" onClick={() => navigate("/")} />
+        <h1>근무지수정</h1>
       </STHeader>
       <STBody>
         <div className="place">
-          <p>어디서 일하시나요?</p>
+          <p>어디에서 일하시나요?</p>
           <input
             placeholder="근무지명"
             type="text"
@@ -77,8 +79,14 @@ function WorkEditForm() {
         <div className="salary">
           <p>월급일</p>
           <div>
-            <div>{editWork.salaryDay} 일</div>
-            <div onClick={openModal}>🔻</div>
+            <div className="input">
+              <p>{editWork.salaryDay}</p>
+              <img
+                src="/image/arrowDecrease.png"
+                alt="arrow"
+                onClick={openModal}
+              />
+            </div>
             <Modal open={modalOpen} close={closeModal}>
               <STModal>
                 <select
@@ -104,64 +112,172 @@ function WorkEditForm() {
           </div>
         </div>
         <div className="color">
-          <span>색상</span>
-          <select
-            value={editWork.placeColor}
-            onChange={(e) => {
-              const { value } = e.target;
-              setEditWork({ ...editWork, placeColor: value });
-            }}
-          >
-            <option defaultValue={""}>색상선택</option>
-            <option value="#e6d05f">노란색</option>
-            <option value="#256b96">파란색</option>
-            <option value="#6d6c6b">회색</option>
-            <option value="#e0523f">빨간색</option>
-            <option value="#3abc7b">초록색</option>
-          </select>
-
-          <div
-            style={{
-              borderRadius: "100%",
-              border: "1px solid black",
-              width: "1rem",
-              height: "1rem",
-              backgroundColor: `${editWork.placeColor}`,
-            }}
-          />
+          <p>색상</p>
+          <STColor>
+            <button
+              onClick={() => {
+                const value = `#ef0400c6`;
+                setColor(value);
+              }}
+              style={{
+                backgroundColor: `#ef0400c6`,
+              }}
+            />
+            <button
+              onClick={() => {
+                const value = `#b2c34f`;
+                setColor(value);
+              }}
+              style={{
+                backgroundColor: `#b2c34f`,
+              }}
+            />
+            <button
+              onClick={() => {
+                const value = `#5FCE80`;
+                setColor(value);
+              }}
+              style={{
+                backgroundColor: `#5FCE80`,
+              }}
+            />
+            <button
+              onClick={() => {
+                const value = `#3f74dd`;
+                setColor(value);
+              }}
+              style={{
+                backgroundColor: `#3f74dd`,
+              }}
+            />
+            <button
+              onClick={() => {
+                const value = `#6344c9`;
+                setColor(value);
+              }}
+              style={{
+                backgroundColor: `#6344c9`,
+              }}
+            />
+            <button
+              onClick={() => {
+                const value = `#ab51b9d7`;
+                setColor(value);
+              }}
+              style={{
+                backgroundColor: `#ab51b9d7`,
+              }}
+            />
+          </STColor>
         </div>
       </STBody>
-      <button onClick={addWorkHandler}>수정하기</button>
+      <SaveBtn onClick={addWorkHandler}>수정하기</SaveBtn>
     </STContainer>
   );
 }
-
 const STContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  padding: 5%;
-  width: 80%;
-  margin-left: 10%;
-  border: 1px solid black;
+  padding: 0px 17px 0px 18px;
 `;
 
 const STHeader = styled.div`
   display: flex;
-  border: 1px solid black;
-  div {
+  margin: 12px 0px 41.5px 0px;
+  height: 35px;
+  img {
+    width: 24px;
+    height: 24px;
+  }
+  h1 {
+    width: 83px;
+    height: 25px;
+    font-size: 17px;
+    font-weight: 500;
+    margin-left: 102px;
   }
 `;
 
 const STModal = styled.div`
   width: 90%;
-  div {
-    width: 30%;
+  select {
+    width: 100%;
+    border-radius: 10px;
   }
 `;
 
 const STBody = styled.div`
-  border: 1px solid black;
+  .place {
+    p {
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 15px;
+    }
+    input {
+      width: 90%;
+      height: 44px;
+      background-color: #f9f9f9;
+      border: 1px solid #efefef;
+      border-radius: 8px;
+      margin-bottom: 41px;
+    }
+  }
+  .salary {
+    margin-bottom: 30px;
+    p {
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 22px;
+    }
+    .input {
+      width: 20%;
+      height: 44px;
+      background-color: #f9f9f9;
+      border: 1px solid #efefef;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      padding: 7px;
+      justify-content: space-between;
+      img {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+  .color {
+    p {
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 22px;
+      margin-bottom: 11px;
+    }
+  }
 `;
 
+const STColor = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-bottom: 290px;
+  button {
+    width: 36px;
+    height: 36px;
+    border-radius: 100%;
+    border: none;
+  }
+  button:hover {
+    box-shadow: 0 0 0 2px grey;
+  }
+`;
+
+const SaveBtn = styled.button`
+  width: 90%;
+  height: 56px;
+  background-color: #5fce80;
+  border-radius: 8px;
+  margin-left: 6%;
+  border: none;
+  color: white;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 24.62px;
+`;
 export default WorkEditForm;

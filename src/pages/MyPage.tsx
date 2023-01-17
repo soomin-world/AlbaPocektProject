@@ -31,7 +31,12 @@ const MyPage = () => {
 
       {data?.postList.map((data) => {
         return (
-          <UserPost key={data.postId}>
+          <UserPost
+            key={data.postId}
+            onClick={() => {
+              navigate(`/post/${data.postId}`);
+            }}
+          >
             <p>{data.title}</p>
             <p>{data.content}</p>
           </UserPost>

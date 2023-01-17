@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { loginApi } from "../APIs/loginRegisterApi";
 import { KAKAO_AUTH_URL } from "../APIs/OAuth";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
 interface IErrormsg {
   response: {
@@ -20,6 +21,9 @@ const Login = () => {
   const [errorMsg, setErrorMsg] = useState("");
 
   const onSubmitHandler = () => {
+    if (userId.length === 0) return setErrorMsg("이메일을 입력하세요.");
+    if (password.length === 0) return setErrorMsg("비밀번호를 입력하세요.");
+
     const userInfo = { userId: userId, password: password };
     console.log(userInfo);
     mutateAsync(userInfo).catch((error) => {
@@ -29,41 +33,133 @@ const Login = () => {
   };
 
   return (
-    <div>
-      로그인 페이지
-      <form
+    <Total>
+      <Header>이메일 로그인</Header>
+      <Form
         onSubmit={(e) => {
           e.preventDefault();
           const userInfo = { userId: userId, password: password };
           onSubmitHandler();
         }}
       >
-        <input
+        <Input
           onChange={(e) => {
             setUserId(e.target.value);
           }}
           placeholder="이메일"
-        ></input>
-        <input
+        ></Input>
+        <Input
           onChange={(e) => {
             setPassword(e.target.value);
           }}
           placeholder="비밀번호"
           type="password"
-        ></input>
-        <button>로그인</button>
+        ></Input>
         <span>{errorMsg}</span>
-        <div
-          onClick={() => {
-            navigate("/register");
-          }}
-        >
-          회원가입
-        </div>
-        <a href={KAKAO_AUTH_URL}>카카오로 시작하기</a>
-      </form>
-    </div>
+        <button>
+          <div>시작하기</div>
+        </button>
+        <Register>
+          <span>회원이 아니신가요? </span>
+          <span
+            onClick={() => {
+              navigate("/register");
+            }}
+          >
+            회원 가입하기
+          </span>
+        </Register>
+        <Line>
+          <hr />
+          <div>또는</div>
+          <hr />
+        </Line>
+        <a href={KAKAO_AUTH_URL}>
+          <img src="/image/kakao.png" />
+        </a>
+      </Form>
+    </Total>
   );
 };
+const Total = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Noto Sans KR", sans-serif;
+`;
 
+const Header = styled.div`
+  width: 100%;
+  height: 60px;
+  font-size: 15px;
+  font-weight: 400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Form = styled.form`
+  width: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  button {
+    width: 100%;
+    height: 56px;
+    margin: 15px 0px 15px 0px;
+    border-radius: 10px;
+    border: none;
+    background-color: #5fce80;
+    font-size: 17px;
+    color: white;
+
+    div {
+      height: 17px;
+    }
+  }
+  span {
+    font-size: 15px;
+    color: red;
+  }
+`;
+
+const Input = styled.input`
+  width: 100%;
+  height: 48px;
+  border-radius: 10px;
+  border: none;
+  background-color: #f9f9f9;
+  padding-left: 10px;
+  margin-bottom: 15px;
+`;
+
+const Register = styled.div`
+  margin-bottom: 60px;
+
+  span {
+    color: black;
+    font-size: 13px;
+  }
+  span:last-child {
+    font-weight: 500;
+  }
+`;
+
+const Line = styled.div`
+  display: flex;
+  margin-bottom: 20px;
+  hr {
+    border: none;
+    background-color: #cbcbd2;
+    width: 150px;
+    height: 1px;
+  }
+  div {
+    margin: 0px 9px 0px 9px;
+    font-size: 12px;
+    color: #a4a4a7;
+  }
+`;
 export default Login;
