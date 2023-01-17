@@ -50,11 +50,15 @@ const CalendarTest = ({
 
     if (isActive) {
       const copy = dayList.filter((days) => {
-        return days !== String(day);
+        return days !== `${format(day, "YMM")}${format(day, "dd")}`;
       });
       setDayList([...copy]);
     } else {
-      setDayList([...dayList, String(day)]);
+      // console.log(format(day, "YMM"));
+      // console.log(format(day, "dd"));
+      const yyyymmdd = `${format(day, "YMM")}${format(day, "dd")}`;
+      console.log(yyyymmdd);
+      setDayList([...dayList, `${format(day, "YMM")}${format(day, "dd")}`]);
     }
   };
 
@@ -85,7 +89,7 @@ const CalendarTest = ({
       >
         {formattedDate}
       </CellsNum>
-      <RenderSelected day={day} Month={Month} />
+      <RenderSelected day={day} Month={Month} setIsActive={setIsActive} />
     </Cells>
   );
 };

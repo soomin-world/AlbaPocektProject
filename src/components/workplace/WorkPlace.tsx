@@ -43,8 +43,8 @@ function WorkPlace() {
       <STHeader>
         <div className="logo">로고</div>
         <div className="nav">
-          <img src="/iconChat.png" alt="채팅" />
-          <img src="/iconUser.png" alt="마이페이지" />
+          <img src="/image/iconChat.png" alt="채팅" />
+          <img src="/image/iconUser.png" alt="마이페이지" />
         </div>
       </STHeader>
       <Dday workList={data?.data.workList} />
