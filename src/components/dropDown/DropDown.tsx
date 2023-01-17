@@ -29,6 +29,15 @@ const DropDown: React.FC<propsType> = ({ id }) => {
 };
 
 const STDropdown = styled.div`
-  border: 1px solid black;
+  position: relative;
+  z-index: 999;
+  border-radius: 20%;
+  padding: 5px;
+  background-color: rgba(253, 251, 251, 0.6);
+  color: black;
+  li {
+    margin-top: 5px;
+    font-size: 5px;
+  }
 `;
 export default DropDown;
