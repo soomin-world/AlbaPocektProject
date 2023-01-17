@@ -37,15 +37,13 @@ function Router() {
         <Route path="/post/:id" element={<Post />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/edit" element={<MyPageEdit />} />
-
+        <Route path="/addShift/:id" element={<AddShift />} />
         <Route path="/calendar" element={<Calendar />} />
-        <Route path="/calendar/:id" element={<Calendar />}>
-          <Route path=":todoId" element={<Calendar />} />
-        </Route>
+        <Route path="/calendar/:id" element={<Calendar />} />
+        <Route path=":todoId" element={<Calendar />} />
 
         <Route path="/addWork/:id?" element={<AddWork />} />
         <Route path="/addShift/:id" element={<AddShift />} />
-
         <Route path="/test" element={<Test />} />
       </Routes>
     </BrowserRouter>

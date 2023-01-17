@@ -20,7 +20,7 @@ const RenderSelected = ({ day, Month }: ISelectedProps) => {
 
   // 현재 달에 해당하지 않으면 표시 X...다음달에 표시 X
   for (const selectedDay of dayList) {
-    if (selectedDay === String(day)) {
+    if (selectedDay === `${format(day, "YMM")}${format(day, "dd")}`) {
       return <SelectedBox></SelectedBox>;
     }
   }

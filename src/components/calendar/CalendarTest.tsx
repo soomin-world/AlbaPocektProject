@@ -9,8 +9,8 @@ interface ITest {
   day: Date;
   monthStart: Date;
   currentMonth: Date;
-  selectedDate: Date;
-  onDateClick: (day: Date) => Date;
+  selectedDate: string;
+  onDateClick: (day: Date) => string;
   cloneDay: Date;
   formattedDate: string;
   // dayList: string[];
@@ -29,8 +29,9 @@ const CalendarTest = ({
   const [dayList, setDayList] = useRecoilState(calendarDayList);
   const Month = format(currentMonth, "MM");
   let currentDay = new Date();
+  const [workDay, setWorkDay] = useState({ workday: "" });
 
-  console.log(dayList);
+  //console.log(dayList);
 
   // useEffect(() => {
   //   for (const d of dayList) {
@@ -50,11 +51,11 @@ const CalendarTest = ({
 
     if (isActive) {
       const copy = dayList.filter((days) => {
-        return days !== String(day);
+        return days !== `${format(day, "YMM")}${format(day, "dd")}`;
       });
       setDayList([...copy]);
     } else {
-      setDayList([...dayList, String(day)]);
+      setDayList([...dayList, `${format(day, "YMM")}${format(day, "dd")}`]);
     }
   };
 

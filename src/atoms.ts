@@ -1,4 +1,4 @@
-import { atom } from "recoil";
+import { atom, selector } from "recoil";
 
 export const moreBtnsAtom = atom({
   key: "isMoreBtnsOpen",
@@ -29,3 +29,8 @@ export const calendarDayList = atom<string[]>({
   key: "dayList",
   default: [],
 });
+
+// export const calendarDayListFormat = selector<string[]>({
+//   key : "dayFormat",
+//   get:({get})=>get(calendarDayList.map((d)=>d.slice(" "))
+// })
