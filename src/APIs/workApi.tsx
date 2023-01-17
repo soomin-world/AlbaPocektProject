@@ -36,3 +36,9 @@ export const addShift = async (payload: any) => {
   await instance.post(`/api/work/${payload[0]}`, payload[1]);
   return (window.location.href = "/");
 };
+
+// 근무 등록(수정)
+export const getEditWork = async (payload: string | undefined) => {
+  const { data } = await instance.get(`/api/work/${payload}`);
+  return data;
+};

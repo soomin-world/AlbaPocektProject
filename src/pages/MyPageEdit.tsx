@@ -9,7 +9,7 @@ const MyPageEdit = () => {
     getMyPage()
   );
 
-  const [nickname, setNickname] = useState<string>();
+  const [nickname, setNickname] = useState(data?.nickname);
 
   useEffect(() => {
     setNickname(data?.nickname);
@@ -35,12 +35,11 @@ const MyPageEdit = () => {
     if (file) {
       console.log(nickname);
       const formData = new FormData();
-      formData.append(
-        "data",
-        new Blob([JSON.stringify({ nickname: nickname })], {
-          type: "application/json",
-        })
-      );
+
+      if (nickname !== undefined) {
+        formData.append("nickname", nickname);
+      }
+
       formData.append("file", file);
 
       console.log("호출 직전!!!");
@@ -49,12 +48,16 @@ const MyPageEdit = () => {
       // alert("사진을 선택하세요!");
       console.log(nickname);
       const formData = new FormData();
-      formData.append(
-        "data",
-        new Blob([JSON.stringify({ nickname: nickname })], {
-          type: "application/json",
-        })
-      );
+
+      if (nickname !== undefined) {
+        formData.append("nickname", nickname);
+      }
+      // formData.append(
+      //   "data",
+      //   new Blob([JSON.stringify({ nickname: nickname })], {
+      //     type: "application/json",
+      //   })
+      // );
       // formData.append("file", "");
 
       console.log("호출 직전!!!");

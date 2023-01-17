@@ -5,23 +5,31 @@ import { calendarAtom, calendarDayList } from "../atoms";
 import { CalendarModal } from "./Test";
 import dayjs from "dayjs";
 import styled from "styled-components";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import { addShift } from "../APIs/workApi";
+import { addShift, getEditWork } from "../APIs/workApi";
+import { getPost } from "../APIs/detailPostApi";
 
 export type EventValue<DateType> = DateType | null;
 export type RangeValue<DateType> =
   | [EventValue<DateType>, EventValue<DateType>]
   | null;
 
-function AddShift() {
+function EditShift() {
   const navigate = useNavigate();
   const { id } = useParams();
+
+  const { todoId } = useParams();
+
+  // const { data } = useQuery(["editWork", todoId], () => getEditWork(todoId));
+  // console.log(data);
+
   const [hourlyWage, setHourlyWage] = useState("");
   const [isCalendarBtns, setIsCalendarBtns] = useRecoilState(calendarAtom);
   const workdays = useRecoilValue(calendarDayList);
   const [workingTime, setWorkingTime] = useState<string[]>([]);
   const format = "HH:mm";
+
   const onChangeHandler = (
     time: RangeValue<dayjs.Dayjs>,
     timestring: [string, string]
@@ -53,11 +61,11 @@ function AddShift() {
     mutateWork.mutate(payload);
     // navigate(-1);
   };
-  console.log(workdays[0]);
+  // console.log(workdays[0]);
   return (
     <>
       <STContainer>
-        <h1>날짜</h1>
+        {/* <h1>날짜</h1>
         <WorkDayInput>
           <div>
             {workdays[0]
@@ -77,7 +85,7 @@ function AddShift() {
             alt="달력"
           />
         </WorkDayInput>
-        {isCalendarBtns && <CalendarModal />}
+        {isCalendarBtns && <CalendarModal />} */}
         <div className="hourlyWage">
           <label>시급</label>
           <input
@@ -129,4 +137,4 @@ const WorkDayInput = styled.div`
   }
 `;
 
-export default AddShift;
+export default EditShift;
