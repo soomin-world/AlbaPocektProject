@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { editMyPage, getMyPage } from "../APIs/myPageApi";
 import { IMyPage } from "../types/myPageType";
@@ -9,6 +9,12 @@ const MyPageEdit = () => {
     getMyPage()
   );
 
+  const [nickname, setNickname] = useState<string>();
+
+  useEffect(() => {
+    setNickname(data?.nickname);
+  }, [data]);
+
   const { mutate } = useMutation(editMyPage, {
     onSuccess: () => {
       queryClient.invalidateQueries(["myPage"]);
@@ -16,8 +22,7 @@ const MyPageEdit = () => {
   });
   const queryClient = useQueryClient();
 
-  const [nickname, setNickname] = useState("");
-  const [file, setFile] = useState<string | Blob>();
+  const [file, setFile] = useState<File | undefined>();
 
   const getImage = (e: any) => {
     setFile(e.target.files[0]);
@@ -41,7 +46,19 @@ const MyPageEdit = () => {
       console.log("호출 직전!!!");
       mutate(formData);
     } else {
-      alert("사진을 선택하세요!");
+      // alert("사진을 선택하세요!");
+      console.log(nickname);
+      const formData = new FormData();
+      formData.append(
+        "data",
+        new Blob([JSON.stringify({ nickname: nickname })], {
+          type: "application/json",
+        })
+      );
+      formData.append("file", "");
+
+      console.log("호출 직전!!!");
+      mutate(formData);
     }
   };
   return (
@@ -56,6 +73,7 @@ const MyPageEdit = () => {
         <div>
           <span>닉네임</span>
           <input
+            value={nickname}
             onChange={(e) => {
               setNickname(e.target.value);
             }}
