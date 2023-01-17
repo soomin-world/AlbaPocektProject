@@ -55,7 +55,7 @@ const MyPageEdit = () => {
           type: "application/json",
         })
       );
-      formData.append("file", "");
+      // formData.append("file", "");
 
       console.log("호출 직전!!!");
       mutate(formData);

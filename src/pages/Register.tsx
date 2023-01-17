@@ -7,6 +7,7 @@ import {
   userIdCheckApi,
 } from "../APIs/loginRegisterApi";
 import { IForm } from "../types/loginRegisterType";
+import styled from "styled-components";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -68,12 +69,13 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <form
+    <Total>
+      <Header>회원가입</Header>
+      <Form
         style={{ display: "flex", flexDirection: "column" }}
         onSubmit={handleSubmit(onValid)}
       >
-        <input
+        <Input
           {...register("email", {
             required: "필수 정보입니다.",
             pattern: {
@@ -86,7 +88,7 @@ const Register = () => {
         <span>{errors?.email?.message}</span>
         <div onClick={userIdCheck}>중복 확인</div>
 
-        <input
+        <Input
           {...register("nickname", {
             required: "필수 정보입니다.",
             minLength: {
@@ -102,7 +104,7 @@ const Register = () => {
         />
         <span>{errors?.nickname?.message}</span>
         <div onClick={nicknameCheck}>중복 확인</div>
-        <input
+        <Input
           {...register("password", {
             required: "필수 정보입니다.",
             minLength: {
@@ -119,7 +121,7 @@ const Register = () => {
           type="password"
         />
         <span>{errors?.password?.message}</span>
-        <input
+        <Input
           {...register("passwordCheck", {
             required: "필수 정보입니다.",
           })}
@@ -127,11 +129,66 @@ const Register = () => {
           type="password"
         />
         <span>{errors?.passwordCheck?.message}</span>
-        <button>Add</button>
+        <button>확인</button>
         <span>{errors?.extraError?.message}</span>
-      </form>
-    </div>
+      </Form>
+    </Total>
   );
 };
+
+const Total = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Noto Sans KR", sans-serif;
+`;
+
+const Header = styled.div`
+  width: 100%;
+  height: 60px;
+  font-size: 15px;
+  font-weight: 400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Form = styled.form`
+  width: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  button {
+    width: 100%;
+    height: 56px;
+    margin: 15px 0px 15px 0px;
+    border-radius: 10px;
+    border: none;
+    background-color: #5fce80;
+    font-size: 17px;
+    color: white;
+
+    div {
+      height: 17px;
+    }
+  }
+  span {
+    font-size: 15px;
+    color: red;
+    margin-bottom: 15px;
+  }
+`;
+
+const Input = styled.input`
+  width: 100%;
+  height: 48px;
+  border-radius: 10px;
+  border: none;
+  background-color: #f9f9f9;
+  padding-left: 15px;
+  margin-bottom: 15px;
+`;
 
 export default Register;
