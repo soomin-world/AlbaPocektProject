@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "../modal/Modal.css";
 
 interface modalType {
@@ -18,9 +17,6 @@ const Modal: React.FC<modalType> = (props) => {
             <header></header>
             <main>{props.children}</main>
             <footer>
-              <button className="close" onClick={close}>
-                close
-              </button>
               <button className="close" onClick={close}>
                 확인
               </button>

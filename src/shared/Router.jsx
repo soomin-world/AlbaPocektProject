@@ -26,13 +26,11 @@ function Router() {
         <Route path="/login" element={<Login />} />
         <Route path="/oauth/callback/kakao" element={<KakaoSocial />} />
         <Route path="/posting/:id?" element={<Posting />} />
-
         <Route path="/board" element={<Board />}>
           <Route path="free" element={<Free />} />
           <Route path="partTime" element={<PartTime />} />
           <Route path="cover" element={<Cover />} />
         </Route>
-
         <Route path="/search" element={<Search />} />
         <Route path="/post/:id" element={<Post />} />
         <Route path="/mypage" element={<MyPage />} />

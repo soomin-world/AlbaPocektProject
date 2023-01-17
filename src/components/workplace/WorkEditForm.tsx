@@ -15,7 +15,7 @@ function WorkEditForm() {
   });
 
   const { data, isSuccess } = useQuery(["work", id], () => getWork(id));
-  console.log(data);
+
   useEffect(() => {
     if (isSuccess) {
       setEditWork({
@@ -34,7 +34,8 @@ function WorkEditForm() {
   let i = 0;
   const days = Array(31)
     .fill(i)
-    .map((v, i) => i + 1 + "일");
+    .map((v, i) => i + 1);
+
   const payload = [id, editWork];
   const addWorkHandler = () => {
     if (editWork.placeName === "") {
@@ -49,6 +50,7 @@ function WorkEditForm() {
       alert("색상을 선택해주세요");
       return;
     }
+
     mutateEditwork.mutate(payload);
   };
   console.log(editWork.salaryDay);
@@ -75,7 +77,7 @@ function WorkEditForm() {
         <div className="salary">
           <p>월급일</p>
           <div>
-            <div>{editWork.salaryDay}</div>
+            <div>{editWork.salaryDay} 일</div>
             <div onClick={openModal}>🔻</div>
             <Modal open={modalOpen} close={closeModal}>
               <STModal>
@@ -85,14 +87,14 @@ function WorkEditForm() {
                     const { value } = e.target;
                     setEditWork({
                       ...editWork,
-                      salaryDay: value.slice(0, -1),
+                      salaryDay: value,
                     });
                   }}
                 >
                   {days.map((day, i) => {
                     return (
                       <option key={i} value={day}>
-                        {day}
+                        {day}일
                       </option>
                     );
                   })}
