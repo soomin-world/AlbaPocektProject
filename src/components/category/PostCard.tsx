@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -10,10 +10,16 @@ type postProps = {
 };
 
 const PostCard = ({ post }: postProps) => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [likePost, setLikePost] = useState(post.likePost);
   const [postLikeNum, setPostLikeNum] = useState(post.postLikeNum);
-  const { mutateAsync } = useMutation(changeLikePost);
+  const mutatelike = useMutation(changeLikePost, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["post"]);
+      queryClient.invalidateQueries(["categoryPosts"]);
+    },
+  });
 
   const onClickHeartHandler = () => {
     if (likePost) {
@@ -22,7 +28,7 @@ const PostCard = ({ post }: postProps) => {
       setPostLikeNum(postLikeNum + 1);
     }
     setLikePost(!likePost);
-    mutateAsync(post.postId);
+    mutatelike.mutate(post.postId);
   };
   return (
     <PostCardBox

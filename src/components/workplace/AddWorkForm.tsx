@@ -49,6 +49,7 @@ function AddWorkForm() {
       queryClient.invalidateQueries(["work"]);
     },
   });
+  console.log(color);
   return (
     <STContainer>
       <STHeader>
@@ -86,24 +87,63 @@ function AddWorkForm() {
         </div>
         <div className="color">
           <span>색상</span>
-          <select onChange={(e) => setColor(e.target.value)}>
-            <option defaultValue={""}>색상선택</option>
-            <option value="#e6d05f">노란색</option>
-            <option value="#256b96">파란색</option>
-            <option value="#6d6c6b">회색</option>
-            <option value="#e0523f">빨간색</option>
-            <option value="#3abc7b">초록색</option>
-          </select>
 
-          <div
-            style={{
-              borderRadius: "100%",
-              border: "1px solid black",
-              width: "1rem",
-              height: "1rem",
-              backgroundColor: `${color}`,
-            }}
-          />
+          <STColor>
+            <button
+              onClick={() => {
+                const value = `#ef0400c6`;
+                setColor(value);
+              }}
+              style={{
+                backgroundColor: `#ef0400c6`,
+              }}
+            />
+            <button
+              onClick={() => {
+                const value = `#b2c34f`;
+                setColor(value);
+              }}
+              style={{
+                backgroundColor: `#b2c34f`,
+              }}
+            />
+            <button
+              onClick={() => {
+                const value = `#70d683`;
+                setColor(value);
+              }}
+              style={{
+                backgroundColor: `#70d683`,
+              }}
+            />
+            <button
+              onClick={() => {
+                const value = `#3f74dd`;
+                setColor(value);
+              }}
+              style={{
+                backgroundColor: `#3f74dd`,
+              }}
+            />
+            <button
+              onClick={() => {
+                const value = `#6344c9`;
+                setColor(value);
+              }}
+              style={{
+                backgroundColor: `#6344c9`,
+              }}
+            />
+            <button
+              onClick={() => {
+                const value = `#ab51b9d7`;
+                setColor(value);
+              }}
+              style={{
+                backgroundColor: `#ab51b9d7`,
+              }}
+            />
+          </STColor>
         </div>
       </STBody>
       <button onClick={addWorkHandler}>저장하기</button>
@@ -140,4 +180,17 @@ const STBody = styled.div`
   border: 1px solid black;
 `;
 
+const STColor = styled.div`
+  display: flex;
+  gap: 10px;
+  button {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 100%;
+
+    button:hover {
+      background: #353535c6;
+    }
+  }
+`;
 export default AddWorkForm;

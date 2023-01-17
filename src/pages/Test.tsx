@@ -14,8 +14,8 @@ import CalendarTest from "../components/calendar/CalendarTest";
 
 type ICellsProps = {
   currentMonth: Date;
-  selectedDate: Date;
-  onDateClick: (day: Date) => Date;
+  selectedDate: string;
+  onDateClick: (day: Date) => string;
   // dayList: string[];
 };
 
@@ -68,7 +68,7 @@ ICellsProps) => {
 
 const Calendar = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState("");
   const [isCalendarBtns, setIsCalendarBtns] = useRecoilState(calendarAtom);
   // const dayList: string[] = [];
 
@@ -83,7 +83,14 @@ const Calendar = () => {
   };
 
   const onDateClick = (day: Date) => {
-    setSelectedDate(day);
+    const dayToform =
+      String(day).split(" ")[3] +
+      "-" +
+      String(day).split(" ")[1] +
+      String(day).split(" ")[2];
+
+    setSelectedDate(dayToform);
+    console.log(selectedDate);
     return selectedDate;
   };
 
@@ -116,11 +123,27 @@ export const CalendarModal = () => {
       <Overlay
         onClick={() => {
           setIsCalendarBtns(false);
-          setDayList([]);
+          // setDayList([]);
         }}
       ></Overlay>
       <Modal>
         <Calendar />
+        <button
+          onClick={() => {
+            setIsCalendarBtns(false);
+            // setDayList([]);
+          }}
+        >
+          확인
+        </button>
+        <button
+          onClick={() => {
+            setIsCalendarBtns(false);
+            setDayList([]);
+          }}
+        >
+          닫기
+        </button>
       </Modal>
     </>,
     document.getElementById("modal") as Element
