@@ -59,7 +59,7 @@ const Board = () => {
         </Search>
       </Navigate>
       <Outlet></Outlet>
-      {/* {isLoading ? <div>로딩중</div> : null} */}
+      {isLoading ? <div>로딩중</div> : null}
       {isError ? <div>애러 뜸</div> : null}
       {boardMatch === null
         ? null

@@ -39,17 +39,26 @@ function WorkPlace() {
     setModalOpen(false);
   };
   return (
-    <STContainer>
+    <>
       <STHeader>
-        <div className="logo">로고</div>
+        <img
+          src="/image/Logo.png"
+          alt="logo"
+          className="logo"
+          onClick={() => navigate("/")}
+        />
         <div className="nav">
           <img src="/image/iconChat.png" alt="채팅" />
-          <img src="/image/iconUser.png" alt="마이페이지" />
+          <img
+            src="/image/iconUser.png"
+            alt="마이페이지"
+            onClick={() => navigate("/mypage")}
+          />
         </div>
       </STHeader>
       <Dday workList={data?.data.workList} />
       <STAdd onClick={() => navigate("/addwork")}>
-        <h2>+ 근무지추가</h2>
+        <img src="/image/Frame 12.png" alt="+" />
       </STAdd>
       {data
         ? data.data.workList.map((w: WorkType) => {
@@ -61,16 +70,20 @@ function WorkPlace() {
                 >
                   <div className="wrap">
                     <div className="info">
-                      <div>{w.placeName}</div>
-                      <div>{month}</div>
+                      <div className="placeName">{w.placeName}</div>
+                      <div className="month">{month}</div>
                     </div>
-                    <div className="button" onClick={openModal}>
-                      ⋮
-                    </div>
+                    <img
+                      src="/image/dots.png"
+                      alt=":"
+                      className="button"
+                      onClick={openModal}
+                    />
                   </div>
                   <div className="footer">
                     <button onClick={() => navigate(`/addShift/${w.placeId}`)}>
-                      근무추가
+                      <img src="/image/Group 180.png" alt="+" />
+                      근무등록
                     </button>
                     <div className="money"> ₩1,000</div>
                   </div>
@@ -85,82 +98,82 @@ function WorkPlace() {
             );
           })
         : null}
-      ;
-    </STContainer>
+    </>
   );
 }
 
-const STContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  height: auto;
-  min-height: 100%;
-  padding-bottom: 100px;
-`;
-
 const STAdd = styled.div`
-  width: 70%;
-  height: 100px;
-  border: 2px solid grey;
+  width: 90%;
+  height: 110px;
+  border: 2px solid #d7d8df;
   display: flex;
   justify-content: center;
-  padding-top: 35px;
-  border-radius: 10px;
+  align-items: center;
   margin: 20px auto 20px auto;
-  h2 {
+  border-radius: 8px;
+  img {
+    width: 73px;
+    height: 50px;
     cursor: pointer;
   }
 `;
 
-// const STDday = styled.div`
-//   width: 70%;
-//   height: 100px;
-//   border: 2px solid grey;
-//   display: flex;
-//   justify-content: center;
-//   padding-top: 35px;
-//   border-radius: 10px;
-//   margin: 30px auto 30px auto;
-//   h2 {
-//     cursor: pointer;
-//   }
-// `;
-
 const STCard = styled.div`
-  width: 70%;
-  height: 100px;
-  border: 2px solid transparent;
-  border-radius: 10px;
+  width: 90%;
+  height: 110px;
+  border-radius: 8px;
   margin: 10px auto 20px auto;
-  color: black;
-  font-weight: bold;
-  padding: 5px;
-  font-size: 13px;
+  color: #ffffff;
+  padding: 10px;
+  .info {
+    width: 106px;
+    height: 43px;
+    font-weight: 500;
+    .placeName {
+      font-size: 17px;
+    }
+    .month {
+      font-size: 13px;
+    }
+  }
+
   .button {
-    font-weight: bold;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
   }
   .wrap {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
   .footer {
     display: flex;
     justify-content: space-between;
+    padding-bottom: 10px;
     button {
-      border: 1px solid transparent;
-      width: 50px;
-      height: 25px;
-      font-size: 10px;
-      border-radius: 10px;
-      background-color: #ffffff84;
+      width: 75px;
+      height: 29px;
+      font-size: 13px;
+      color: white;
+      background-color: transparent;
+      border: none;
+      display: flex;
+      gap: 1px;
+      font-weight: 500;
+      cursor: pointer;
+      img {
+        width: 17px;
+        height: 17px;
+      }
     }
-    .money {
+    div {
       display: flex;
       justify-content: flex-end;
-      font-size: 23px;
-      font-weight: bold;
+      width: 111px;
+      height: 29px;
+      font-size: 24px;
+      font-weight: 500;
     }
   }
 `;
@@ -169,11 +182,18 @@ const STHeader = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  height: 50px;
-  margin-bottom: 20px;
-  padding: 10px;
+  margin: 20px 20px 20px 20px;
   .nav {
+    gap: 15px;
     display: flex;
+    height: 24px;
+    width: 63px;
+    cursor: pointer;
+  }
+  .logo {
+    width: 39px;
+    height: 19px;
+    cursor: pointer;
   }
 `;
 export default WorkPlace;
