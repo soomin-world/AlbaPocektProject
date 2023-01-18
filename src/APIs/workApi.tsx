@@ -42,3 +42,9 @@ export const getEditWork = async (payload: string | undefined) => {
   const { data } = await instance.get(`/api/work/${payload}`);
   return data;
 };
+
+// 근무 등록(수정)
+export const editWork = async (payload: any) => {
+  const { data } = await instance.put(`/api/work/${payload[0]}`, payload[1]);
+  return data;
+};

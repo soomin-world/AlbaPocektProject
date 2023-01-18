@@ -27,7 +27,7 @@ const MyPage = () => {
         </MyPageEditBtn>
       </MyPageProfile>
 
-      <p style={{ padding: "10px" }}>내가 작성한 게시물</p>
+      <p style={{ padding: "10px" }}>작성한 게시물</p>
 
       {data?.postList.map((data) => {
         return (

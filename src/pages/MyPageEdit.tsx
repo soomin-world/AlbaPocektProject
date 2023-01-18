@@ -5,24 +5,24 @@ import { editMyPage, getMyPage } from "../APIs/myPageApi";
 import { IMyPage } from "../types/myPageType";
 
 const MyPageEdit = () => {
+  const queryClient = useQueryClient();
+
   const { isLoading, isError, data } = useQuery<IMyPage>(["myPage"], () =>
     getMyPage()
   );
-
-  const [nickname, setNickname] = useState(data?.nickname);
-
-  useEffect(() => {
-    setNickname(data?.nickname);
-  }, [data]);
 
   const { mutate } = useMutation(editMyPage, {
     onSuccess: () => {
       queryClient.invalidateQueries(["myPage"]);
     },
   });
-  const queryClient = useQueryClient();
 
+  const [nickname, setNickname] = useState(data?.nickname);
   const [file, setFile] = useState<File | undefined>();
+
+  useEffect(() => {
+    setNickname(data?.nickname);
+  }, [data]);
 
   const getImage = (e: any) => {
     setFile(e.target.files[0]);
@@ -33,7 +33,7 @@ const MyPageEdit = () => {
     console.log("submit!!!");
 
     if (file) {
-      console.log(nickname);
+      // console.log(nickname);
       const formData = new FormData();
 
       if (nickname !== undefined) {
@@ -42,25 +42,15 @@ const MyPageEdit = () => {
 
       formData.append("file", file);
 
-      console.log("호출 직전!!!");
       mutate(formData);
     } else {
-      // alert("사진을 선택하세요!");
-      console.log(nickname);
+      // console.log(nickname);
       const formData = new FormData();
 
       if (nickname !== undefined) {
         formData.append("nickname", nickname);
       }
-      // formData.append(
-      //   "data",
-      //   new Blob([JSON.stringify({ nickname: nickname })], {
-      //     type: "application/json",
-      //   })
-      // );
-      // formData.append("file", "");
 
-      console.log("호출 직전!!!");
       mutate(formData);
     }
   };

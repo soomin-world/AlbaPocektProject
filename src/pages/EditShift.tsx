@@ -1,94 +1,67 @@
 import { TimePicker } from "antd";
 import { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { calendarAtom, calendarDayList } from "../atoms";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { calendarAtom, calendarDayList, moreBtnsAtom } from "../atoms";
 import { CalendarModal } from "./Test";
 import dayjs from "dayjs";
 import styled from "styled-components";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import { addShift, getEditWork } from "../APIs/workApi";
+import { addShift, editWork, getEditWork } from "../APIs/workApi";
 import { getPost } from "../APIs/detailPostApi";
 
-export type EventValue<DateType> = DateType | null;
-export type RangeValue<DateType> =
-  | [EventValue<DateType>, EventValue<DateType>]
-  | null;
+interface IEditWork {
+  endTime: string;
+  hourlyWage: string;
+  startTime: string;
+  workDay: string;
+}
 
 function EditShift() {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const setIsMoreBtns = useSetRecoilState(moreBtnsAtom);
 
   const { todoId } = useParams();
 
-  // const { data } = useQuery(["editWork", todoId], () => getEditWork(todoId));
-  // console.log(data);
+  const { data } = useQuery<IEditWork>(["editWork", todoId], () =>
+    getEditWork(todoId)
+  );
+  console.log(data);
 
-  const [hourlyWage, setHourlyWage] = useState("");
-  const [isCalendarBtns, setIsCalendarBtns] = useRecoilState(calendarAtom);
-  const workdays = useRecoilValue(calendarDayList);
-  const [workingTime, setWorkingTime] = useState<string[]>([]);
-  const format = "HH:mm";
+  const { mutate } = useMutation(editWork);
 
-  const onChangeHandler = (
-    time: RangeValue<dayjs.Dayjs>,
-    timestring: [string, string]
-  ) => {
-    setWorkingTime(timestring);
-  };
+  const [hourlyWage, setHourlyWage] = useState(data?.hourlyWage);
+  const [startTime, setStartTime] = useState(data?.startTime);
+  const [endTime, setEndTime] = useState(data?.endTime);
+
+  useEffect(() => {
+    setHourlyWage(data?.hourlyWage);
+    setStartTime(data?.startTime);
+    setEndTime(data?.endTime);
+  }, [data]);
 
   const work = {
     hourlyWage: hourlyWage,
-    startTime: workingTime[0],
-    endTime: workingTime[1],
-    workDay: workdays,
+    startTime: startTime,
+    endTime: endTime,
   };
 
-  const payload = [id, work];
-  const mutateWork = useMutation(addShift);
+  const payload = [todoId, work];
+
   const onClickHandler = () => {
-    if (!hourlyWage) {
-      alert("시급을 입력해주세요!");
-      return;
-    } else if (workingTime === null) {
-      alert("근무시간을 입력해주세요!");
-      return;
-    }
-    if (workdays.length === 0) {
-      alert("근무일자를 입력해주세요!");
-      return;
-    }
-    mutateWork.mutate(payload);
-    // navigate(-1);
+    console.log(work);
+    mutate(payload);
+    setIsMoreBtns(false);
+    navigate(-1);
   };
-  // console.log(workdays[0]);
+
   return (
     <>
       <STContainer>
-        {/* <h1>날짜</h1>
-        <WorkDayInput>
-          <div>
-            {workdays[0]
-              ? workdays[0].slice(4, 6) + "." + workdays[0].slice(6, 8)
-              : null}
-            {workdays[1]
-              ? "/" +
-                workdays[1].slice(4, 6) +
-                "." +
-                workdays[1].slice(6, 8) +
-                "..."
-              : null}
-          </div>
-          <img
-            src="/icon-calendar-check-mono.png"
-            onClick={() => setIsCalendarBtns((pre) => !pre)}
-            alt="달력"
-          />
-        </WorkDayInput>
-        {isCalendarBtns && <CalendarModal />} */}
         <div className="hourlyWage">
           <label>시급</label>
           <input
+            value={hourlyWage}
             placeholder="시급을 입력해주세요"
             onChange={(e) => setHourlyWage(e.target.value)}
           />
@@ -96,14 +69,20 @@ function EditShift() {
 
         <TimeSelector className="workingTime">
           <div>근무시간</div>
-          <TimePicker.RangePicker
-            format={format}
-            placeholder={["시작시간", "끝나는시간"]}
-            onChange={onChangeHandler}
-            popupStyle={{ fontWeight: "bold" }}
-            bordered={true}
-            minuteStep={10}
-            className={"timeSelection"}
+          <input
+            type="time"
+            value={startTime}
+            onChange={(e) => {
+              setStartTime(e.target.value);
+            }}
+          />
+          <span> ~ </span>
+          <input
+            type="time"
+            value={endTime}
+            onChange={(e) => {
+              setEndTime(e.target.value);
+            }}
           />
         </TimeSelector>
         <button onClick={onClickHandler}>저장하기</button>
@@ -119,12 +98,7 @@ const STContainer = styled.div`
 `;
 
 const TimeSelector = styled.div`
-  .timeSelection {
-    width: 90%;
-    border: 3px solid;
-    border-color: #30b130;
-    background-color: #f0eeee;
-  }
+  margin-bottom: 300px;
 `;
 
 const WorkDayInput = styled.div`

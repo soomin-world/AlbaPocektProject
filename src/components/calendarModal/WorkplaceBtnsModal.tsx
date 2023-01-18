@@ -31,7 +31,7 @@ const WorkplaceBtnsModal = ({ children }: any) => {
       <Modal>
         {workList?.map((work: WorkType) => {
           return (
-            <Button onClick={() => navigate(`/editShift/${work.placeId}`)}>
+            <Button onClick={() => navigate(`/addShift/${work.placeId}`)}>
               <span>{work.placeName}</span>
             </Button>
           );

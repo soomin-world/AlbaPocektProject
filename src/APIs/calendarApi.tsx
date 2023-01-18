@@ -12,9 +12,15 @@ export const getDaily = async (payload: string | undefined) => {
   return data;
 };
 
-// 근무달력 조회 (주휴수당)
+// 근무달력 조회 (월별 주휴수당)
 export const getBonus = async (payload: string) => {
   const { data } = await instance.get(`/api/calendar/bonus/${payload}`);
+  return data;
+};
+
+// 근무달력 조회 (일별 주휴수당)
+export const getDayBonus = async (payload: string | undefined) => {
+  const { data } = await instance.get(`/api/calendar/day/bonus/${payload}`);
   return data;
 };
 
