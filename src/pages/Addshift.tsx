@@ -6,7 +6,7 @@ import { CalendarModal } from "./Test";
 import dayjs from "dayjs";
 import styled from "styled-components";
 import { useMutation } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { addShift } from "../APIs/workApi";
 
 export type EventValue<DateType> = DateType | null;
@@ -15,6 +15,7 @@ export type RangeValue<DateType> =
   | null;
 
 function AddShift() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [hourlyWage, setHourlyWage] = useState("");
   const [isCalendarBtns, setIsCalendarBtns] = useRecoilState(calendarAtom);
@@ -50,6 +51,7 @@ function AddShift() {
       return;
     }
     mutateWork.mutate(payload);
+    // navigate(-1);
   };
   console.log(workdays[0]);
   return (

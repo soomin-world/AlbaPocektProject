@@ -1,12 +1,25 @@
+import { useQuery } from "@tanstack/react-query";
 import ReactDOM from "react-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { moreBtnsAtom, workplaceBtnsAtom } from "../../atoms";
+import { getWorks } from "../../APIs/workApi";
+
+export interface WorkType {
+  placeName: string;
+  placeColor: string;
+  placeId: number;
+  salaryDay: number;
+}
 
 const WorkplaceBtnsModal = ({ children }: any) => {
   const navigate = useNavigate();
   const setIsWorkplaceBtns = useSetRecoilState(workplaceBtnsAtom);
+  const { data, isLoading, isError } = useQuery(["workList"], () => getWorks());
+  // console.log(data?.data.workList);
+  const workList = data?.data.workList;
+  console.log(workList);
 
   return ReactDOM.createPortal(
     <div>
@@ -16,15 +29,13 @@ const WorkplaceBtnsModal = ({ children }: any) => {
         }}
       ></Overlay>
       <Modal>
-        <Button>
-          <span>카페</span>
-        </Button>
-        <Button>
-          <span>영화관</span>
-        </Button>
-        <Button>
-          <span>찜질방</span>
-        </Button>
+        {workList?.map((work: WorkType) => {
+          return (
+            <Button onClick={() => navigate(`/addShift/${work.placeId}`)}>
+              <span>{work.placeName}</span>
+            </Button>
+          );
+        })}
       </Modal>
     </div>,
     document.getElementById("modal") as Element

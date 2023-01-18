@@ -3,12 +3,22 @@ import ReactDOM from "react-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { getDaily } from "../../APIs/calendarApi";
+import { getDaily, getDayBonus } from "../../APIs/calendarApi";
 import { moreBtnsAtom, workplaceBtnsAtom } from "../../atoms";
 import comma from "../../hooks/comma";
 import workingTime from "../../hooks/workingTime";
 import { ITodos } from "../../types/calendar";
 
+interface IBonus {
+  bonus: string;
+  color: string;
+  date: string;
+  endDate: string;
+  month: string;
+  placeName: string;
+  startDate: string;
+  year: string;
+}
 const TodosModal = ({ children, onClose }: any) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -21,7 +31,11 @@ const TodosModal = ({ children, onClose }: any) => {
   const { isLoading, data } = useQuery<ITodos[]>(["todos", id], () =>
     getDaily(id)
   );
-  console.log(data);
+  // console.log(data);
+
+  const { data: bonusData } = useQuery<IBonus[]>(["bonus", id], () =>
+    getDayBonus(id)
+  );
 
   return ReactDOM.createPortal(
     <>
@@ -32,45 +46,70 @@ const TodosModal = ({ children, onClose }: any) => {
       ></Overlay>
       {isLoading ? null : (
         <Modal>
-          <div>{children}</div>
-          <ModalHeader>
-            <h2 style={{ height: "16px" }}>
-              {id?.slice(4, 6)}.{id?.slice(6, 8)}
-            </h2>
-          </ModalHeader>
+          <Position>
+            <div>{children}</div>
+            <ModalHeader>
+              <h2 style={{ height: "16px" }}>
+                {id?.slice(4, 6)}.{id?.slice(6, 8)}
+              </h2>
+            </ModalHeader>
 
-          {data?.length === 0 ? (
-            <ModalEmpty>오늘은 일정이 없어요!</ModalEmpty>
-          ) : null}
+            {data?.length === 0 ? (
+              <ModalEmpty>오늘은 일정이 없어요!</ModalEmpty>
+            ) : null}
 
-          {data?.map((todo) => {
-            return (
-              <ModalContent
-                onClick={() => {
-                  setIsMoreBtns(true);
-                  navigate(`/calendar/${id}/${todo.todoId}`);
-                }}
-              >
-                <ModalContentTop>
-                  <div>{todo.placeName}</div>
-                  <div>{comma(todo.dayWage)}</div>
-                </ModalContentTop>
-                <ModalContentBottom>
-                  <div>
-                    {todo.startTime}-{todo.endTime}
-                  </div>
-                  <div>{workingTime(todo.workingTime)}</div>
-                </ModalContentBottom>
-              </ModalContent>
-            );
-          })}
-          <ModalPlus
-            onClick={() => {
-              setIsWorkplaceBtns(true);
-            }}
-          >
-            <span>+ 근무 추가</span>
-          </ModalPlus>
+            {data?.map((todo) => {
+              return (
+                <ModalContent
+                  onClick={() => {
+                    setIsMoreBtns(true);
+                    navigate(`/calendar/${id}/${todo.todoId}`);
+                  }}
+                >
+                  <ModalContentTop>
+                    <div>{todo.placeName}</div>
+                    <div>{comma(todo.dayWage)}</div>
+                  </ModalContentTop>
+                  <ModalContentBottom>
+                    <div>
+                      {todo.startTime}-{todo.endTime}
+                    </div>
+                    <div>{workingTime(todo.workingTime)}</div>
+                  </ModalContentBottom>
+                </ModalContent>
+              );
+            })}
+
+            {/* {bonusData?.map((todo) => {
+              return (
+                <ModalContent
+                  onClick={() => {
+                    setIsMoreBtns(true);
+                    navigate(`/calendar/${id}/${todo.todoId}`);
+                  }}
+                >
+                  <ModalContentTop>
+                    <div>{todo.placeName}</div>
+                    <div>{comma(todo.dayWage)}</div>
+                  </ModalContentTop>
+                  <ModalContentBottom>
+                    <div>
+                      {todo.startTime}-{todo.endTime}
+                    </div>
+                    <div>{workingTime(todo.workingTime)}</div>
+                  </ModalContentBottom>
+                </ModalContent>
+              );
+            })} */}
+
+            <ModalPlus
+              onClick={() => {
+                setIsWorkplaceBtns(true);
+              }}
+            >
+              <span>+ 근무 추가</span>
+            </ModalPlus>
+          </Position>
         </Modal>
       )}
     </>,
@@ -94,6 +133,15 @@ const Modal = styled.div`
   border-radius: 10px;
 `;
 
+const Position = styled.div`
+  width: 200px;
+  height: 300px;
+  position: "relative";
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 const Overlay = styled.div`
   position: fixed;
   top: 0px;
@@ -140,8 +188,9 @@ const ModalPlus = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  bottom: 200px;
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
 
   background-color: #d0e6a5;
   border-radius: 10px;
@@ -154,4 +203,5 @@ const ModalPlus = styled.div`
 const ModalEmpty = styled.div`
   margin-top: 20px;
 `;
+
 export default TodosModal;

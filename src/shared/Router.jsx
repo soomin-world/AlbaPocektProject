@@ -16,6 +16,7 @@ import Calendar from "../pages/Calendar";
 import AddWork from "../pages/Addwork";
 import AddShift from "../pages/Addshift";
 import Test from "../pages/Test";
+import EditShift from "../pages/EditShift";
 
 function Router() {
   return (
@@ -36,9 +37,12 @@ function Router() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/edit" element={<MyPageEdit />} />
         <Route path="/addShift/:id" element={<AddShift />} />
+        <Route path="/editShift/:todoId" element={<EditShift />} />
+
         <Route path="/calendar" element={<Calendar />} />
-        <Route path="/calendar/:id" element={<Calendar />} />
-        <Route path=":todoId" element={<Calendar />} />
+        <Route path="/calendar/:id" element={<Calendar />}>
+          <Route path=":todoId" element={<Calendar />} />
+        </Route>
 
         <Route path="/addWork/:id?" element={<AddWork />} />
         <Route path="/addShift/:id" element={<AddShift />} />
