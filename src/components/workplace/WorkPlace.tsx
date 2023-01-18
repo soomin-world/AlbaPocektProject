@@ -4,7 +4,9 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { deleteWork, getWorks } from "../../APIs/workApi";
 import Dday from "../dDay/Dday";
+import DropDown from "../dropDown/DropDown";
 import Modal from "../modal/Modal";
+import Work from "./Work";
 
 export interface WorkType {
   placeName: string;
@@ -16,28 +18,16 @@ export interface WorkType {
 function WorkPlace() {
   const navigate = useNavigate();
   const { data } = useQuery(["work"], getWorks);
-  const [modalOpen, setModalOpen] = useState(false);
-  const openModal = () => {
-    setModalOpen(true);
-  };
-  const closeModal = () => {
-    setModalOpen(false);
-  };
-  const today = new Date();
-  const yearMonth = String(
-    new Date(today.getFullYear(), today.getMonth())
-  ).split(" ");
-  const month = yearMonth[3] + "년" + yearMonth[2] + "월";
   const queryClient = useQueryClient();
   const mutateDelete = useMutation(deleteWork, {
     onSuccess: () => {
       queryClient.invalidateQueries(["work"]);
     },
   });
-  const deleteHandler = (id: number) => {
-    mutateDelete.mutate(id);
-    setModalOpen(false);
-  };
+  // const deleteHandler = (id: number) => {
+  //   mutateDelete.mutate(id);
+  //   setModalOpen(false);
+  // };
   return (
     <>
       <STHeader>
@@ -63,38 +53,45 @@ function WorkPlace() {
       {data
         ? data.data.workList.map((w: WorkType) => {
             return (
-              <>
-                <STCard
-                  key={w.placeId}
-                  style={{ backgroundColor: `${w.placeColor}` }}
-                >
-                  <div className="wrap">
-                    <div className="info">
-                      <div className="placeName">{w.placeName}</div>
-                      <div className="month">{month}</div>
-                    </div>
-                    <img
-                      src="/image/dots.png"
-                      alt=":"
-                      className="button"
-                      onClick={openModal}
-                    />
-                  </div>
-                  <div className="footer">
-                    <button onClick={() => navigate(`/addShift/${w.placeId}`)}>
-                      <img src="/image/Group 180.png" alt="+" />
-                      근무등록
-                    </button>
-                    <div className="money"> ₩1,000</div>
-                  </div>
-                </STCard>
-                <Modal open={modalOpen} close={closeModal}>
-                  <button>
-                    <a href={`/addWork/${w.placeId}`}>수정</a>
-                  </button>
-                  <button onClick={() => deleteHandler(w.placeId)}>삭제</button>
-                </Modal>
-              </>
+              <Work
+                placeId={w.placeId}
+                placeName={w.placeName}
+                placeColor={w.placeColor}
+                salaryDay={w.salaryDay}
+              />
+              // <STCard
+              //   key={w.placeId}
+              //   style={{ backgroundColor: `${w.placeColor}` }}
+              // >
+              //   <div className="wrap">
+              //     <div className="info">
+              //       <div className="placeName">{w.placeName}</div>
+              //       <div className="month">{month}</div>
+              //     </div>
+              //     <div>
+              //       <img
+              //         src="/image/dots.png"
+              //         alt=":"
+              //         className="button"
+              //         onClick={() => setIsOpen(!isOpen)}
+              //       />
+              //       {isOpen ? (
+              //         <DropDown
+              //           id={w.placeId}
+              //           open={isOpen}
+              //           close={dropDownHandler}
+              //         />
+              //       ) : null}
+              //     </div>
+              //   </div>
+              //   <div className="footer">
+              //     <button onClick={() => navigate(`/addShift/${w.placeId}`)}>
+              //       <img src="/image/Group 180.png" alt="+" />
+              //       근무등록
+              //     </button>
+              //     <div className="money"> ₩1,000</div>
+              //   </div>
+              // </STCard>
             );
           })
         : null}
