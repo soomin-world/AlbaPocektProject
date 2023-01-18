@@ -37,22 +37,18 @@ const PostCard = ({ post }: postProps) => {
       //     navigate(`/post/${post.postId}`);
       //   }}
     >
-      <PostCardProfile>
+      {/* <PostCardProfile>
         <img src={post.profileImage} alt="프로필사진" />
         <PostCardProfileInfo>
           <div>{post.nickname}</div>
           <div>01-06</div>
         </PostCardProfileInfo>
-      </PostCardProfile>
-      <PostCardContent>
+      </PostCardProfile> */}
+
+      <div>
+        <p>{post.title}</p>
         <p>{post.content}</p>
-        <img
-          alt="이미지"
-          src={post.imgUrl}
-          onClick={() => {
-            navigate(`/post/${post.postId}`);
-          }}
-        />
+
         <Heart>
           <span
             onClick={() => {
@@ -63,53 +59,48 @@ const PostCard = ({ post }: postProps) => {
           </span>
           <span>{postLikeNum}</span>
         </Heart>
-      </PostCardContent>
+      </div>
+
+      <img
+        alt="이미지"
+        src={post.imgUrl}
+        onClick={() => {
+          navigate(`/post/${post.postId}`);
+        }}
+      />
     </PostCardBox>
   );
 };
 const PostCardBox = styled.div`
-  width: 300px;
-  height: 330px;
-  border: 2px solid black;
+  height: 120px;
+  border-bottom: 1px solid #d9d9d9;
   margin: auto;
-  margin-top: 25px;
-  border-radius: 10px;
-`;
-
-const PostCardProfile = styled.div`
-  height: 60px;
-  border-bottom: 2px solid black;
+  padding: 15px;
   display: flex;
-  align-items: center;
-  img {
-    width: 40px;
-    height: 40px;
-    object-fit: cover;
-    margin: 0px 10px 0px 10px;
-    border-radius: 50%;
-  }
-`;
+  position: relative;
 
-const PostCardProfileInfo = styled.div``;
-
-const PostCardContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   p {
-    width: 280px;
+    width: 235px;
+    font-size: 13px;
     margin: 9px 0px 9px 0px;
   }
+  p:first-child {
+    font-size: 15px;
+    font-weight: 500;
+  }
+
   img {
-    width: 280px;
-    height: 170px;
+    width: 90px;
+    height: 90px;
     object-fit: cover;
     border-radius: 10px;
+    position: absolute;
+    right: 15px;
   }
 `;
 
 const Heart = styled.div`
-  width: 280px;
   margin-top: 10px;
 `;
+
 export default PostCard;

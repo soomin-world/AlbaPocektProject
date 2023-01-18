@@ -14,7 +14,7 @@ const comma = (payload: string) => {
   }
 
   const res = list.join();
-  console.log(res);
+  // console.log(res);
   return res;
 };
 
