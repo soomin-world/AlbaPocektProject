@@ -10,15 +10,16 @@ import workingTime from "../../hooks/workingTime";
 import { ITodos } from "../../types/calendar";
 
 interface IBonus {
+  placeName: string;
   bonus: string;
   color: string;
-  date: string;
-  endDate: string;
-  month: string;
-  placeName: string;
-  startDate: string;
   year: string;
+  month: string;
+  date: string;
+  startDate: string;
+  endDate: string;
 }
+
 const TodosModal = ({ children, onClose }: any) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -36,6 +37,7 @@ const TodosModal = ({ children, onClose }: any) => {
   const { data: bonusData } = useQuery<IBonus[]>(["bonus", id], () =>
     getDayBonus(id)
   );
+  // console.log(bonusData);
 
   return ReactDOM.createPortal(
     <>
@@ -54,7 +56,7 @@ const TodosModal = ({ children, onClose }: any) => {
               </h2>
             </ModalHeader>
 
-            {data?.length === 0 ? (
+            {data?.length === 0 && bonusData?.length === 0 ? (
               <ModalEmpty>오늘은 일정이 없어요!</ModalEmpty>
             ) : null}
 
@@ -68,7 +70,7 @@ const TodosModal = ({ children, onClose }: any) => {
                 >
                   <ModalContentTop>
                     <div>{todo.placeName}</div>
-                    <div>{comma(todo.dayWage)}</div>
+                    <div>{comma(todo.dayWage)}원</div>
                   </ModalContentTop>
                   <ModalContentBottom>
                     <div>
@@ -80,27 +82,27 @@ const TodosModal = ({ children, onClose }: any) => {
               );
             })}
 
-            {/* {bonusData?.map((todo) => {
-              return (
-                <ModalContent
-                  onClick={() => {
-                    setIsMoreBtns(true);
-                    navigate(`/calendar/${id}/${todo.todoId}`);
-                  }}
-                >
-                  <ModalContentTop>
-                    <div>{todo.placeName}</div>
-                    <div>{comma(todo.dayWage)}</div>
-                  </ModalContentTop>
-                  <ModalContentBottom>
-                    <div>
-                      {todo.startTime}-{todo.endTime}
-                    </div>
-                    <div>{workingTime(todo.workingTime)}</div>
-                  </ModalContentBottom>
-                </ModalContent>
-              );
-            })} */}
+            {bonusData?.length !== 0
+              ? bonusData?.map((bonus) => {
+                  return (
+                    <ModalContent>
+                      <ModalContentTop>
+                        <div>{bonus.placeName}</div>
+                        <div>{comma(bonus.bonus)}원</div>
+                      </ModalContentTop>
+                      <ModalContentBottom>
+                        <div>
+                          {bonus.startDate.slice(5, 7)}.
+                          {bonus.startDate.slice(8, 10)}~
+                          {bonus.endDate.slice(5, 7)}.
+                          {bonus.endDate.slice(8, 10)}
+                        </div>
+                        <div>주휴수당</div>
+                      </ModalContentBottom>
+                    </ModalContent>
+                  );
+                })
+              : null}
 
             <ModalPlus
               onClick={() => {
