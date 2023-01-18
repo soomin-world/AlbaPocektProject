@@ -26,6 +26,7 @@ export const deleteWork = async (payload: number) => {
   return window.location.reload;
 };
 
+//근무지수정
 export const putWork = async (payload: any) => {
   await instance.put(`/api/workplace/${payload[0]}`, payload[1]);
   return (window.location.href = "/");
@@ -35,4 +36,23 @@ export const putWork = async (payload: any) => {
 export const addShift = async (payload: any) => {
   await instance.post(`/api/work/${payload[0]}`, payload[1]);
   return (window.location.href = "/");
+};
+
+// 근무 등록(수정)
+export const getEditWork = async (payload: string | undefined) => {
+  const { data } = await instance.get(`/api/work/${payload}`);
+  return data;
+};
+
+// 근무 등록(수정)
+export const editWork = async (payload: any) => {
+  const { data } = await instance.put(`/api/work/${payload[0]}`, payload[1]);
+  return data;
+};
+
+//근무지에 따른 한달치 수익
+export const getMonthlyWage = async (payload: number) => {
+  const { data } = await instance.get(`/api/work/total/${payload}`);
+  console.log(payload);
+  return data;
 };

@@ -84,11 +84,7 @@ function PostDetail() {
         </div>
       </div>
       <div className="like">
-        <span
-          onClick={() => {
-            onClickLikeHandler();
-          }}
-        >
+        <span onClick={onClickLikeHandler}>
           {data.likePost === true ? "❤️" : "🤍"}
         </span>
         <span>{data.postLikeNum}</span>

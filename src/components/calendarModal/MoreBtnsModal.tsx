@@ -44,7 +44,13 @@ const MoreBtnsModal = ({ children }: any) => {
       ></Overlay>
       <Modal>
         <Button>
-          <span>수정</span>
+          <span
+            onClick={() => {
+              navigate(`/editShift/${todoId}`);
+            }}
+          >
+            수정
+          </span>
         </Button>
         <Button>
           <span onClick={onClickDeleteBtn}>삭제</span>
