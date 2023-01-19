@@ -34,7 +34,12 @@ const Work = ({ placeId, placeName, placeColor, salaryDay }: WorkType) => {
             onClick={() => setIsOpen(!isOpen)}
           />
           {isOpen ? (
-            <DropDown id={placeId} open={isOpen} close={dropDownHandler} />
+            <DropDown
+              id={placeId}
+              open={isOpen}
+              close={dropDownHandler}
+              address={`/addwork/${placeId}`}
+            />
           ) : null}
         </div>
       </div>

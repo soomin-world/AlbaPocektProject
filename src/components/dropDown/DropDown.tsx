@@ -6,9 +6,10 @@ interface propsType {
   id: number;
   open: boolean;
   close: () => void;
+  address: string;
 }
 
-const DropDown: React.FC<propsType> = ({ id, open, close }) => {
+const DropDown: React.FC<propsType> = ({ id, open, close, address }) => {
   const queryClient = useQueryClient();
   const mutateDelete = useMutation(deleteWork, {
     onSuccess: () => {
@@ -21,7 +22,7 @@ const DropDown: React.FC<propsType> = ({ id, open, close }) => {
   return (
     <STDropdown>
       <li>
-        <a href={`/addWork/${id}`}>
+        <a href={address}>
           수정하기
           <img src="/image/icon-pencil.png" alt="수정" />
         </a>

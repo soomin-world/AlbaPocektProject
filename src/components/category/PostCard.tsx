@@ -6,12 +6,11 @@ import { changeLikePost } from "../../APIs/communityBoardApi";
 import { getComments } from "../../APIs/detailPostApi";
 import { IAllPosts } from "../../types/postType";
 
-export type postProps = {
+type postProps = {
   post: IAllPosts; // 부모컴포넌트에서 import 해온 타입을 재사용 해 줍시다.
 };
 
 const PostCard = ({ post }: postProps) => {
-  console.log(post);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [likePost, setLikePost] = useState(post.likePost);
@@ -25,7 +24,8 @@ const PostCard = ({ post }: postProps) => {
       queryClient.invalidateQueries(["categoryPosts"]);
     },
   });
-  //const createTime = post.createAt.substring(0, 10);
+  const createTime = post.createAt.substring(0, 10);
+  console.log(createTime);
   const onClickHeartHandler = () => {
     if (likePost) {
       setPostLikeNum(postLikeNum - 1);
@@ -53,7 +53,7 @@ const PostCard = ({ post }: postProps) => {
       <div>
         <p>{post.title}</p>
         <p>{post.content}</p>
-        {/* <p style={{ marginTop: "28px" }}>{createTime}</p> */}
+        <p style={{ marginTop: "28px" }}>{createTime}</p>
 
         <Heart>
           <img className="comment" src="/image/comment.png" alt="댓글" />
@@ -74,7 +74,7 @@ const PostCard = ({ post }: postProps) => {
         </Heart>
       </div>
 
-      <img className="image" alt="이미지" src={post.imgUrl} />
+      <img alt="이미지" src={post.imgUrl} />
     </PostCardBox>
   );
 };
@@ -85,7 +85,6 @@ const PostCardBox = styled.div`
   padding: 15px;
   display: flex;
   position: relative;
-
   p {
     width: 235px;
     font-size: 13px;
@@ -95,7 +94,6 @@ const PostCardBox = styled.div`
     font-size: 15px;
     font-weight: 500;
   }
-
   .image {
     width: 90px;
     height: 90px;
@@ -136,5 +134,4 @@ const Heart = styled.div`
     font-size: 13px;
   } */
 `;
-
 export default PostCard;

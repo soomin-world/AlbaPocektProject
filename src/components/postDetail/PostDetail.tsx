@@ -83,6 +83,7 @@ function PostDetail() {
                   id={data.postId}
                   open={isOpen}
                   close={dropDownHandler}
+                  address={`/posting/${data.postId}`}
                 />
               ) : null}
             </div>
