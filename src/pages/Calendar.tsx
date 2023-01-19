@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { format, addMonths, subMonths, toDate } from "date-fns";
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from "date-fns";
 import { isSameMonth, isSameDay, addDays } from "date-fns";
@@ -14,7 +14,7 @@ import MoreBtnsModal from "../components/calendarModal/MoreBtnsModal";
 import { useRecoilValue } from "recoil";
 import { moreBtnsAtom, workplaceBtnsAtom } from "../atoms";
 import WorkplaceBtnsModal from "../components/calendarModal/WorkplaceBtnsModal";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getBonus, getMonthly, getTotal } from "../APIs/calendarApi";
 import Footer from "../components/footer/Footer";
 import comma from "../hooks/comma";
@@ -23,6 +23,10 @@ type ICellsProps = {
   currentMonth: Date;
   selectedDate: Date;
   onDateClick: (day: Date) => Date; // 부모컴포넌트에서 import 해온 타입을 재사용 해 줍시다.
+  todosData: any;
+  bonusData: any;
+  isLoadingTodos: any;
+  isLoadingBonus: any;
 };
 
 type IBonusProps = {
@@ -69,6 +73,10 @@ const RenderCells = ({
   currentMonth,
   selectedDate,
   onDateClick,
+  todosData,
+  bonusData,
+  isLoadingTodos,
+  isLoadingBonus,
 }: ICellsProps) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
@@ -76,21 +84,21 @@ const RenderCells = ({
   const endDate = endOfWeek(monthEnd);
   const navigate = useNavigate();
 
-  const YYYYMM = `${format(currentMonth, "Y")}${format(currentMonth, "MM")}`;
+  // const YYYYMM = `${format(currentMonth, "Y")}${format(currentMonth, "MM")}`;
   // console.log(YYYYMM);
 
   // 근무달력 조회 (월별)
-  const { isLoading: isLoadingTodos, data: todosData } = useQuery(
-    ["monthly"],
-    () => getMonthly(YYYYMM)
-  );
-  console.log(todosData);
+  // const { isLoading: isLoadingTodos, data: todosData } = useQuery(
+  //   ["monthly"],
+  //   () => getMonthly(YYYYMM)
+  // );
+  // console.log(todosData);
 
-  // 근무달력 조회 (주휴수당)
-  const { isLoading: isLoadingBonus, data: bonusData } = useQuery(
-    ["bonus"],
-    () => getBonus(YYYYMM)
-  );
+  // // 근무달력 조회 (주휴수당)
+  // const { isLoading: isLoadingBonus, data: bonusData } = useQuery(
+  //   ["bonus"],
+  //   () => getBonus(YYYYMM)
+  // );
   // console.log(bonusData);
 
   // 예시 데이터
@@ -250,7 +258,12 @@ const RenderCells = ({
           )}
 
           {isLoadingTodos ? null : (
-            <RenderDayTotal day={day} Month={Month} todos={todosData} />
+            <RenderDayTotal
+              day={day}
+              Month={Month}
+              todos={todosData}
+              bonus={bonusData}
+            />
           )}
         </Cells>
       );
@@ -267,6 +280,33 @@ const Calendar = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
 
+  const YYYYMM = `${format(currentMonth, "Y")}${format(currentMonth, "MM")}`;
+  const queryClient = useQueryClient();
+  // console.log(YYYYMM);
+
+  // 근무달력 조회 (월별)
+  const {
+    isLoading: isLoadingTodos,
+    data: todosData,
+    refetch: refetchTodos,
+  } = useQuery(["monthly"], () => getMonthly(YYYYMM));
+  console.log(todosData);
+
+  // 근무달력 조회 (주휴수당)
+  const {
+    isLoading: isLoadingBonus,
+    data: bonusData,
+    refetch: refetchBonus,
+  } = useQuery(["bonus"], () => getBonus(YYYYMM));
+  console.log(bonusData);
+
+  // TotalWage get 요청
+  const {
+    isLoading,
+    data,
+    refetch: refetchTotalWage,
+  } = useQuery(["totalWage"], () => getTotal(YYYYMM));
+
   const prevMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
     return currentMonth;
@@ -282,6 +322,16 @@ const Calendar = () => {
     return selectedDate;
   };
 
+  useEffect(() => {
+    refetchTodos();
+    refetchBonus();
+    refetchTotalWage();
+    // queryClient.invalidateQueries(["monthly"]);
+    // queryClient.invalidateQueries(["bonus"]);
+    // queryClient.invalidateQueries(["totalWage"]);
+    console.log(currentMonth);
+  }, [currentMonth]);
+
   /////// 모달창 기능
   const [isOpen, setIsOpen] = useState(false);
   const dayMatch = useMatch("/calendar/:id");
@@ -293,12 +343,6 @@ const Calendar = () => {
   const isWorkplaceBtns = useRecoilValue(workplaceBtnsAtom);
   // console.log(isMoreBtns);
   // console.log(isWorkplaceBtns);
-
-  const YYYYMM = `${format(currentMonth, "Y")}${format(currentMonth, "MM")}`;
-  // console.log(YYYYMM);
-
-  // TotalWage get 요청
-  const { isLoading, data } = useQuery(["totalWage"], () => getTotal(YYYYMM));
 
   return (
     <>
@@ -313,6 +357,10 @@ const Calendar = () => {
           currentMonth={currentMonth}
           selectedDate={selectedDate}
           onDateClick={onDateClick}
+          todosData={todosData}
+          bonusData={bonusData}
+          isLoadingTodos={isLoadingTodos}
+          isLoadingBonus={isLoadingBonus}
         />
         <TotalWage>{comma(String(data?.total))}원</TotalWage>
         <Footer />
@@ -346,7 +394,7 @@ const CellsBody = styled.div`
 
 const Cells = styled.div<{ color: string; backgroundColor: string }>`
   width: 55px;
-  height: 85px;
+  height: 90px;
   padding-top: 3px;
   border-top: 1px solid ${(props) => props.color};
   background-color: ${(props) => props.backgroundColor};

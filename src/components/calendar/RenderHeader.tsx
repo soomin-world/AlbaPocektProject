@@ -33,7 +33,7 @@ const RenderHeader = ({ currentMonth, prevMonth, nextMonth }: IHeaderProps) => {
 const Header = styled.div`
   width: 100%;
   height: 50px;
-  border: 2px solid black;
+  /* border: 2px solid black; */
   display: flex;
   justify-content: center;
   align-items: center;

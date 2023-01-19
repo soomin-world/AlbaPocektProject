@@ -76,14 +76,18 @@ const Comment: React.FC<CommentType> = (props) => {
         <STContainer>
           <div className="header">
             <div className="info">
-              <div>{nickname}</div>
-              <div> {createAt.substring(2, 8)}</div>
+              <img src="/image/댓글 예시.jpeg" />
+              <div className="userInfo">
+                <div>{nickname}</div>
+                <div>{createAt.substring(5, 10)}</div>
+              </div>
             </div>
             <div className="btn">
               {myId === userId ? (
                 <>
-                  <button onClick={() => commentDelete(commentId)}>삭제</button>
-                  <button onClick={() => setIsClicked(true)}>수정</button>
+                  <img src="/image/iconDotsMono.png" />
+                  {/* <button onClick={() => commentDelete(commentId)}>삭제</button>
+                  <button onClick={() => setIsClicked(true)}>수정</button> */}
                 </>
               ) : null}
             </div>
@@ -91,13 +95,18 @@ const Comment: React.FC<CommentType> = (props) => {
           <div className="body">
             <div>{comment}</div>
           </div>
+
           <div className="like">
             <span
               onClick={() => {
                 onClickLikeHandler();
               }}
             >
-              {like === true ? "❤️" : "🤍"}
+              {like === true ? (
+                <img src="/image/iconRedHeart.png" />
+              ) : (
+                <img src="/image/iconMiniHeart.png" />
+              )}
             </span>
             <span>{likeNum}</span>
           </div>
@@ -134,19 +143,62 @@ const Comment: React.FC<CommentType> = (props) => {
 
 const STContainer = styled.div`
   margin-bottom: 20px;
+
   .header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+
     .info {
       display: flex;
       margin-right: 10px;
+
+      img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: gray;
+      }
     }
-    display: flex;
-    justify-content: space-between;
-    border: 1px solid grey;
-    font-size: 15px;
+    .userInfo {
+      font-size: 13px;
+      font-weight: 400;
+      margin-left: 5px;
+      padding-top: 2px;
+
+      div:last-child {
+        font-size: 10px;
+        color: #aeaeae;
+      }
+    }
+    .btn {
+      img {
+        width: 15px;
+        height: 15px;
+        padding-top: 2px;
+      }
+    }
   }
   .body {
-    border: 1px solid grey;
-    font-size: 17px;
+    padding: 7px 0px 7px 35px;
+    font-size: 13px;
+    font-weight: 400;
+  }
+  .like {
+    height: 13px;
+    display: flex;
+    align-items: center;
+    padding-left: 35px;
+    img {
+      width: 13px;
+      height: 13px;
+    }
+    span {
+      width: 13px;
+      height: 13px;
+      font-size: 13px;
+      margin-right: 2px;
+    }
   }
 `;
 export default Comment;
