@@ -38,6 +38,7 @@ postInstance.interceptors.request.use(
   (config: AxiosRequestConfig) => {
     const token = localStorage.getItem("is_login");
     if (token) {
+      console.log(config.headers);
       config.headers = { authorization: token };
       return config;
     }

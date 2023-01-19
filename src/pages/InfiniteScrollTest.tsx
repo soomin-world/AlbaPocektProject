@@ -1,17 +1,18 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { Outlet, useMatch, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getInfinitePost } from "../APIs/communityBoardApi";
-import PostCard from "../components/category/PostCard";
+import PostCard, { postProps } from "../components/category/PostCard";
 import Footer from "../components/footer/Footer";
+import Post from "./Post";
 
 function InfiniteScrollText() {
   const navigate = useNavigate();
   const { ref, inView } = useInView();
-  const boardMatch = useMatch("/board");
-  const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
+  const boardMatch = useMatch("/test1");
+  const { data, status, fetchNextPage, hasNextPage } = useInfiniteQuery(
     ["posts"],
     ({ pageParam = 1 }) => getInfinitePost(pageParam),
     {
@@ -20,11 +21,10 @@ function InfiniteScrollText() {
     }
   );
   //const { content, pageable, sort } = data;
-  console.log(data?.pages);
   useEffect(() => {
     if (inView) fetchNextPage();
   }, [inView]);
-
+  console.log(data);
   //return (
   //   <>
   //   <PostsContainer>
@@ -73,9 +73,10 @@ function InfiniteScrollText() {
       <Outlet></Outlet>
       {boardMatch === null
         ? null
-        : data?.pages.map((post) => {
-            console.log(post);
-            return <PostCard key={post.content.postId} post={post.content} />;
+        : data?.pages.map((page) => {
+            page.content.map((p: postProps) => {
+              <PostCard key={p?.post?.postId} post={p.post} />;
+            });
           })}
       <Plus
         onClick={() => {

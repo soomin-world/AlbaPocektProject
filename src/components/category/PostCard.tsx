@@ -6,11 +6,12 @@ import { changeLikePost } from "../../APIs/communityBoardApi";
 import { getComments } from "../../APIs/detailPostApi";
 import { IAllPosts } from "../../types/postType";
 
-type postProps = {
+export type postProps = {
   post: IAllPosts; // 부모컴포넌트에서 import 해온 타입을 재사용 해 줍시다.
 };
 
 const PostCard = ({ post }: postProps) => {
+  console.log(post);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [likePost, setLikePost] = useState(post.likePost);
@@ -24,8 +25,7 @@ const PostCard = ({ post }: postProps) => {
       queryClient.invalidateQueries(["categoryPosts"]);
     },
   });
-  const createTime = post.createAt.substring(0, 10);
-  console.log(createTime);
+  //const createTime = post.createAt.substring(0, 10);
   const onClickHeartHandler = () => {
     if (likePost) {
       setPostLikeNum(postLikeNum - 1);
@@ -53,7 +53,7 @@ const PostCard = ({ post }: postProps) => {
       <div>
         <p>{post.title}</p>
         <p>{post.content}</p>
-        <p style={{ marginTop: "28px" }}>{createTime}</p>
+        {/* <p style={{ marginTop: "28px" }}>{createTime}</p> */}
 
         <Heart>
           <img className="comment" src="/image/comment.png" alt="댓글" />
