@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { addShift } from "../APIs/workApi";
+import LayOut from "../components/layout/LayOut";
 
 export type EventValue<DateType> = DateType | null;
 export type RangeValue<DateType> =
@@ -21,7 +22,8 @@ function AddShift() {
   const [isCalendarBtns, setIsCalendarBtns] = useRecoilState(calendarAtom);
   const workdays = useRecoilValue(calendarDayList);
   const [workingTime, setWorkingTime] = useState<string[]>([]);
-  const format = "HH:mm";
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
   const onChangeHandler = (
     time: RangeValue<dayjs.Dayjs>,
     timestring: [string, string]
@@ -30,16 +32,16 @@ function AddShift() {
   };
 
   const work = {
-    hourlyWage: hourlyWage,
-    startTime: workingTime[0],
-    endTime: workingTime[1],
+    hourlyWage: Number(hourlyWage),
+    startTime: startTime,
+    endTime: endTime,
     workDay: workdays,
   };
 
   const payload = [id, work];
   const mutateWork = useMutation(addShift);
   const onClickHandler = () => {
-    if (!hourlyWage) {
+    if (isNaN(work.hourlyWage)) {
       alert("시급을 입력해주세요!");
       return;
     } else if (workingTime === null) {
@@ -55,9 +57,19 @@ function AddShift() {
   };
   console.log(workdays[0]);
   return (
-    <>
+    <LayOut>
       <STContainer>
-        <h1>날짜</h1>
+        <STHeader>
+          <img
+            src="/image/leftArrow.png"
+            alt="<"
+            onClick={() => navigate("/")}
+          />
+          <h1>근무 등록</h1>
+        </STHeader>
+        <STLabel>
+          <h1>날짜</h1>
+        </STLabel>
         <WorkDayInput>
           <div>
             {workdays[0]
@@ -78,55 +90,136 @@ function AddShift() {
           />
         </WorkDayInput>
         {isCalendarBtns && <CalendarModal />}
-        <div className="hourlyWage">
+        <SThourlyWage>
           <label>시급</label>
           <input
             placeholder="시급을 입력해주세요"
             onChange={(e) => setHourlyWage(e.target.value)}
           />
-        </div>
+        </SThourlyWage>
 
         <TimeSelector className="workingTime">
-          <div>근무시간</div>
-          <TimePicker.RangePicker
-            format={format}
-            placeholder={["시작시간", "끝나는시간"]}
-            onChange={onChangeHandler}
-            popupStyle={{ fontWeight: "bold" }}
-            bordered={true}
-            minuteStep={10}
-            className={"timeSelection"}
-          />
+          <label>근무시간</label>
+          <div>
+            <input
+              type="time"
+              value={startTime}
+              onChange={(e) => {
+                setStartTime(e.target.value);
+              }}
+            />
+            <span> - </span>
+            <input
+              type="time"
+              value={endTime}
+              onChange={(e) => {
+                setEndTime(e.target.value);
+              }}
+            />
+          </div>
         </TimeSelector>
-        <button onClick={onClickHandler}>저장하기</button>
+        <STButton onClick={onClickHandler}>저장하기</STButton>
       </STContainer>
-    </>
+    </LayOut>
   );
 }
 
 const STContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
+  padding: 0px 17px 0px 18px;
 `;
 
-const TimeSelector = styled.div`
-  .timeSelection {
-    width: 90%;
-    border: 3px solid;
-    border-color: #30b130;
-    background-color: #f0eeee;
+const STHeader = styled.div`
+  display: flex;
+  margin: 12px 0px 41.5px 0px;
+  height: 35px;
+  img {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
   }
+  h1 {
+    width: 83px;
+    height: 25px;
+    font-size: 17px;
+    font-weight: 500;
+    margin-left: 102px;
+  }
+`;
+const STLabel = styled.div`
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 11px;
 `;
 
 const WorkDayInput = styled.div`
   display: flex;
   justify-content: space-between;
-  border: 1px solid black;
-  width: 90%;
-  div {
-    width: 60%;
+  border: 1px solid #efefef;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  width: 100%;
+  height: 44px;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 30px;
+  img {
+    width: 18px;
+    height: 18px;
   }
+`;
+
+const SThourlyWage = styled.div`
+  display: flex;
+  flex-direction: column;
+  label {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 15px;
+  }
+  input {
+    width: 159.78px;
+    height: 44px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    border: 1px solid #efefef;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 5px;
+    margin-bottom: 30px;
+  }
+`;
+const TimeSelector = styled.div`
+  display: flex;
+  flex-direction: column;
+  label {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 15px;
+  }
+  input {
+    width: 159.78px;
+    height: 44px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    border: 1px solid #efefef;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 5px;
+    margin-bottom: 290px;
+  }
+`;
+
+const STButton = styled.button`
+  width: 90%;
+  height: 56px;
+  background-color: #5fce80;
+  border-radius: 8px;
+  margin-left: 6%;
+  border: none;
+  color: white;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 24.62px;
 `;
 
 export default AddShift;

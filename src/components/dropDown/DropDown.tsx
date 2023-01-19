@@ -4,9 +4,11 @@ import { deleteWork } from "../../APIs/workApi";
 
 interface propsType {
   id: number;
+  open: boolean;
+  close: () => void;
 }
 
-const DropDown: React.FC<propsType> = ({ id }) => {
+const DropDown: React.FC<propsType> = ({ id, open, close }) => {
   const queryClient = useQueryClient();
   const mutateDelete = useMutation(deleteWork, {
     onSuccess: () => {
@@ -29,15 +31,28 @@ const DropDown: React.FC<propsType> = ({ id }) => {
 };
 
 const STDropdown = styled.div`
-  position: relative;
+  position: fixed;
   z-index: 999;
-  border-radius: 20%;
+  border-radius: 8px;
   padding: 5px;
-  background-color: rgba(253, 251, 251, 0.6);
-  color: black;
+  background-color: #e1f4e0;
+  color: #8f8b8b;
+  margin-top: -2px;
+  width: 50px;
+  height: 60px;
+  animation: modal-bg-show 0.6s;
+  border: 1px solid white;
+
   li {
+    display: flex;
+    justify-content: center;
+    list-style: none;
     margin-top: 5px;
-    font-size: 5px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  div {
+    cursor: pointer;
   }
 `;
 export default DropDown;

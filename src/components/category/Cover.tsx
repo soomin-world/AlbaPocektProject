@@ -5,9 +5,8 @@ import { IAllPosts } from "../../types/postType";
 import PostCard from "./PostCard";
 
 const Cover = () => {
-  const { isLoading, isError, data } = useQuery<IAllPosts[]>(
-    ["categoryPosts"],
-    () => getPosts("cover")
+  const { isLoading, isError, data } = useQuery<IAllPosts[]>(["post"], () =>
+    getPosts("cover")
   );
   console.log(data);
   return (
