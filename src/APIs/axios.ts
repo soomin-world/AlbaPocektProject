@@ -34,44 +34,47 @@ export const searchInstance = axios.create({
 });
 // -----------------토큰 -------------------
 
-postInstance.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
-    const token = localStorage.getItem("is_login");
-    if (token) {
-      config.headers = { authorization: token };
-      return config;
-    }
-    return config;
-  },
-  () => {
-    return;
-  }
-);
+// postInstance.interceptors.request.use(
+//   (config) => {
+//     const token = localStorage.getItem("is_login");
+//     if (token) {
+//       config.headers = { authorization: token };
+//       return config;
+//     }
+//     return config;
+//   },
+//   () => {
+//     return;
+//   }
+// );
 
-instance.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
-    const token = localStorage.getItem("is_login");
-    if (token) {
-      config.headers = { authorization: token };
-      return config;
-    }
-    return config;
-  },
-  () => {
-    return;
-  }
-);
+// instance.interceptors.request.use(
+//   (config:AxiosRequestConfig) => {
+const token = localStorage.getItem("is_login");
+//     if (token) {
+//       config.headers = { authorization: token };
+//       return config;
+//     }
+//     return config;
+//   },
+//   () => {
+//     return;
+//   }
+// );
+instance.defaults.headers.common["Authorization"] = token;
+postInstance.defaults.headers.common["Authorization"] = token;
+searchInstance.defaults.headers.common["Authorization"] = token;
 
-searchInstance.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
-    const token = localStorage.getItem("is_login");
-    if (token) {
-      config.headers = { authorization: token };
-      return config;
-    }
-    return config;
-  },
-  () => {
-    return;
-  }
-);
+// searchInstance.interceptors.request.use(
+//   (config) => {
+//     const token = localStorage.getItem("is_login");
+//     if (token) {
+//       config.headers = { authorization: token };
+//       return config;
+//     }
+//     return config;
+//   },
+//   () => {
+//     return;
+//   }
+// );
