@@ -10,6 +10,13 @@ export interface ITodosProps {
   todos: ITodos[];
 }
 
+export interface IDayTotalProps {
+  day: Date;
+  Month: string;
+  todos: ITodos[];
+  bonus: IBonus[];
+}
+
 export interface ITodos {
   todoId: number;
   year: string;
@@ -24,3 +31,11 @@ export interface ITodos {
   dayTotalWage: string;
   color: string;
 }
+
+type IBonus = {
+  year: string;
+  month: string;
+  date: string;
+  bonus: string;
+  color: string;
+};

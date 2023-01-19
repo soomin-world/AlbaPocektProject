@@ -24,9 +24,17 @@ const Board = () => {
   const boardMatch = useMatch("/board");
   const [state, setState] = useState([]);
 
-  const { isLoading, isError, data } = useQuery<IAllPosts[]>(["post"], () =>
-    getAllPosts()
-  );
+  // const { isLoading, isError, data, refetch } = useQuery<IAllPosts[]>(
+  //   ["post"],
+  //   () => getAllPosts()
+  // );
+
+  useEffect(() => {
+    console.log("내가 마운트 됨!!!");
+    getAllPosts();
+    // refetch();
+    // window.location.reload();
+  }, []);
 
   return (
     <>
@@ -38,35 +46,45 @@ const Board = () => {
           }}
         >
           <option key="all" value="">
-            전체
+            전체 게시판
           </option>
           <option key="free" value="free">
-            자유게시판
+            자유 게시판
           </option>
           <option key="partTime" value="partTime">
-            알바고민 게시판
+            알바 고민
           </option>
           <option key="cover" value="cover">
-            대타 구해요 게시판
+            대타 구해요
           </option>
         </Select>
-        <Search
-          onClick={() => {
-            navigate("/search");
-          }}
-        >
-          🔍
-        </Search>
+        <div style={{ height: "24px" }}>
+          <Icon
+            src="/image/iconSearch.png"
+            onClick={() => {
+              navigate("/search");
+            }}
+            margin="10px"
+          ></Icon>
+          <Icon src="/image/iconChat.png" margin="7px"></Icon>
+          <Icon
+            src="/image/iconUser.png"
+            onClick={() => {
+              navigate("/mypage");
+            }}
+            margin="15px"
+          ></Icon>
+        </div>
       </Navigate>
       <Outlet></Outlet>
-      {isLoading ? <div>로딩중</div> : null}
+      {/* {isLoading ? <div>로딩중</div> : null}
       {isError ? <div>애러 뜸</div> : null}
       {boardMatch === null
         ? null
         : data?.map((post) => {
-            console.log(post);
+            // console.log(post);
             return <PostCard key={post.postId} post={post} />;
-          })}
+          })} */}
       <Plus
         onClick={() => {
           navigate("/posting");
@@ -87,20 +105,25 @@ const Total = styled.div<{ props: TotalProps }>`
 const Navigate = styled.div`
   width: 100%;
   height: 60px;
-  border: 2px solid black;
+  padding-left: 10px;
+  border-bottom: 1px solid #d9d9d9;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-left: 10px;
 `;
 
 const Select = styled.select`
-  width: 150px;
+  width: 102px;
   height: 30px;
+  font-size: 17px;
+  font-weight: 500;
+  border: none;
 `;
 
-const Search = styled.div`
-  margin-right: 10px;
+const Icon = styled.img<{ margin: string }>`
+  width: 24px;
+  height: 24px;
+  margin-right: ${(props) => props.margin};
 `;
 
 const Plus = styled.div`
