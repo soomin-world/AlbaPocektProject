@@ -31,11 +31,11 @@ const CommentPost = () => {
       <STContainer>
         <form onSubmit={postCommentHandler}>
           <input
-            placeholder="댓글을 작성하세요"
+            placeholder="댓글을 작성해주세요"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           />
-          <button>댓글 작성</button>
+          <button>등록</button>
         </form>
       </STContainer>
     </>
@@ -46,17 +46,25 @@ const STContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  padding: 0% 10% 5% 10%;
-  width: 90%;
-  margin-left: 10%;
+  padding: 5px 5% 5px 5%;
+  width: 100%;
+
+  border-top: 1px solid #d9d9d9;
+  border-bottom: 1px solid #d9d9d9;
   form {
     display: flex;
     justify-content: space-between;
+
     input {
-      width: 85%;
+      width: 100%;
       height: 30px;
+      border: none;
     }
     button {
+      width: 50px;
+      height: 30px;
+      border: none;
+      background-color: white;
     }
   }
 `;

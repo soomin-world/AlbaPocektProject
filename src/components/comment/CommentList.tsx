@@ -28,7 +28,7 @@ const CommentList = () => {
   return (
     <Stcontainer>
       {data?.map((e: CommentType) => (
-        <div key={e.commentId}>
+        <div key={e.commentId} className="box">
           <Comment
             commentId={e.commentId}
             nickname={e.nickname}
@@ -47,9 +47,8 @@ const Stcontainer = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  padding: 0% 10% 10% 10%;
-  width: 80%;
-  margin-left: 10%;
+  padding: 5%;
+  background-color: #fbfbfb;
 `;
 
 export default CommentList;

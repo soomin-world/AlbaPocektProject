@@ -56,38 +56,42 @@ function PostDetail() {
   return (
     <SContainer className="detailContainer">
       <div className="header">
-        <div className="title">
-          <h1>{data.title}</h1>
-        </div>
+        <img src={data.profileImage} alt="유저프로필사진" />
         <div className="info">
           <div className="userInfo">
-            <img src={data.profileImage} alt="유저프로필사진" />
-            <span>{data.nickname}</span>
+            <div>{data.nickname}</div>
+            <div>{data.createAt.substr(5, 5)}</div>
           </div>
-          <div className="timeline">
-            <span>{data.createAt.substr(2, 8)}</span>
-          </div>
+
           {data.userId === myId ? (
-            <div className="btn">
-              <button onClick={() => navigate(`/posting/${id}`)}>수정</button>
-              <button onClick={deleteHandler}>삭제</button>
+            <div>
+              <img src="/image/iconDotsMono.png" className="btn" />
+              {/* <button onClick={() => navigate(`/posting/${id}`)}>수정</button>
+              <button onClick={deleteHandler}>삭제</button> */}
             </div>
           ) : null}
         </div>
       </div>
       <div className="body">
-        <div className="imageBox">
-          <img src={data.imgUrl} alt="유저업로드 사진입니다" />
+        <div className="title">
+          <h1>{data.title}</h1>
         </div>
         <div className="contentArea">
           <div className="contentBody">{data.content}</div>
         </div>
+        <div className="imageBox">
+          <img src={data.imgUrl} alt="유저업로드 사진입니다" />
+        </div>
       </div>
       <div className="like">
         <span onClick={onClickLikeHandler}>
-          {data.likePost === true ? "❤️" : "🤍"}
+          {data.likePost === true ? (
+            <img src="/image/iconRedHeart.png" />
+          ) : (
+            <img src="/image/iconMiniHeart.png" />
+          )}
         </span>
-        <span>{data.postLikeNum}</span>
+        <span>좋아요 {data.postLikeNum}</span>
       </div>
     </SContainer>
   );
@@ -98,56 +102,82 @@ const SContainer = styled.div`
   justify-content: center;
   flex-direction: column;
   padding: 5%;
-  width: 80%;
-  margin-left: 10%;
+  padding-bottom: 0;
+  width: 100%;
+
   .header {
-    border: 1px solid black;
     display: flex;
-    flex-direction: column;
     .info {
+      width: 100%;
       display: flex;
       justify-content: space-between;
     }
-    .title {
-      margin-right: 70px;
-      width: 100%;
-      font-size: 2rem;
-    }
     img {
+      width: 47px;
+      height: 47px;
+      border-radius: 50%;
+      object-fit: cover;
       margin-right: 5px;
-      width: 15px;
-      height: 15px;
-      border-radius: 100px;
     }
-    span {
-      font-size: 15px;
+    .userInfo {
+      margin-left: 5px;
+      div:first-child {
+        font-size: 16px;
+        font-weight: 400;
+        margin-top: 8px;
+        margin-bottom: 3px;
+      }
+      div:nth-child(2) {
+        font-size: 13px;
+        font-weight: 400;
+        color: #aeaeae;
+      }
+    }
+    .btn {
+      width: 20px;
+      height: 20px;
+      margin-top: 8px;
     }
   }
   .body {
-    border: 1px solid black;
-    padding: 20px;
+    padding-top: 15px;
     .imageBox {
       width: 100%;
       display: flex;
       justify-content: center;
-      margin: 30px 0px 50px 0px;
+      margin-top: 10px;
       img {
-        width: 50%;
+        width: 100%;
+        border-radius: 10px;
       }
     }
     .contentArea {
       width: 100%;
-      margin-left: 40px;
       .contentBody {
-        font-size: 20px;
+        font-size: 15px;
+        font-weight: 400;
       }
+    }
+    .title {
+      width: 100%;
+      font-size: 24px;
+      font-weight: 400;
+      margin-bottom: 10px;
     }
   }
   .like {
-    border: 1px solid grey;
     display: flex;
-    justify-content: flex-end;
-    padding-right: 10px;
+    align-items: center;
+    padding: 10px 0px 10px 0px;
+    img {
+      width: 17px;
+      height: 17px;
+      margin-right: 2px;
+    }
+    span {
+      font-size: 15px;
+      font-weight: 400;
+    }
   }
 `;
 

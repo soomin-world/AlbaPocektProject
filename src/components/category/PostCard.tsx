@@ -33,9 +33,9 @@ const PostCard = ({ post }: postProps) => {
   return (
     <PostCardBox
       key={post.postId}
-      //   onClick={() => {
-      //     navigate(`/post/${post.postId}`);
-      //   }}
+      onClick={() => {
+        navigate(`/post/${post.postId}`);
+      }}
     >
       {/* <PostCardProfile>
         <img src={post.profileImage} alt="프로필사진" />
@@ -50,24 +50,22 @@ const PostCard = ({ post }: postProps) => {
         <p>{post.content}</p>
 
         <Heart>
-          <span
-            onClick={() => {
-              onClickHeartHandler();
-            }}
-          >
-            {likePost === true ? "❤️" : "🤍"}
-          </span>
-          <span>{postLikeNum}</span>
+          <div>
+            <img
+              src="/image/iconMiniHeart.png"
+              onClick={() => {
+                onClickHeartHandler();
+              }}
+            />
+          </div>
+          <div>{postLikeNum}</div>
+
+          {/* <img src="/image/iconChatBubble.png" />
+          <span>{postLikeNum}</span> */}
         </Heart>
       </div>
 
-      <img
-        alt="이미지"
-        src={post.imgUrl}
-        onClick={() => {
-          navigate(`/post/${post.postId}`);
-        }}
-      />
+      <img alt="이미지" src={post.imgUrl} />
     </PostCardBox>
   );
 };
@@ -100,7 +98,24 @@ const PostCardBox = styled.div`
 `;
 
 const Heart = styled.div`
+  width: 100px;
+  height: 13px;
+  position: absolute;
+  bottom: 15px;
+  right: 120px;
   margin-top: 10px;
+
+  display: flex;
+  justify-content: space-between;
+
+  img {
+    width: 13px;
+    height: 13px;
+    margin-right: -2px;
+  }
+  div {
+    font-size: 13px;
+  }
 `;
 
 export default PostCard;
