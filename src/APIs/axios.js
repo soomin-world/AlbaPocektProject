@@ -35,7 +35,7 @@ export const searchInstance = axios.create({
 // -----------------토큰 -------------------
 
 postInstance.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
+  (config) => {
     const token = localStorage.getItem("is_login");
     if (token) {
       config.headers = { authorization: token };
@@ -49,7 +49,7 @@ postInstance.interceptors.request.use(
 );
 
 instance.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
+  (config) => {
     const token = localStorage.getItem("is_login");
     if (token) {
       config.headers = { authorization: token };
@@ -63,7 +63,7 @@ instance.interceptors.request.use(
 );
 
 searchInstance.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
+  (config) => {
     const token = localStorage.getItem("is_login");
     if (token) {
       config.headers = { authorization: token };
