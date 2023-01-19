@@ -55,7 +55,7 @@ function Footer() {
 const STContainer = styled.div`
   position: fixed;
   right: 0px;
-  bottom: 0px;
+  bottom: -50px;
   display: flex;
   width: 100%;
   height: 50px;
@@ -63,9 +63,9 @@ const STContainer = styled.div`
   transform: translateY(-100%);
   background-color: white;
   box-shadow: 0px -5px 15px rgba(0, 0, 0, 0.2);
-  border-radius: 20px;
-  /* border-top-left-radius: 20px;
-  border-top-right-radius: 20px; */
+  /* border-radius: 20px; */
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
   padding: 10px;
   div {
     font-size: 30px;
