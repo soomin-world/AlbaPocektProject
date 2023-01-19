@@ -13,6 +13,7 @@ export interface CommentType {
   likeComment: Boolean;
   createAt: string;
   userId: string;
+  profileImage: string;
 }
 
 const CommentList = () => {
@@ -37,6 +38,7 @@ const CommentList = () => {
             likeComment={e.likeComment}
             createAt={e.createAt}
             userId={e.userId}
+            profileImage={e.profileImage}
           />
         </div>
       ))}

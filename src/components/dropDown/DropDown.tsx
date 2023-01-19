@@ -21,35 +21,58 @@ const DropDown: React.FC<propsType> = ({ id, open, close }) => {
   return (
     <STDropdown>
       <li>
-        <a href={`/addWork/${id}`}>수정</a>
+        <a href={`/addWork/${id}`}>
+          수정하기
+          <img src="/image/icon-pencil.png" alt="수정" />
+        </a>
       </li>
       <li>
-        <div onClick={deleteHandler}>삭제</div>
+        <div className="delete" onClick={deleteHandler}>
+          삭제하기 <img src="/image/bin.png" alt="삭제" />
+        </div>
       </li>
     </STDropdown>
   );
 };
 
 const STDropdown = styled.div`
-  position: fixed;
+  position: absolute;
   z-index: 999;
-  border-radius: 8px;
   padding: 5px;
-  background-color: #e1f4e0;
   color: #8f8b8b;
   margin-top: -2px;
-  width: 50px;
-  height: 60px;
+  margin-left: -80px;
+  width: 100px;
+  height: 64px;
   animation: modal-bg-show 0.6s;
-  border: 1px solid white;
+  background: #ffffffda;
+  box-shadow: 0px 0px 4px rgba(47, 47, 47, 0.08);
+  border-radius: 8px;
 
   li {
     display: flex;
     justify-content: center;
     list-style: none;
-    margin-top: 5px;
+    margin-top: 2px;
     font-size: 13px;
     font-weight: 500;
+    img {
+      width: 15px;
+      height: 15px;
+      margin-left: 10px;
+    }
+    a {
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 24px;
+      color: #545456;
+    }
+    .delete {
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 24px;
+      color: red;
+    }
   }
   div {
     cursor: pointer;

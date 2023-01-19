@@ -1,8 +1,9 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { changeLikePost } from "../../APIs/communityBoardApi";
+import { getComments } from "../../APIs/detailPostApi";
 import { IAllPosts } from "../../types/postType";
 
 type postProps = {
@@ -14,13 +15,17 @@ const PostCard = ({ post }: postProps) => {
   const navigate = useNavigate();
   const [likePost, setLikePost] = useState(post.likePost);
   const [postLikeNum, setPostLikeNum] = useState(post.postLikeNum);
+  const { data } = useQuery(["comment", post.postId], () =>
+    getComments(post.postId)
+  );
   const mutatelike = useMutation(changeLikePost, {
     onSuccess: () => {
       queryClient.invalidateQueries(["post"]);
       queryClient.invalidateQueries(["categoryPosts"]);
     },
   });
-
+  const createTime = post.createAt.substring(0, 10);
+  console.log(createTime);
   const onClickHeartHandler = () => {
     if (likePost) {
       setPostLikeNum(postLikeNum - 1);
@@ -48,16 +53,20 @@ const PostCard = ({ post }: postProps) => {
       <div>
         <p>{post.title}</p>
         <p>{post.content}</p>
+        <p style={{ marginTop: "28px" }}>{createTime}</p>
 
         <Heart>
-          <div>
-            <img
-              src="/image/iconMiniHeart.png"
-              onClick={() => {
-                onClickHeartHandler();
-              }}
-            />
-          </div>
+          <img className="comment" src="/image/comment.png" alt="댓글" />
+          <div>{data?.length}</div>
+
+          <img
+            className="heart"
+            src="/image/iconMiniHeart.png"
+            alt="하트 "
+            onClick={() => {
+              onClickHeartHandler();
+            }}
+          />
           <div>{postLikeNum}</div>
 
           {/* <img src="/image/iconChatBubble.png" />
@@ -65,7 +74,7 @@ const PostCard = ({ post }: postProps) => {
         </Heart>
       </div>
 
-      <img alt="이미지" src={post.imgUrl} />
+      <img className="image" alt="이미지" src={post.imgUrl} />
     </PostCardBox>
   );
 };
@@ -87,7 +96,7 @@ const PostCardBox = styled.div`
     font-weight: 500;
   }
 
-  img {
+  .image {
     width: 90px;
     height: 90px;
     object-fit: cover;
@@ -98,24 +107,34 @@ const PostCardBox = styled.div`
 `;
 
 const Heart = styled.div`
-  width: 100px;
-  height: 13px;
+  width: 50px;
+  height: 15px;
   position: absolute;
   bottom: 15px;
   right: 120px;
   margin-top: 10px;
-
   display: flex;
-  justify-content: space-between;
-
+  flex-direction: row;
+  gap: 5px;
+  margin-right: 5px;
+  font-size: 13px;
   img {
+    width: 13px;
+    height: 13px;
+  }
+  /* .heart {
     width: 13px;
     height: 13px;
     margin-right: -2px;
   }
+  .comment {
+    width: 13px;
+    height: 13px;
+    margin-right: 100px;
+  }
   div {
     font-size: 13px;
-  }
+  } */
 `;
 
 export default PostCard;
