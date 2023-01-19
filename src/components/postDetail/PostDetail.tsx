@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { changeLikePost } from "../../APIs/communityBoardApi";
 import { deletePost, getPost } from "../../APIs/detailPostApi";
+import DropDown from "../dropDown/DropDown";
 
 function PostDetail() {
   const { id } = useParams();
@@ -15,7 +16,9 @@ function PostDetail() {
   const queryClient = useQueryClient();
   const [likePost, setLikePost] = useState<boolean>(data?.likePost);
   const [postLikeNum, setPostLikeNum] = useState<number>(data?.postLikeNum);
-
+  const [isOpen, setIsOpen] = useState(false);
+  const createTime = data?.createAt.substr(14, 5);
+  console.log(createTime);
   // console.log(likePost, postLikeNum);
 
   // useEffect(() => {
@@ -40,6 +43,9 @@ function PostDetail() {
     alert("삭제되었습니다!");
     navigate("/board");
   };
+  const dropDownHandler = () => {
+    setIsOpen(!isOpen);
+  };
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error!!!!!!</div>;
@@ -56,18 +62,29 @@ function PostDetail() {
   return (
     <SContainer className="detailContainer">
       <div className="header">
-        <img src={data.profileImage} alt="유저프로필사진" />
+        <img src={data.profileImage} alt="유저프로필사진" className="profile" />
         <div className="info">
           <div className="userInfo">
             <div>{data.nickname}</div>
-            <div>{data.createAt.substr(5, 5)}</div>
-          </div>
-
-          {data.userId === myId ? (
             <div>
-              <img src="/image/iconDotsMono.png" className="btn" />
-              {/* <button onClick={() => navigate(`/posting/${id}`)}>수정</button>
-              <button onClick={deleteHandler}>삭제</button> */}
+              {data.createAt.substr(5, 5)} -{createTime}
+            </div>
+          </div>
+          {data.userId === myId ? (
+            <div className="dropDown">
+              <img
+                src="/image/iconDotsMono.png"
+                alt=":"
+                className="button"
+                onClick={() => setIsOpen(!isOpen)}
+              />
+              {isOpen ? (
+                <DropDown
+                  id={data.postId}
+                  open={isOpen}
+                  close={dropDownHandler}
+                />
+              ) : null}
             </div>
           ) : null}
         </div>
@@ -86,9 +103,9 @@ function PostDetail() {
       <div className="like">
         <span onClick={onClickLikeHandler}>
           {data.likePost === true ? (
-            <img src="/image/iconRedHeart.png" />
+            <img src="/image/iconRedHeart.png" alt="heart" />
           ) : (
-            <img src="/image/iconMiniHeart.png" />
+            <img src="/image/iconMiniHeart.png" alt="miniHeart" />
           )}
         </span>
         <span>좋아요 {data.postLikeNum}</span>
@@ -111,32 +128,34 @@ const SContainer = styled.div`
       width: 100%;
       display: flex;
       justify-content: space-between;
+      .dropDown {
+        .button {
+          width: 24px;
+          height: 24px;
+        }
+      }
+
+      .userInfo {
+        margin-left: 5px;
+        div:first-child {
+          font-size: 16px;
+          font-weight: 400;
+          margin-top: 8px;
+          margin-bottom: 3px;
+        }
+        div:nth-child(2) {
+          font-size: 13px;
+          font-weight: 400;
+          color: #aeaeae;
+        }
+      }
     }
-    img {
+    .profile {
       width: 47px;
       height: 47px;
       border-radius: 50%;
       object-fit: cover;
       margin-right: 5px;
-    }
-    .userInfo {
-      margin-left: 5px;
-      div:first-child {
-        font-size: 16px;
-        font-weight: 400;
-        margin-top: 8px;
-        margin-bottom: 3px;
-      }
-      div:nth-child(2) {
-        font-size: 13px;
-        font-weight: 400;
-        color: #aeaeae;
-      }
-    }
-    .btn {
-      width: 20px;
-      height: 20px;
-      margin-top: 8px;
     }
   }
   .body {
