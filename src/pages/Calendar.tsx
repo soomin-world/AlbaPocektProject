@@ -393,7 +393,7 @@ const CellsBody = styled.div`
 `;
 
 const Cells = styled.div<{ color: string; backgroundColor: string }>`
-  width: 55px;
+  width: 50px;
   height: 90px;
   padding-top: 3px;
   border-top: 1px solid ${(props) => props.color};
@@ -406,9 +406,10 @@ const CellsNum = styled.span<{ color: string }>`
 `;
 
 const TotalWage = styled.div`
-  width: 385px;
+  width: 365px;
   text-align: right;
-  margin-right: 10px;
+  margin-right: 14px;
+  font-weight: 400;
 `;
 
 const BonusWage = styled.div`

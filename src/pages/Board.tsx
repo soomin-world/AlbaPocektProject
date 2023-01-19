@@ -90,7 +90,7 @@ const Board = () => {
           navigate("/posting");
         }}
       >
-        +
+        <img src="/image/iconPencil.png" />
       </Plus>
       <Footer />
     </>
@@ -132,10 +132,11 @@ const Plus = styled.div`
   border-radius: 50%;
   font-size: 35px;
   font-weight: 300;
-  background-color: skyblue;
+  background-color: #5fce80;
   position: fixed;
-  right: 10px;
-  bottom: 10px;
+  right: 20px;
+  bottom: 70px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
 
   display: flex;
   justify-content: center;

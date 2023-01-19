@@ -31,9 +31,11 @@ const RenderTodos = ({ day, Month, todos }: ITodosProps) => {
 };
 
 const CellTodo = styled.div<{ color: string }>`
-  width: 51px;
+  width: 48px;
   height: 15px;
+  margin-left: 1px;
   margin-bottom: 2px;
+  padding-left: 1px;
   border-radius: 3px;
   background-color: ${(props) => props.color};
   font-size: 2px;
@@ -45,7 +47,6 @@ const CellTodoList = styled.div`
   width: 55px;
   display: flex;
   flex-direction: column;
-  align-items: center;
 `;
 
 export default RenderTodos;
