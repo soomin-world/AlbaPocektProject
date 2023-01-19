@@ -9,13 +9,12 @@ function WorkEditForm() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
-  const [color, setColor] = useState("");
   const [editWork, setEditWork] = useState({
     placeName: "",
     salaryDay: "",
-    placeColor: color,
+    placeColor: "",
   });
-
+  console.log(editWork.placeColor);
   const { data, isSuccess } = useQuery(["work", id], () => getWork(id));
 
   useEffect(() => {
@@ -117,7 +116,10 @@ function WorkEditForm() {
             <button
               onClick={() => {
                 const value = `#ef0400c6`;
-                setColor(value);
+                setEditWork({
+                  ...editWork,
+                  placeColor: value,
+                });
               }}
               style={{
                 backgroundColor: `#ef0400c6`,
@@ -125,17 +127,23 @@ function WorkEditForm() {
             />
             <button
               onClick={() => {
-                const value = `#b2c34f`;
-                setColor(value);
+                const value = `#f2eb73`;
+                setEditWork({
+                  ...editWork,
+                  placeColor: value,
+                });
               }}
               style={{
-                backgroundColor: `#b2c34f`,
+                backgroundColor: `#f2eb73`,
               }}
             />
             <button
               onClick={() => {
                 const value = `#5FCE80`;
-                setColor(value);
+                setEditWork({
+                  ...editWork,
+                  placeColor: value,
+                });
               }}
               style={{
                 backgroundColor: `#5FCE80`,
@@ -144,7 +152,10 @@ function WorkEditForm() {
             <button
               onClick={() => {
                 const value = `#3f74dd`;
-                setColor(value);
+                setEditWork({
+                  ...editWork,
+                  placeColor: value,
+                });
               }}
               style={{
                 backgroundColor: `#3f74dd`,
@@ -153,7 +164,10 @@ function WorkEditForm() {
             <button
               onClick={() => {
                 const value = `#6344c9`;
-                setColor(value);
+                setEditWork({
+                  ...editWork,
+                  placeColor: value,
+                });
               }}
               style={{
                 backgroundColor: `#6344c9`,
@@ -162,7 +176,10 @@ function WorkEditForm() {
             <button
               onClick={() => {
                 const value = `#ab51b9d7`;
-                setColor(value);
+                setEditWork({
+                  ...editWork,
+                  placeColor: value,
+                });
               }}
               style={{
                 backgroundColor: `#ab51b9d7`,

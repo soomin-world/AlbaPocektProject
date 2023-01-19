@@ -80,6 +80,7 @@ function AddWorkForm() {
             <Modal open={modalOpen} close={closeModal}>
               <STModal>
                 <select onChange={(e) => setSalaryday(e.target.value)}>
+                  <option defaultValue={""}>월급!</option>
                   {days.map((day, i) => {
                     return (
                       <option key={i} value={day}>
@@ -168,6 +169,7 @@ const STHeader = styled.div`
   img {
     width: 24px;
     height: 24px;
+    cursor: pointer;
   }
   h1 {
     width: 83px;

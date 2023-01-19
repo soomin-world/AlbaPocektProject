@@ -2,9 +2,10 @@
 import { instance, postInstance } from "./axios";
 
 //무한 스크롤
-export const getInfinitePost = async () => {
-  const res = await instance.get("/api/posts");
-  return res;
+export const getInfinitePost = async (pageParam: number) => {
+  const { data } = await instance.get(`/api/posts?page=${pageParam}&size=5`);
+  const { content, last } = data;
+  return { content, last, nextPage: pageParam + 1 };
 };
 
 //전체 게시글 조회
