@@ -22,6 +22,7 @@ const Comment: React.FC<CommentType> = (props) => {
     commentLikeNum,
     likeComment,
     createAt,
+    profileImage,
   } = props;
   const [like, setLike] = useState(likeComment);
   const [likeNum, setLikeNum] = useState(commentLikeNum);
@@ -29,6 +30,7 @@ const Comment: React.FC<CommentType> = (props) => {
 
   console.log(typeof createAt);
   const { id } = useParams();
+  const [commentClick, setCommentClick] = useState(false);
   const [newComment, setNewComment] = useState(comment);
   const delComment = useMutation(deleteComment, {
     onSuccess: () => {
@@ -69,6 +71,10 @@ const Comment: React.FC<CommentType> = (props) => {
     mutatelike.mutateAsync(commentId);
   };
 
+  const onCommentClick = () => {
+    setCommentClick(!commentClick);
+  };
+
   console.log(like);
   return (
     <>
@@ -76,7 +82,7 @@ const Comment: React.FC<CommentType> = (props) => {
         <STContainer>
           <div className="header">
             <div className="info">
-              <img src="/image/댓글 예시.jpeg" />
+              <img src={profileImage} />
               <div className="userInfo">
                 <div>{nickname}</div>
                 <div>{createAt.substring(5, 10)}</div>
@@ -85,9 +91,20 @@ const Comment: React.FC<CommentType> = (props) => {
             <div className="btn">
               {myId === userId ? (
                 <>
-                  <img src="/image/iconDotsMono.png" />
-                  {/* <button onClick={() => commentDelete(commentId)}>삭제</button>
-                  <button onClick={() => setIsClicked(true)}>수정</button> */}
+                  {commentClick ? (
+                    <>
+                      <button onClick={() => commentDelete(commentId)}>
+                        삭제
+                      </button>
+                      <button onClick={() => setIsClicked(true)}>수정</button>
+                    </>
+                  ) : (
+                    <img
+                      src="/image/iconDotsMono.png"
+                      alt=":"
+                      onClick={onCommentClick}
+                    />
+                  )}
                 </>
               ) : null}
             </div>
@@ -176,6 +193,12 @@ const STContainer = styled.div`
         width: 15px;
         height: 15px;
         padding-top: 2px;
+      }
+      button {
+        border: none;
+        background-color: #fbfbfb;
+        font-size: 10px;
+        cursor: pointer;
       }
     }
   }

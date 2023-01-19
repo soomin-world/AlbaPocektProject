@@ -1,14 +1,17 @@
 import CommentList from "../components/comment/CommentList";
 import CommentPost from "../components/comment/CommentPost";
 import Footer from "../components/footer/Footer";
+import LayOut from "../components/layout/LayOut";
 import PostDetail from "../components/postDetail/PostDetail";
 
 function Post() {
   return (
     <>
-      <PostDetail />
-      <CommentPost />
-      <CommentList />
+      <LayOut>
+        <PostDetail />
+        <CommentPost />
+        <CommentList />
+      </LayOut>
       <Footer />
     </>
   );

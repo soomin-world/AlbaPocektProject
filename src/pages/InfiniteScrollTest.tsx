@@ -6,40 +6,45 @@ import styled from "styled-components";
 import { getInfinitePost } from "../APIs/communityBoardApi";
 import PostCard from "../components/category/PostCard";
 import Footer from "../components/footer/Footer";
+import Loading from "../components/Loading/Loading";
+import Post from "./Post";
+
+type dataType = {
+  postId: number;
+  profileImage: string;
+  nickname: string;
+  title: string;
+  content: string;
+  imgUrl: string;
+  postLikeNum: number;
+  category: string | null;
+  createAt: string;
+  modifiedAt: string;
+  likePost: boolean;
+  children?: JSX.Element | JSX.Element[];
+};
 
 function InfiniteScrollText() {
   const navigate = useNavigate();
   const { ref, inView } = useInView();
-  const boardMatch = useMatch("/board");
-  const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
-    ["posts"],
-    ({ pageParam = 1 }) => getInfinitePost(pageParam),
-    {
-      getNextPageParam: (lastPage) =>
-        !lastPage.last ? lastPage.nextPage : undefined,
-    }
-  );
+  const boardMatch = useMatch("/test1");
+  const { data, status, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useInfiniteQuery(
+      ["posts"],
+      ({ pageParam = 1 }) => getInfinitePost(pageParam),
+      {
+        getNextPageParam: (lastPage) =>
+          !lastPage.last ? lastPage.nextPage : undefined,
+      }
+    );
   //const { content, pageable, sort } = data;
-  console.log(data?.pages);
   useEffect(() => {
-    if (inView) fetchNextPage();
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
   }, [inView]);
-
-  //return (
-  //   <>
-  //   <PostsContainer>
-  //     {data?.pages.map((page, index) => (
-  //       <React.Fragment key={index}>
-  //         {page.posts.map((post) => (
-  //           <PostCard key={post._id} post={post}></PostCard>
-  //         ))}
-  //       </React.Fragment>
-  //     ))}
-  //   </PostsContainer>
-  //   {isFetchingNextPage ? <Loading /> : <div ref={ref}></div>}
-  // </>
-  //)
-
+  console.log(data);
+  if (status === "loading") return <Loading />;
   return (
     <>
       <Navigate>
@@ -62,20 +67,32 @@ function InfiniteScrollText() {
             대타 구해요 게시판
           </option>
         </Select>
-        <Search
-          onClick={() => {
-            navigate("/search");
-          }}
-        >
-          🔍
-        </Search>
+        <div style={{ height: "24px" }}>
+          {/* <Icon
+            src="/image/iconSearch.png"
+            onClick={() => {
+              navigate("/search");
+            }}
+            margin="10px"
+          ></Icon>
+          <Icon src="/image/iconChat.png" margin="7px"></Icon>
+          <Icon
+            src="/image/iconUser.png"
+            onClick={() => {
+              navigate("/mypage");
+            }}
+            margin="15px"
+          ></Icon> */}
+        </div>
       </Navigate>
       <Outlet></Outlet>
+
       {boardMatch === null
         ? null
-        : data?.pages.map((post) => {
-            console.log(post);
-            return <PostCard key={post.content.postId} post={post.content} />;
+        : data?.pages.map((page) => {
+            return page.content.map((p: dataType) => {
+              return <PostCard key={p.postId} post={p} />;
+            });
           })}
       <Plus
         onClick={() => {
@@ -84,6 +101,7 @@ function InfiniteScrollText() {
       >
         +
       </Plus>
+      {isFetchingNextPage ? <Loading /> : <div ref={ref}>여기 </div>}
       <Footer />
     </>
   );

@@ -1,41 +1,51 @@
-import { useEffect, useState } from "react";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import {
-  Outlet,
-  Route,
-  Routes,
-  useMatch,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
+import { Outlet, useMatch, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { getAllPosts } from "../APIs/communityBoardApi";
+import { getInfinitePost } from "../APIs/communityBoardApi";
 import PostCard from "../components/category/PostCard";
-import { IAllPosts } from "../types/postType";
 import Footer from "../components/footer/Footer";
-import { instance } from "../APIs/axios";
+import LayOut from "../components/layout/LayOut";
+import Loading from "../components/Loading/Loading";
+import Post from "./Post";
 
-type TotalProps = {
-  children: JSX.Element | JSX.Element[];
+type dataType = {
+  postId: number;
+  profileImage: string;
+  nickname: string;
+  title: string;
+  content: string;
+  imgUrl: string;
+  postLikeNum: number;
+  category: string | null;
+  createAt: string;
+  modifiedAt: string;
+  likePost: boolean;
+  children?: JSX.Element | JSX.Element[];
 };
 
-const Board = () => {
+function Board() {
   const navigate = useNavigate();
+  const { ref, inView } = useInView();
   const boardMatch = useMatch("/board");
-  const [state, setState] = useState([]);
-
-  // const { isLoading, isError, data, refetch } = useQuery<IAllPosts[]>(
-  //   ["post"],
-  //   () => getAllPosts()
-  // );
-
+  const { data, status, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useInfiniteQuery(
+      ["posts"],
+      ({ pageParam = 1 }) => getInfinitePost(pageParam),
+      {
+        getNextPageParam: (lastPage) =>
+          !lastPage.last ? lastPage.nextPage : undefined,
+      }
+    );
+  //const { content, pageable, sort } = data;
   useEffect(() => {
-    console.log("내가 마운트 됨!!!");
-    getAllPosts();
-    // refetch();
-    // window.location.reload();
-  }, []);
-
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView]);
+  console.log(data);
+  if (status === "loading") return <Loading />;
   return (
     <>
       <Navigate>
@@ -46,16 +56,16 @@ const Board = () => {
           }}
         >
           <option key="all" value="">
-            전체 게시판
+            전체
           </option>
           <option key="free" value="free">
-            자유 게시판
+            자유게시판
           </option>
           <option key="partTime" value="partTime">
-            알바 고민
+            알바고민 게시판
           </option>
           <option key="cover" value="cover">
-            대타 구해요
+            대타 구해요 게시판
           </option>
         </Select>
         <div style={{ height: "24px" }}>
@@ -77,14 +87,13 @@ const Board = () => {
         </div>
       </Navigate>
       <Outlet></Outlet>
-      {/* {isLoading ? <div>로딩중</div> : null}
-      {isError ? <div>애러 뜸</div> : null}
       {boardMatch === null
         ? null
-        : data?.map((post) => {
-            // console.log(post);
-            return <PostCard key={post.postId} post={post} />;
-          })} */}
+        : data?.pages.map((page) => {
+            return page.content.map((p: dataType) => {
+              return <PostCard key={p.postId} post={p} />;
+            });
+          })}
       <Plus
         onClick={() => {
           navigate("/posting");
@@ -92,16 +101,12 @@ const Board = () => {
       >
         +
       </Plus>
+      {isFetchingNextPage ? <Loading /> : <div ref={ref}>여기 </div>}
       <Footer />
     </>
   );
-};
-const Total = styled.div<{ props: TotalProps }>`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
+}
+
 const Navigate = styled.div`
   width: 100%;
   height: 60px;
@@ -136,7 +141,6 @@ const Plus = styled.div`
   position: fixed;
   right: 10px;
   bottom: 10px;
-
   display: flex;
   justify-content: center;
   align-items: center;

@@ -21,10 +21,10 @@ const STLayOut = styled.div`
   font-family: "Noto Sans KR";
   display: flex;
   flex-direction: column;
-  min-height: 100%;
+  min-height: 1200px;
   //padding-bottom: 100px;
   width: 375px;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   overflow: auto;
 `;
 
