@@ -14,15 +14,6 @@ const PostCard = ({ post }: postProps) => {
   const navigate = useNavigate();
   const [likePost, setLikePost] = useState(() => post.likePost);
   const [postLikeNum, setPostLikeNum] = useState(() => post.postLikeNum);
-<<<<<<< HEAD
-  const { data } = useQuery(["comment", post.postId], () =>
-    getComments(post.postId)
-  );
-  // console.log(data);
-  console.log(post);
-=======
-
->>>>>>> 7e562e57d59c4f16c72aa9995d7a40478be3e460
   const mutatelike = useMutation(changeLikePost, {
     onSuccess: () => {
       queryClient.invalidateQueries(["post"]);
@@ -49,26 +40,6 @@ const PostCard = ({ post }: postProps) => {
       }}
     >
       <div className="wrap">
-<<<<<<< HEAD
-        <p>{post.title}</p>
-        <p>{post.content}</p>
-
-        {/* <p style={{ marginTop: "28px" }}>{createTime}</p> */}
-
-        <Heart>
-          <div className="commentWrap">
-            <img className="comment" src="/image/comment.png" alt="댓글" />
-            <div>{post.commentCount}</div>
-          </div>
-          <div className="heartWRap">
-            {post.likePost ? (
-              <img
-                className="heart"
-                src="/image/iconRedHeart.png"
-                alt="하트 "
-              />
-            ) : (
-=======
         <p className="title">{post.title}</p>
         <p className="content">{post.content}</p>
         <UnderInfo>
@@ -79,23 +50,15 @@ const PostCard = ({ post }: postProps) => {
               <div>{post.commentCount}</div>
             </div>
             <div className="detailWrap">
->>>>>>> 7e562e57d59c4f16c72aa9995d7a40478be3e460
               <img
                 className="heart"
                 src="/image/iconMiniHeart.png"
                 alt="하트 "
               />
-<<<<<<< HEAD
-            )}
-            <div>{post.postLikeNum}</div>
-          </div>
-        </Heart>
-=======
               <div>{postLikeNum}</div>
             </div>
           </div>
         </UnderInfo>
->>>>>>> 7e562e57d59c4f16c72aa9995d7a40478be3e460
       </div>
       <img className="profileImage" alt="이미지" src={post.imgUrl} />
     </STContainer>
