@@ -61,13 +61,13 @@ function Board() {
               전체
             </option>
             <option key="free" value="free">
-              자유게시판
+              자유 게시판
             </option>
             <option key="partTime" value="partTime">
-              알바고민 게시판
+              알바고민
             </option>
             <option key="cover" value="cover">
-              대타 구해요 게시판
+              대타 구해요
             </option>
           </Select>
           <Icon>
@@ -113,15 +113,14 @@ function Board() {
 
 const Navigate = styled.div`
   width: 100%;
-  height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 28px;
+  margin: 25px 0px 25px 0px;
 `;
 
 const Select = styled.select`
-  width: 65px;
+  width: 120px;
   height: 28px;
   font-size: 20px;
   font-weight: 400;

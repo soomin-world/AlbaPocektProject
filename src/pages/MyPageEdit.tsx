@@ -184,8 +184,8 @@ const UserProfileForm = styled.form`
     justify-content: center;
     align-items: center;
     position: fixed;
-    left: 15px;
-    bottom: 15px;
+    left: 19px;
+    bottom: 19px;
   }
 `;
 

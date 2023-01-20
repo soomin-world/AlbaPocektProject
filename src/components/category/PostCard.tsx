@@ -84,6 +84,7 @@ const STContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 15px;
+  padding-bottom: 15px;
 
   .wrap {
     width: 236px;
