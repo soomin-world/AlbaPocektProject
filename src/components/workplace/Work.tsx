@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getMonthlyWage } from "../../APIs/workApi";
+import comma from "../../hooks/comma";
 import DropDown from "../dropDown/DropDown";
 import { WorkType } from "./WorkPlace";
 
@@ -48,7 +49,7 @@ const Work = ({ placeId, placeName, placeColor, salaryDay }: WorkType) => {
           <img src="/image/Group 180.png" alt="+" />
           근무등록
         </button>
-        <div className="money"> ₩ {data?.data?.totalWage}</div>
+        <div className="money"> ₩ {comma(data?.data?.totalWage)}</div>
       </div>
     </STCard>
   );
@@ -58,7 +59,7 @@ const STCard = styled.div`
   width: 90%;
   height: 110px;
   border-radius: 8px;
-  margin: 10px auto 20px auto;
+  margin: 0px auto 20px auto;
   color: #ffffff;
   padding: 10px;
   .info {

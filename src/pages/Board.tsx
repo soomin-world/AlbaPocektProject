@@ -104,6 +104,7 @@ function Board() {
         {isFetchingNextPage ? <Loading /> : <div ref={ref}>여기 </div>}
         <Footer />
       </LayOut>
+
     </>
   );
 }
@@ -140,8 +141,7 @@ const Plus = styled.img`
   font-weight: 300;
   position: fixed;
   transform: translate(540%, 1100%);
-  //transform: translateX(100%);
-
+   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;

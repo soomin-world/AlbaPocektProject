@@ -13,11 +13,12 @@ type postProps = {
 const PostCard = ({ post }: postProps) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const [likePost, setLikePost] = useState(post.likePost);
-  const [postLikeNum, setPostLikeNum] = useState(post.postLikeNum);
+  const [likePost, setLikePost] = useState(() => post.likePost);
+  const [postLikeNum, setPostLikeNum] = useState(() => post.postLikeNum);
   const { data } = useQuery(["comment", post.postId], () =>
     getComments(post.postId)
   );
+  console.log(data);
   const mutatelike = useMutation(changeLikePost, {
     onSuccess: () => {
       queryClient.invalidateQueries(["post"]);
@@ -28,13 +29,14 @@ const PostCard = ({ post }: postProps) => {
   console.log(createTime);
   const onClickHeartHandler = () => {
     if (likePost) {
-      setPostLikeNum(postLikeNum - 1);
+      setPostLikeNum((postLikeNum) => postLikeNum - 1);
     } else {
-      setPostLikeNum(postLikeNum + 1);
+      setPostLikeNum((postLikeNum) => postLikeNum + 1);
     }
     setLikePost(!likePost);
     mutatelike.mutate(post.postId);
   };
+
   return (
     <STContainer
       key={post.postId}
@@ -45,8 +47,21 @@ const PostCard = ({ post }: postProps) => {
       <div className="wrap">
         <p>{post.title}</p>
         <p>{post.content}</p>
-        <div className="underWRap">
-          <p style={{ marginTop: "28px" }}>{createTime}</p>
+
+        {/* <p style={{ marginTop: "28px" }}>{createTime}</p> */}
+
+        <Heart>
+          <img className="comment" src="/image/comment.png" alt="댓글" />
+          <div>{data?.length}</div>
+
+          {post.likePost ? (
+            <img className="heart" src="/image/iconRedHeart.png" alt="하트 " />
+          ) : (
+            <img className="heart" src="/image/iconMiniHeart.png" alt="하트 " />
+          )}
+
+          <div>{post.postLikeNum}</div>
+
 
           <Heart>
             <div className="commentWrap">

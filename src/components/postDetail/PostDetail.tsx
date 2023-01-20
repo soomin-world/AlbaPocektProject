@@ -102,13 +102,13 @@ function PostDetail() {
         </div>
       </div>
       <div className="like">
-        <span onClick={onClickLikeHandler}>
+        <div onClick={onClickLikeHandler}>
           {data.likePost === true ? (
             <img src="/image/iconRedHeart.png" alt="heart" />
           ) : (
             <img src="/image/iconMiniHeart.png" alt="miniHeart" />
           )}
-        </span>
+        </div>
         <span>좋아요 {data.postLikeNum}</span>
       </div>
     </SContainer>
@@ -189,6 +189,12 @@ const SContainer = styled.div`
     display: flex;
     align-items: center;
     padding: 10px 0px 10px 0px;
+
+    div {
+      width: 17px;
+      height: 17px;
+      margin-right: 3px;
+    }
     img {
       width: 17px;
       height: 17px;
