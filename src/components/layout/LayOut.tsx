@@ -2,12 +2,13 @@ import styled from "styled-components";
 
 type Props = {
   children: React.ReactNode;
+  padding?: string;
 };
 
-const LayOut: React.FC<Props> = ({ children }) => {
+const LayOut: React.FC<Props> = ({ children, padding }) => {
   return (
     <STContainer>
-      <STLayOut>{children}</STLayOut>
+      <STLayOut padding={padding}>{children}</STLayOut>
     </STContainer>
   );
 };
@@ -17,7 +18,7 @@ const STContainer = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-const STLayOut = styled.div`
+const STLayOut = styled.div<{ padding: string | undefined }>`
   font-family: "Noto Sans KR";
   display: flex;
   flex-direction: column;
@@ -26,7 +27,7 @@ const STLayOut = styled.div`
   width: 375px;
   border: 1px solid black;
   overflow: auto;
-  padding: 0px 17px 0px 18px;
+  padding: ${(props) => (props.padding ? props.padding : "0px 17px 0px 17px")};
 `;
 
 export default LayOut;

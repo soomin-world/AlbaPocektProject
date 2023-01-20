@@ -21,6 +21,7 @@ type dataType = {
   createAt: string;
   modifiedAt: string;
   likePost: boolean;
+  commentCount: number;
   children?: JSX.Element | JSX.Element[];
 };
 

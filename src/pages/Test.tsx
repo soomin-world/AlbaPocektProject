@@ -128,22 +128,24 @@ export const CalendarModal = () => {
       ></Overlay>
       <Modal>
         <Calendar />
-        <button
-          onClick={() => {
-            setIsCalendarBtns(false);
-            // setDayList([]);
-          }}
-        >
-          확인
-        </button>
-        <button
-          onClick={() => {
-            setIsCalendarBtns(false);
-            setDayList([]);
-          }}
-        >
-          닫기
-        </button>
+        <Buttons>
+          <button
+            onClick={() => {
+              setIsCalendarBtns(false);
+              // setDayList([]);
+            }}
+          >
+            확인
+          </button>
+          <button
+            onClick={() => {
+              setIsCalendarBtns(false);
+              setDayList([]);
+            }}
+          >
+            닫기
+          </button>
+        </Buttons>
       </Modal>
     </>,
     document.getElementById("modal") as Element
@@ -166,6 +168,7 @@ const Total = styled.div`
   flex-direction: column;
   align-items: center;
   background-color: white;
+  border-radius: 10px;
 `;
 
 const Overlay = styled.div`
@@ -180,7 +183,7 @@ const Overlay = styled.div`
 const Modal = styled.div`
   position: absolute;
   width: 300px;
-  height: 300px;
+  height: 330px;
   left: 0;
   right: 0;
   top: 0;
@@ -217,4 +220,17 @@ const CellsBody = styled.div`
   padding: 5px;
 `;
 
+const Buttons = styled.div`
+  position: relative;
+  left: 75px;
+  button {
+    width: 50px;
+    height: 25px;
+    border: none;
+    border-radius: 5px;
+  }
+  & :first-child {
+    margin-right: 10px;
+  }
+`;
 export default Test;

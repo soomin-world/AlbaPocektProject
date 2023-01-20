@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getMyPage } from "../APIs/myPageApi";
+import LayOut from "../components/layout/LayOut";
 import { IMyPage } from "../types/myPageType";
 
 const MyPage = () => {
@@ -10,38 +11,52 @@ const MyPage = () => {
     getMyPage()
   );
   console.log(data?.postList);
+
+  const LogoutHandler = () => {
+    localStorage.removeItem("is_login");
+    localStorage.removeItem("userId");
+    navigate("/login");
+  };
+
   return (
     <>
-      <MypageBar>마이 페이지임</MypageBar>
-      <MyPageProfile>
-        <div>
-          <img src={data?.profileImage} />
-          <span>{data?.nickname}</span>
-        </div>
-        <MyPageEditBtn
-          onClick={() => {
-            navigate("/mypage/edit");
-          }}
-        >
-          수정하기
-        </MyPageEditBtn>
-      </MyPageProfile>
+      <LayOut padding="0">
+        <MypageBar>마이페이지</MypageBar>
+        <MyPageProfile>
+          <div>
+            <img src={data?.profileImage} />
+            <span>{data?.nickname}</span>
+          </div>
 
-      <p style={{ padding: "10px" }}>작성한 게시물</p>
+          <div>
+            <MyPageEditBtn
+              onClick={() => {
+                navigate("/mypage/edit");
+              }}
+            >
+              <img src="/image/iconMypagePencil.png" />
+              수정하기
+            </MyPageEditBtn>
+            <MyPageEditBtn onClick={LogoutHandler}>로그아웃</MyPageEditBtn>
+          </div>
+        </MyPageProfile>
 
-      {data?.postList.map((data) => {
-        return (
-          <UserPost
-            key={data.postId}
-            onClick={() => {
-              navigate(`/post/${data.postId}`);
-            }}
-          >
-            <p>{data.title}</p>
-            <p>{data.content}</p>
-          </UserPost>
-        );
-      })}
+        <p style={{ padding: "10px", fontWeight: "400" }}>내 활동</p>
+
+        {data?.postList.map((data) => {
+          return (
+            <UserPost
+              key={data.postId}
+              onClick={() => {
+                navigate(`/post/${data.postId}`);
+              }}
+            >
+              <p>{data.title}</p>
+              <p>{data.content}</p>
+            </UserPost>
+          );
+        })}
+      </LayOut>
     </>
   );
 };
@@ -49,28 +64,32 @@ const MyPage = () => {
 const MypageBar = styled.div`
   width: 100%;
   height: 50px;
-  border: 2px solid black;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 17px;
+  font-weight: 500;
 `;
 
 const MyPageProfile = styled.div`
   width: 100%;
-  height: 80px;
-  border-bottom: 2px solid black;
+  height: 156px;
+  border-bottom: 8px solid #ebebeb;
   padding: 15px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  /* justify-content: space-between;
+  align-items: center; */
+  font-size: 19px;
+  font-weight: 400;
 
   div {
     display: flex;
     align-items: center;
   }
   img {
-    width: 40px;
-    height: 40px;
+    width: 55px;
+    height: 55px;
     object-fit: cover;
     border-radius: 50%;
     margin-right: 15px;
@@ -78,10 +97,25 @@ const MyPageProfile = styled.div`
 `;
 
 const MyPageEditBtn = styled.button`
-  width: 80px;
-  height: 40px;
+  width: 165px;
+  height: 48px;
   background-color: transparent;
-  border-radius: 15px;
+  border-radius: 30px;
+  border: 1px solid #d7d8df;
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+
+  &:first-child {
+    margin-right: 15px;
+  }
+  img {
+    width: 18px;
+    height: 18px;
+    margin-right: 5px;
+  }
 `;
 
 const UserPost = styled.div`

@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { editMyPage, getMyPage } from "../APIs/myPageApi";
+import LayOut from "../components/layout/LayOut";
 import { IMyPage } from "../types/myPageType";
 
 const MyPageEdit = () => {
@@ -56,35 +57,39 @@ const MyPageEdit = () => {
   };
   return (
     <>
-      <EditBar>마이페이지 수정</EditBar>
-      <UserProfile>
-        <img src={data?.profileImage} />
-        <div>{data?.nickname}</div>
-      </UserProfile>
+      <LayOut padding="0">
+        <EditBar>커뮤니티 프로필</EditBar>
+        <MyPageProfile>
+          <div>
+            <img src={data?.profileImage} />
+            <span>{data?.nickname}</span>
+          </div>
+        </MyPageProfile>
 
-      <UserProfileForm onSubmit={onSubmitHandler}>
-        <div>
-          <span>닉네임</span>
-          <input
-            value={nickname}
-            onChange={(e) => {
-              setNickname(e.target.value);
-            }}
-          ></input>
-        </div>
+        <UserProfileForm onSubmit={onSubmitHandler}>
+          <EditNickname>
+            <span>닉네임</span>
+            <input
+              // value={nickname}
+              onChange={(e) => {
+                setNickname(e.target.value);
+              }}
+            ></input>
+          </EditNickname>
 
-        <div>
-          <span>프로필 이미지</span>
-          <input
-            type="file"
-            accept="image/jpg,impge/png,image/jpeg,image/gif"
-            onChange={getImage}
-            multiple
-          ></input>
-        </div>
+          <div>
+            <span>프로필 이미지</span>
+            <input
+              type="file"
+              accept="image/jpg,image/png,image/jpeg,image/gif"
+              onChange={getImage}
+              multiple
+            ></input>
+          </div>
 
-        <button>내정보 변경</button>
-      </UserProfileForm>
+          <button>확인</button>
+        </UserProfileForm>
+      </LayOut>
     </>
   );
 };
@@ -92,30 +97,62 @@ const MyPageEdit = () => {
 const EditBar = styled.div`
   width: 100%;
   height: 50px;
-  border: 2px solid black;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 17px;
+  font-weight: 500;
+  border-bottom: 1px solid black;
 `;
 
-const UserProfile = styled.div`
+const MyPageProfile = styled.div`
   width: 100%;
-  height: 80px;
-  display: flex;
-  align-items: center;
+  height: 135px;
+  border-bottom: 1px solid #ebebeb;
   padding: 15px;
-  border-bottom: 2px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* justify-content: space-between;
+  align-items: center; */
+  font-size: 19px;
+  font-weight: 400;
 
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   img {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     object-fit: cover;
     border-radius: 50%;
-    margin-right: 15px;
+    margin-bottom: 10px;
   }
 `;
 
 const UserProfileForm = styled.form`
   padding: 15px;
+`;
+
+const EditNickname = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  span {
+    font-size: 15px;
+    font-weight: 400;
+    margin-bottom: 15px;
+  }
+  input {
+    width: 340px;
+    height: 48px;
+    padding: 15px;
+    font-size: 15px;
+    border-radius: 15px;
+    border: 1px solid #efefef;
+  }
 `;
 export default MyPageEdit;

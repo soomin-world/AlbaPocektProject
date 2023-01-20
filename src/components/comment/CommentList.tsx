@@ -50,7 +50,7 @@ const Stcontainer = styled.div`
   justify-content: center;
   flex-direction: column;
   padding: 5%;
-  background-color: #fbfbfb;
+  /* background-color: #fbfbfb; */
 `;
 
 export default CommentList;

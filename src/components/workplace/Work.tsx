@@ -49,7 +49,7 @@ const Work = ({ placeId, placeName, placeColor, salaryDay }: WorkType) => {
           <img src="/image/Group 180.png" alt="+" />
           근무등록
         </button>
-        <div className="money"> ₩ {comma(data?.data?.totalWage)}</div>
+        <div className="money"> ₩ {comma(String(data?.data?.totalWage))}</div>
       </div>
     </STCard>
   );
