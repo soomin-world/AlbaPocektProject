@@ -9,7 +9,7 @@ import Footer from "../components/footer/Footer";
 import LayOut from "../components/layout/LayOut";
 import Loading from "../components/Loading/Loading";
 
-type dataType = {
+export type dataType = {
   postId: number;
   profileImage: string;
   nickname: string;
@@ -23,6 +23,7 @@ type dataType = {
   likePost: boolean;
   commentCount: number;
   children?: JSX.Element | JSX.Element[];
+  commentCount: number | 0;
 };
 
 function Board() {
@@ -46,6 +47,7 @@ function Board() {
   }, [inView]);
   console.log(data);
   if (status === "loading") return <Loading />;
+  if (status === "error") return <div>에러다 </div>;
   return (
     <>
       <LayOut>
@@ -115,6 +117,7 @@ const Navigate = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 28px;
 `;
 
 const Select = styled.select`
@@ -140,7 +143,11 @@ const Plus = styled.img`
   font-size: 35px;
   font-weight: 300;
   position: fixed;
+<<<<<<< HEAD
   transform: translate(540%, 1100%);
+=======
+  transform: translate(490%, 1100%);
+>>>>>>> 7e562e57d59c4f16c72aa9995d7a40478be3e460
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;

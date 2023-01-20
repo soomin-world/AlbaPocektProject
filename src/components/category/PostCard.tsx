@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { changeLikePost } from "../../APIs/communityBoardApi";
-import { getComments } from "../../APIs/detailPostApi";
 import { IAllPosts } from "../../types/postType";
 
 type postProps = {
@@ -15,11 +14,15 @@ const PostCard = ({ post }: postProps) => {
   const navigate = useNavigate();
   const [likePost, setLikePost] = useState(() => post.likePost);
   const [postLikeNum, setPostLikeNum] = useState(() => post.postLikeNum);
+<<<<<<< HEAD
   const { data } = useQuery(["comment", post.postId], () =>
     getComments(post.postId)
   );
   // console.log(data);
   console.log(post);
+=======
+
+>>>>>>> 7e562e57d59c4f16c72aa9995d7a40478be3e460
   const mutatelike = useMutation(changeLikePost, {
     onSuccess: () => {
       queryClient.invalidateQueries(["post"]);
@@ -46,6 +49,7 @@ const PostCard = ({ post }: postProps) => {
       }}
     >
       <div className="wrap">
+<<<<<<< HEAD
         <p>{post.title}</p>
         <p>{post.content}</p>
 
@@ -64,76 +68,99 @@ const PostCard = ({ post }: postProps) => {
                 alt="하트 "
               />
             ) : (
+=======
+        <p className="title">{post.title}</p>
+        <p className="content">{post.content}</p>
+        <UnderInfo>
+          <p>{createTime}</p>
+          <div className="underWrap">
+            <div className="detailWrap">
+              <img className="comment" src="/image/comment.png" alt="댓글" />
+              <div>{post.commentCount}</div>
+            </div>
+            <div className="detailWrap">
+>>>>>>> 7e562e57d59c4f16c72aa9995d7a40478be3e460
               <img
                 className="heart"
                 src="/image/iconMiniHeart.png"
                 alt="하트 "
               />
+<<<<<<< HEAD
             )}
             <div>{post.postLikeNum}</div>
           </div>
         </Heart>
+=======
+              <div>{postLikeNum}</div>
+            </div>
+          </div>
+        </UnderInfo>
+>>>>>>> 7e562e57d59c4f16c72aa9995d7a40478be3e460
       </div>
-
-      <img alt="이미지" src={post.imgUrl} />
+      <img className="profileImage" alt="이미지" src={post.imgUrl} />
     </STContainer>
   );
 };
 const STContainer = styled.div`
-  height: 120px;
-  border-bottom: 1px solid #d9d9d9;
-  margin: auto;
-  padding: 15px;
+  width: 341.24px;
+  height: 105px;
+  padding-bottom: 15px;
+  border-bottom: 0.5px solid #d9d9d9;
   display: flex;
-  position: relative;
-
-  p {
-    width: 235px;
-    font-size: 13px;
-    margin: 9px 0px 9px 0px;
+  margin-bottom: 15px;
+  .wrap {
+    width: 236px;
+    height: 90;
+    .title {
+      width: 100%;
+      height: 22px;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 15px;
+      line-height: 22px;
+      margin-bottom: 5px;
+    }
+    .content {
+      width: 235px;
+      min-height: 36px;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 18px;
+      display: flex;
+      align-items: center;
+      color: #545456;
+      margin-bottom: 15px;
+    }
   }
-  p:first-child {
-    font-size: 15px;
-    font-weight: 500;
-  }
-  .image {
+  .profileImage {
     width: 90px;
     height: 90px;
-    object-fit: cover;
-    border-radius: 10px;
-    position: absolute;
-    right: 15px;
+    border-radius: 8px;
   }
 `;
 
-const Heart = styled.div`
-  width: 50px;
-  height: 15px;
-  /* position: absolute;
-  bottom: 15px;
-  right: 120px; */
-  margin-top: 10px;
+const UnderInfo = styled.div`
+  width: 235px;
+  height: 21px;
   display: flex;
   flex-direction: row;
-  gap: 5px;
-  margin-right: 5px;
-  font-size: 13px;
-  img {
-    width: 13px;
-    height: 13px;
+  justify-content: space-between;
+  font-size: 11px;
+  .underWrap {
+    margin-right: 5px;
+    display: flex;
+    gap: 5px;
+    .detailWrap {
+      display: flex;
+      gap: 5px;
+      line-height: 21px;
+      img {
+        margin-top: 5.5px;
+        width: 11px;
+        height: 11px;
+      }
+    }
   }
-  /* .heart {
-    width: 13px;
-    height: 13px;
-    margin-right: -2px;
-  }
-  .comment {
-    width: 13px;
-    height: 13px;
-    margin-right: 100px;
-  }
-  div {
-    font-size: 13px;
-  } */
 `;
 export default PostCard;
