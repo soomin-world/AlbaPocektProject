@@ -50,11 +50,20 @@ const PostCard = ({ post }: postProps) => {
               <div>{post.commentCount}</div>
             </div>
             <div className="detailWrap">
-              <img
-                className="heart"
-                src="/image/iconMiniHeart.png"
-                alt="하트 "
-              />
+              {post.likePost ? (
+                <img
+                  className="heart"
+                  src="/image/iconRedHeart.png"
+                  alt="하트 "
+                />
+              ) : (
+                <img
+                  className="heart"
+                  src="/image/iconMiniHeart.png"
+                  alt="하트 "
+                />
+              )}
+
               <div>{postLikeNum}</div>
             </div>
           </div>
@@ -67,10 +76,11 @@ const PostCard = ({ post }: postProps) => {
 const STContainer = styled.div`
   width: 341.24px;
   height: 105px;
-  padding-bottom: 15px;
   border-bottom: 0.5px solid #d9d9d9;
   display: flex;
+  justify-content: space-between;
   margin-bottom: 15px;
+
   .wrap {
     width: 236px;
     height: 90;
@@ -81,11 +91,10 @@ const STContainer = styled.div`
       font-weight: 500;
       font-size: 15px;
       line-height: 22px;
-      margin-bottom: 5px;
+      margin: 9px 0px 9px 0px;
     }
     .content {
       width: 235px;
-      min-height: 36px;
       font-style: normal;
       font-weight: 400;
       font-size: 13px;
@@ -93,13 +102,14 @@ const STContainer = styled.div`
       display: flex;
       align-items: center;
       color: #545456;
-      margin-bottom: 15px;
+      margin: 9px 0px 9px 0px;
     }
   }
   .profileImage {
     width: 90px;
     height: 90px;
     border-radius: 8px;
+    object-fit: cover;
   }
 `;
 
@@ -107,11 +117,12 @@ const UnderInfo = styled.div`
   width: 235px;
   height: 21px;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   font-size: 11px;
+  margin-top: 15px;
+
   .underWrap {
-    margin-right: 5px;
     display: flex;
     gap: 5px;
     .detailWrap {

@@ -110,6 +110,11 @@ function PostDetail() {
           )}
         </div>
         <span>좋아요 {data.postLikeNum}</span>
+
+        <div>
+          <img src="/image/iconChatBubble.png" alt="heart" />
+        </div>
+        <span>댓글 {data.commentCount}</span>
       </div>
     </SContainer>
   );
@@ -203,6 +208,7 @@ const SContainer = styled.div`
     span {
       font-size: 15px;
       font-weight: 400;
+      margin-right: 14px;
     }
   }
 `;
