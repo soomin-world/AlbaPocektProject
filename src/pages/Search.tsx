@@ -90,6 +90,7 @@ const SearchInput = styled.input`
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   background-color: #f0f0f0;
+  padding-left: 13px;
 `;
 
 const SearchBtn = styled.button`
