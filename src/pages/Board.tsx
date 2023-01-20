@@ -97,12 +97,13 @@ function Board() {
               });
             })}
         <Plus
-          src="/image/plus.png"
-          alt="+"
           onClick={() => {
             navigate("/posting");
           }}
-        />
+        >
+          <img src="/image/iconPencil.png" />
+        </Plus>
+
         {isFetchingNextPage ? <Loading /> : <div ref={ref}>여기 </div>}
         <Footer />
       </LayOut>
@@ -135,15 +136,17 @@ const Icon = styled.div`
   }
 `;
 
-const Plus = styled.img`
+const Plus = styled.div`
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  font-size: 35px;
-  font-weight: 300;
+  background-color: #5fce80;
+
   position: fixed;
-  transform: translate(490%, 1100%);
+  bottom: 70px;
+  right: 20px;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+
   display: flex;
   justify-content: center;
   align-items: center;
