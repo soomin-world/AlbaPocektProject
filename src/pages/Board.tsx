@@ -8,7 +8,6 @@ import PostCard from "../components/category/PostCard";
 import Footer from "../components/footer/Footer";
 import LayOut from "../components/layout/LayOut";
 import Loading from "../components/Loading/Loading";
-import Post from "./Post";
 
 type dataType = {
   postId: number;
@@ -48,61 +47,63 @@ function Board() {
   if (status === "loading") return <Loading />;
   return (
     <>
-      <Navigate>
-        <Select
-          onChange={(e) => {
-            console.log(e.target.value);
-            navigate(`/board/${e.target.value}`);
+      <LayOut>
+        <Navigate>
+          <Select
+            onChange={(e) => {
+              console.log(e.target.value);
+              navigate(`/board/${e.target.value}`);
+            }}
+          >
+            <option key="all" value="">
+              전체
+            </option>
+            <option key="free" value="free">
+              자유게시판
+            </option>
+            <option key="partTime" value="partTime">
+              알바고민 게시판
+            </option>
+            <option key="cover" value="cover">
+              대타 구해요 게시판
+            </option>
+          </Select>
+          <Icon>
+            <img
+              src="/image/iconSearch.png"
+              onClick={() => {
+                navigate("/search");
+              }}
+              alt="search"
+            />
+            <img src="/image/iconChat.png" alt="chat" />
+            <img
+              src="/image/iconUser.png"
+              onClick={() => {
+                navigate("/mypage");
+              }}
+              alt="mypage"
+            />
+          </Icon>
+        </Navigate>
+        <Outlet></Outlet>
+        {boardMatch === null
+          ? null
+          : data?.pages.map((page) => {
+              return page.content.map((p: dataType) => {
+                return <PostCard key={p.postId} post={p} />;
+              });
+            })}
+        <Plus
+          src="/image/plus.png"
+          alt="+"
+          onClick={() => {
+            navigate("/posting");
           }}
-        >
-          <option key="all" value="">
-            전체
-          </option>
-          <option key="free" value="free">
-            자유게시판
-          </option>
-          <option key="partTime" value="partTime">
-            알바고민 게시판
-          </option>
-          <option key="cover" value="cover">
-            대타 구해요 게시판
-          </option>
-        </Select>
-        <div style={{ height: "24px" }}>
-          <Icon
-            src="/image/iconSearch.png"
-            onClick={() => {
-              navigate("/search");
-            }}
-            margin="10px"
-          ></Icon>
-          <Icon src="/image/iconChat.png" margin="7px"></Icon>
-          <Icon
-            src="/image/iconUser.png"
-            onClick={() => {
-              navigate("/mypage");
-            }}
-            margin="15px"
-          ></Icon>
-        </div>
-      </Navigate>
-      <Outlet></Outlet>
-      {boardMatch === null
-        ? null
-        : data?.pages.map((page) => {
-            return page.content.map((p: dataType) => {
-              return <PostCard key={p.postId} post={p} />;
-            });
-          })}
-      <Plus
-        onClick={() => {
-          navigate("/posting");
-        }}
-      >
-        +
-      </Plus>
-      {isFetchingNextPage ? <Loading /> : <div ref={ref}>여기 </div>}
-      <Footer />
+        />
+        {isFetchingNextPage ? <Loading /> : <div ref={ref}>여기 </div>}
+        <Footer />
+      </LayOut>
     </>
   );
 }
@@ -110,37 +111,37 @@ function Board() {
 const Navigate = styled.div`
   width: 100%;
   height: 60px;
-  padding-left: 10px;
-  border-bottom: 1px solid #d9d9d9;
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
 
 const Select = styled.select`
-  width: 102px;
-  height: 30px;
-  font-size: 17px;
-  font-weight: 500;
+  width: 65px;
+  height: 28px;
+  font-size: 20px;
+  font-weight: 400;
   border: none;
 `;
 
-const Icon = styled.img<{ margin: string }>`
-  width: 24px;
-  height: 24px;
-  margin-right: ${(props) => props.margin};
+const Icon = styled.div`
+  img {
+    width: 24px;
+    height: 24px;
+    margin-left: 15px;
+  }
 `;
 
-const Plus = styled.div`
-  width: 50px;
-  height: 50px;
+const Plus = styled.img`
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   font-size: 35px;
   font-weight: 300;
-  background-color: skyblue;
   position: fixed;
-  right: 10px;
-  bottom: 10px;
+  transform: translate(540%, 1100%);
+  //transform: translateX(100%);
+
   display: flex;
   justify-content: center;
   align-items: center;

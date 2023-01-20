@@ -84,7 +84,7 @@ function AddShift() {
               : null}
           </div>
           <img
-            src="/icon-calendar-check-mono.png"
+            src="/image/calendar.png"
             onClick={() => setIsCalendarBtns((pre) => !pre)}
             alt="달력"
           />
@@ -124,9 +124,7 @@ function AddShift() {
   );
 }
 
-const STContainer = styled.div`
-  padding: 0px 17px 0px 18px;
-`;
+const STContainer = styled.div``;
 
 const STHeader = styled.div`
   display: flex;

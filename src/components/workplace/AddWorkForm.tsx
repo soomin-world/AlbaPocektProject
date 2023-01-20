@@ -158,9 +158,7 @@ function AddWorkForm() {
   );
 }
 
-const STContainer = styled.div`
-  padding: 0px 17px 0px 18px;
-`;
+const STContainer = styled.div``;
 
 const STHeader = styled.div`
   display: flex;

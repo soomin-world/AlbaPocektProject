@@ -36,55 +36,52 @@ const PostCard = ({ post }: postProps) => {
     mutatelike.mutate(post.postId);
   };
   return (
-    <PostCardBox
+    <STContainer
       key={post.postId}
       onClick={() => {
         navigate(`/post/${post.postId}`);
       }}
     >
-      {/* <PostCardProfile>
-        <img src={post.profileImage} alt="프로필사진" />
-        <PostCardProfileInfo>
-          <div>{post.nickname}</div>
-          <div>01-06</div>
-        </PostCardProfileInfo>
-      </PostCardProfile> */}
-
-      <div>
+      <div className="wrap">
         <p>{post.title}</p>
         <p>{post.content}</p>
-        <p style={{ marginTop: "28px" }}>{createTime}</p>
+        <div className="underWRap">
+          <p style={{ marginTop: "28px" }}>{createTime}</p>
 
-        <Heart>
-          <img className="comment" src="/image/comment.png" alt="댓글" />
-          <div>{data?.length}</div>
-
-          <img
-            className="heart"
-            src="/image/iconMiniHeart.png"
-            alt="하트 "
-            onClick={() => {
-              onClickHeartHandler();
-            }}
-          />
-          <div>{postLikeNum}</div>
-
-          {/* <img src="/image/iconChatBubble.png" />
+          <Heart>
+            <div className="commentWrap">
+              <img className="comment" src="/image/comment.png" alt="댓글" />
+              <div>{data?.length}</div>
+            </div>
+            <div className="heartWRap">
+              <img
+                className="heart"
+                src="/image/iconMiniHeart.png"
+                alt="하트 "
+                onClick={() => {
+                  onClickHeartHandler();
+                }}
+              />
+              <div>{postLikeNum}</div>
+            </div>
+            {/* <img src="/image/iconChatBubble.png" />
           <span>{postLikeNum}</span> */}
-        </Heart>
+          </Heart>
+        </div>
       </div>
 
       <img alt="이미지" src={post.imgUrl} />
-    </PostCardBox>
+    </STContainer>
   );
 };
-const PostCardBox = styled.div`
+const STContainer = styled.div`
   height: 120px;
   border-bottom: 1px solid #d9d9d9;
   margin: auto;
   padding: 15px;
   display: flex;
   position: relative;
+
   p {
     width: 235px;
     font-size: 13px;
@@ -107,9 +104,9 @@ const PostCardBox = styled.div`
 const Heart = styled.div`
   width: 50px;
   height: 15px;
-  position: absolute;
+  /* position: absolute;
   bottom: 15px;
-  right: 120px;
+  right: 120px; */
   margin-top: 10px;
   display: flex;
   flex-direction: row;
