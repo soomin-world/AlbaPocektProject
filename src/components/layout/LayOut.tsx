@@ -22,7 +22,8 @@ const STLayOut = styled.div<{ padding: string | undefined }>`
   font-family: "Noto Sans KR";
   display: flex;
   flex-direction: column;
-  min-height: 734px;
+  // min-height: 734px;
+  height: 100vh;
   //padding-bottom: 100px;
   width: 375px;
   border: 1px solid black;

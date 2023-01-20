@@ -46,7 +46,9 @@ const MyPage = () => {
           </div>
         </MyPageProfile>
 
-        <p style={{ padding: "10px", fontWeight: "400" }}>내 활동</p>
+        <p style={{ padding: "10px 10px 10px 4%", fontWeight: "400" }}>
+          내 활동
+        </p>
 
         <div style={{ padding: "0 5% 0 5%" }}>
           {data?.postList.map((data) => {
