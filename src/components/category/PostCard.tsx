@@ -6,12 +6,11 @@ import { changeLikePost } from "../../APIs/communityBoardApi";
 import { getComments } from "../../APIs/detailPostApi";
 import { IAllPosts } from "../../types/postType";
 
-export type postProps = {
+type postProps = {
   post: IAllPosts; // 부모컴포넌트에서 import 해온 타입을 재사용 해 줍시다.
 };
 
 const PostCard = ({ post }: postProps) => {
-  console.log(post);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [likePost, setLikePost] = useState(() => post.likePost);
@@ -26,7 +25,8 @@ const PostCard = ({ post }: postProps) => {
       queryClient.invalidateQueries(["categoryPosts"]);
     },
   });
-  //const createTime = post.createAt.substring(0, 10);
+  const createTime = post.createAt.substring(0, 10);
+  console.log(createTime);
   const onClickHeartHandler = () => {
     if (likePost) {
       setPostLikeNum((postLikeNum) => postLikeNum - 1);
@@ -38,23 +38,16 @@ const PostCard = ({ post }: postProps) => {
   };
 
   return (
-    <PostCardBox
+    <STContainer
       key={post.postId}
       onClick={() => {
         navigate(`/post/${post.postId}`);
       }}
     >
-      {/* <PostCardProfile>
-        <img src={post.profileImage} alt="프로필사진" />
-        <PostCardProfileInfo>
-          <div>{post.nickname}</div>
-          <div>01-06</div>
-        </PostCardProfileInfo>
-      </PostCardProfile> */}
-
-      <div>
+      <div className="wrap">
         <p>{post.title}</p>
         <p>{post.content}</p>
+
         {/* <p style={{ marginTop: "28px" }}>{createTime}</p> */}
 
         <Heart>
@@ -69,16 +62,34 @@ const PostCard = ({ post }: postProps) => {
 
           <div>{post.postLikeNum}</div>
 
-          {/* <img src="/image/iconChatBubble.png" />
+
+          <Heart>
+            <div className="commentWrap">
+              <img className="comment" src="/image/comment.png" alt="댓글" />
+              <div>{data?.length}</div>
+            </div>
+            <div className="heartWRap">
+              <img
+                className="heart"
+                src="/image/iconMiniHeart.png"
+                alt="하트 "
+                onClick={() => {
+                  onClickHeartHandler();
+                }}
+              />
+              <div>{postLikeNum}</div>
+            </div>
+            {/* <img src="/image/iconChatBubble.png" />
           <span>{postLikeNum}</span> */}
-        </Heart>
+          </Heart>
+        </div>
       </div>
 
-      <img className="image" alt="이미지" src={post.imgUrl} />
-    </PostCardBox>
+      <img alt="이미지" src={post.imgUrl} />
+    </STContainer>
   );
 };
-const PostCardBox = styled.div`
+const STContainer = styled.div`
   height: 120px;
   border-bottom: 1px solid #d9d9d9;
   margin: auto;
@@ -95,7 +106,6 @@ const PostCardBox = styled.div`
     font-size: 15px;
     font-weight: 500;
   }
-
   .image {
     width: 90px;
     height: 90px;
@@ -109,9 +119,9 @@ const PostCardBox = styled.div`
 const Heart = styled.div`
   width: 50px;
   height: 15px;
-  position: absolute;
+  /* position: absolute;
   bottom: 15px;
-  right: 120px;
+  right: 120px; */
   margin-top: 10px;
   display: flex;
   flex-direction: row;
@@ -136,5 +146,4 @@ const Heart = styled.div`
     font-size: 13px;
   } */
 `;
-
 export default PostCard;

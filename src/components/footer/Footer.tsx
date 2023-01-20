@@ -8,56 +8,65 @@ function Footer() {
   const comMatch = useMatch("/board");
 
   return (
-    <STContainer>
-      {mainMatch ? (
-        <img
-          src="/image/iconHomeGreen.png"
-          alt="홈"
-          onClick={() => navigate("/")}
-        />
-      ) : (
-        <img src="/image/iconHome.png" alt="홈" onClick={() => navigate("/")} />
-      )}
+    <Wrap>
+      <STContainer>
+        {mainMatch ? (
+          <img
+            src="/image/iconHomeGreen.png"
+            alt="홈"
+            onClick={() => navigate("/")}
+          />
+        ) : (
+          <img
+            src="/image/iconHome.png"
+            alt="홈"
+            onClick={() => navigate("/")}
+          />
+        )}
 
-      {calMatch ? (
-        <img
-          src="/image/iconCalGreen.png"
-          alt="캘린더"
-          onClick={() => navigate("/calendar")}
-          style={{ marginLeft: "17px" }}
-        />
-      ) : (
-        <img
-          src="/image/iconCal.png"
-          alt="캘린더"
-          onClick={() => navigate("/calendar")}
-          style={{ marginLeft: "17px" }}
-        />
-      )}
+        {calMatch ? (
+          <img
+            src="/image/iconCalGreen.png"
+            alt="캘린더"
+            onClick={() => navigate("/calendar")}
+            style={{ marginLeft: "17px" }}
+          />
+        ) : (
+          <img
+            src="/image/iconCal.png"
+            alt="캘린더"
+            onClick={() => navigate("/calendar")}
+            style={{ marginLeft: "17px" }}
+          />
+        )}
 
-      {comMatch ? (
-        <img
-          src="/image/iconComGreen.png"
-          alt="커뮤니티"
-          onClick={() => navigate("/board")}
-        />
-      ) : (
-        <img
-          src="/image/iconCom.png"
-          alt="커뮤니티"
-          onClick={() => navigate("/board")}
-        />
-      )}
-    </STContainer>
+        {comMatch ? (
+          <img
+            src="/image/iconComGreen.png"
+            alt="커뮤니티"
+            onClick={() => navigate("/board")}
+          />
+        ) : (
+          <img
+            src="/image/iconCom.png"
+            alt="커뮤니티"
+            onClick={() => navigate("/board")}
+          />
+        )}
+      </STContainer>
+    </Wrap>
   );
 }
 
+const Wrap = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 const STContainer = styled.div`
   position: fixed;
-  right: 0px;
   bottom: -50px;
   display: flex;
-  width: 100%;
+  width: 375px;
   height: 50px;
   justify-content: space-around;
   transform: translateY(-100%);

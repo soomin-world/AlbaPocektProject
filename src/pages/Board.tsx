@@ -1,143 +1,147 @@
-import { useEffect, useState } from "react";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import {
-  Outlet,
-  Route,
-  Routes,
-  useMatch,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
+import { Outlet, useMatch, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { getAllPosts } from "../APIs/communityBoardApi";
+import { getInfinitePost } from "../APIs/communityBoardApi";
 import PostCard from "../components/category/PostCard";
-import { IAllPosts } from "../types/postType";
 import Footer from "../components/footer/Footer";
-import { instance } from "../APIs/axios";
+import LayOut from "../components/layout/LayOut";
+import Loading from "../components/Loading/Loading";
 
-type TotalProps = {
-  children: JSX.Element | JSX.Element[];
+type dataType = {
+  postId: number;
+  profileImage: string;
+  nickname: string;
+  title: string;
+  content: string;
+  imgUrl: string;
+  postLikeNum: number;
+  category: string | null;
+  createAt: string;
+  modifiedAt: string;
+  likePost: boolean;
+  children?: JSX.Element | JSX.Element[];
 };
 
-const Board = () => {
+function Board() {
   const navigate = useNavigate();
+  const { ref, inView } = useInView();
   const boardMatch = useMatch("/board");
-  const [state, setState] = useState([]);
-
-  // const { isLoading, isError, data, refetch } = useQuery<IAllPosts[]>(
-  //   ["post"],
-  //   () => getAllPosts()
-  // );
-
+  const { data, status, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useInfiniteQuery(
+      ["posts"],
+      ({ pageParam = 1 }) => getInfinitePost(pageParam),
+      {
+        getNextPageParam: (lastPage) =>
+          !lastPage.last ? lastPage.nextPage : undefined,
+      }
+    );
+  //const { content, pageable, sort } = data;
   useEffect(() => {
-    console.log("내가 마운트 됨!!!");
-    getAllPosts();
-    // refetch();
-    // window.location.reload();
-  }, []);
-
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView]);
+  console.log(data);
+  if (status === "loading") return <Loading />;
   return (
     <>
-      <Navigate>
-        <Select
-          onChange={(e) => {
-            console.log(e.target.value);
-            navigate(`/board/${e.target.value}`);
+      <LayOut>
+        <Navigate>
+          <Select
+            onChange={(e) => {
+              console.log(e.target.value);
+              navigate(`/board/${e.target.value}`);
+            }}
+          >
+            <option key="all" value="">
+              전체
+            </option>
+            <option key="free" value="free">
+              자유게시판
+            </option>
+            <option key="partTime" value="partTime">
+              알바고민 게시판
+            </option>
+            <option key="cover" value="cover">
+              대타 구해요 게시판
+            </option>
+          </Select>
+          <Icon>
+            <img
+              src="/image/iconSearch.png"
+              onClick={() => {
+                navigate("/search");
+              }}
+              alt="search"
+            />
+            <img src="/image/iconChat.png" alt="chat" />
+            <img
+              src="/image/iconUser.png"
+              onClick={() => {
+                navigate("/mypage");
+              }}
+              alt="mypage"
+            />
+          </Icon>
+        </Navigate>
+        <Outlet></Outlet>
+        {boardMatch === null
+          ? null
+          : data?.pages.map((page) => {
+              return page.content.map((p: dataType) => {
+                return <PostCard key={p.postId} post={p} />;
+              });
+            })}
+        <Plus
+          src="/image/plus.png"
+          alt="+"
+          onClick={() => {
+            navigate("/posting");
           }}
-        >
-          <option key="all" value="">
-            전체 게시판
-          </option>
-          <option key="free" value="free">
-            자유 게시판
-          </option>
-          <option key="partTime" value="partTime">
-            알바 고민
-          </option>
-          <option key="cover" value="cover">
-            대타 구해요
-          </option>
-        </Select>
-        <div style={{ height: "24px" }}>
-          <Icon
-            src="/image/iconSearch.png"
-            onClick={() => {
-              navigate("/search");
-            }}
-            margin="10px"
-          ></Icon>
-          <Icon src="/image/iconChat.png" margin="7px"></Icon>
-          <Icon
-            src="/image/iconUser.png"
-            onClick={() => {
-              navigate("/mypage");
-            }}
-            margin="15px"
-          ></Icon>
-        </div>
-      </Navigate>
-      <Outlet></Outlet>
-      {/* {isLoading ? <div>로딩중</div> : null}
-      {isError ? <div>애러 뜸</div> : null}
-      {boardMatch === null
-        ? null
-        : data?.map((post) => {
-            // console.log(post);
-            return <PostCard key={post.postId} post={post} />;
-          })} */}
-      <Plus
-        onClick={() => {
-          navigate("/posting");
-        }}
-      >
-        <img src="/image/iconPencil.png" />
-      </Plus>
-      <Footer />
+        />
+        {isFetchingNextPage ? <Loading /> : <div ref={ref}>여기 </div>}
+        <Footer />
+      </LayOut>
+
     </>
   );
-};
-const Total = styled.div<{ props: TotalProps }>`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
+}
+
 const Navigate = styled.div`
   width: 100%;
   height: 60px;
-  padding-left: 10px;
-  border-bottom: 1px solid #d9d9d9;
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
 
 const Select = styled.select`
-  width: 102px;
-  height: 30px;
-  font-size: 17px;
-  font-weight: 500;
+  width: 65px;
+  height: 28px;
+  font-size: 20px;
+  font-weight: 400;
   border: none;
 `;
 
-const Icon = styled.img<{ margin: string }>`
-  width: 24px;
-  height: 24px;
-  margin-right: ${(props) => props.margin};
+const Icon = styled.div`
+  img {
+    width: 24px;
+    height: 24px;
+    margin-left: 15px;
+  }
 `;
 
-const Plus = styled.div`
-  width: 50px;
-  height: 50px;
+const Plus = styled.img`
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   font-size: 35px;
   font-weight: 300;
-  background-color: #5fce80;
   position: fixed;
-  right: 20px;
-  bottom: 70px;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
-
+  transform: translate(540%, 1100%);
+   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
