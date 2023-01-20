@@ -14,11 +14,12 @@ const PostCard = ({ post }: postProps) => {
   console.log(post);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const [likePost, setLikePost] = useState(post.likePost);
-  const [postLikeNum, setPostLikeNum] = useState(post.postLikeNum);
+  const [likePost, setLikePost] = useState(() => post.likePost);
+  const [postLikeNum, setPostLikeNum] = useState(() => post.postLikeNum);
   const { data } = useQuery(["comment", post.postId], () =>
     getComments(post.postId)
   );
+  console.log(data);
   const mutatelike = useMutation(changeLikePost, {
     onSuccess: () => {
       queryClient.invalidateQueries(["post"]);
@@ -28,13 +29,14 @@ const PostCard = ({ post }: postProps) => {
   //const createTime = post.createAt.substring(0, 10);
   const onClickHeartHandler = () => {
     if (likePost) {
-      setPostLikeNum(postLikeNum - 1);
+      setPostLikeNum((postLikeNum) => postLikeNum - 1);
     } else {
-      setPostLikeNum(postLikeNum + 1);
+      setPostLikeNum((postLikeNum) => postLikeNum + 1);
     }
     setLikePost(!likePost);
     mutatelike.mutate(post.postId);
   };
+
   return (
     <PostCardBox
       key={post.postId}
@@ -59,15 +61,13 @@ const PostCard = ({ post }: postProps) => {
           <img className="comment" src="/image/comment.png" alt="댓글" />
           <div>{data?.length}</div>
 
-          <img
-            className="heart"
-            src="/image/iconMiniHeart.png"
-            alt="하트 "
-            onClick={() => {
-              onClickHeartHandler();
-            }}
-          />
-          <div>{postLikeNum}</div>
+          {post.likePost ? (
+            <img className="heart" src="/image/iconRedHeart.png" alt="하트 " />
+          ) : (
+            <img className="heart" src="/image/iconMiniHeart.png" alt="하트 " />
+          )}
+
+          <div>{post.postLikeNum}</div>
 
           {/* <img src="/image/iconChatBubble.png" />
           <span>{postLikeNum}</span> */}

@@ -83,7 +83,7 @@ function PostForm() {
           <label>이미지 첨부하기</label>
           <input
             type="file"
-            accept="image/jpg,impge/png,image/jpeg,image/gif"
+            accept="image/jpg,image/png,image/jpeg,image/gif"
             onChange={getImage}
             multiple
           />
