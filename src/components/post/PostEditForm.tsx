@@ -48,7 +48,7 @@ function PostEditForm() {
     }
     const payload = [id, editPost];
     mutatePost.mutate(payload);
-    window.location.href = `/post/${id}`;
+    //window.location.href = `/post/${id}`;
   };
 
   const mutatePost = useMutation(putPost, {
