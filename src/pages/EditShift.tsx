@@ -58,6 +58,17 @@ function EditShift() {
   return (
     <>
       <STContainer>
+        <STHeader>
+          <img
+            src="/image/leftArrow.png"
+            alt="<"
+            onClick={() => navigate("/")}
+          />
+          <h1>근무 수정</h1>
+        </STHeader>
+        <STLabel>
+          <h1>날짜</h1>
+        </STLabel>
         <div className="hourlyWage">
           <label>시급</label>
           <input
@@ -91,24 +102,100 @@ function EditShift() {
   );
 }
 
-const STContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-`;
+const STContainer = styled.div``;
 
-const TimeSelector = styled.div`
-  margin-bottom: 300px;
+const STHeader = styled.div`
+  display: flex;
+  margin: 12px 0px 41.5px 0px;
+  height: 35px;
+  img {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }
+  h1 {
+    width: 83px;
+    height: 25px;
+    font-size: 17px;
+    font-weight: 500;
+    margin-left: 102px;
+  }
+`;
+const STLabel = styled.div`
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 11px;
 `;
 
 const WorkDayInput = styled.div`
   display: flex;
   justify-content: space-between;
-  border: 1px solid black;
-  width: 90%;
-  div {
-    width: 60%;
+  border: 1px solid #efefef;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  width: 100%;
+  height: 44px;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 30px;
+  img {
+    width: 18px;
+    height: 18px;
   }
+`;
+
+const SThourlyWage = styled.div`
+  display: flex;
+  flex-direction: column;
+  label {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 15px;
+  }
+  input {
+    width: 159.78px;
+    height: 44px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    border: 1px solid #efefef;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 5px;
+    margin-bottom: 30px;
+  }
+`;
+const TimeSelector = styled.div`
+  display: flex;
+  flex-direction: column;
+  label {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 15px;
+  }
+  input {
+    width: 159.78px;
+    height: 44px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    border: 1px solid #efefef;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 5px;
+    margin-bottom: 290px;
+  }
+`;
+
+const STButton = styled.button`
+  width: 90%;
+  height: 56px;
+  background-color: #5fce80;
+  border-radius: 8px;
+  margin-left: 6%;
+  border: none;
+  color: white;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 24.62px;
 `;
 
 export default EditShift;

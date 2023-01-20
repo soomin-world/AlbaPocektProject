@@ -22,6 +22,8 @@ const PostCard = ({ post }: postProps) => {
   });
   const createTime = post.createAt.substring(0, 10);
   console.log(createTime);
+  const time = post.createAt.substring(11, 16);
+  console.log(time);
   const onClickHeartHandler = () => {
     if (likePost) {
       setPostLikeNum((postLikeNum) => postLikeNum - 1);
@@ -43,7 +45,9 @@ const PostCard = ({ post }: postProps) => {
         <p className="title">{post.title}</p>
         <p className="content">{post.content}</p>
         <UnderInfo>
-          <p>{createTime}</p>
+          <p>
+            {createTime} {time}
+          </p>
           <div className="underWrap">
             <div className="detailWrap">
               <img className="comment" src="/image/comment.png" alt="댓글" />

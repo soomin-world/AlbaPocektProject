@@ -40,6 +40,7 @@ const Work = ({ placeId, placeName, placeColor, salaryDay }: WorkType) => {
               open={isOpen}
               close={dropDownHandler}
               address={`/addwork/${placeId}`}
+              deleteValue={"workPlace"}
             />
           ) : null}
         </div>

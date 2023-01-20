@@ -36,13 +36,7 @@ function PostDetail() {
       queryClient.invalidateQueries(["categoryPosts"]);
     },
   });
-  const mutatedelete = useMutation(deletePost);
 
-  const deleteHandler = () => {
-    mutatedelete.mutate(id);
-    alert("삭제되었습니다!");
-    navigate("/board");
-  };
   const dropDownHandler = () => {
     setIsOpen(!isOpen);
   };
@@ -84,6 +78,7 @@ function PostDetail() {
                   open={isOpen}
                   close={dropDownHandler}
                   address={`/posting/${data.postId}`}
+                  deleteValue={"post"}
                 />
               ) : null}
             </div>

@@ -15,6 +15,7 @@ export const putPost = async (payload: any) => {
 //게시글 삭제
 export const deletePost = async (payload: any) => {
   await instance.delete(`/api/posts/${payload}`);
+  return (window.location.href = "/board");
 };
 
 /* -----------댓글 ---------*/
