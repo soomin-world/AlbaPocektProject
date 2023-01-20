@@ -20,9 +20,11 @@ const MyPageEdit = () => {
 
   const [nickname, setNickname] = useState(data?.nickname);
   const [file, setFile] = useState<File | undefined>();
+  const [userImage, setUserImage] = useState(data?.profileImage);
 
   useEffect(() => {
     setNickname(data?.nickname);
+    setUserImage(data?.profileImage);
   }, [data]);
 
   const getImage = (e: any) => {
@@ -61,7 +63,7 @@ const MyPageEdit = () => {
         <EditBar>커뮤니티 프로필</EditBar>
         <MyPageProfile>
           <div>
-            <img src={data?.profileImage} />
+            <img src={userImage} />
             <span>{data?.nickname}</span>
           </div>
         </MyPageProfile>

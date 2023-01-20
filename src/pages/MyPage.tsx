@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getMyPage } from "../APIs/myPageApi";
@@ -10,6 +11,7 @@ import { dataType } from "./Board";
 
 const MyPage = () => {
   const navigate = useNavigate();
+
   const { isLoading, isError, data } = useQuery<IMyPage>(["myPage"], () =>
     getMyPage()
   );
