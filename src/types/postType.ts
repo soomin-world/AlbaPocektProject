@@ -11,4 +11,5 @@ export interface IAllPosts {
   modifiedAt: string;
   likePost: boolean;
   children?: JSX.Element | JSX.Element[];
+  commentCount: number;
 }

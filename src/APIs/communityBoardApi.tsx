@@ -9,6 +9,18 @@ export const getInfinitePost = async (pageParam: number) => {
   return { content, last, nextPage: pageParam + 1 };
 };
 
+export const getInfinitePostByCategory = async (
+  pageParam: number,
+  category: string
+) => {
+  const { data } = await instance.get(
+    `/api/posts/category?page=${pageParam}&size=7&category=${category}`
+  );
+  const { content, last } = data;
+  console.log(content);
+  return { content, last, nextPage: pageParam + 1 };
+};
+
 //전체 게시글 조회
 export const getAllPosts = async () => {
   const { data } = await instance.get("/api/posts");

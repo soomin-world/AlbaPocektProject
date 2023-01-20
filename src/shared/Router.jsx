@@ -17,7 +17,6 @@ import AddWork from "../pages/Addwork";
 import AddShift from "../pages/Addshift";
 import Test from "../pages/Test";
 import EditShift from "../pages/EditShift";
-import InfiniteScrollText from "../pages/InfiniteScrollTest";
 
 function Router() {
   return (
@@ -48,7 +47,6 @@ function Router() {
         <Route path="/addWork/:id?" element={<AddWork />} />
         <Route path="/addShift/:id" element={<AddShift />} />
         <Route path="/test" element={<Test />} />
-        <Route path="/test1" element={<InfiniteScrollText />} />
       </Routes>
     </BrowserRouter>
   );
