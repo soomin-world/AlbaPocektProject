@@ -115,6 +115,7 @@ function PostForm() {
             type="file"
             accept="image/*"
             id="profileImg"
+            onChange={getImage}
           />
         </div>
       </SContianer>
@@ -171,7 +172,7 @@ const SContianer = styled.div`
     }
   }
   .content {
-    textarea {
+    input {
       border: none;
       width: 100%;
       height: 240px;
