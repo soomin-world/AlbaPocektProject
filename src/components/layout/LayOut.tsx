@@ -26,7 +26,7 @@ const STLayOut = styled.div<{ padding: string | undefined }>`
   height: 100vh;
   //padding-bottom: 100px;
   width: 375px;
-  border: 1px solid black;
+  // border: 1px solid black;
   overflow: auto;
   padding: ${(props) => (props.padding ? props.padding : "0px 17px 0px 17px")};
 `;
