@@ -172,25 +172,28 @@ const SContianer = styled.div`
     }
   }
   .content {
-    input {
+    textarea {
       border: none;
       width: 100%;
-      height: 240px;
+      height: 250px;
       font-weight: 400;
       font-size: 15px;
-      line-height: 22px;
+      resize: none;
       :focus {
         outline: none;
-        display: none;
+        //display: none;
       }
     }
   }
   .preview {
     img {
+      width: 345px;
+      height: 258px;
       min-width: 345px;
       min-height: 258px;
-      border: 1px solid black;
-      margin-bottom: 47px;
+      border: 0.5px solid rgba(197, 197, 197, 0.7);
+      margin-bottom: 43px;
+      object-fit: cover;
     }
   }
   .imageUpload {

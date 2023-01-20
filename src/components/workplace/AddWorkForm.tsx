@@ -98,20 +98,20 @@ function AddWorkForm() {
           <STColor>
             <button
               onClick={() => {
-                const value = `#ef0400c6`;
+                const value = `#ee9071`;
                 setColor(value);
               }}
               style={{
-                backgroundColor: `#ef0400c6`,
+                backgroundColor: `#EE9171`,
               }}
             />
             <button
               onClick={() => {
-                const value = `#b2c34f`;
+                const value = `#F6E279`;
                 setColor(value);
               }}
               style={{
-                backgroundColor: `#b2c34f`,
+                backgroundColor: `#F6E279`,
               }}
             />
             <button
@@ -125,20 +125,20 @@ function AddWorkForm() {
             />
             <button
               onClick={() => {
-                const value = `#3f74dd`;
+                const value = `#6290F0`;
                 setColor(value);
               }}
               style={{
-                backgroundColor: `#3f74dd`,
+                backgroundColor: `#6290F0`,
               }}
             />
             <button
               onClick={() => {
-                const value = `#6344c9`;
+                const value = `#6532E9`;
                 setColor(value);
               }}
               style={{
-                backgroundColor: `#6344c9`,
+                backgroundColor: `#6532E9`,
               }}
             />
             <button
