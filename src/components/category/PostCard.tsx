@@ -18,7 +18,8 @@ const PostCard = ({ post }: postProps) => {
   const { data } = useQuery(["comment", post.postId], () =>
     getComments(post.postId)
   );
-  console.log(data);
+  // console.log(data);
+  console.log(post);
   const mutatelike = useMutation(changeLikePost, {
     onSuccess: () => {
       queryClient.invalidateQueries(["post"]);
@@ -51,38 +52,27 @@ const PostCard = ({ post }: postProps) => {
         {/* <p style={{ marginTop: "28px" }}>{createTime}</p> */}
 
         <Heart>
-          <img className="comment" src="/image/comment.png" alt="댓글" />
-          <div>{data?.length}</div>
-
-          {post.likePost ? (
-            <img className="heart" src="/image/iconRedHeart.png" alt="하트 " />
-          ) : (
-            <img className="heart" src="/image/iconMiniHeart.png" alt="하트 " />
-          )}
-
-          <div>{post.postLikeNum}</div>
-
-
-          <Heart>
-            <div className="commentWrap">
-              <img className="comment" src="/image/comment.png" alt="댓글" />
-              <div>{data?.length}</div>
-            </div>
-            <div className="heartWRap">
+          <div className="commentWrap">
+            <img className="comment" src="/image/comment.png" alt="댓글" />
+            <div>{post.commentCount}</div>
+          </div>
+          <div className="heartWRap">
+            {post.likePost ? (
+              <img
+                className="heart"
+                src="/image/iconRedHeart.png"
+                alt="하트 "
+              />
+            ) : (
               <img
                 className="heart"
                 src="/image/iconMiniHeart.png"
                 alt="하트 "
-                onClick={() => {
-                  onClickHeartHandler();
-                }}
               />
-              <div>{postLikeNum}</div>
-            </div>
-            {/* <img src="/image/iconChatBubble.png" />
-          <span>{postLikeNum}</span> */}
-          </Heart>
-        </div>
+            )}
+            <div>{post.postLikeNum}</div>
+          </div>
+        </Heart>
       </div>
 
       <img alt="이미지" src={post.imgUrl} />

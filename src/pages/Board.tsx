@@ -21,6 +21,7 @@ type dataType = {
   createAt: string;
   modifiedAt: string;
   likePost: boolean;
+  commentCount: number;
   children?: JSX.Element | JSX.Element[];
 };
 
@@ -104,7 +105,6 @@ function Board() {
         {isFetchingNextPage ? <Loading /> : <div ref={ref}>여기 </div>}
         <Footer />
       </LayOut>
-
     </>
   );
 }
@@ -141,7 +141,7 @@ const Plus = styled.img`
   font-weight: 300;
   position: fixed;
   transform: translate(540%, 1100%);
-   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;

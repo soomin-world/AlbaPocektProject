@@ -6,6 +6,7 @@ import { getSearch } from "../APIs/communityBoardApi";
 import { searchAtom, searchKeywordAtom } from "../atoms";
 import PostCard from "../components/category/PostCard";
 import Footer from "../components/footer/Footer";
+import LayOut from "../components/layout/LayOut";
 import { IAllPosts } from "../types/postType";
 
 const Search = () => {
@@ -36,9 +37,9 @@ const Search = () => {
 
   return (
     <>
-      <SearchInputBox>
+      <LayOut padding="0">
         <SearchBar>게시물 검색</SearchBar>
-        <div>
+        <SearchInputBox>
           <SearchInput
             value={keyword}
             onChange={(e) => {
@@ -46,19 +47,22 @@ const Search = () => {
               setKeyword(e.target.value);
             }}
           />
-          <SearchBtn onClick={onClickSearchBtnHandler}>검색</SearchBtn>
-          {isBtnClick === false
-            ? null
-            : data?.map((post) => {
-                // console.log(post);
-                return <PostCard key={post.postId} post={post} />;
-              })}
-          {data?.length === 0 && isBtnClick ? (
-            <SearchEmpty>게시물이 없습니다.</SearchEmpty>
-          ) : null}
-        </div>
-      </SearchInputBox>
-      <Footer />
+          <SearchBtn onClick={onClickSearchBtnHandler}>
+            <img src="/image/iconSearchInput.png" />
+          </SearchBtn>
+        </SearchInputBox>
+
+        {isBtnClick === false
+          ? null
+          : data?.map((post) => {
+              // console.log(post);
+              return <PostCard key={post.postId} post={post} />;
+            })}
+        {data?.length === 0 && isBtnClick ? (
+          <SearchEmpty>게시물이 없습니다.</SearchEmpty>
+        ) : null}
+        <Footer />
+      </LayOut>
     </>
   );
 };
@@ -66,29 +70,35 @@ const Search = () => {
 const SearchBar = styled.div`
   width: 100%;
   height: 50px;
-  border: 2px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 17px;
+  font-weight: 500;
+`;
+
+const SearchInputBox = styled.div`
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
-
-const SearchInputBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 const SearchInput = styled.input`
-  width: 280px;
-  height: 30px;
-  background-color: rgba(0, 0, 0, 0.1);
+  width: 300px;
+  height: 40px;
   border: none;
-  margin: auto;
-  margin-top: 10px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background-color: #f0f0f0;
 `;
 
 const SearchBtn = styled.button`
-  height: 30px;
+  width: 40px;
+  height: 40px;
   border: none;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: #f0f0f0;
 `;
 
 const SearchEmpty = styled.div`
