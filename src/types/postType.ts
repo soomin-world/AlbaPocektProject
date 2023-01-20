@@ -12,5 +12,4 @@ export interface IAllPosts {
   likePost: boolean;
   commentCount: number;
   children?: JSX.Element | JSX.Element[];
-  commentCount: number;
 }
