@@ -32,6 +32,16 @@ export const calendarDayList = atom<string[]>({
   default: [],
 });
 
+export const boardModalAtom = atom({
+  key: "isBoardOpen",
+  default: false,
+});
+
+export const boardAtom = atom({
+  key: "boardType",
+  default: "전체",
+});
+
 // export const calendarDayListFormat = selector<string[]>({
 //   key : "dayFormat",
 //   get:({get})=>get(calendarDayList.map((d)=>d.slice(" "))

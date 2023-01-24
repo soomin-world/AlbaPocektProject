@@ -37,7 +37,7 @@ const Search = () => {
 
   return (
     <>
-      <LayOut padding="0">
+      <LayOut>
         <SearchBar>게시물 검색</SearchBar>
         <SearchInputBox>
           <SearchInput
@@ -82,6 +82,7 @@ const SearchInputBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 15px;
 `;
 const SearchInput = styled.input`
   width: 300px;
