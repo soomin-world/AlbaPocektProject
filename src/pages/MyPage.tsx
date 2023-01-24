@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getMyPage } from "../APIs/myPageApi";
@@ -10,6 +11,7 @@ import { dataType } from "./Board";
 
 const MyPage = () => {
   const navigate = useNavigate();
+
   const { isLoading, isError, data } = useQuery<IMyPage>(["myPage"], () =>
     getMyPage()
   );
@@ -44,7 +46,9 @@ const MyPage = () => {
           </div>
         </MyPageProfile>
 
-        <p style={{ padding: "10px", fontWeight: "400" }}>내 활동</p>
+        <p style={{ padding: "10px 10px 10px 4%", fontWeight: "400" }}>
+          내 활동
+        </p>
 
         <div style={{ padding: "0 5% 0 5%" }}>
           {data?.postList.map((data) => {
@@ -64,6 +68,7 @@ const MypageBar = styled.div`
   align-items: center;
   font-size: 17px;
   font-weight: 500;
+  padding: 5%;
 `;
 
 const MyPageProfile = styled.div`

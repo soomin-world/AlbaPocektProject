@@ -39,9 +39,9 @@ export const changeLikePost = async (payload: number) => {
 };
 
 // 게시물 검색
-export const getSearch = async (payload: string) => {
-  const { data } = await postInstance.get(
-    `/api/posts/search?keyword=${payload}`
+export const getSearch = async (pageParam: number, keyword: string) => {
+  const { data } = await instance.get(
+    `/api/posts/search?keyword=${keyword}&page=${pageParam}&size=5`
   );
   console.log(data);
   return data;

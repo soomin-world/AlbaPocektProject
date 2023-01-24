@@ -11,13 +11,14 @@ import TodosModal from "../components/calendarModal/TodosModal";
 import { useNavigate } from "react-router-dom";
 import { useMatch } from "react-router-dom";
 import MoreBtnsModal from "../components/calendarModal/MoreBtnsModal";
-import { useRecoilValue } from "recoil";
-import { moreBtnsAtom, workplaceBtnsAtom } from "../atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { calendarTax, moreBtnsAtom, workplaceBtnsAtom } from "../atoms";
 import WorkplaceBtnsModal from "../components/calendarModal/WorkplaceBtnsModal";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getBonus, getMonthly, getTotal } from "../APIs/calendarApi";
 import Footer from "../components/footer/Footer";
 import comma from "../hooks/comma";
+import RenderTotalWage from "../components/calendar/RenderTotalWage";
 
 type ICellsProps = {
   currentMonth: Date;
@@ -341,8 +342,10 @@ const Calendar = () => {
 
   const isMoreBtns = useRecoilValue(moreBtnsAtom);
   const isWorkplaceBtns = useRecoilValue(workplaceBtnsAtom);
+  const [isTax, setIsTax] = useRecoilState(calendarTax);
   // console.log(isMoreBtns);
   // console.log(isWorkplaceBtns);
+  console.log(data);
 
   return (
     <>
@@ -362,7 +365,7 @@ const Calendar = () => {
           isLoadingTodos={isLoadingTodos}
           isLoadingBonus={isLoadingBonus}
         />
-        <TotalWage>{comma(String(data?.total))}원</TotalWage>
+        <RenderTotalWage data={data} />
         <Footer />
       </Total>
 
@@ -410,6 +413,11 @@ const TotalWage = styled.div`
   text-align: right;
   margin-right: 14px;
   font-weight: 400;
+
+  label {
+    font-weight: 300;
+    margin-right: 10px;
+  }
 `;
 
 const BonusWage = styled.div`

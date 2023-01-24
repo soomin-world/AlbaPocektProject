@@ -109,11 +109,26 @@ const Comment: React.FC<CommentType> = (props) => {
               ) : null}
             </div>
           </div>
+
           <div className="body">
             <div>{comment}</div>
+            <div className="like">
+              <span
+                onClick={() => {
+                  onClickLikeHandler();
+                }}
+              >
+                {like === true ? (
+                  <img src="/image/iconRedHeart.png" />
+                ) : (
+                  <img src="/image/iconMiniHeart.png" />
+                )}
+              </span>
+              <span>{likeNum}</span>
+            </div>
           </div>
 
-          <div className="like">
+          {/* <div className="like">
             <span
               onClick={() => {
                 onClickLikeHandler();
@@ -126,7 +141,7 @@ const Comment: React.FC<CommentType> = (props) => {
               )}
             </span>
             <span>{likeNum}</span>
-          </div>
+          </div> */}
         </STContainer>
       ) : (
         <STContainer>
@@ -159,7 +174,9 @@ const Comment: React.FC<CommentType> = (props) => {
 };
 
 const STContainer = styled.div`
-  margin-bottom: 20px;
+  padding: 5%;
+  padding-bottom: 2%;
+  border-bottom: 1px solid #d9d9d9;
 
   .header {
     display: flex;
@@ -181,7 +198,6 @@ const STContainer = styled.div`
       font-size: 13px;
       font-weight: 400;
       margin-left: 5px;
-      padding-top: 2px;
 
       div:last-child {
         font-size: 10px;
@@ -206,21 +222,31 @@ const STContainer = styled.div`
     padding: 7px 0px 7px 35px;
     font-size: 13px;
     font-weight: 400;
+    width: 335px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   .like {
-    height: 13px;
+    width: 44px;
+    height: 24px;
     display: flex;
+    justify-content: center;
     align-items: center;
-    padding-left: 35px;
-    img {
-      width: 13px;
-      height: 13px;
-    }
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
+
     span {
       width: 13px;
       height: 13px;
       font-size: 13px;
-      margin-right: 2px;
+      margin-left: 5px;
+      margin-bottom: 3px;
+    }
+    img {
+      width: 13px;
+      height: 13px;
+      margin-top: 2px;
     }
   }
 `;

@@ -1,4 +1,9 @@
-import { QueryClient, useQuery } from "@tanstack/react-query";
+import {
+  QueryClient,
+  useInfiniteQuery,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
@@ -10,34 +15,48 @@ import LayOut from "../components/layout/LayOut";
 import { IAllPosts } from "../types/postType";
 
 const Search = () => {
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
   const [keyword, setKeyword] = useRecoilState(searchKeywordAtom);
-  const [isBtnClick, seIsBtnClick] = useRecoilState(searchAtom);
-  const { isLoading, data, refetch } = useQuery<IAllPosts[]>(
+  const [isBtnClick, setIsBtnClick] = useRecoilState(searchAtom);
+  const [isNext, setIsNext] = useState(false);
+  const {
+    data,
+    status,
+    refetch,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery(
     ["searchPost"],
-    () => getSearch(keyword)
-    // {
-    //   refetchOnMount: "always",
-    //   refetchOnWindowFocus: true,
-    // }
+    ({ pageParam = 1 }) => getSearch(pageParam, keyword),
+    {
+      getNextPageParam: (lastPage) =>
+        // console.log(lastPage)
+        !lastPage.last ? lastPage.number + 2 : undefined,
+    }
   );
 
-  console.log(data);
+  console.log(data?.pages[0].content);
   const onClickSearchBtnHandler = () => {
     if (keyword.length === 0) {
       alert("한 글자 이상 입력해주세요.");
-      seIsBtnClick(false);
+      setIsBtnClick(false);
     } else {
       refetch();
-      // queryClient.invalidateQueries();
-      seIsBtnClick(true);
-      console.log(isBtnClick);
+      setIsBtnClick(true);
+      // console.log(isBtnClick);
     }
   };
 
+  // useEffect(() => {
+  //   if (hasNextPage) {
+  //     fetchNextPage();
+  //   }
+  // }, [isNext]);
+
   return (
     <>
-      <LayOut padding="0">
+      <LayOut>
         <SearchBar>게시물 검색</SearchBar>
         <SearchInputBox>
           <SearchInput
@@ -52,13 +71,23 @@ const Search = () => {
           </SearchBtn>
         </SearchInputBox>
 
+        <button>이전</button>
+        <button
+          onClick={() => {
+            fetchNextPage();
+          }}
+        >
+          이후
+        </button>
+
         {isBtnClick === false
           ? null
-          : data?.map((post) => {
+          : data?.pages[0].content?.map((post: IAllPosts) => {
               // console.log(post);
               return <PostCard key={post.postId} post={post} />;
             })}
-        {data?.length === 0 && isBtnClick ? (
+
+        {data?.pages[0].content === 0 && isBtnClick ? (
           <SearchEmpty>게시물이 없습니다.</SearchEmpty>
         ) : null}
         <Footer />
@@ -82,6 +111,7 @@ const SearchInputBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 15px;
 `;
 const SearchInput = styled.input`
   width: 300px;
@@ -90,6 +120,7 @@ const SearchInput = styled.input`
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   background-color: #f0f0f0;
+  padding-left: 13px;
 `;
 
 const SearchBtn = styled.button`
