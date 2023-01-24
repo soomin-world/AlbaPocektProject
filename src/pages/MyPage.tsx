@@ -1,12 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getMyPage } from "../APIs/myPageApi";
+import PostCard from "../components/category/PostCard";
 import LayOut from "../components/layout/LayOut";
 import { IMyPage } from "../types/myPageType";
+import { IAllPosts } from "../types/postType";
+import { dataType } from "./Board";
 
 const MyPage = () => {
   const navigate = useNavigate();
+
   const { isLoading, isError, data } = useQuery<IMyPage>(["myPage"], () =>
     getMyPage()
   );
@@ -41,21 +46,15 @@ const MyPage = () => {
           </div>
         </MyPageProfile>
 
-        <p style={{ padding: "10px", fontWeight: "400" }}>내 활동</p>
+        <p style={{ padding: "10px 10px 10px 4%", fontWeight: "400" }}>
+          내 활동
+        </p>
 
-        {data?.postList.map((data) => {
-          return (
-            <UserPost
-              key={data.postId}
-              onClick={() => {
-                navigate(`/post/${data.postId}`);
-              }}
-            >
-              <p>{data.title}</p>
-              <p>{data.content}</p>
-            </UserPost>
-          );
-        })}
+        <div style={{ padding: "0 5% 0 5%" }}>
+          {data?.postList.map((data) => {
+            return <PostCard key={data.postId} post={data} />;
+          })}
+        </div>
       </LayOut>
     </>
   );
@@ -69,6 +68,7 @@ const MypageBar = styled.div`
   align-items: center;
   font-size: 17px;
   font-weight: 500;
+  padding: 5%;
 `;
 
 const MyPageProfile = styled.div`
@@ -115,21 +115,6 @@ const MyPageEditBtn = styled.button`
     width: 18px;
     height: 18px;
     margin-right: 5px;
-  }
-`;
-
-const UserPost = styled.div`
-  border: 2px solid black;
-  margin-bottom: 15px;
-
-  p:first-child {
-    font-weight: bold;
-    padding: 10px;
-  }
-
-  p:last-child {
-    font-size: 13px;
-    padding: 0px 0px 10px 10px;
   }
 `;
 

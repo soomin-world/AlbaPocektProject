@@ -10,6 +10,6 @@ export interface IAllPosts {
   createAt: string;
   modifiedAt: string;
   likePost: boolean;
-  children?: JSX.Element | JSX.Element[];
   commentCount: number;
+  children?: JSX.Element | JSX.Element[];
 }

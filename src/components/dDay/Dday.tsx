@@ -151,8 +151,8 @@ export const SalaryWrap = styled.div`
     gap: 15px;
   }
   img {
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
   }
   div {
     font-size: 17px;

@@ -57,6 +57,7 @@ function EditShift() {
   };
 
   return (
+
     <LayOut>
       <STHeader>
         <img src="/image/leftArrow.png" alt="<" onClick={() => navigate("/")} />
@@ -92,6 +93,7 @@ function EditShift() {
       </TimeSelector>
       <STButton onClick={onClickHandler}>저장하기</STButton>
     </LayOut>
+
   );
 }
 
@@ -155,16 +157,20 @@ const TimeSelector = styled.div`
 `;
 
 const STButton = styled.button`
-  width: 90%;
+  width: 340px;
   height: 56px;
   background-color: #5fce80;
-  border-radius: 8px;
-  margin-left: 6%;
   border: none;
+  border-radius: 10px;
   color: white;
   font-size: 17px;
   font-weight: 500;
-  line-height: 24.62px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  left: 19px;
+  bottom: 19px;
 `;
 
 export default EditShift;
