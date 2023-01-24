@@ -49,32 +49,15 @@ function Board() {
       fetchNextPage();
     }
   }, [inView]);
+
   console.log(data);
   if (status === "loading") return <Loading />;
   if (status === "error") return <div>에러다 </div>;
+
   return (
     <>
       <LayOut>
         <Navigate>
-          {/* <Select
-            onChange={(e) => {
-              console.log(e.target.value);
-              navigate(`/board/${e.target.value}`);
-            }}
-          >
-            <option key="all" value="">
-              전체
-            </option>
-            <option key="free" value="free">
-              자유 게시판
-            </option>
-            <option key="partTime" value="partTime">
-              알바고민
-            </option>
-            <option key="cover" value="cover">
-              대타 구해요
-            </option>
-          </Select> */}
           <Selector
             onClick={() => {
               setBoardModal(!boardModal);

@@ -32,6 +32,11 @@ export const calendarDayList = atom<string[]>({
   default: [],
 });
 
+export const calendarTax = atom({
+  key: "isTax",
+  default: false,
+});
+
 export const boardModalAtom = atom({
   key: "isBoardOpen",
   default: false,
