@@ -57,55 +57,45 @@ function EditShift() {
   };
 
   return (
-    <>
-      <LayOut>
-        <STContainer>
-          <STHeader>
-            <img
-              src="/image/leftArrow.png"
-              alt="<"
-              onClick={() => navigate("/")}
-            />
-            <h1>근무 수정</h1>
-          </STHeader>
 
-          <SThourlyWage>
-            <label>시급</label>
-            <input
-              value={hourlyWage}
-              placeholder="시급을 입력해주세요"
-              onChange={(e) => setHourlyWage(e.target.value)}
-            />
-          </SThourlyWage>
+    <LayOut>
+      <STHeader>
+        <img src="/image/leftArrow.png" alt="<" onClick={() => navigate("/")} />
+        <h1>근무 수정</h1>
+      </STHeader>
+      <SThourlyWage>
+        <label>시급</label>
+        <input
+          value={hourlyWage}
+          placeholder="시급을 입력해주세요"
+          onChange={(e) => setHourlyWage(e.target.value)}
+        />
+      </SThourlyWage>
+      <TimeSelector className="workingTime">
+        <label>근무시간</label>
+        <div>
+          <input
+            type="time"
+            value={startTime}
+            onChange={(e) => {
+              setStartTime(e.target.value);
+            }}
+          />
+          <span> - </span>
+          <input
+            type="time"
+            value={endTime}
+            onChange={(e) => {
+              setEndTime(e.target.value);
+            }}
+          />
+        </div>
+      </TimeSelector>
+      <STButton onClick={onClickHandler}>저장하기</STButton>
+    </LayOut>
 
-          <TimeSelector className="workingTime">
-            <label>근무시간</label>
-            <div>
-              <input
-                type="time"
-                value={startTime}
-                onChange={(e) => {
-                  setStartTime(e.target.value);
-                }}
-              />
-              <span> ~ </span>
-              <input
-                type="time"
-                value={endTime}
-                onChange={(e) => {
-                  setEndTime(e.target.value);
-                }}
-              />
-            </div>
-          </TimeSelector>
-          <STButton onClick={onClickHandler}>저장하기</STButton>
-        </STContainer>
-      </LayOut>
-    </>
   );
 }
-
-const STContainer = styled.div``;
 
 const STHeader = styled.div`
   display: flex;
@@ -122,28 +112,6 @@ const STHeader = styled.div`
     font-size: 17px;
     font-weight: 500;
     margin-left: 102px;
-  }
-`;
-const STLabel = styled.div`
-  font-size: 15px;
-  font-weight: 500;
-  margin-bottom: 11px;
-`;
-
-const WorkDayInput = styled.div`
-  display: flex;
-  justify-content: space-between;
-  border: 1px solid #efefef;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  width: 100%;
-  height: 44px;
-  align-items: center;
-  padding: 10px;
-  margin-bottom: 30px;
-  img {
-    width: 18px;
-    height: 18px;
   }
 `;
 
@@ -184,7 +152,7 @@ const TimeSelector = styled.div`
     font-size: 15px;
     font-weight: 500;
     padding: 5px;
-    margin-bottom: 290px;
+    margin-bottom: 390px;
   }
 `;
 

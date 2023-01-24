@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { Outlet, useMatch, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { getInfinitePost } from "../APIs/communityBoardApi";
 import { boardAtom, boardModalAtom } from "../atoms";
 import PostCard from "../components/category/PostCard";
+import CategoryDropDown from "../components/dropDown/SalaryDropDown";
 import Footer from "../components/footer/Footer";
 import LayOut from "../components/layout/LayOut";
 import Loading from "../components/Loading/Loading";
@@ -31,8 +32,10 @@ function Board() {
   const navigate = useNavigate();
   const { ref, inView } = useInView();
   const boardMatch = useMatch("/board");
+
   const [boardModal, setBoardModal] = useRecoilState(boardModalAtom);
   const [boardType, setBoardType] = useRecoilState(boardAtom);
+
 
   const { data, status, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery(
@@ -43,14 +46,15 @@ function Board() {
           !lastPage.last ? lastPage.nextPage : undefined,
       }
     );
-  //const { content, pageable, sort } = data;
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
     }
   }, [inView]);
 
+
   console.log(data);
+
   if (status === "loading") return <Loading />;
   if (status === "error") return <div>에러다 </div>;
 
@@ -58,6 +62,7 @@ function Board() {
     <>
       <LayOut>
         <Navigate>
+
           <Selector
             onClick={() => {
               setBoardModal(!boardModal);
@@ -137,11 +142,13 @@ function Board() {
           onClick={() => {
             navigate("/posting");
           }}
+
         >
           <img src="/image/iconPencil.png" />
         </Plus>
 
         {isFetchingNextPage ? <Loading /> : <div ref={ref}>여기 </div>}
+
         <Footer />
       </LayOut>
     </>
@@ -157,12 +164,24 @@ const Navigate = styled.div`
   position: relative;
 `;
 
+
 const Select = styled.select`
+
   width: 120px;
   height: 28px;
   font-size: 20px;
   font-weight: 400;
   border: none;
+  display: flex;
+  justify-content: space-between;
+  span {
+    min-width: 70;
+    font-weight: 500;
+  }
+  img {
+    width: 24px;
+    height: 24px;
+  }
 `;
 
 const Icon = styled.div`

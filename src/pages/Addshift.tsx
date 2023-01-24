@@ -58,73 +58,67 @@ function AddShift() {
   console.log(workdays[0]);
   return (
     <LayOut>
-      <STContainer>
-        <STHeader>
-          <img
-            src="/image/leftArrow.png"
-            alt="<"
-            onClick={() => navigate("/")}
-          />
-          <h1>근무 등록</h1>
-        </STHeader>
-        <STLabel>
-          <h1>날짜</h1>
-        </STLabel>
-        <WorkDayInput>
-          <div>
-            {workdays[0]
-              ? workdays[0].slice(4, 6) + "." + workdays[0].slice(6, 8)
-              : null}
-            {workdays[1]
-              ? "/" +
-                workdays[1].slice(4, 6) +
-                "." +
-                workdays[1].slice(6, 8) +
-                "..."
-              : null}
-          </div>
-          <img
-            src="/image/calendar.png"
-            onClick={() => setIsCalendarBtns((pre) => !pre)}
-            alt="달력"
-          />
-        </WorkDayInput>
-        {isCalendarBtns && <CalendarModal />}
-        <SThourlyWage>
-          <label>시급</label>
-          <input
-            placeholder="시급을 입력해주세요"
-            onChange={(e) => setHourlyWage(e.target.value)}
-          />
-        </SThourlyWage>
+      <STHeader>
+        <img src="/image/leftArrow.png" alt="<" onClick={() => navigate("/")} />
+        <h1>근무 등록</h1>
+      </STHeader>
+      <STLabel>
+        <h1>날짜</h1>
+      </STLabel>
+      <WorkDayInput>
+        <div>
+          {workdays[0]
+            ? workdays[0].slice(4, 6) + "." + workdays[0].slice(6, 8)
+            : null}
+          {workdays[1]
+            ? "/" +
+              workdays[1].slice(4, 6) +
+              "." +
+              workdays[1].slice(6, 8) +
+              "..."
+            : null}
+        </div>
+        <img
+          src="/image/calendar.png"
+          onClick={() => setIsCalendarBtns((pre) => !pre)}
+          alt="달력"
+        />
+      </WorkDayInput>
+      {isCalendarBtns && <CalendarModal />}
+      <SThourlyWage>
+        <label>시급</label>
+        <input
+          placeholder="시급을 입력해주세요"
+          onChange={(e) => setHourlyWage(e.target.value)}
+        />
+      </SThourlyWage>
 
-        <TimeSelector className="workingTime">
-          <label>근무시간</label>
-          <div>
-            <input
-              type="time"
-              value={startTime}
-              onChange={(e) => {
-                setStartTime(e.target.value);
-              }}
-            />
-            <span> ~ </span>
-            <input
-              type="time"
-              value={endTime}
-              onChange={(e) => {
-                setEndTime(e.target.value);
-              }}
-            />
-          </div>
-        </TimeSelector>
-        <STButton onClick={onClickHandler}>저장하기</STButton>
-      </STContainer>
+      <TimeSelector className="workingTime">
+        <label>근무시간</label>
+        <div>
+          <input
+            type="time"
+            value={startTime}
+            onChange={(e) => {
+              setStartTime(e.target.value);
+            }}
+          />
+          <span> - </span>
+          <input
+            type="time"
+            value={endTime}
+            onChange={(e) => {
+              setEndTime(e.target.value);
+            }}
+          />
+
+        </div>
+      </TimeSelector>
+      <STButton onClick={onClickHandler}>저장하기</STButton>
+
     </LayOut>
   );
 }
-
-const STContainer = styled.div``;
 
 const STHeader = styled.div`
   display: flex;

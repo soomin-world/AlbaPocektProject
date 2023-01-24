@@ -18,7 +18,7 @@ function PostDetail() {
   const [postLikeNum, setPostLikeNum] = useState<number>(data?.postLikeNum);
   const [isOpen, setIsOpen] = useState(false);
   const createTime = data?.createAt.substr(14, 5);
-  console.log(createTime);
+  console.log();
   // console.log(likePost, postLikeNum);
 
   // useEffect(() => {

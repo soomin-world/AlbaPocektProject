@@ -21,9 +21,7 @@ const PostCard = ({ post }: postProps) => {
     },
   });
   const createTime = post.createAt.substring(0, 10);
-  console.log(createTime);
   const time = post.createAt.substring(11, 16);
-  console.log(time);
   const onClickHeartHandler = () => {
     if (likePost) {
       setPostLikeNum((postLikeNum) => postLikeNum - 1);

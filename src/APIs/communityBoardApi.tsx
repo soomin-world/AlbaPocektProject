@@ -16,8 +16,9 @@ export const getInfinitePostByCategory = async (
   const { data } = await instance.get(
     `/api/posts/category?page=${pageParam}&size=7&category=${category}`
   );
+
   const { content, last } = data;
-  console.log(content);
+  console.log(pageParam, category);
   return { content, last, nextPage: pageParam + 1 };
 };
 
