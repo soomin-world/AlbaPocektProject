@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { addPost } from "../../APIs/postApi";
@@ -13,6 +13,7 @@ function PostForm() {
   const navigate = useNavigate();
   const [imgFile, setImgFile] = useState<any>("");
   const [file, setFile] = useState<string | Blob>();
+  const [submitColor, setSubmitColor] = useState("#c5c5c5");
   const getImage = (e: any) => {
     const image = e.target.files[0];
     const reader = new FileReader();
@@ -150,7 +151,7 @@ const STHeader = styled.div`
     line-height: 25px;
     border: none;
     background-color: transparent;
-    color: #c5c5c5;
+    color: #5fce80;
     margin-left: 44px;
   }
 `;

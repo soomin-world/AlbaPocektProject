@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { addWork } from "../../APIs/workApi";
+import SalaryDropDown from "../dropDown/SalaryDropDown";
 import Modal from "../modal/Modal";
 
 function AddWorkForm() {
@@ -11,10 +12,19 @@ function AddWorkForm() {
   const [modalOpen, setModalOpen] = useState(false);
   const [salaryDay, setSalaryday] = useState("");
   const [color, setColor] = useState("");
+  const [isClicked, setIsClicked] = useState("");
+  const colors = [
+    "#ee9071",
+    "#F6E279",
+    "#5FCE80",
+    "#6290F0",
+    "#6532E9",
+    "#ab51b9d7",
+  ];
   const openModal = () => {
-    setModalOpen(true);
+    setModalOpen(!modalOpen);
   };
-  console.log(modalOpen);
+
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -28,7 +38,7 @@ function AddWorkForm() {
     placeColor: color,
   };
   const queryClient = useQueryClient();
-  console.log(workPlaceForm);
+  console.log(color);
   const addWorkHandler = () => {
     if (placeName === "") {
       alert("근무지명을 입력하세요 ");
@@ -49,7 +59,10 @@ function AddWorkForm() {
       queryClient.invalidateQueries(["work"]);
     },
   });
-  console.log(color);
+  const onColorClick = (i: number, v: string) => {
+    setIsClicked(String(i));
+    setColor(v);
+  };
   const navigate = useNavigate();
   return (
     <STContainer>
@@ -93,63 +106,22 @@ function AddWorkForm() {
             </Modal>
           </div>
         </div>
+
         <div className="color">
           <p>색상</p>
           <STColor>
-            <button
-              onClick={() => {
-                const value = `#ee9071`;
-                setColor(value);
-              }}
-              style={{
-                backgroundColor: `#EE9171`,
-              }}
-            />
-            <button
-              onClick={() => {
-                const value = `#F6E279`;
-                setColor(value);
-              }}
-              style={{
-                backgroundColor: `#F6E279`,
-              }}
-            />
-            <button
-              onClick={() => {
-                const value = `#5FCE80`;
-                setColor(value);
-              }}
-              style={{
-                backgroundColor: `#5FCE80`,
-              }}
-            />
-            <button
-              onClick={() => {
-                const value = `#6290F0`;
-                setColor(value);
-              }}
-              style={{
-                backgroundColor: `#6290F0`,
-              }}
-            />
-            <button
-              onClick={() => {
-                const value = `#6532E9`;
-                setColor(value);
-              }}
-              style={{
-                backgroundColor: `#6532E9`,
-              }}
-            />
-            <button
-              onClick={() => {
-                const value = `#ab51b9d7`;
-                setColor(value);
-              }}
-              style={{
-                backgroundColor: `#ab51b9d7`,
-              }}
-            />
+            {colors.map((v, i) => {
+              return (
+                <button
+                  value={v}
+                  className={"btn" + (String(i) === isClicked ? "active" : "")}
+                  style={{
+                    backgroundColor: v,
+                  }}
+                  onClick={() => onColorClick(i, v)}
+                />
+              );
+            })}
           </STColor>
         </div>
       </STBody>
@@ -224,6 +196,9 @@ const STBody = styled.div`
         height: 18px;
       }
     }
+    select {
+      background-color: #f9f9f9;
+    }
   }
   .color {
     p {
@@ -239,14 +214,18 @@ const STColor = styled.div`
   display: flex;
   gap: 10px;
   margin-bottom: 290px;
-  button {
+  .btn {
     width: 36px;
     height: 36px;
     border-radius: 100%;
     border: none;
   }
-  button:hover {
-    box-shadow: 0 0 0 2px grey;
+  .btnactive {
+    width: 36px;
+    height: 36px;
+    border-radius: 100%;
+    border: none;
+    box-shadow: 0 0 0 2px #777877;
   }
 `;
 

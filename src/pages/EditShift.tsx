@@ -9,6 +9,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { addShift, editWork, getEditWork } from "../APIs/workApi";
 import { getPost } from "../APIs/detailPostApi";
+import LayOut from "../components/layout/LayOut";
 
 interface IEditWork {
   endTime: string;
@@ -56,30 +57,22 @@ function EditShift() {
   };
 
   return (
-    <>
-      <STContainer>
-        <STHeader>
-          <img
-            src="/image/leftArrow.png"
-            alt="<"
-            onClick={() => navigate("/")}
-          />
-          <h1>근무 수정</h1>
-        </STHeader>
-        <STLabel>
-          <h1>날짜</h1>
-        </STLabel>
-        <div className="hourlyWage">
-          <label>시급</label>
-          <input
-            value={hourlyWage}
-            placeholder="시급을 입력해주세요"
-            onChange={(e) => setHourlyWage(e.target.value)}
-          />
-        </div>
-
-        <TimeSelector className="workingTime">
-          <div>근무시간</div>
+    <LayOut>
+      <STHeader>
+        <img src="/image/leftArrow.png" alt="<" onClick={() => navigate("/")} />
+        <h1>근무 수정</h1>
+      </STHeader>
+      <SThourlyWage>
+        <label>시급</label>
+        <input
+          value={hourlyWage}
+          placeholder="시급을 입력해주세요"
+          onChange={(e) => setHourlyWage(e.target.value)}
+        />
+      </SThourlyWage>
+      <TimeSelector className="workingTime">
+        <label>근무시간</label>
+        <div>
           <input
             type="time"
             value={startTime}
@@ -87,7 +80,7 @@ function EditShift() {
               setStartTime(e.target.value);
             }}
           />
-          <span> ~ </span>
+          <span> - </span>
           <input
             type="time"
             value={endTime}
@@ -95,14 +88,12 @@ function EditShift() {
               setEndTime(e.target.value);
             }}
           />
-        </TimeSelector>
-        <button onClick={onClickHandler}>저장하기</button>
-      </STContainer>
-    </>
+        </div>
+      </TimeSelector>
+      <STButton onClick={onClickHandler}>저장하기</STButton>
+    </LayOut>
   );
 }
-
-const STContainer = styled.div``;
 
 const STHeader = styled.div`
   display: flex;
@@ -119,28 +110,6 @@ const STHeader = styled.div`
     font-size: 17px;
     font-weight: 500;
     margin-left: 102px;
-  }
-`;
-const STLabel = styled.div`
-  font-size: 15px;
-  font-weight: 500;
-  margin-bottom: 11px;
-`;
-
-const WorkDayInput = styled.div`
-  display: flex;
-  justify-content: space-between;
-  border: 1px solid #efefef;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  width: 100%;
-  height: 44px;
-  align-items: center;
-  padding: 10px;
-  margin-bottom: 30px;
-  img {
-    width: 18px;
-    height: 18px;
   }
 `;
 
@@ -181,7 +150,7 @@ const TimeSelector = styled.div`
     font-size: 15px;
     font-weight: 500;
     padding: 5px;
-    margin-bottom: 290px;
+    margin-bottom: 390px;
   }
 `;
 
