@@ -21,7 +21,6 @@ import comma from "../hooks/comma";
 
 import RenderTotalWage from "../components/calendar/RenderTotalWage";
 
-
 type ICellsProps = {
   currentMonth: Date;
   selectedDate: Date;
@@ -350,7 +349,7 @@ const Calendar = () => {
   console.log(data);
 
   return (
-    <LayOut>
+    <>
       <Total>
         <RenderHeader
           currentMonth={currentMonth}
@@ -374,7 +373,7 @@ const Calendar = () => {
       {dayMatch || dayBtnMatch ? <TodosModal /> : null}
       {isMoreBtns && <MoreBtnsModal />}
       {isWorkplaceBtns && <WorkplaceBtnsModal />}
-    </LayOut>
+    </>
   );
 };
 

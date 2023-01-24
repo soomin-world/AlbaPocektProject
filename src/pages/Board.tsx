@@ -7,7 +7,6 @@ import styled from "styled-components";
 import { getInfinitePost } from "../APIs/communityBoardApi";
 import { boardAtom, boardModalAtom } from "../atoms";
 import PostCard from "../components/category/PostCard";
-import CategoryDropDown from "../components/dropDown/SalaryDropDown";
 import Footer from "../components/footer/Footer";
 import LayOut from "../components/layout/LayOut";
 import Loading from "../components/Loading/Loading";
@@ -36,7 +35,6 @@ function Board() {
   const [boardModal, setBoardModal] = useRecoilState(boardModalAtom);
   const [boardType, setBoardType] = useRecoilState(boardAtom);
 
-
   const { data, status, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery(
       ["posts"],
@@ -52,9 +50,6 @@ function Board() {
     }
   }, [inView]);
 
-
-  console.log(data);
-
   if (status === "loading") return <Loading />;
   if (status === "error") return <div>에러다 </div>;
 
@@ -62,7 +57,6 @@ function Board() {
     <>
       <LayOut>
         <Navigate>
-
           <Selector
             onClick={() => {
               setBoardModal(!boardModal);
@@ -142,7 +136,6 @@ function Board() {
           onClick={() => {
             navigate("/posting");
           }}
-
         >
           <img src="/image/iconPencil.png" />
         </Plus>
@@ -164,9 +157,7 @@ const Navigate = styled.div`
   position: relative;
 `;
 
-
 const Select = styled.select`
-
   width: 120px;
   height: 28px;
   font-size: 20px;

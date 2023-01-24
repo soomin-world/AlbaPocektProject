@@ -26,8 +26,7 @@ const Cover = () => {
       fetchNextPage();
     }
   }, [inView]);
-  //if (status === "loading") return <Loading />;
-  if (status === "error") return <div>에러다 </div>;
+
   return (
     <>
       {status === "loading" ? (

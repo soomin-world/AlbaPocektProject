@@ -101,10 +101,11 @@ function PostForm() {
           />
         </div>
         <div className="preview">
-          <img
-            src={imgFile ? imgFile : `/images/pencil.png`}
-            alt="임시기본이미지"
-          />
+          {imgFile ? (
+            <img src={imgFile} />
+          ) : (
+            <div style={{ width: "345px", height: "258px", border: "none" }} />
+          )}
         </div>
         <Line />
         <div className="imageUpload">
@@ -192,7 +193,7 @@ const SContianer = styled.div`
       height: 258px;
       min-width: 345px;
       min-height: 258px;
-      border: 0.5px solid rgba(197, 197, 197, 0.7);
+      //border: 0.5px solid rgba(197, 197, 197, 0.7);
       margin-bottom: 43px;
       object-fit: cover;
     }

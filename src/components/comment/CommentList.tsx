@@ -47,7 +47,7 @@ const CommentList = () => {
 };
 const Stcontainer = styled.div`
   display: flex;
-
+  width: 100%;
   flex-direction: column;
   /* padding: 5%; */
   background-color: #fbfbfb;

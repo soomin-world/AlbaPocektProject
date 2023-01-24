@@ -1,16 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { addWork } from "../../APIs/workApi";
-import SalaryDropDown from "../dropDown/SalaryDropDown";
-import Modal from "../modal/Modal";
 
 function AddWorkForm() {
   const { id } = useParams();
   const [placeName, setPlaceName] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  const [salaryDay, setSalaryday] = useState("");
+  const [salaryDay, setSalaryday] = useState<string | undefined>("");
   const [color, setColor] = useState("");
   const [isClicked, setIsClicked] = useState("");
   const colors = [
@@ -25,9 +23,6 @@ function AddWorkForm() {
     setModalOpen(!modalOpen);
   };
 
-  const closeModal = () => {
-    setModalOpen(false);
-  };
   let i = 0;
   const days = Array(31)
     .fill(i)
@@ -63,6 +58,10 @@ function AddWorkForm() {
     setIsClicked(String(i));
     setColor(v);
   };
+  const onSalaryClick = (e: any) => {
+    setSalaryday(e.currentTarget.textContent?.replace("일", ""));
+    setModalOpen(false);
+  };
   const navigate = useNavigate();
   return (
     <STContainer>
@@ -90,20 +89,17 @@ function AddWorkForm() {
                 onClick={openModal}
               />
             </div>
-            <Modal open={modalOpen} close={closeModal}>
-              <STModal>
-                <select onChange={(e) => setSalaryday(e.target.value)}>
-                  <option defaultValue={""}>월급!</option>
-                  {days.map((day, i) => {
-                    return (
-                      <option key={i} value={day}>
-                        {day}일
-                      </option>
-                    );
-                  })}
-                </select>
-              </STModal>
-            </Modal>
+            {modalOpen ? (
+              <DropDown>
+                {days.map((day, i) => {
+                  return (
+                    <div key={i} onClick={(e) => onSalaryClick(e)}>
+                      {day}
+                    </div>
+                  );
+                })}
+              </DropDown>
+            ) : null}
           </div>
         </div>
 
@@ -186,7 +182,9 @@ const STBody = styled.div`
       height: 44px;
       background-color: #f9f9f9;
       border: 1px solid #efefef;
-      border-radius: 8px;
+      border-bottom: none;
+      border-top-right-radius: 8px;
+      border-top-left-radius: 8px;
       display: flex;
       align-items: center;
       padding: 7px;
@@ -207,6 +205,32 @@ const STBody = styled.div`
       line-height: 22px;
       margin-bottom: 11px;
     }
+  }
+`;
+const DropDown = styled.div`
+  position: absolute;
+  z-index: 999;
+  padding: 5px;
+  color: #8f8b8b;
+  //margin-top: px;
+  width: 70px;
+  height: 150px;
+  overflow: auto;
+  animation: modal-bg-show 0.6s;
+  background-color: #f9f9f9;
+  border: 1px solid #efefef;
+  border-top: none;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-top: none;
+  font-weight: 500;
+  ::-webkit-scrollbar {
+    display: none; /* Chrome , Safari , Opera */
+  }
+  div {
+    list-style: none;
+    padding: 3px;
+    text-align: center;
   }
 `;
 

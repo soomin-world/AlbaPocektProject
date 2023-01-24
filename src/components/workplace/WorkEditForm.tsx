@@ -9,6 +9,8 @@ function WorkEditForm() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
+  const [color, setColor] = useState("");
+  const [isClicked, setIsClicked] = useState("");
   const [editWork, setEditWork] = useState({
     placeName: "",
     salaryDay: "",
@@ -16,7 +18,14 @@ function WorkEditForm() {
   });
   console.log(editWork.placeColor);
   const { data, isSuccess } = useQuery(["work", id], () => getWork(id));
-
+  const colors = [
+    "#ee9071",
+    "#F6E279",
+    "#5FCE80",
+    "#6290F0",
+    "#6532E9",
+    "#ab51b9d7",
+  ];
   useEffect(() => {
     if (isSuccess) {
       setEditWork({
@@ -29,9 +38,7 @@ function WorkEditForm() {
   const openModal = () => {
     setModalOpen(true);
   };
-  const closeModal = () => {
-    setModalOpen(false);
-  };
+
   let i = 0;
   const days = Array(31)
     .fill(i)
@@ -54,7 +61,17 @@ function WorkEditForm() {
 
     mutateEditwork.mutate(payload);
   };
-  console.log(editWork.salaryDay);
+  const onColorClick = (i: number, v: string) => {
+    setIsClicked(String(i));
+    setColor(v);
+  };
+  const onSalaryClick = (e: any) => {
+    setEditWork({
+      ...editWork,
+      salaryDay: e.currentTarget.textContent?.replace("일", ""),
+    });
+    setModalOpen(false);
+  };
   const mutateEditwork = useMutation(putWork);
   return (
     <STContainer>
@@ -86,105 +103,34 @@ function WorkEditForm() {
                 onClick={openModal}
               />
             </div>
-            <Modal open={modalOpen} close={closeModal}>
-              <STModal>
-                <select
-                  value={editWork.salaryDay}
-                  onChange={(e) => {
-                    const { value } = e.target;
-                    setEditWork({
-                      ...editWork,
-                      salaryDay: value,
-                    });
-                  }}
-                >
-                  {days.map((day, i) => {
-                    return (
-                      <option key={i} value={day}>
-                        {day}일
-                      </option>
-                    );
-                  })}
-                </select>
-              </STModal>
-            </Modal>
+            {modalOpen ? (
+              <DropDown>
+                {days.map((day, i) => {
+                  return (
+                    <div key={i} onClick={(e) => onSalaryClick(e)}>
+                      {day}
+                    </div>
+                  );
+                })}
+              </DropDown>
+            ) : null}
           </div>
         </div>
         <div className="color">
           <p>색상</p>
           <STColor>
-            <button
-              onClick={() => {
-                const value = `#ef0400c6`;
-                setEditWork({
-                  ...editWork,
-                  placeColor: value,
-                });
-              }}
-              style={{
-                backgroundColor: `#ef0400c6`,
-              }}
-            />
-            <button
-              onClick={() => {
-                const value = `#f2eb73`;
-                setEditWork({
-                  ...editWork,
-                  placeColor: value,
-                });
-              }}
-              style={{
-                backgroundColor: `#f2eb73`,
-              }}
-            />
-            <button
-              onClick={() => {
-                const value = `#5FCE80`;
-                setEditWork({
-                  ...editWork,
-                  placeColor: value,
-                });
-              }}
-              style={{
-                backgroundColor: `#5FCE80`,
-              }}
-            />
-            <button
-              onClick={() => {
-                const value = `#3f74dd`;
-                setEditWork({
-                  ...editWork,
-                  placeColor: value,
-                });
-              }}
-              style={{
-                backgroundColor: `#3f74dd`,
-              }}
-            />
-            <button
-              onClick={() => {
-                const value = `#6344c9`;
-                setEditWork({
-                  ...editWork,
-                  placeColor: value,
-                });
-              }}
-              style={{
-                backgroundColor: `#6344c9`,
-              }}
-            />
-            <button
-              onClick={() => {
-                const value = `#ab51b9d7`;
-                setEditWork({
-                  ...editWork,
-                  placeColor: value,
-                });
-              }}
-              style={{
-                backgroundColor: `#ab51b9d7`,
-              }}
-            />
+            {colors.map((v, i) => {
+              return (
+                <button
+                  value={v}
+                  className={"btn" + (String(i) === isClicked ? "active" : "")}
+                  style={{
+                    backgroundColor: v,
+                  }}
+                  onClick={() => onColorClick(i, v)}
+                />
+              );
+            })}
           </STColor>
         </div>
       </STBody>
@@ -267,19 +213,49 @@ const STBody = styled.div`
     }
   }
 `;
+const DropDown = styled.div`
+  position: absolute;
+  z-index: 999;
+  padding: 5px;
+  color: #8f8b8b;
+  //margin-top: px;
+  width: 70px;
+  height: 150px;
+  overflow: auto;
+  animation: modal-bg-show 0.6s;
+  background-color: #f9f9f9;
+  border: 1px solid #efefef;
+  border-top: none;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-top: none;
+  font-weight: 500;
+  ::-webkit-scrollbar {
+    display: none; /* Chrome , Safari , Opera */
+  }
+  div {
+    list-style: none;
+    padding: 3px;
+    text-align: center;
+  }
+`;
 
 const STColor = styled.div`
   display: flex;
   gap: 10px;
   margin-bottom: 290px;
-  button {
+  .btn {
     width: 36px;
     height: 36px;
     border-radius: 100%;
     border: none;
   }
-  button:hover {
-    box-shadow: 0 0 0 2px grey;
+  .btnactive {
+    width: 36px;
+    height: 36px;
+    border-radius: 100%;
+    border: none;
+    box-shadow: 0 0 0 2px #777877;
   }
 `;
 
