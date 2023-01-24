@@ -74,7 +74,7 @@ const STDropdown = styled.div`
   height: 64px;
   animation: modal-bg-show 0.6s;
   background: #ffffffda;
-  box-shadow: 0px 0px 4px rgba(47, 47, 47, 0.08);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
 
   li {

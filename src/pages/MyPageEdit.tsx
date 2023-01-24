@@ -101,6 +101,7 @@ const MyPageEdit = () => {
             <span>닉네임</span>
             <input
               value={nickname}
+              placeholder="한글/영어 대소문자/숫자 가능 (5~10자)"
               onChange={(e) => {
                 setNickname(e.target.value);
               }}
@@ -122,7 +123,6 @@ const EditBar = styled.div`
   align-items: center;
   font-size: 17px;
   font-weight: 500;
-  border-bottom: 1px solid black;
 `;
 
 const MyPageProfile = styled.div`

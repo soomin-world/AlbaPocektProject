@@ -231,7 +231,7 @@ const List = styled.div`
 
   div {
     font-size: 15px;
-    padding: 6px 7px 6px 7px;
+    padding: 6px 8px 6px 8px;
   }
 `;
 

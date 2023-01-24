@@ -68,6 +68,7 @@ const MypageBar = styled.div`
   align-items: center;
   font-size: 17px;
   font-weight: 500;
+  padding: 5%;
 `;
 
 const MyPageProfile = styled.div`
