@@ -18,6 +18,8 @@ import AddShift from "../pages/Addshift";
 import Test from "../pages/Test";
 import EditShift from "../pages/EditShift";
 import Chart from "../pages/Chart";
+import MyLike from "../components/mypage/MyLike";
+import MyComment from "../components/mypage/MyComment";
 
 function Router() {
   return (
@@ -37,8 +39,13 @@ function Router() {
 
         <Route path="/search" element={<Search />} />
         <Route path="/post/:id" element={<Post />} />
-        <Route path="/mypage" element={<MyPage />} />
+
+        <Route path="/mypage" element={<MyPage />}>
+          <Route path="myLike" element={<MyLike />} />
+          <Route path="myComment" element={<MyComment />} />
+        </Route>
         <Route path="/mypage/edit" element={<MyPageEdit />} />
+
         <Route path="/addShift/:id" element={<AddShift />} />
         <Route path="/editShift/:todoId" element={<EditShift />} />
 

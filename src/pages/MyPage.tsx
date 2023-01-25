@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useMatch, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getMyPage } from "../APIs/myPageApi";
 import PostCard from "../components/category/PostCard";
@@ -11,6 +11,9 @@ import { dataType } from "./Board";
 
 const MyPage = () => {
   const navigate = useNavigate();
+  const mypageMatch = useMatch("/mypage");
+  const myLikeMatch = useMatch("/mypage/myLike");
+  const myCommentMatch = useMatch("/mypage/myComment");
 
   const { isLoading, isError, data } = useQuery<IMyPage>(["myPage"], () =>
     getMyPage()
@@ -50,11 +53,45 @@ const MyPage = () => {
           내 활동
         </p>
 
-        <div style={{ padding: "0 5% 0 5%" }}>
-          {data?.postList.map((data) => {
-            return <PostCard key={data.postId} post={data} />;
-          })}
-        </div>
+        <Taps>
+          <Tap
+            onClick={() => navigate("/mypage")}
+            isActive={mypageMatch !== null}
+          >
+            작성글
+          </Tap>
+          <Tap
+            onClick={() => navigate("/mypage/myLike")}
+            isActive={myLikeMatch !== null}
+          >
+            좋아요
+          </Tap>
+          <Tap
+            onClick={() => navigate("/mypage/myComment")}
+            isActive={myCommentMatch !== null}
+          >
+            작성댓글
+          </Tap>
+        </Taps>
+        <Outlet></Outlet>
+        {mypageMatch ? (
+          <div>
+            {data?.postList.map((data) => {
+              return (
+                <PostCard
+                  key={data.postId}
+                  post={data}
+                  padding="0 15px 0 15px"
+                />
+              );
+            })}
+          </div>
+        ) : null}
+        {/* // <div style={{ padding: "0 5% 0 5%" }}>
+        //   {data?.postList.map((data) => {
+        //     return <PostCard key={data.postId} post={data} />;
+        //   })}
+        // </div> */}
       </LayOut>
     </>
   );
@@ -116,6 +153,24 @@ const MyPageEditBtn = styled.button`
     height: 18px;
     margin-right: 5px;
   }
+`;
+
+const Taps = styled.div`
+  width: 100%;
+  display: flex;
+  border-bottom: 0.5px solid #d9d9d9;
+  margin-bottom: 15px;
+`;
+
+const Tap = styled.div<{ isActive: boolean }>`
+  width: 80px;
+  height: 40px;
+  color: ${(props) => (props.isActive ? "#5FCE80" : "black")};
+  border-bottom: ${(props) => (props.isActive ? "2px solid #5FCE80" : null)};
+  font-weight: 400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default MyPage;
