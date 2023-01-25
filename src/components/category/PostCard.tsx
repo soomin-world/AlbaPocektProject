@@ -7,9 +7,10 @@ import { IAllPosts } from "../../types/postType";
 
 type postProps = {
   post: IAllPosts; // 부모컴포넌트에서 import 해온 타입을 재사용 해 줍시다.
+  padding?: string;
 };
 
-const PostCard = ({ post }: postProps) => {
+const PostCard = ({ post, padding }: postProps) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [likePost, setLikePost] = useState(() => post.likePost);
@@ -20,8 +21,11 @@ const PostCard = ({ post }: postProps) => {
       queryClient.invalidateQueries(["categoryPosts"]);
     },
   });
-  const createTime = post.createAt.substring(0, 10);
+
+  // 연도 제외, 월일만 나오도록!!!
+  const createTime = post.createAt.substring(5, 10);
   const time = post.createAt.substring(11, 16);
+
   const onClickHeartHandler = () => {
     if (likePost) {
       setPostLikeNum((postLikeNum) => postLikeNum - 1);
@@ -38,6 +42,7 @@ const PostCard = ({ post }: postProps) => {
       onClick={() => {
         navigate(`/post/${post.postId}`);
       }}
+      padding={padding}
     >
       <div className="wrap">
         <p className="title">{post.title}</p>
@@ -75,8 +80,12 @@ const PostCard = ({ post }: postProps) => {
     </STContainer>
   );
 };
-const STContainer = styled.div`
-  width: 341.24px;
+const STContainer = styled.div<{
+  padding: string | undefined;
+}>`
+  /* width: 341.24px; */
+  width: 100%;
+  padding: ${(props) => (props.padding ? props.padding : null)};
   height: 105px;
   border-bottom: 0.5px solid #d9d9d9;
   display: flex;

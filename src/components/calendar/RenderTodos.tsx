@@ -20,11 +20,26 @@ const RenderTodos = ({ day, Month, todos }: ITodosProps) => {
       dayMonth === Month &&
       todo.date === date[2]
     ) {
-      todoList.push(
-        <CellTodo key={todo.todoId} color={todo.color}>
-          {workingTime(todo.workingTime)}
-        </CellTodo>
-      );
+      console.log(workingTime(todo.workingTime).length);
+
+      if (workingTime(todo.workingTime).length !== 8) {
+        todoList.push(
+          <CellTodo key={todo.todoId} color={todo.color}>
+            {workingTime(todo.workingTime)}
+          </CellTodo>
+        );
+      } else {
+        todoList.push(
+          <CellTodo key={todo.todoId} color={todo.color}>
+            {workingTime(todo.workingTime).slice(0, 7)}
+          </CellTodo>
+        );
+      }
+      // todoList.push(
+      //   <CellTodo key={todo.todoId} color={todo.color}>
+      //     {workingTime(todo.workingTime)}
+      //   </CellTodo>
+      // );
     }
   }
   return <CellTodoList>{todoList}</CellTodoList>;
@@ -35,10 +50,10 @@ const CellTodo = styled.div<{ color: string }>`
   height: 15px;
   margin-left: 1px;
   margin-bottom: 2px;
-  padding-left: 1px;
+  padding-left: 2px;
   border-radius: 3px;
   background-color: ${(props) => props.color};
-  font-size: 2px;
+  font-size: 10px;
   display: flex;
   align-items: center;
 `;

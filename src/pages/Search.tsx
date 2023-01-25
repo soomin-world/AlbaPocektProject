@@ -18,25 +18,12 @@ const Search = () => {
   const queryClient = useQueryClient();
   const [keyword, setKeyword] = useRecoilState(searchKeywordAtom);
   const [isBtnClick, setIsBtnClick] = useRecoilState(searchAtom);
-  const [isNext, setIsNext] = useState(false);
-  const {
-    data,
-    status,
-    refetch,
-    isFetchingNextPage,
-    fetchNextPage,
-    hasNextPage,
-  } = useInfiniteQuery(
-    ["searchPost"],
-    ({ pageParam = 1 }) => getSearch(pageParam, keyword),
-    {
-      getNextPageParam: (lastPage) =>
-        // console.log(lastPage)
-        !lastPage.last ? lastPage.number + 2 : undefined,
-    }
+  let pageParam = 1;
+
+  const { isLoading, data, refetch } = useQuery(["searchPost"], () =>
+    getSearch([keyword, pageParam])
   );
 
-  console.log(data?.pages[0].content);
   const onClickSearchBtnHandler = () => {
     if (keyword.length === 0) {
       alert("한 글자 이상 입력해주세요.");
@@ -44,16 +31,25 @@ const Search = () => {
     } else {
       refetch();
       setIsBtnClick(true);
-      // console.log(isBtnClick);
     }
   };
 
-  // useEffect(() => {
-  //   if (hasNextPage) {
-  //     fetchNextPage();
-  //   }
-  // }, [isNext]);
-
+  console.log(data);
+  const numList = [];
+  for (let i = 1; i <= data?.totalPages; i++) {
+    numList.push(
+      <div
+        onClick={() => {
+          pageParam = i;
+          console.log(pageParam);
+          refetch();
+        }}
+      >
+        {i}
+      </div>
+    );
+  }
+  console.log(numList);
   return (
     <>
       <LayOut>
@@ -71,25 +67,19 @@ const Search = () => {
           </SearchBtn>
         </SearchInputBox>
 
-        <button>이전</button>
-        <button
-          onClick={() => {
-            fetchNextPage();
-          }}
-        >
-          이후
-        </button>
-
         {isBtnClick === false
           ? null
-          : data?.pages[0].content?.map((post: IAllPosts) => {
+          : data?.content?.map((post: IAllPosts) => {
               // console.log(post);
               return <PostCard key={post.postId} post={post} />;
             })}
 
-        {data?.pages[0].content === 0 && isBtnClick ? (
+        {data?.content?.length === 0 && isBtnClick ? (
           <SearchEmpty>게시물이 없습니다.</SearchEmpty>
         ) : null}
+
+        {numList?.length === 1 ? null : <PageNum>{numList}</PageNum>}
+
         <Footer />
       </LayOut>
     </>
@@ -104,6 +94,7 @@ const SearchBar = styled.div`
   align-items: center;
   font-size: 17px;
   font-weight: 500;
+  padding: 5%;
 `;
 
 const SearchInputBox = styled.div`
@@ -139,4 +130,12 @@ const SearchEmpty = styled.div`
   font-size: 20px;
 `;
 
+const PageNum = styled.div`
+  display: flex;
+  margin-bottom: 50px;
+
+  div {
+    margin: 0px 10px 0px 10px;
+  }
+`;
 export default Search;

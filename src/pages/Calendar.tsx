@@ -18,9 +18,8 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getBonus, getMonthly, getTotal } from "../APIs/calendarApi";
 import Footer from "../components/footer/Footer";
 import comma from "../hooks/comma";
-
 import RenderTotalWage from "../components/calendar/RenderTotalWage";
-
+import LayOut from "../components/layout/LayOut";
 
 type ICellsProps = {
   currentMonth: Date;
@@ -399,8 +398,7 @@ const CellsBody = styled.div`
 
 const Cells = styled.div<{ color: string; backgroundColor: string }>`
   width: 50px;
-  height: 90px;
-  padding-top: 3px;
+  height: 100px;
   border-top: 1px solid ${(props) => props.color};
   background-color: ${(props) => props.backgroundColor};
   position: relative;
