@@ -18,7 +18,7 @@ function PostDetail() {
   const [postLikeNum, setPostLikeNum] = useState<number>(data?.postLikeNum);
   const [isOpen, setIsOpen] = useState(false);
   const createTime = data?.createAt.substr(14, 5);
-  console.log(createTime);
+  console.log();
   // console.log(likePost, postLikeNum);
 
   // useEffect(() => {
@@ -36,13 +36,7 @@ function PostDetail() {
       queryClient.invalidateQueries(["categoryPosts"]);
     },
   });
-  const mutatedelete = useMutation(deletePost);
 
-  const deleteHandler = () => {
-    mutatedelete.mutate(id);
-    alert("삭제되었습니다!");
-    navigate("/board");
-  };
   const dropDownHandler = () => {
     setIsOpen(!isOpen);
   };
@@ -84,6 +78,7 @@ function PostDetail() {
                   open={isOpen}
                   close={dropDownHandler}
                   address={`/posting/${data.postId}`}
+                  deleteValue={"post"}
                 />
               ) : null}
             </div>
@@ -102,14 +97,19 @@ function PostDetail() {
         </div>
       </div>
       <div className="like">
-        <span onClick={onClickLikeHandler}>
+        <div onClick={onClickLikeHandler}>
           {data.likePost === true ? (
             <img src="/image/iconRedHeart.png" alt="heart" />
           ) : (
             <img src="/image/iconMiniHeart.png" alt="miniHeart" />
           )}
-        </span>
+        </div>
         <span>좋아요 {data.postLikeNum}</span>
+
+        <div>
+          <img src="/image/iconChatBubble.png" alt="heart" />
+        </div>
+        <span>댓글 {data.commentCount}</span>
       </div>
     </SContainer>
   );
@@ -189,6 +189,12 @@ const SContainer = styled.div`
     display: flex;
     align-items: center;
     padding: 10px 0px 10px 0px;
+
+    div {
+      width: 17px;
+      height: 17px;
+      margin-right: 3px;
+    }
     img {
       width: 17px;
       height: 17px;
@@ -197,6 +203,7 @@ const SContainer = styled.div`
     span {
       font-size: 15px;
       font-weight: 400;
+      margin-right: 14px;
     }
   }
 `;

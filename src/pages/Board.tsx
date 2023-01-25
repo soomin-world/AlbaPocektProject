@@ -1,16 +1,17 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { Outlet, useMatch, useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { getInfinitePost } from "../APIs/communityBoardApi";
+import { boardAtom, boardModalAtom } from "../atoms";
 import PostCard from "../components/category/PostCard";
 import Footer from "../components/footer/Footer";
 import LayOut from "../components/layout/LayOut";
 import Loading from "../components/Loading/Loading";
-import Post from "./Post";
 
-type dataType = {
+export type dataType = {
   postId: number;
   profileImage: string;
   nickname: string;
@@ -22,6 +23,7 @@ type dataType = {
   createAt: string;
   modifiedAt: string;
   likePost: boolean;
+  commentCount: number;
   children?: JSX.Element | JSX.Element[];
 };
 
@@ -29,6 +31,10 @@ function Board() {
   const navigate = useNavigate();
   const { ref, inView } = useInView();
   const boardMatch = useMatch("/board");
+
+  const [boardModal, setBoardModal] = useRecoilState(boardModalAtom);
+  const [boardType, setBoardType] = useRecoilState(boardAtom);
+
   const { data, status, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery(
       ["posts"],
@@ -38,112 +44,188 @@ function Board() {
           !lastPage.last ? lastPage.nextPage : undefined,
       }
     );
-  //const { content, pageable, sort } = data;
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
     }
   }, [inView]);
-  console.log(data);
+
   if (status === "loading") return <Loading />;
+  if (status === "error") return <div>에러다 </div>;
+
   return (
     <>
-      <Navigate>
-        <Select
-          onChange={(e) => {
-            console.log(e.target.value);
-            navigate(`/board/${e.target.value}`);
+      <LayOut>
+        <Navigate>
+          <Selector
+            onClick={() => {
+              setBoardModal(!boardModal);
+            }}
+          >
+            {boardType}
+            <img src="/image/iconMore.png" />
+          </Selector>
+          {boardModal ? (
+            <List>
+              <div
+                onClick={(e) => {
+                  setBoardType("전체");
+                  setBoardModal(false);
+                  navigate("/board/");
+                }}
+              >
+                전체
+              </div>
+              <div
+                onClick={(e) => {
+                  setBoardType("자유 게시판");
+                  setBoardModal(false);
+                  navigate("/board/free");
+                }}
+              >
+                자유 게시판
+              </div>
+              <div
+                onClick={(e) => {
+                  setBoardType("알바 고민");
+                  setBoardModal(false);
+                  navigate("/board/partTime");
+                }}
+              >
+                알바 고민
+              </div>
+              <div
+                onClick={(e) => {
+                  setBoardType("대타 구해요");
+                  setBoardModal(false);
+                  navigate("/board/cover");
+                }}
+              >
+                대타 구해요
+              </div>
+            </List>
+          ) : null}
+
+          <Icon>
+            <img
+              src="/image/iconSearch.png"
+              onClick={() => {
+                navigate("/search");
+              }}
+              alt="search"
+            />
+            <img src="/image/iconChat.png" alt="chat" />
+            <img
+              src="/image/iconUser.png"
+              onClick={() => {
+                navigate("/mypage");
+              }}
+              alt="mypage"
+            />
+          </Icon>
+        </Navigate>
+        <Outlet></Outlet>
+        {boardMatch === null
+          ? null
+          : data?.pages.map((page) => {
+              return page.content.map((p: dataType) => {
+                return <PostCard key={p.postId} post={p} />;
+              });
+            })}
+        <Plus
+          onClick={() => {
+            navigate("/posting");
           }}
         >
-          <option key="all" value="">
-            전체
-          </option>
-          <option key="free" value="free">
-            자유게시판
-          </option>
-          <option key="partTime" value="partTime">
-            알바고민 게시판
-          </option>
-          <option key="cover" value="cover">
-            대타 구해요 게시판
-          </option>
-        </Select>
-        <div style={{ height: "24px" }}>
-          <Icon
-            src="/image/iconSearch.png"
-            onClick={() => {
-              navigate("/search");
-            }}
-            margin="10px"
-          ></Icon>
-          <Icon src="/image/iconChat.png" margin="7px"></Icon>
-          <Icon
-            src="/image/iconUser.png"
-            onClick={() => {
-              navigate("/mypage");
-            }}
-            margin="15px"
-          ></Icon>
-        </div>
-      </Navigate>
-      <Outlet></Outlet>
-      {boardMatch === null
-        ? null
-        : data?.pages.map((page) => {
-            return page.content.map((p: dataType) => {
-              return <PostCard key={p.postId} post={p} />;
-            });
-          })}
-      <Plus
-        onClick={() => {
-          navigate("/posting");
-        }}
-      >
-        +
-      </Plus>
-      {isFetchingNextPage ? <Loading /> : <div ref={ref}>여기 </div>}
-      <Footer />
+          <img src="/image/iconPencil.png" />
+        </Plus>
+
+        {isFetchingNextPage ? <Loading /> : <div ref={ref}>여기 </div>}
+
+        <Footer />
+      </LayOut>
     </>
   );
 }
 
 const Navigate = styled.div`
   width: 100%;
-  height: 60px;
-  padding-left: 10px;
-  border-bottom: 1px solid #d9d9d9;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin: 25px 0px 25px 0px;
+  position: relative;
 `;
 
 const Select = styled.select`
-  width: 102px;
-  height: 30px;
-  font-size: 17px;
-  font-weight: 500;
+  width: 120px;
+  height: 28px;
+  font-size: 20px;
+  font-weight: 400;
   border: none;
+  display: flex;
+  justify-content: space-between;
+  span {
+    min-width: 70;
+    font-weight: 500;
+  }
+  img {
+    width: 24px;
+    height: 24px;
+  }
 `;
 
-const Icon = styled.img<{ margin: string }>`
-  width: 24px;
-  height: 24px;
-  margin-right: ${(props) => props.margin};
+const Icon = styled.div`
+  img {
+    width: 24px;
+    height: 24px;
+    margin-left: 15px;
+  }
 `;
 
 const Plus = styled.div`
-  width: 50px;
-  height: 50px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  font-size: 35px;
-  font-weight: 300;
-  background-color: skyblue;
+  background-color: #5fce80;
+
   position: fixed;
-  right: 10px;
-  bottom: 10px;
+  bottom: 70px;
+  right: 20px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const Selector = styled.div`
+  font-size: 20px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 24px;
+    height: 24px;
+    margin-left: 5px;
+  }
+`;
+
+const List = styled.div`
+  width: 90px;
+  background-color: white;
+  position: absolute;
+  top: 40px;
+  left: 0px;
+  border-radius: 10px;
+  animation: modal-bg-show 0.6s;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+
+  div {
+    font-size: 15px;
+    padding: 6px 8px 6px 8px;
+  }
 `;
 
 export default Board;

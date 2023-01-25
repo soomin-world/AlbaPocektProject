@@ -11,13 +11,16 @@ import TodosModal from "../components/calendarModal/TodosModal";
 import { useNavigate } from "react-router-dom";
 import { useMatch } from "react-router-dom";
 import MoreBtnsModal from "../components/calendarModal/MoreBtnsModal";
-import { useRecoilValue } from "recoil";
-import { moreBtnsAtom, workplaceBtnsAtom } from "../atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { calendarTax, moreBtnsAtom, workplaceBtnsAtom } from "../atoms";
 import WorkplaceBtnsModal from "../components/calendarModal/WorkplaceBtnsModal";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getBonus, getMonthly, getTotal } from "../APIs/calendarApi";
 import Footer from "../components/footer/Footer";
 import comma from "../hooks/comma";
+import RenderTotalWage from "../components/calendar/RenderTotalWage";
+import LayOut from "../components/layout/LayOut";
+
 
 type ICellsProps = {
   currentMonth: Date;
@@ -341,8 +344,10 @@ const Calendar = () => {
 
   const isMoreBtns = useRecoilValue(moreBtnsAtom);
   const isWorkplaceBtns = useRecoilValue(workplaceBtnsAtom);
+  const [isTax, setIsTax] = useRecoilState(calendarTax);
   // console.log(isMoreBtns);
   // console.log(isWorkplaceBtns);
+  console.log(data);
 
   return (
     <>
@@ -362,7 +367,7 @@ const Calendar = () => {
           isLoadingTodos={isLoadingTodos}
           isLoadingBonus={isLoadingBonus}
         />
-        <TotalWage>{comma(String(data?.total))}원</TotalWage>
+        <RenderTotalWage data={data} />
         <Footer />
       </Total>
 
@@ -393,9 +398,8 @@ const CellsBody = styled.div`
 `;
 
 const Cells = styled.div<{ color: string; backgroundColor: string }>`
-  width: 55px;
-  height: 90px;
-  padding-top: 3px;
+  width: 50px;
+  height: 100px;
   border-top: 1px solid ${(props) => props.color};
   background-color: ${(props) => props.backgroundColor};
   position: relative;
@@ -406,9 +410,15 @@ const CellsNum = styled.span<{ color: string }>`
 `;
 
 const TotalWage = styled.div`
-  width: 385px;
+  width: 365px;
   text-align: right;
-  margin-right: 10px;
+  margin-right: 14px;
+  font-weight: 400;
+
+  label {
+    font-weight: 300;
+    margin-right: 10px;
+  }
 `;
 
 const BonusWage = styled.div`

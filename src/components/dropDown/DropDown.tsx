@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { deletePost } from "../../APIs/detailPostApi";
 import { deleteWork } from "../../APIs/workApi";
 
 interface propsType {
@@ -7,18 +9,43 @@ interface propsType {
   open: boolean;
   close: () => void;
   address: string;
+  deleteValue: string;
 }
 
-const DropDown: React.FC<propsType> = ({ id, open, close, address }) => {
+const DropDown: React.FC<propsType> = ({
+  id,
+  open,
+  close,
+  address,
+  deleteValue,
+}) => {
   const queryClient = useQueryClient();
+  const [value, setValue] = useState<() => {}>();
   const mutateDelete = useMutation(deleteWork, {
     onSuccess: () => {
       queryClient.invalidateQueries(["work"]);
     },
   });
-  const deleteHandler = () => {
-    mutateDelete.mutate(id);
+  const mutatePostDelete = useMutation(deletePost, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["post"]);
+    },
+  });
+  const deletePostHandler = () => {
+    mutatePostDelete.mutate(id);
+    alert("삭제되었습니다!");
   };
+  const deleteWorkHandler = () => {
+    mutateDelete.mutate(id);
+    alert("삭제되었습니다!");
+  };
+  useEffect(() => {
+    if (deleteValue === "post") {
+      setValue(() => deletePostHandler);
+    } else {
+      setValue(() => deleteWorkHandler);
+    }
+  }, [deleteValue]);
   return (
     <STDropdown>
       <li>
@@ -28,7 +55,7 @@ const DropDown: React.FC<propsType> = ({ id, open, close, address }) => {
         </a>
       </li>
       <li>
-        <div className="delete" onClick={deleteHandler}>
+        <div className="delete" onClick={value}>
           삭제하기 <img src="/image/bin.png" alt="삭제" />
         </div>
       </li>
@@ -47,7 +74,7 @@ const STDropdown = styled.div`
   height: 64px;
   animation: modal-bg-show 0.6s;
   background: #ffffffda;
-  box-shadow: 0px 0px 4px rgba(47, 47, 47, 0.08);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
 
   li {

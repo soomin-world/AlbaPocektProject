@@ -9,6 +9,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { addShift, editWork, getEditWork } from "../APIs/workApi";
 import { getPost } from "../APIs/detailPostApi";
+import LayOut from "../components/layout/LayOut";
 
 interface IEditWork {
   endTime: string;
@@ -56,19 +57,23 @@ function EditShift() {
   };
 
   return (
-    <>
-      <STContainer>
-        <div className="hourlyWage">
-          <label>시급</label>
-          <input
-            value={hourlyWage}
-            placeholder="시급을 입력해주세요"
-            onChange={(e) => setHourlyWage(e.target.value)}
-          />
-        </div>
 
-        <TimeSelector className="workingTime">
-          <div>근무시간</div>
+    <LayOut>
+      <STHeader>
+        <img src="/image/leftArrow.png" alt="<" onClick={() => navigate("/")} />
+        <h1>근무 수정</h1>
+      </STHeader>
+      <SThourlyWage>
+        <label>시급</label>
+        <input
+          value={hourlyWage}
+          placeholder="시급을 입력해주세요"
+          onChange={(e) => setHourlyWage(e.target.value)}
+        />
+      </SThourlyWage>
+      <TimeSelector className="workingTime">
+        <label>근무시간</label>
+        <div>
           <input
             type="time"
             value={startTime}
@@ -76,7 +81,7 @@ function EditShift() {
               setStartTime(e.target.value);
             }}
           />
-          <span> ~ </span>
+          <span> - </span>
           <input
             type="time"
             value={endTime}
@@ -84,31 +89,88 @@ function EditShift() {
               setEndTime(e.target.value);
             }}
           />
-        </TimeSelector>
-        <button onClick={onClickHandler}>저장하기</button>
-      </STContainer>
-    </>
+        </div>
+      </TimeSelector>
+      <STButton onClick={onClickHandler}>저장하기</STButton>
+    </LayOut>
+
   );
 }
 
-const STContainer = styled.div`
+const STHeader = styled.div`
+  display: flex;
+  margin: 12px 0px 41.5px 0px;
+  height: 35px;
+  img {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }
+  h1 {
+    width: 83px;
+    height: 25px;
+    font-size: 17px;
+    font-weight: 500;
+    margin-left: 102px;
+  }
+`;
+
+const SThourlyWage = styled.div`
+  display: flex;
+  flex-direction: column;
+  label {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 15px;
+  }
+  input {
+    width: 159.78px;
+    height: 44px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    border: 1px solid #efefef;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 5px;
+    margin-bottom: 30px;
+  }
+`;
+const TimeSelector = styled.div`
+  display: flex;
+  flex-direction: column;
+  label {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 15px;
+  }
+  input {
+    width: 159.78px;
+    height: 44px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    border: 1px solid #efefef;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 5px;
+    margin-bottom: 390px;
+  }
+`;
+
+const STButton = styled.button`
+  width: 340px;
+  height: 56px;
+  background-color: #5fce80;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 17px;
+  font-weight: 500;
   display: flex;
   justify-content: center;
-  flex-direction: column;
-`;
-
-const TimeSelector = styled.div`
-  margin-bottom: 300px;
-`;
-
-const WorkDayInput = styled.div`
-  display: flex;
-  justify-content: space-between;
-  border: 1px solid black;
-  width: 90%;
-  div {
-    width: 60%;
-  }
+  align-items: center;
+  position: fixed;
+  left: 19px;
+  bottom: 19px;
 `;
 
 export default EditShift;

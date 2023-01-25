@@ -8,6 +8,7 @@ import {
   deleteComment,
   editComment,
 } from "../../APIs/detailPostApi";
+import LayOut from "../layout/LayOut";
 import { CommentType } from "./CommentList";
 
 const Comment: React.FC<CommentType> = (props) => {
@@ -110,10 +111,23 @@ const Comment: React.FC<CommentType> = (props) => {
             </div>
           </div>
           <div className="body">
-            <div>{comment}</div>
+            <div className="comment">{comment}</div>
+            <div className="like">
+              <span
+                onClick={() => {
+                  onClickLikeHandler();
+                }}
+              >
+                {like === true ? (
+                  <img src="/image/iconRedHeart.png" />
+                ) : (
+                  <img src="/image/iconMiniHeart.png" />
+                )}
+              </span>
+              <span>{likeNum}</span>
+            </div>
           </div>
-
-          <div className="like">
+          {/* <div className="like">
             <span
               onClick={() => {
                 onClickLikeHandler();
@@ -126,31 +140,22 @@ const Comment: React.FC<CommentType> = (props) => {
               )}
             </span>
             <span>{likeNum}</span>
-          </div>
+          </div> */}
         </STContainer>
       ) : (
         <STContainer>
-          <div className="header">
-            {/* <div className="info">
-              <div>{nickname}</div>
-              <div> {createAt.substr(2, 8)}</div>
-            </div> */}
-            <div className="btn">
-              {myId === userId ? (
-                <>
-                  <button onClick={() => commentEdit(commentId)}>
-                    수정완료
-                  </button>
-                </>
-              ) : null}
-            </div>
-          </div>
-          <div className="body">
+          <div className="editbody">
             <input
               type="text"
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
             />
+            {myId === userId ? (
+              <div className="btn">
+                <button onClick={() => commentEdit(commentId)}>수정완료</button>
+                <button onClick={() => setIsClicked(false)}>취소</button>
+              </div>
+            ) : null}
           </div>
         </STContainer>
       )}
@@ -159,8 +164,23 @@ const Comment: React.FC<CommentType> = (props) => {
 };
 
 const STContainer = styled.div`
-  margin-bottom: 20px;
-
+  padding: 5%;
+  padding-bottom: 2%;
+  border-bottom: 1px solid #d9d9d9;
+  .editbody {
+    display: flex;
+    justify-content: space-between;
+    input {
+      width: 80%;
+    }
+    button {
+      border: none;
+      display: flex;
+      background-color: transparent;
+      font-size: 12px;
+      cursor: pointer;
+    }
+  }
   .header {
     display: flex;
     justify-content: space-between;
@@ -181,7 +201,6 @@ const STContainer = styled.div`
       font-size: 13px;
       font-weight: 400;
       margin-left: 5px;
-      padding-top: 2px;
 
       div:last-child {
         font-size: 10px;
@@ -206,21 +225,33 @@ const STContainer = styled.div`
     padding: 7px 0px 7px 35px;
     font-size: 13px;
     font-weight: 400;
+    width: 335px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .comment {
+    width: 60%;
   }
   .like {
-    height: 13px;
+    width: 44px;
+    height: 24px;
     display: flex;
+    justify-content: center;
     align-items: center;
-    padding-left: 35px;
-    img {
-      width: 13px;
-      height: 13px;
-    }
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
     span {
       width: 13px;
       height: 13px;
       font-size: 13px;
-      margin-right: 2px;
+      margin-left: 5px;
+      margin-bottom: 3px;
+    }
+    img {
+      width: 13px;
+      height: 13px;
+      margin-top: 2px;
     }
   }
 `;

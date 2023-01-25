@@ -5,7 +5,18 @@ import { instance, postInstance } from "./axios";
 export const getInfinitePost = async (pageParam: number) => {
   const { data } = await instance.get(`/api/posts?page=${pageParam}&size=7`);
   const { content, last } = data;
-  console.log(content);
+  return { content, last, nextPage: pageParam + 1 };
+};
+
+export const getInfinitePostByCategory = async (
+  pageParam: number,
+  category: string
+) => {
+  const { data } = await instance.get(
+    `/api/posts/category?page=${pageParam}&size=7&category=${category}`
+  );
+
+  const { content, last } = data;
   return { content, last, nextPage: pageParam + 1 };
 };
 
@@ -27,10 +38,9 @@ export const changeLikePost = async (payload: number) => {
 };
 
 // 게시물 검색
-export const getSearch = async (payload: string) => {
-  const { data } = await postInstance.get(
-    `/api/posts/search?keyword=${payload}`
+export const getSearch = async (payload: any) => {
+  const { data } = await instance.get(
+    `/api/posts/search?keyword=${payload[0]}&page=${payload[1]}&size=5`
   );
-  console.log(data);
   return data;
 };

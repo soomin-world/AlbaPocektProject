@@ -1,17 +1,26 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getPost, putPost } from "../../APIs/detailPostApi";
 
 function PostEditForm() {
-  const [editPost, setEditPost] = useState({
-    title: "",
-    category: "",
-    content: "",
-  });
+  const navigate = useNavigate();
+  const [title, setTitle] = useState({ title: "" });
+  const [category, setCategory] = useState({ category: "" });
+  const [content, setContent] = useState({ content: "" });
   const [file, setFile] = useState<string | Blob>();
   const { id } = useParams();
+  const [imgFile, setImgFile] = useState<any>("");
+  const getImage = (e: any) => {
+    const image = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(image);
+    reader.onloadend = () => {
+      setImgFile(reader.result);
+      setFile(image);
+    };
+  };
 
   const { data, isError, isLoading, isSuccess } = useQuery(["post", id], () =>
     getPost(id)
@@ -19,36 +28,38 @@ function PostEditForm() {
   console.log(data);
   useEffect(() => {
     if (isSuccess) {
-      setEditPost({
-        title: data.title,
-        category: data.category,
-        content: data.content,
-      });
+      setTitle(data.title);
+      setCategory(data.category);
+      setContent(data.content);
+      setImgFile(data.imgUrl);
     }
   }, [isSuccess]);
   const queryClient = useQueryClient();
-  const getImage = (e: any) => {
-    setFile(e.target.files[0]);
-  };
 
   const submitHandler = (e: any) => {
     e.preventDefault();
-    //onst formData = new FormData();
-    if (editPost.title === "") {
+    if (title.title === "") {
       alert("제목을 입력해주세요!");
       return;
     }
-    if (editPost.category === "") {
+    if (category.category === "") {
       alert("카테고리를 선택해주세요");
       return;
     }
-    if (editPost.content === "") {
+    if (content.content === "") {
       alert("내용을 입력해 주세요");
       return;
     }
-    const payload = [id, editPost];
-    mutatePost.mutate(payload);
-    window.location.href = `/post/${id}`;
+    if (file) {
+      const formData = new FormData();
+      formData.append("title", title.title);
+      formData.append("content", content.content);
+      formData.append("category", category.category);
+      formData.append("file", file);
+      const payload = [id, formData];
+      mutatePost.mutate(payload);
+      alert("수정되었습니다!");
+    }
   };
 
   const mutatePost = useMutation(putPost, {
@@ -60,77 +71,161 @@ function PostEditForm() {
   if (isError) return <div>Error!!!!!!</div>;
   if (isLoading) return <div>Loading~~~</div>;
   return (
-    <SContianer>
-      <SForm>
-        <div className="titleForm">
-          <label className="title">제목</label>
-          <input
-            type="text"
-            value={editPost.title}
-            placeholder="제목을 입력해주세요"
+    <>
+      <STHeader>
+        <img src="/image/x.png" alt="x" onClick={() => navigate("/board")} />
+        <div className="wrap">
+          <span>게시판 ·</span>
+          <select
+            value={category.category}
             onChange={(e) => {
               const { value } = e.target;
-              setEditPost({ ...editPost, title: value });
+              setCategory({ category: value });
+            }}
+          >
+            <option defaultValue="">카테고리</option>
+            <option value="free">자유</option>
+            <option value="partTime">알바고민</option>
+            <option value="cover">대타</option>
+          </select>
+        </div>
+        <button onClick={submitHandler}>등록</button>
+      </STHeader>
+      <SContianer>
+        <div className="titleForm">
+          <input
+            type="text"
+            value={title.title}
+            placeholder="제목"
+            onChange={(e) => {
+              const { value } = e.target;
+              setTitle({ title: value });
             }}
           />
         </div>
-        <div className="category">
-          <label>카테고리</label>
-          <select
-            value={editPost.category}
+        <div className="content">
+          <textarea
+            placeholder="내용을 작성해주세요"
+            value={content.content}
             onChange={(e) => {
               const { value } = e.target;
-              setEditPost({ ...editPost, category: value });
+              setContent({ content: value });
             }}
-          >
-            <option defaultValue="">카테고리를 선택하세요</option>
-            <option value="free">자유게시판</option>
-            <option value="partTime">알바고민게시판</option>
-            <option value="cover">대타구해요</option>
-          </select>
+          />
         </div>
+        <div className="preview">
+          <img
+            src={imgFile ? imgFile : `/images/pencil.png`}
+            alt="임시기본이미지"
+          />
+        </div>
+        <Line />
         <div className="imageUpload">
-          <label>이미지 첨부하기</label>
+          <label className="signup-profileImg-label" htmlFor="profileImg">
+            <img src="/image/camera-mono.png" alt="카메라" />
+          </label>
           <input
+            className="signup-profileImg-input"
             type="file"
-            accept="image/jpg,impge/png,image/jpeg,image/gif"
+            accept="image/*"
+            id="profileImg"
             onChange={getImage}
             multiple
           />
         </div>
-        <div className="content">
-          <input
-            type="text"
-            value={editPost.content}
-            onChange={(e) => {
-              const { value } = e.target;
-              setEditPost({ ...editPost, content: value });
-            }}
-          />
-        </div>
-        <button onClick={submitHandler}>등록</button>
-      </SForm>
-    </SContianer>
+      </SContianer>
+    </>
   );
 }
+const STHeader = styled.div`
+  display: flex;
+  margin: 12px 0px 19.36px 0px;
+  height: 35px;
+  img {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }
+  .wrap {
+    margin-left: 85px;
+    font-size: 17px;
+    font-weight: 500;
+    select {
+      border: none;
+      width: 83px;
+      height: 25px;
+      font-size: 17px;
+      font-weight: 500;
+    }
+  }
+  button {
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 25px;
+    border: none;
+    background-color: transparent;
+    color: #5fce80;
+    margin-left: 44px;
+  }
+`;
 const SContianer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
-`;
-const SForm = styled.div`
-  margin-top: 20%;
-  div {
-    margin-bottom: 20px;
-    label {
-      margin-right: 20px;
+  .titleForm {
+    border-bottom: 0.5px solid rgba(197, 197, 197, 0.7);
+    margin-bottom: 10px;
+    input {
+      width: 100%;
+      height: 45px;
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 35px;
+      border: none;
+      margin-bottom: 10px;
     }
   }
   .content {
-    input {
+    textarea {
+      border: none;
       width: 100%;
-      height: 300px;
+      height: 250px;
+      font-weight: 400;
+      font-size: 15px;
+      resize: none;
+      :focus {
+        outline: none;
+        //display: none;
+      }
     }
   }
+  .preview {
+    img {
+      width: 345px;
+      height: 258px;
+      min-width: 345px;
+      min-height: 258px;
+      border: 0.5px solid rgba(197, 197, 197, 0.7);
+      margin-bottom: 43px;
+      object-fit: cover;
+    }
+  }
+  .imageUpload {
+    input {
+      display: none;
+      .img {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+`;
+
+const Line = styled.div`
+  width: 100%;
+  height: 0px;
+  border: 0.5px solid rgba(197, 197, 197, 0.7);
+  margin-bottom: 10px;
 `;
 
 export default PostEditForm;

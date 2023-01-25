@@ -9,7 +9,7 @@ const contentStyle: React.CSSProperties = {
   borderRadius: "10px",
   color: "#000000",
   textAlign: "center",
-  background: "#c2edbe",
+  background: "#e3fde1",
   display: "flex",
   flexDirection: "column",
   paddingTop: "17px",
@@ -151,8 +151,8 @@ export const SalaryWrap = styled.div`
     gap: 15px;
   }
   img {
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
   }
   div {
     font-size: 17px;

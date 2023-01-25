@@ -17,7 +17,9 @@ import AddWork from "../pages/Addwork";
 import AddShift from "../pages/Addshift";
 import Test from "../pages/Test";
 import EditShift from "../pages/EditShift";
-import InfiniteScrollText from "../pages/InfiniteScrollTest";
+import Chart from "../pages/Chart";
+import MyLike from "../components/mypage/MyLike";
+import MyComment from "../components/mypage/MyComment";
 
 function Router() {
   return (
@@ -28,15 +30,22 @@ function Router() {
         <Route path="/login" element={<Login />} />
         <Route path="/oauth/callback/kakao" element={<KakaoSocial />} />
         <Route path="/posting/:id?" element={<Posting />} />
+
         <Route path="/board" element={<Board />}>
           <Route path="free" element={<Free />} />
           <Route path="partTime" element={<PartTime />} />
           <Route path="cover" element={<Cover />} />
         </Route>
+
         <Route path="/search" element={<Search />} />
         <Route path="/post/:id" element={<Post />} />
-        <Route path="/mypage" element={<MyPage />} />
+
+        <Route path="/mypage" element={<MyPage />}>
+          <Route path="myLike" element={<MyLike />} />
+          <Route path="myComment" element={<MyComment />} />
+        </Route>
         <Route path="/mypage/edit" element={<MyPageEdit />} />
+
         <Route path="/addShift/:id" element={<AddShift />} />
         <Route path="/editShift/:todoId" element={<EditShift />} />
 
@@ -48,7 +57,7 @@ function Router() {
         <Route path="/addWork/:id?" element={<AddWork />} />
         <Route path="/addShift/:id" element={<AddShift />} />
         <Route path="/test" element={<Test />} />
-        <Route path="/test1" element={<InfiniteScrollText />} />
+        <Route path="/chart" element={<Chart />} />
       </Routes>
     </BrowserRouter>
   );

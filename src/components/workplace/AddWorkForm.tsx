@@ -3,21 +3,26 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { addWork } from "../../APIs/workApi";
-import Modal from "../modal/Modal";
 
 function AddWorkForm() {
   const { id } = useParams();
   const [placeName, setPlaceName] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  const [salaryDay, setSalaryday] = useState("");
+  const [salaryDay, setSalaryday] = useState<string | undefined>("");
   const [color, setColor] = useState("");
+  const [isClicked, setIsClicked] = useState("");
+  const colors = [
+    "#ee9071",
+    "#F6E279",
+    "#5FCE80",
+    "#6290F0",
+    "#6532E9",
+    "#ab51b9d7",
+  ];
   const openModal = () => {
-    setModalOpen(true);
+    setModalOpen(!modalOpen);
   };
-  console.log(modalOpen);
-  const closeModal = () => {
-    setModalOpen(false);
-  };
+
   let i = 0;
   const days = Array(31)
     .fill(i)
@@ -28,7 +33,7 @@ function AddWorkForm() {
     placeColor: color,
   };
   const queryClient = useQueryClient();
-  console.log(workPlaceForm);
+  console.log(color);
   const addWorkHandler = () => {
     if (placeName === "") {
       alert("근무지명을 입력하세요 ");
@@ -49,7 +54,14 @@ function AddWorkForm() {
       queryClient.invalidateQueries(["work"]);
     },
   });
-  console.log(color);
+  const onColorClick = (i: number, v: string) => {
+    setIsClicked(String(i));
+    setColor(v);
+  };
+  const onSalaryClick = (e: any) => {
+    setSalaryday(e.currentTarget.textContent?.replace("일", ""));
+    setModalOpen(false);
+  };
   const navigate = useNavigate();
   return (
     <STContainer>
@@ -77,79 +89,35 @@ function AddWorkForm() {
                 onClick={openModal}
               />
             </div>
-            <Modal open={modalOpen} close={closeModal}>
-              <STModal>
-                <select onChange={(e) => setSalaryday(e.target.value)}>
-                  <option defaultValue={""}>월급!</option>
-                  {days.map((day, i) => {
-                    return (
-                      <option key={i} value={day}>
-                        {day}일
-                      </option>
-                    );
-                  })}
-                </select>
-              </STModal>
-            </Modal>
+            {modalOpen ? (
+              <DropDown>
+                {days.map((day, i) => {
+                  return (
+                    <div key={i} onClick={(e) => onSalaryClick(e)}>
+                      {day}
+                    </div>
+                  );
+                })}
+              </DropDown>
+            ) : null}
           </div>
         </div>
+
         <div className="color">
           <p>색상</p>
           <STColor>
-            <button
-              onClick={() => {
-                const value = `#ef0400c6`;
-                setColor(value);
-              }}
-              style={{
-                backgroundColor: `#ef0400c6`,
-              }}
-            />
-            <button
-              onClick={() => {
-                const value = `#b2c34f`;
-                setColor(value);
-              }}
-              style={{
-                backgroundColor: `#b2c34f`,
-              }}
-            />
-            <button
-              onClick={() => {
-                const value = `#5FCE80`;
-                setColor(value);
-              }}
-              style={{
-                backgroundColor: `#5FCE80`,
-              }}
-            />
-            <button
-              onClick={() => {
-                const value = `#3f74dd`;
-                setColor(value);
-              }}
-              style={{
-                backgroundColor: `#3f74dd`,
-              }}
-            />
-            <button
-              onClick={() => {
-                const value = `#6344c9`;
-                setColor(value);
-              }}
-              style={{
-                backgroundColor: `#6344c9`,
-              }}
-            />
-            <button
-              onClick={() => {
-                const value = `#ab51b9d7`;
-                setColor(value);
-              }}
-              style={{
-                backgroundColor: `#ab51b9d7`,
-              }}
-            />
+            {colors.map((v, i) => {
+              return (
+                <button
+                  value={v}
+                  className={"btn" + (String(i) === isClicked ? "active" : "")}
+                  style={{
+                    backgroundColor: v,
+                  }}
+                  onClick={() => onColorClick(i, v)}
+                />
+              );
+            })}
           </STColor>
         </div>
       </STBody>
@@ -158,9 +126,7 @@ function AddWorkForm() {
   );
 }
 
-const STContainer = styled.div`
-  padding: 0px 17px 0px 18px;
-`;
+const STContainer = styled.div``;
 
 const STHeader = styled.div`
   display: flex;
@@ -216,7 +182,9 @@ const STBody = styled.div`
       height: 44px;
       background-color: #f9f9f9;
       border: 1px solid #efefef;
-      border-radius: 8px;
+      border-bottom: none;
+      border-top-right-radius: 8px;
+      border-top-left-radius: 8px;
       display: flex;
       align-items: center;
       padding: 7px;
@@ -225,6 +193,9 @@ const STBody = styled.div`
         width: 18px;
         height: 18px;
       }
+    }
+    select {
+      background-color: #f9f9f9;
     }
   }
   .color {
@@ -236,19 +207,49 @@ const STBody = styled.div`
     }
   }
 `;
+const DropDown = styled.div`
+  position: absolute;
+  z-index: 999;
+  padding: 5px;
+  color: #8f8b8b;
+  //margin-top: px;
+  width: 70px;
+  height: 150px;
+  overflow: auto;
+  animation: modal-bg-show 0.6s;
+  background-color: #f9f9f9;
+  border: 1px solid #efefef;
+  border-top: none;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-top: none;
+  font-weight: 500;
+  ::-webkit-scrollbar {
+    display: none; /* Chrome , Safari , Opera */
+  }
+  div {
+    list-style: none;
+    padding: 3px;
+    text-align: center;
+  }
+`;
 
 const STColor = styled.div`
   display: flex;
   gap: 10px;
   margin-bottom: 290px;
-  button {
+  .btn {
     width: 36px;
     height: 36px;
     border-radius: 100%;
     border: none;
   }
-  button:hover {
-    box-shadow: 0 0 0 2px grey;
+  .btnactive {
+    width: 36px;
+    height: 36px;
+    border-radius: 100%;
+    border: none;
+    box-shadow: 0 0 0 2px #777877;
   }
 `;
 
