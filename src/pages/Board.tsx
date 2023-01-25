@@ -7,7 +7,6 @@ import styled from "styled-components";
 import { getInfinitePost } from "../APIs/communityBoardApi";
 import { boardAtom, boardModalAtom } from "../atoms";
 import PostCard from "../components/category/PostCard";
-import CategoryDropDown from "../components/dropDown/SalaryDropDown";
 import Footer from "../components/footer/Footer";
 import LayOut from "../components/layout/LayOut";
 import Loading from "../components/Loading/Loading";
@@ -50,8 +49,6 @@ function Board() {
       fetchNextPage();
     }
   }, [inView]);
-
-  console.log(data);
 
   if (status === "loading") return <Loading />;
   if (status === "error") return <div>에러다 </div>;

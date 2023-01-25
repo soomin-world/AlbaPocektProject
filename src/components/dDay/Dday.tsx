@@ -9,7 +9,7 @@ const contentStyle: React.CSSProperties = {
   borderRadius: "10px",
   color: "#000000",
   textAlign: "center",
-  background: "#c2edbe",
+  background: "#e3fde1",
   display: "flex",
   flexDirection: "column",
   paddingTop: "17px",

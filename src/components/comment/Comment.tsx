@@ -8,6 +8,7 @@ import {
   deleteComment,
   editComment,
 } from "../../APIs/detailPostApi";
+import LayOut from "../layout/LayOut";
 import { CommentType } from "./CommentList";
 
 const Comment: React.FC<CommentType> = (props) => {
@@ -109,9 +110,8 @@ const Comment: React.FC<CommentType> = (props) => {
               ) : null}
             </div>
           </div>
-
           <div className="body">
-            <div>{comment}</div>
+            <div className="comment">{comment}</div>
             <div className="like">
               <span
                 onClick={() => {
@@ -127,7 +127,6 @@ const Comment: React.FC<CommentType> = (props) => {
               <span>{likeNum}</span>
             </div>
           </div>
-
           {/* <div className="like">
             <span
               onClick={() => {
@@ -145,27 +144,18 @@ const Comment: React.FC<CommentType> = (props) => {
         </STContainer>
       ) : (
         <STContainer>
-          <div className="header">
-            {/* <div className="info">
-              <div>{nickname}</div>
-              <div> {createAt.substr(2, 8)}</div>
-            </div> */}
-            <div className="btn">
-              {myId === userId ? (
-                <>
-                  <button onClick={() => commentEdit(commentId)}>
-                    수정완료
-                  </button>
-                </>
-              ) : null}
-            </div>
-          </div>
-          <div className="body">
+          <div className="editbody">
             <input
               type="text"
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
             />
+            {myId === userId ? (
+              <div className="btn">
+                <button onClick={() => commentEdit(commentId)}>수정완료</button>
+                <button onClick={() => setIsClicked(false)}>취소</button>
+              </div>
+            ) : null}
           </div>
         </STContainer>
       )}
@@ -177,7 +167,20 @@ const STContainer = styled.div`
   padding: 5%;
   padding-bottom: 2%;
   border-bottom: 1px solid #d9d9d9;
-
+  .editbody {
+    display: flex;
+    justify-content: space-between;
+    input {
+      width: 80%;
+    }
+    button {
+      border: none;
+      display: flex;
+      background-color: transparent;
+      font-size: 12px;
+      cursor: pointer;
+    }
+  }
   .header {
     display: flex;
     justify-content: space-between;
@@ -227,6 +230,9 @@ const STContainer = styled.div`
     justify-content: space-between;
     align-items: center;
   }
+  .comment {
+    width: 60%;
+  }
   .like {
     width: 44px;
     height: 24px;
@@ -235,7 +241,6 @@ const STContainer = styled.div`
     align-items: center;
     border: 1px solid #d9d9d9;
     border-radius: 3px;
-
     span {
       width: 13px;
       height: 13px;
