@@ -21,8 +21,11 @@ const PostCard = ({ post, padding }: postProps) => {
       queryClient.invalidateQueries(["categoryPosts"]);
     },
   });
-  const createTime = post.createAt.substring(0, 10);
+
+  // 연도 제외, 월일만 나오도록!!!
+  const createTime = post.createAt.substring(5, 10);
   const time = post.createAt.substring(11, 16);
+
   const onClickHeartHandler = () => {
     if (likePost) {
       setPostLikeNum((postLikeNum) => postLikeNum - 1);
