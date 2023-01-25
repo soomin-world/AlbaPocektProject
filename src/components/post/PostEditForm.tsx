@@ -6,11 +6,9 @@ import { getPost, putPost } from "../../APIs/detailPostApi";
 
 function PostEditForm() {
   const navigate = useNavigate();
-  const [editPost, setEditPost] = useState({
-    title: "",
-    category: "",
-    content: "",
-  });
+  const [title, setTitle] = useState({ title: "" });
+  const [category, setCategory] = useState({ category: "" });
+  const [content, setContent] = useState({ content: "" });
   const [file, setFile] = useState<string | Blob>();
   const { id } = useParams();
   const [imgFile, setImgFile] = useState<any>("");
@@ -30,11 +28,9 @@ function PostEditForm() {
   console.log(data);
   useEffect(() => {
     if (isSuccess) {
-      setEditPost({
-        title: data.title,
-        category: data.category,
-        content: data.content,
-      });
+      setTitle(data.title);
+      setCategory(data.category);
+      setContent(data.content);
       setImgFile(data.imgUrl);
     }
   }, [isSuccess]);
@@ -42,30 +38,28 @@ function PostEditForm() {
 
   const submitHandler = (e: any) => {
     e.preventDefault();
-    //onst formData = new FormData();
-    if (editPost.title === "") {
+    if (title.title === "") {
       alert("제목을 입력해주세요!");
       return;
     }
-    if (editPost.category === "") {
+    if (category.category === "") {
       alert("카테고리를 선택해주세요");
       return;
     }
-    if (editPost.content === "") {
+    if (content.content === "") {
       alert("내용을 입력해 주세요");
       return;
     }
-    // if (file) {
-    //   const formData = new FormData();
-    //   formData.append(
-    //     "data",
-    //     new Blob([JSON.stringify(editPost)], { type: "application/json" })
-    //   );
-    //   formData.append("file, file");
-    // }
-    const payload = [id, editPost];
-    mutatePost.mutate(payload);
-    //window.location.href = `/post/${id}`;
+    if (file) {
+      const formData = new FormData();
+      formData.append("title", title.title);
+      formData.append("content", content.content);
+      formData.append("category", category.category);
+      formData.append("file", file);
+      const payload = [id, formData];
+      mutatePost.mutate(payload);
+      alert("수정되었습니다!");
+    }
   };
 
   const mutatePost = useMutation(putPost, {
@@ -83,10 +77,10 @@ function PostEditForm() {
         <div className="wrap">
           <span>게시판 ·</span>
           <select
-            value={editPost.category}
+            value={category.category}
             onChange={(e) => {
               const { value } = e.target;
-              setEditPost({ ...editPost, category: value });
+              setCategory({ category: value });
             }}
           >
             <option defaultValue="">카테고리</option>
@@ -101,21 +95,21 @@ function PostEditForm() {
         <div className="titleForm">
           <input
             type="text"
-            value={editPost.title}
+            value={title.title}
             placeholder="제목"
             onChange={(e) => {
               const { value } = e.target;
-              setEditPost({ ...editPost, title: value });
+              setTitle({ title: value });
             }}
           />
         </div>
         <div className="content">
           <textarea
             placeholder="내용을 작성해주세요"
-            value={editPost.content}
+            value={content.content}
             onChange={(e) => {
               const { value } = e.target;
-              setEditPost({ ...editPost, content: value });
+              setContent({ content: value });
             }}
           />
         </div>

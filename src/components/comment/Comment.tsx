@@ -78,7 +78,7 @@ const Comment: React.FC<CommentType> = (props) => {
 
   console.log(like);
   return (
-    <LayOut>
+    <>
       {isClicked === false ? (
         <STContainer>
           <div className="header">
@@ -110,7 +110,6 @@ const Comment: React.FC<CommentType> = (props) => {
               ) : null}
             </div>
           </div>
-
           <div className="body">
             <div className="comment">{comment}</div>
             <div className="like">
@@ -128,7 +127,6 @@ const Comment: React.FC<CommentType> = (props) => {
               <span>{likeNum}</span>
             </div>
           </div>
-
           {/* <div className="like">
             <span
               onClick={() => {
@@ -161,7 +159,7 @@ const Comment: React.FC<CommentType> = (props) => {
           </div>
         </STContainer>
       )}
-    </LayOut>
+    </>
   );
 };
 
