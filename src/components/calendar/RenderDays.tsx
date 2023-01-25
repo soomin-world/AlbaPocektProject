@@ -7,7 +7,7 @@ interface IDaysProps {
 
 const RenderDays = ({ dayWith, daysWith }: IDaysProps) => {
   const days = [];
-  const date = ["Sun", "Mon", "Thu", "Wed", "Thrs", "Fri", "Sat"];
+  const date = ["일", "월", "화", "수", "목", "금", "토"];
 
   for (let i = 0; i < 7; i++) {
     days.push(
@@ -23,7 +23,7 @@ const RenderDays = ({ dayWith, daysWith }: IDaysProps) => {
 const Day = styled.div<{ dayWith: boolean | undefined }>`
   width: ${(props) => (props.dayWith ? "40px" : "50px")};
   margin-left: ${(props) => (props.dayWith ? "5px" : "0px")};
-  font-size: ${(props) => (props.dayWith ? "13px" : "16px")};
+  font-size: ${(props) => (props.dayWith ? "13px" : "11px")};
   display: flex;
   justify-content: center;
   align-items: center;

@@ -50,7 +50,7 @@ const RenderDayTotal = ({ day, Month, todos, bonus }: IDayTotalProps) => {
 const DayTotal = styled.div`
   width: 100%;
   font-size: 11px;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
   position: absolute;
   left: 0px;
   bottom: 0px;
