@@ -78,7 +78,7 @@ function PostForm() {
         </div>
         <button onClick={submitHandler}>등록</button>
       </STHeader>
-      <SContianer>
+      <SBody>
         <select
           onChange={(e) => {
             const { value } = e.target;
@@ -116,20 +116,20 @@ function PostForm() {
             <div style={{ width: "345px", height: "258px", border: "none" }} />
           )}
         </div>
-        <Line />
-        <div className="imageUpload">
-          <label className="signup-profileImg-label" htmlFor="profileImg">
-            <img src="/image/camera-mono.png" alt="카메라" />
-          </label>
-          <input
-            className="signup-profileImg-input"
-            type="file"
-            accept="image/*"
-            id="profileImg"
-            onChange={getImage}
-          />
-        </div>
-      </SContianer>
+      </SBody>
+      <STImageUpLoad>
+        <div className="line" />
+        <label className="signup-profileImg-label" htmlFor="profileImg">
+          <img src="/image/camera-mono.png" alt="카메라" />
+        </label>
+        <input
+          className="signup-profileImg-input"
+          type="file"
+          accept="image/*"
+          id="profileImg"
+          onChange={getImage}
+        />
+      </STImageUpLoad>
     </>
   );
 }
@@ -166,10 +166,11 @@ const STHeader = styled.div`
     //margin-left: 44px;
   }
 `;
-const SContianer = styled.div`
+const SBody = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-bottom: 20px;
   select {
     border: none;
     width: 83px;
@@ -196,7 +197,8 @@ const SContianer = styled.div`
     textarea {
       border: none;
       width: 100%;
-      height: 200px;
+      min-height: 200px;
+      max-height: 200px;
       font-weight: 400;
       font-size: 15px;
       resize: none;
@@ -207,34 +209,39 @@ const SContianer = styled.div`
     }
   }
   .preview {
+    border: 1px solid black;
     img {
       width: 345px;
       height: 258px;
       min-width: 345px;
       min-height: 258px;
       max-height: 258px;
-      //border: 0.5px solid rgba(197, 197, 197, 0.7);
-      margin-bottom: 20px;
       object-fit: cover;
-    }
-    margin-bottom: 20px;
-  }
-  .imageUpload {
-    input {
-      display: none;
-      .img {
-        width: 24px;
-        height: 24px;
-      }
     }
   }
 `;
 
-const Line = styled.div`
-  width: 100%;
-  height: 0px;
-  border: 0.5px solid rgba(197, 197, 197, 0.7);
-  margin-bottom: 10px;
+const STImageUpLoad = styled.div`
+  position: absolute;
+  bottom: 10px;
+  width: 375px;
+  .line {
+    width: 90%;
+    height: 0px;
+    border: 0.5px solid rgba(197, 197, 197, 0.7);
+    margin-bottom: 10px;
+    position: absolute;
+    bottom: 30px;
+  }
+  input {
+    display: none;
+    .img {
+      position: absolute;
+      bottom: 5px;
+      width: 24px;
+      height: 24px;
+    }
+  }
 `;
 
 export default PostForm;

@@ -7,7 +7,7 @@ import PostDetail from "../components/postDetail/PostDetail";
 function Post() {
   return (
     <>
-      <LayOut padding="0">
+      <LayOut padding="0" position="relative">
         <PostDetail />
         <CommentPost />
         <CommentList />
