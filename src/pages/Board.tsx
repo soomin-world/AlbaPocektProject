@@ -166,7 +166,6 @@ function Board() {
           <button onClick={scrollToTop}>top</button>
         </Scroll> */}
 
-
         {isFetchingNextPage ? <Loading /> : <div ref={ref}>여기 </div>}
         <Footer />
         {showButton && (
@@ -218,8 +217,10 @@ const Icon = styled.div`
 
 const PlusWrap = styled.div`
   width: 100%;
-  padding: 285px;
+  display: flex;
+  justify-content: flex-end;
 `;
+
 const Plus = styled.div`
   width: 56px;
   height: 56px;
