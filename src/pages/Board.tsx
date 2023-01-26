@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { Outlet, useMatch, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
@@ -162,12 +162,7 @@ function Board() {
             <img src="/image/iconPencil.png" />
           </Plus>
         </PlusWrap>
-        {/* <Scroll>
-          <button onClick={scrollToTop}>top</button>
-        </Scroll> */}
-
-
-        {isFetchingNextPage ? <Loading /> : <div ref={ref}>여기 </div>}
+        {isFetchingNextPage ? <Loading /> : <div ref={ref} />}
         <Footer />
         {showButton && (
           <Scroll>

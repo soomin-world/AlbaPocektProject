@@ -39,7 +39,7 @@ const Cover = () => {
           })}
         </div>
       )}
-      {isFetchingNextPage ? <Loading /> : <div ref={ref}>여기 </div>}
+      {isFetchingNextPage ? <Loading /> : <div ref={ref} />}
     </>
   );
 };
