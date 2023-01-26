@@ -20,7 +20,6 @@ const Cover = () => {
           !lastPage.last ? lastPage.nextPage : undefined,
       }
     );
-  console.log(data);
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
