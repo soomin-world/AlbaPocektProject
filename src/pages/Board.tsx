@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { Outlet, useMatch, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
@@ -30,15 +30,26 @@ export type dataType = {
 function Board() {
   const navigate = useNavigate();
   const { ref, inView } = useInView();
+  const [showButton, setShowButton] = useState(false);
   const [ScrollY, setScrollY] = useState(0); // 스크롤값을 저장하기 위한 상태
-  // const handleFollow = () => {
-  //  y = window.scrollY; // window 스크롤 값을 ScrollY에 저장
-  // };
+  const scrollToTop = () => {
+    window.scrollTo(0, 0);
+  };
 
   useEffect(() => {
-    setScrollY(window.scrollY);
-    console.log("ScrollY is ", window.scrollY); // ScrollY가 변화할때마다 값을 콘솔에 출력
-  }, [window.scrollY]);
+    const handleShowButton = () => {
+      if (window.scrollY > 500) {
+        setShowButton(true);
+      } else {
+        setShowButton(false);
+      }
+    };
+    window.addEventListener("scroll", handleShowButton);
+    return () => {
+      window.removeEventListener("scroll", handleShowButton);
+    };
+  }, []);
+
   const boardMatch = useMatch("/board");
   const [boardModal, setBoardModal] = useRecoilState(boardModalAtom);
   const [boardType, setBoardType] = useRecoilState(boardAtom);
@@ -52,21 +63,19 @@ function Board() {
           !lastPage.last ? lastPage.nextPage : undefined,
       }
     );
+
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
     }
   }, [inView]);
-  // const scrollToTop = () => {
-  //   window.scrollTo(0, 0);
-  // };
 
   if (status === "loading") return <Loading />;
   if (status === "error") return <div>에러다 </div>;
 
   return (
-    <>
-      <LayOut>
+    <LayOut position="relative">
+      <STContainer>
         <Navigate>
           <Selector
             onClick={() => {
@@ -150,18 +159,21 @@ function Board() {
         >
           <img src="/image/iconPencil.png" />
         </Plus>
-        {/* <Scroll>
-          <button onClick={scrollToTop}>top</button>
-        </Scroll> */}
 
         {isFetchingNextPage ? <Loading /> : <div ref={ref}>여기 </div>}
-
         <Footer />
-      </LayOut>
-    </>
+        {showButton && (
+          <Scroll>
+            <button onClick={scrollToTop}>top</button>
+          </Scroll>
+        )}
+      </STContainer>
+    </LayOut>
   );
 }
-
+const STContainer = styled.div`
+  width: 100%;
+`;
 const Navigate = styled.div`
   width: 100%;
   display: flex;
@@ -202,20 +214,13 @@ const Plus = styled.div`
   height: 56px;
   border-radius: 50%;
   background-color: #5fce80;
-
   position: fixed;
   bottom: 70px;
   right: 20px;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
-
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-const Scroll = styled.div`
-  border: 1px solid black;
-  position: absolute;
-  top: 100px;
 `;
 const Selector = styled.div`
   font-size: 20px;
@@ -239,10 +244,26 @@ const List = styled.div`
   border-radius: 10px;
   animation: modal-bg-show 0.6s;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-
   div {
     font-size: 15px;
     padding: 6px 8px 6px 8px;
+  }
+`;
+const Scroll = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  //right: 30px;
+  button {
+    bottom: 150px;
+    position: fixed;
+    border: none;
+    background-color: #5fce80;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    color: white;
+    font-weight: 800;
   }
 `;
 
