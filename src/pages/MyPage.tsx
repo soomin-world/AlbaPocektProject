@@ -42,11 +42,11 @@ const MyPage = () => {
       </div>
     );
   }
-  console.log(numList);
+  // console.log(numList);
 
   return (
     <>
-      <LayOut padding="0">
+      <LayOut padding="0" position="relative">
         <MypageBar>마이페이지</MypageBar>
         <MyPageProfile>
           <div>
@@ -197,6 +197,7 @@ const Tap = styled.div<{ isActive: boolean }>`
 
 const PageNum = styled.div`
   display: flex;
+  margin: 0 auto;
   margin-bottom: 20px;
 
   div {

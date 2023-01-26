@@ -23,3 +23,10 @@ export const getMyComment = async (payload: number) => {
   );
   return data;
 };
+
+export const deleteMyComment = async (payload: number[]) => {
+  await instance.delete("/api/mypage/comments", {
+    data: { commentIdList: payload },
+  });
+  return;
+};

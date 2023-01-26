@@ -152,13 +152,20 @@ function Board() {
                 return <PostCard key={p.postId} post={p} />;
               });
             })}
-        <Plus
-          onClick={() => {
-            navigate("/posting");
-          }}
-        >
-          <img src="/image/iconPencil.png" />
-        </Plus>
+
+        <PlusWrap>
+          <Plus
+            onClick={() => {
+              navigate("/posting");
+            }}
+          >
+            <img src="/image/iconPencil.png" />
+          </Plus>
+        </PlusWrap>
+        {/* <Scroll>
+          <button onClick={scrollToTop}>top</button>
+        </Scroll> */}
+
 
         {isFetchingNextPage ? <Loading /> : <div ref={ref}>여기 </div>}
         <Footer />
@@ -209,6 +216,10 @@ const Icon = styled.div`
   }
 `;
 
+const PlusWrap = styled.div`
+  width: 100%;
+  padding: 285px;
+`;
 const Plus = styled.div`
   width: 56px;
   height: 56px;
@@ -216,12 +227,13 @@ const Plus = styled.div`
   background-color: #5fce80;
   position: fixed;
   bottom: 70px;
-  right: 20px;
+
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
 `;
+
 const Selector = styled.div`
   font-size: 20px;
   font-weight: 400;

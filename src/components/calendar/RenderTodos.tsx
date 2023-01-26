@@ -22,19 +22,19 @@ const RenderTodos = ({ day, Month, todos }: ITodosProps) => {
     ) {
       console.log(workingTime(todo.workingTime).length);
 
-      if (workingTime(todo.workingTime).length !== 8) {
-        todoList.push(
-          <CellTodo key={todo.todoId} color={todo.color}>
-            {workingTime(todo.workingTime)}
-          </CellTodo>
-        );
-      } else {
-        todoList.push(
-          <CellTodo key={todo.todoId} color={todo.color}>
-            {workingTime(todo.workingTime).slice(0, 7)}
-          </CellTodo>
-        );
-      }
+      // if (workingTime(todo.workingTime).length !== 8) {
+      todoList.push(
+        <CellTodo key={todo.todoId} color={todo.color}>
+          {workingTime(todo.workingTime)}
+        </CellTodo>
+      );
+      // } else {
+      //   todoList.push(
+      //     <CellTodo key={todo.todoId} color={todo.color}>
+      //       {workingTime(todo.workingTime)}
+      //     </CellTodo>
+      //   );
+      // }
       // todoList.push(
       //   <CellTodo key={todo.todoId} color={todo.color}>
       //     {workingTime(todo.workingTime)}
@@ -48,18 +48,19 @@ const RenderTodos = ({ day, Month, todos }: ITodosProps) => {
 const CellTodo = styled.div<{ color: string }>`
   width: 48px;
   height: 15px;
-  margin-left: 1px;
   margin-bottom: 2px;
-  padding-left: 2px;
+  padding-top: 1px;
   border-radius: 3px;
   background-color: ${(props) => props.color};
   font-size: 10px;
+  font-weight: 400;
+  color: black;
   display: flex;
+  justify-content: center;
   align-items: center;
 `;
 
 const CellTodoList = styled.div`
-  width: 55px;
   display: flex;
   flex-direction: column;
 `;

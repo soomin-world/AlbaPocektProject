@@ -59,6 +59,7 @@ const MyLike = () => {
 
 const PageNum = styled.div`
   display: flex;
+  margin: 0 auto;
   margin-bottom: 20px;
 
   div {
