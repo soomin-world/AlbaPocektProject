@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { addWork } from "../../APIs/workApi";
+import LayOut from "../layout/LayOut";
 
 function AddWorkForm() {
   const { id } = useParams();
@@ -64,7 +65,7 @@ function AddWorkForm() {
   };
   const navigate = useNavigate();
   return (
-    <STContainer>
+    <LayOut position="relative">
       <STHeader>
         <img src="/image/leftArrow.png" alt="<" onClick={() => navigate("/")} />
         <h1>근무지추가</h1>
@@ -122,7 +123,7 @@ function AddWorkForm() {
         </div>
       </STBody>
       <SaveBtn onClick={addWorkHandler}>저장하기</SaveBtn>
-    </STContainer>
+    </LayOut>
   );
 }
 
@@ -254,15 +255,19 @@ const STColor = styled.div`
 `;
 
 const SaveBtn = styled.button`
-  width: 90%;
+  width: 340px;
   height: 56px;
   background-color: #5fce80;
-  border-radius: 8px;
-  margin-left: 6%;
   border: none;
+  border-radius: 10px;
   color: white;
   font-size: 17px;
   font-weight: 500;
-  line-height: 24.62px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 17px;
+  bottom: 17px;
 `;
 export default AddWorkForm;

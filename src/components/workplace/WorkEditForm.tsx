@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getWork, putWork } from "../../APIs/workApi";
+import LayOut from "../layout/LayOut";
 import Modal from "../modal/Modal";
 
 function WorkEditForm() {
@@ -74,7 +75,7 @@ function WorkEditForm() {
   };
   const mutateEditwork = useMutation(putWork);
   return (
-    <STContainer>
+    <LayOut position="relative">
       <STHeader>
         <img src="/image/leftArrow.png" alt="<" onClick={() => navigate("/")} />
         <h1>근무지수정</h1>
@@ -135,7 +136,7 @@ function WorkEditForm() {
         </div>
       </STBody>
       <SaveBtn onClick={addWorkHandler}>수정하기</SaveBtn>
-    </STContainer>
+    </LayOut>
   );
 }
 const STContainer = styled.div``;
@@ -271,8 +272,9 @@ const SaveBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  left: 19px;
-  bottom: 19px;
+  position: absolute;
+  left: 17px;
+  bottom: 17px;
 `;
+
 export default WorkEditForm;
