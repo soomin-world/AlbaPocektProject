@@ -74,7 +74,7 @@ const MyPageEdit = () => {
 
   return (
     <>
-      <LayOut padding="0">
+      <LayOut padding="0" position="relative">
         <EditBar>커뮤니티 프로필</EditBar>
         <MyPageProfile>
           <div>
@@ -183,9 +183,9 @@ const UserProfileForm = styled.form`
     display: flex;
     justify-content: center;
     align-items: center;
-    position: fixed;
-    left: 19px;
-    bottom: 19px;
+    position: absolute;
+    left: 17px;
+    bottom: 17px;
   }
 `;
 
