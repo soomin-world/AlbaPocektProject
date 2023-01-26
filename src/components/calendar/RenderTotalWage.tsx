@@ -40,6 +40,7 @@ const TotalWage = styled.div`
   width: 365px;
   text-align: right;
   margin-right: 14px;
+  margin-bottom: 80px;
   font-weight: 400;
 
   label {

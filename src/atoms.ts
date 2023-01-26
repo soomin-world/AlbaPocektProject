@@ -47,6 +47,16 @@ export const boardAtom = atom({
   default: "전체",
 });
 
+export const allMyCommentAtom = atom({
+  key: "isAllMyComment",
+  default: false,
+});
+
+export const myCommentDeleteAtom = atom<number[]>({
+  key: "myCommentDeleteList",
+  default: [],
+});
+
 // export const calendarDayListFormat = selector<string[]>({
 //   key : "dayFormat",
 //   get:({get})=>get(calendarDayList.map((d)=>d.slice(" "))

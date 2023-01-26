@@ -3,18 +3,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getComments } from "../../APIs/detailPostApi";
+import { CommentType } from "../../types/postType";
 import Comment from "./Comment";
-
-export interface CommentType {
-  commentId: number;
-  comment: string;
-  nickname: string;
-  commentLikeNum: number;
-  likeComment: Boolean;
-  createAt: string;
-  userId: string;
-  profileImage: string;
-}
 
 const CommentList = () => {
   const { id } = useParams<string>();

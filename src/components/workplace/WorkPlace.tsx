@@ -46,10 +46,9 @@ function WorkPlace() {
           />
         </div>
       </STHeader>
+
       <Dday workList={data?.data.workList} />
-      <STAdd onClick={() => navigate("/addwork")}>
-        <img src="/image/Frame 12.png" alt="+" />
-      </STAdd>
+
       {data
         ? data.data.workList.map((w: WorkType) => {
             return (
@@ -95,18 +94,22 @@ function WorkPlace() {
             );
           })
         : null}
+
+      <STAdd onClick={() => navigate("/addwork")}>
+        <img src="/image/Frame 12.png" alt="+" />
+      </STAdd>
     </>
   );
 }
 
 const STAdd = styled.div`
   width: 90%;
-  height: 110px;
+  min-height: 110px;
   border: 2px solid #d7d8df;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px auto 20px auto;
+  margin: 0px auto 70px auto;
   border-radius: 8px;
   img {
     width: 73px;

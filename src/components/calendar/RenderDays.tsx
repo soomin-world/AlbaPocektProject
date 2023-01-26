@@ -24,6 +24,7 @@ const Day = styled.div<{ dayWith: boolean | undefined }>`
   width: ${(props) => (props.dayWith ? "40px" : "50px")};
   margin-left: ${(props) => (props.dayWith ? "5px" : "0px")};
   font-size: ${(props) => (props.dayWith ? "13px" : "11px")};
+  font-weight: 400;
   display: flex;
   justify-content: center;
   align-items: center;
