@@ -26,9 +26,7 @@ export const deleteWork = async (payload: number) => {
   return window.location.reload;
 };
 
-
 // 근무지 수정
-
 export const putWork = async (payload: any) => {
   await instance.put(`/api/workplace/${payload[0]}`, payload[1]);
   return (window.location.href = "/");

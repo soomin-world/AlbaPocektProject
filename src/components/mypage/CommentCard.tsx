@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
@@ -12,13 +12,22 @@ interface IComment {
 const CommentCard = ({ comment }: IComment) => {
   const navigate = useNavigate();
   const [onClick, setOnClick] = useState(false);
-  const [onClickAll, setOnClickAll] = useRecoilState(allMyCommentAtom);
+  // const [onClickAll, setOnClickAll] = useRecoilState(allMyCommentAtom);
   const [deleteList, setDeleteList] = useRecoilState(myCommentDeleteAtom);
+
+  useEffect(() => {
+    console.log(deleteList);
+    for (const commentId of deleteList) {
+      if (commentId === comment.commentId) {
+        setOnClick(true);
+      }
+    }
+  }, [deleteList]);
 
   // console.log(comment);
   return (
     <Comment>
-      {onClick || onClickAll ? (
+      {onClick ? (
         <img
           src="/image/iconFullCheck.png"
           onClick={() => {
@@ -27,7 +36,7 @@ const CommentCard = ({ comment }: IComment) => {
               return commentId !== comment.commentId;
             });
             setDeleteList([...copy]);
-            console.log(deleteList);
+            // console.log(deleteList);
           }}
         />
       ) : (
@@ -36,7 +45,7 @@ const CommentCard = ({ comment }: IComment) => {
           onClick={() => {
             setOnClick(true);
             setDeleteList([...deleteList, comment.commentId]);
-            console.log(deleteList);
+            // console.log(deleteList);
           }}
         />
       )}

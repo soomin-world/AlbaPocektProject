@@ -132,7 +132,8 @@ const SearchEmpty = styled.div`
 
 const PageNum = styled.div`
   display: flex;
-  margin-bottom: 50px;
+  margin: 0 auto;
+  margin-bottom: 70px;
 
   div {
     margin: 0px 10px 0px 10px;
