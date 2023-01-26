@@ -51,7 +51,6 @@ function PostForm() {
       formData.append("file", file);
       console.log("formData 값:", formData);
       writePost.mutate(formData);
-      alert("작성되었습니다");
     } else {
       const formData = new FormData();
       formData.append(
@@ -67,7 +66,6 @@ function PostForm() {
         new Blob([JSON.stringify(category)], { type: "application/json" })
       );
       writePost.mutate(formData);
-      alert("작성되었습니다");
     }
   };
   const writePost = useMutation(addPost);

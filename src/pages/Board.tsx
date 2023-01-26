@@ -30,8 +30,16 @@ export type dataType = {
 function Board() {
   const navigate = useNavigate();
   const { ref, inView } = useInView();
-  const boardMatch = useMatch("/board");
+  const [ScrollY, setScrollY] = useState(0); // 스크롤값을 저장하기 위한 상태
+  // const handleFollow = () => {
+  //  y = window.scrollY; // window 스크롤 값을 ScrollY에 저장
+  // };
 
+  useEffect(() => {
+    setScrollY(window.scrollY);
+    console.log("ScrollY is ", window.scrollY); // ScrollY가 변화할때마다 값을 콘솔에 출력
+  }, [window.scrollY]);
+  const boardMatch = useMatch("/board");
   const [boardModal, setBoardModal] = useRecoilState(boardModalAtom);
   const [boardType, setBoardType] = useRecoilState(boardAtom);
 
@@ -49,6 +57,9 @@ function Board() {
       fetchNextPage();
     }
   }, [inView]);
+  // const scrollToTop = () => {
+  //   window.scrollTo(0, 0);
+  // };
 
   if (status === "loading") return <Loading />;
   if (status === "error") return <div>에러다 </div>;
@@ -139,6 +150,9 @@ function Board() {
         >
           <img src="/image/iconPencil.png" />
         </Plus>
+        {/* <Scroll>
+          <button onClick={scrollToTop}>top</button>
+        </Scroll> */}
 
         {isFetchingNextPage ? <Loading /> : <div ref={ref}>여기 </div>}
 
@@ -198,7 +212,11 @@ const Plus = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
+const Scroll = styled.div`
+  border: 1px solid black;
+  position: absolute;
+  top: 100px;
+`;
 const Selector = styled.div`
   font-size: 20px;
   font-weight: 400;
