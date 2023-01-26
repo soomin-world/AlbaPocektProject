@@ -9,7 +9,7 @@ const MyPageEdit = () => {
   const queryClient = useQueryClient();
 
   const { isLoading, isError, data } = useQuery<IMyPage>(["myPage"], () =>
-    getMyPage()
+    getMyPage(1)
   );
 
   const { mutate } = useMutation(editMyPage, {

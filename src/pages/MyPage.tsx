@@ -15,16 +15,34 @@ const MyPage = () => {
   const myLikeMatch = useMatch("/mypage/myLike");
   const myCommentMatch = useMatch("/mypage/myComment");
 
-  const { isLoading, isError, data } = useQuery<IMyPage>(["myPage"], () =>
-    getMyPage()
+  let pageParam = 1;
+
+  const { isLoading, isError, data, refetch } = useQuery(["myPage"], () =>
+    getMyPage(pageParam)
   );
-  console.log(data?.postList);
+  console.log(data);
 
   const LogoutHandler = () => {
     localStorage.removeItem("is_login");
     localStorage.removeItem("userId");
     navigate("/login");
   };
+
+  const numList = [];
+  for (let i = 1; i <= data?.pageable[0].totalPages; i++) {
+    numList.push(
+      <div
+        onClick={() => {
+          pageParam = i;
+          console.log(pageParam);
+          refetch();
+        }}
+      >
+        {i}
+      </div>
+    );
+  }
+  console.log(numList);
 
   return (
     <>
@@ -76,17 +94,21 @@ const MyPage = () => {
         <Outlet></Outlet>
         {mypageMatch ? (
           <div>
-            {data?.postList.map((data) => {
+            {data?.pageable[0].content.map((post: IAllPosts) => {
               return (
                 <PostCard
-                  key={data.postId}
-                  post={data}
+                  key={post.postId}
+                  post={post}
                   padding="0 15px 0 15px"
                 />
               );
             })}
           </div>
         ) : null}
+        {mypageMatch === null || numList?.length === 1 ? null : (
+          <PageNum>{numList}</PageNum>
+        )}
+
         {/* // <div style={{ padding: "0 5% 0 5%" }}>
         //   {data?.postList.map((data) => {
         //     return <PostCard key={data.postId} post={data} />;
@@ -171,6 +193,15 @@ const Tap = styled.div<{ isActive: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const PageNum = styled.div`
+  display: flex;
+  margin-bottom: 20px;
+
+  div {
+    margin: 0px 10px 0px 10px;
+  }
 `;
 
 export default MyPage;

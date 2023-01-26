@@ -1,16 +1,50 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { getMyPage } from "../../APIs/myPageApi";
+import { getMyComment, getMyPage } from "../../APIs/myPageApi";
+import { allMyCommentAtom } from "../../atoms";
 import { IMyPage } from "../../types/myPageType";
+import { CommentType } from "../../types/postType";
 import PostCard from "../category/PostCard";
+import CommentCard from "./CommentCard";
 
 const MyComment = () => {
-  const [onClick, setOnClick] = useState(false);
-  const [onClickAll, setOnClickAll] = useState(false);
+  const [onClickAll, setOnClickAll] = useRecoilState(allMyCommentAtom);
+
+  let pageParam = 1;
+  const { isLoading, isError, data, refetch } = useQuery(["myComment"], () =>
+    getMyComment(pageParam)
+  );
+
+  console.log(data);
+  const [, updateState] = useState({});
+  const forceUpdate = useCallback(() => updateState({ ...data }), []);
+
+  const numList = [];
+  for (let i = 1; i <= data?.totalPages; i++) {
+    numList.push(
+      <div
+        onClick={() => {
+          pageParam = i;
+          console.log(pageParam);
+          refetch();
+          forceUpdate();
+        }}
+      >
+        {i}
+      </div>
+    );
+  }
+  // console.log(numList);
+
   return (
     <>
-      <CommentCard>
+      {data?.content.map((comment: CommentType) => {
+        return <CommentCard key={comment.commentId} comment={comment} />;
+      })}
+      {/* <CommentCard commentList={data?.content} /> */}
+      {/* <CommentCard>
         {onClick || onClickAll ? (
           <img
             src="/image/iconFullCheck.png"
@@ -41,7 +75,8 @@ const MyComment = () => {
 
           <div>다들 그래...?</div>
         </CommentText>
-      </CommentCard>
+      </CommentCard> */}
+      {numList?.length === 1 ? null : <PageNum>{numList}</PageNum>}
       <CommentDelete>
         <div>
           {onClickAll ? (
@@ -70,20 +105,20 @@ const MyComment = () => {
   );
 };
 
-const CommentCard = styled.div`
-  width: 100%;
-  height: 94px;
-  border-bottom: 1px solid #d9d9d9;
-  display: flex;
-  padding: 0px 15px 15px 15px;
-  margin-bottom: 15px;
+// const CommentCard = styled.div`
+//   width: 100%;
+//   height: 94px;
+//   border-bottom: 1px solid #d9d9d9;
+//   display: flex;
+//   padding: 0px 15px 15px 15px;
+//   margin-bottom: 15px;
 
-  img {
-    width: 15px;
-    height: 15px;
-    margin-right: 15px;
-  }
-`;
+//   img {
+//     width: 15px;
+//     height: 15px;
+//     margin-right: 15px;
+//   }
+// `;
 
 const CommentText = styled.div`
   width: 315px;
@@ -122,6 +157,7 @@ const CommentDelete = styled.div`
   width: 100%;
   height: 76px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+  background-color: white;
   padding: 20px;
   font-size: 13px;
   position: fixed;
@@ -158,4 +194,14 @@ const CommentDelete = styled.div`
     }
   }
 `;
+
+const PageNum = styled.div`
+  display: flex;
+  margin-bottom: 100px;
+
+  div {
+    margin: 0px 10px 0px 10px;
+  }
+`;
+
 export default MyComment;

@@ -8,8 +8,8 @@ import {
   deleteComment,
   editComment,
 } from "../../APIs/detailPostApi";
+import { CommentType } from "../../types/postType";
 import LayOut from "../layout/LayOut";
-import { CommentType } from "./CommentList";
 
 const Comment: React.FC<CommentType> = (props) => {
   const myId = localStorage.getItem("userId");
