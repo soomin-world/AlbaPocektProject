@@ -29,6 +29,7 @@ const STLayOut = styled.div<{
     display: none;
   }
   font-family: "Noto Sans KR";
+  background-color: white;
   display: flex;
   flex-direction: column;
   // min-height: 734px;

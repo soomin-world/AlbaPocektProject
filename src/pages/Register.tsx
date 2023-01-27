@@ -8,6 +8,7 @@ import {
 } from "../APIs/loginRegisterApi";
 import { IForm } from "../types/loginRegisterType";
 import styled from "styled-components";
+import { useState } from "react";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -23,7 +24,16 @@ const Register = () => {
   const { mutateAsync: userIdCheckMutate } = useMutation(userIdCheckApi);
   const { mutateAsync: nicknameCheckMutate } = useMutation(nicknameCheckApi);
 
+  const [onClickIdCheck, setClickIdCheck] = useState(false);
+  const [onClickNicknameCheck, setClickNicknameCheck] = useState(false);
+
   const onValid = (data: IForm) => {
+    if (!onClickIdCheck) return alert("이메일 중복확인 버튼을 눌러주세요!");
+    if (!onClickNicknameCheck)
+      return alert("닉네임 중복확인 버튼을 눌러주세요!");
+
+    console.log(errors?.email?.message);
+
     if (data.password !== data.passwordCheck) {
       setError(
         "passwordCheck",
@@ -38,6 +48,7 @@ const Register = () => {
         })
         .catch((error) => {
           setError("extraError", { message: error.response.data.msg });
+          alert(error.response.data.msg);
         });
     }
     // setError("extraError", { message: "Server offline." });
@@ -45,6 +56,7 @@ const Register = () => {
   // console.log(errors);
 
   const userIdCheck = () => {
+    setClickIdCheck(true);
     const userId: IForm = watch();
     userIdCheckMutate(userId)
       .then((res) => {
@@ -57,6 +69,7 @@ const Register = () => {
   };
 
   const nicknameCheck = () => {
+    setClickNicknameCheck(true);
     const nickname: IForm = watch();
     nicknameCheckMutate(nickname)
       .then((res) => {
@@ -68,6 +81,7 @@ const Register = () => {
       });
   };
 
+  console.log(errors?.email?.message);
   return (
     <Total>
       <Header>회원가입</Header>
@@ -129,7 +143,16 @@ const Register = () => {
           type="password"
         />
         <span>{errors?.passwordCheck?.message}</span>
-        <button>확인</button>
+
+        {errors?.email?.message ||
+        errors?.nickname?.message ||
+        errors?.password?.message ||
+        errors?.passwordCheck?.message ? (
+          <button disabled>disabled</button>
+        ) : (
+          <button>확인</button>
+        )}
+
         <span>{errors?.extraError?.message}</span>
       </Form>
     </Total>

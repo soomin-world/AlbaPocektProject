@@ -29,7 +29,7 @@ const RenderTotalWage = ({ data }: ITotalWage) => {
         세금 제외
       </label>
       {isTax
-        ? comma(String(Number(data?.total) * (1 - 0.033)))
+        ? comma(String(Math.floor(Number(data?.total) * (1 - 0.033))))
         : comma(String(data?.total))}
       원
     </TotalWage>
@@ -40,7 +40,7 @@ const TotalWage = styled.div`
   width: 365px;
   text-align: right;
   margin-right: 14px;
-  margin-bottom: 80px;
+  margin-bottom: 70px;
   font-weight: 400;
 
   label {

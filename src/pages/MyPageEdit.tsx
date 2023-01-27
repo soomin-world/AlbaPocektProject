@@ -1,12 +1,25 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { editMyPage, getMyPage } from "../APIs/myPageApi";
 import LayOut from "../components/layout/LayOut";
 import { IMyPage } from "../types/myPageType";
 
+interface IForm {
+  nickname: string;
+}
+
 const MyPageEdit = () => {
   const queryClient = useQueryClient();
+
+  const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm<IForm>({ mode: "onBlur" });
 
   const { isLoading, isError, data } = useQuery<IMyPage>(["myPage"], () =>
     getMyPage(1)
@@ -39,8 +52,12 @@ const MyPageEdit = () => {
       // console.log(nickname);
       const formData = new FormData();
 
-      if (nickname !== undefined) {
-        formData.append("nickname", nickname);
+      if (data?.nickname) {
+        if (nickname.length === 0) {
+          formData.append("nickname", data?.nickname);
+        } else {
+          formData.append("nickname", nickname);
+        }
       }
 
       formData.append("file", file);
@@ -50,8 +67,16 @@ const MyPageEdit = () => {
       // console.log(nickname);
       const formData = new FormData();
 
-      if (nickname !== undefined) {
-        formData.append("nickname", nickname);
+      // if (nickname !== undefined) {
+      //   formData.append("nickname", nickname);
+      // }
+
+      if (data?.nickname) {
+        if (nickname.length === 0) {
+          formData.append("nickname", data?.nickname);
+        } else {
+          formData.append("nickname", nickname);
+        }
       }
 
       mutate(formData);
@@ -107,7 +132,7 @@ const MyPageEdit = () => {
               }}
             ></input>
           </EditNickname>
-
+          <div>중복확인</div>
           <button>확인</button>
         </UserProfileForm>
       </LayOut>
@@ -169,7 +194,7 @@ const Camera = styled.div`
 `;
 
 const UserProfileForm = styled.form`
-  padding: 15px;
+  padding: 17px;
 
   button {
     width: 340px;
@@ -183,8 +208,7 @@ const UserProfileForm = styled.form`
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
-    left: 17px;
+    position: fixed;
     bottom: 17px;
   }
 `;
@@ -205,26 +229,6 @@ const EditNickname = styled.div`
     font-size: 15px;
     border-radius: 15px;
     border: 1px solid #efefef;
-  }
-`;
-
-const ImagePlus = styled.div`
-  width: 60px;
-  height: 60px;
-  border: 3px solid #c5c5c5;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 10px;
-
-  img {
-    width: 30px;
-    height: 30px;
-    margin: 0;
-  }
-  input {
-    display: none;
   }
 `;
 
