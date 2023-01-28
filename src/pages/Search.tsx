@@ -11,6 +11,7 @@ import { getSearch } from "../APIs/communityBoardApi";
 import { searchAtom, searchKeywordAtom } from "../atoms";
 import PostCard from "../components/category/PostCard";
 import Footer from "../components/footer/Footer";
+import Header from "../components/header/Header";
 import LayOut from "../components/layout/LayOut";
 import { IAllPosts } from "../types/postType";
 
@@ -53,7 +54,7 @@ const Search = () => {
   return (
     <>
       <LayOut>
-        <SearchBar>게시물 검색</SearchBar>
+        <Header title={"게시물 검색"} />
         <SearchInputBox>
           <SearchInput
             value={keyword}

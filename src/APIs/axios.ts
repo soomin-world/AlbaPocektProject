@@ -34,7 +34,6 @@ export const searchInstance = axios.create({
 });
 // -----------------토큰 -------------------
 
-
 // postInstance.interceptors.request.use(
 //   (config) => {
 //     const token = localStorage.getItem("is_login");
@@ -48,7 +47,6 @@ export const searchInstance = axios.create({
 //     return;
 //   }
 // );
-
 
 // instance.interceptors.request.use(
 //   (config:AxiosRequestConfig) => {

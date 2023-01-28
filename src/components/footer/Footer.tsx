@@ -6,6 +6,7 @@ function Footer() {
   const mainMatch = useMatch("/");
   const calMatch = useMatch("/calendar");
   const comMatch = useMatch("/board");
+  const chartMatch = useMatch("/chart");
 
   return (
     <Wrap>
@@ -51,6 +52,20 @@ function Footer() {
             src="/image/iconCom.png"
             alt="커뮤니티"
             onClick={() => navigate("/board")}
+          />
+        )}
+
+        {chartMatch ? (
+          <img
+            src="/image/Group 241.svg"
+            alt="통계"
+            onClick={() => navigate("/chart")}
+          />
+        ) : (
+          <img
+            src="/image/Group 240.svg"
+            alt="통계"
+            onClick={() => navigate("/chart")}
           />
         )}
       </STContainer>

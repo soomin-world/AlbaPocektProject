@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { editMyPage, getMyPage } from "../APIs/myPageApi";
+import Header from "../components/header/Header";
 import LayOut from "../components/layout/LayOut";
 import { IMyPage } from "../types/myPageType";
 
@@ -75,7 +76,7 @@ const MyPageEdit = () => {
   return (
     <>
       <LayOut padding="0" position="relative">
-        <EditBar>커뮤니티 프로필</EditBar>
+        <Header title={"프로필 수정"} />
         <MyPageProfile>
           <div>
             <label htmlFor="profileImg">

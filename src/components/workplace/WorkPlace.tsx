@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { deleteWork, getWorks } from "../../APIs/workApi";
 import Dday from "../dDay/Dday";
 import DropDown from "../dropDown/DropDown";
+import MainHeader from "../header/MainHeader";
 import Modal from "../modal/Modal";
 import Work from "./Work";
 
@@ -30,23 +31,7 @@ function WorkPlace() {
   // };
   return (
     <>
-      <STHeader>
-        <img
-          src="/image/Logo.png"
-          alt="logo"
-          className="logo"
-          onClick={() => navigate("/")}
-        />
-        <div className="nav">
-          <img src="/image/iconChat.png" alt="채팅" />
-          <img
-            src="/image/iconUser.png"
-            alt="마이페이지"
-            onClick={() => navigate("/mypage")}
-          />
-        </div>
-      </STHeader>
-
+      <MainHeader />
       <Dday workList={data?.data.workList} />
 
       {data

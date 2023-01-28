@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { addWork } from "../../APIs/workApi";
+import Header from "../header/Header";
 import LayOut from "../layout/LayOut";
 
 function AddWorkForm() {
@@ -66,10 +67,7 @@ function AddWorkForm() {
   const navigate = useNavigate();
   return (
     <LayOut position="relative">
-      <STHeader>
-        <img src="/image/leftArrow.png" alt="<" onClick={() => navigate("/")} />
-        <h1>근무지추가</h1>
-      </STHeader>
+      <Header title={"근무지추가"} />
       <STBody>
         <div className="place">
           <p>어디에서 일하시나요?</p>
@@ -127,40 +125,12 @@ function AddWorkForm() {
   );
 }
 
-const STContainer = styled.div``;
-
-const STHeader = styled.div`
-  display: flex;
-  margin: 12px 0px 41.5px 0px;
-  height: 35px;
-  img {
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-  }
-  h1 {
-    width: 83px;
-    height: 25px;
-    font-size: 17px;
-    font-weight: 500;
-    margin-left: 102px;
-  }
-`;
-
-const STModal = styled.div`
-  width: 90%;
-  select {
-    width: 100%;
-    border-radius: 10px;
-  }
-`;
-
 const STBody = styled.div`
   .place {
     p {
       font-size: 15px;
       font-weight: 500;
-      margin-bottom: 15px;
+      margin: 21.5px 0px 15px 0px;
     }
     input {
       width: 90%;

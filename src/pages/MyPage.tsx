@@ -4,6 +4,7 @@ import { Outlet, useMatch, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getMyPage } from "../APIs/myPageApi";
 import PostCard from "../components/category/PostCard";
+import Header from "../components/header/Header";
 import LayOut from "../components/layout/LayOut";
 import { IMyPage } from "../types/myPageType";
 import { IAllPosts } from "../types/postType";
@@ -47,7 +48,7 @@ const MyPage = () => {
   return (
     <>
       <LayOut padding="0" position="relative">
-        <MypageBar>마이페이지</MypageBar>
+        <Header title={"마이페이지"} />
         <MyPageProfile>
           <div>
             <img src={data?.profileImage} />
