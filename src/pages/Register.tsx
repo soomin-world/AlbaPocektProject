@@ -18,7 +18,7 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm<IForm>({ mode: "onBlur" });
+  } = useForm<IForm>({ mode: "onChange" });
 
   const { mutateAsync: registerMutate } = useMutation(registerApi);
   const { mutateAsync: userIdCheckMutate } = useMutation(userIdCheckApi);
@@ -26,6 +26,8 @@ const Register = () => {
 
   const [onClickIdCheck, setClickIdCheck] = useState(false);
   const [onClickNicknameCheck, setClickNicknameCheck] = useState(false);
+  const [userIdPassMsg, setUserIdPassMsg] = useState("");
+  const [nicknamePassMsg, setNicknamePassMsg] = useState("");
 
   const onValid = (data: IForm) => {
     if (!onClickIdCheck) return alert("이메일 중복확인 버튼을 눌러주세요!");
@@ -61,9 +63,12 @@ const Register = () => {
     userIdCheckMutate(userId)
       .then((res) => {
         console.log(res);
+        setError("email", { message: "" });
+        setUserIdPassMsg("사용가능한 이메일 주소입니다.");
       })
       .catch((error) => {
         console.log(error.response.data.msg);
+        setUserIdPassMsg("");
         setError("email", { message: error.response.data.msg });
       });
   };
@@ -74,9 +79,12 @@ const Register = () => {
     nicknameCheckMutate(nickname)
       .then((res) => {
         console.log(res);
+        setError("nickname", { message: "" });
+        setNicknamePassMsg("멋진 닉네임이네요!");
       })
       .catch((error) => {
         console.log(error.response.data.msg);
+        setNicknamePassMsg("");
         setError("nickname", { message: error.response.data.msg });
       });
   };
@@ -98,10 +106,19 @@ const Register = () => {
             },
           })}
           placeholder="이메일"
+          onBlur={() => {
+            setClickIdCheck(false);
+          }}
         />
-        <span>{errors?.email?.message}</span>
-        <div onClick={userIdCheck}>중복 확인</div>
-
+        {errors?.email?.message ? (
+          <Msg>{errors?.email?.message}</Msg>
+        ) : (
+          <Msg style={{ color: "#5fce80" }}>{userIdPassMsg}</Msg>
+        )}
+        {/* <span>{errors?.email?.message}</span> */}
+        <div onClick={userIdCheck} className="check">
+          중복 확인
+        </div>
         <Input
           {...register("nickname", {
             required: "필수 정보입니다.",
@@ -109,15 +126,29 @@ const Register = () => {
               value: 5,
               message: "5~10글자를 적어주세요.",
             },
+            maxLength: {
+              value: 10,
+              message: "5~10글자를 적어주세요.",
+            },
             pattern: {
               value: /^[A-za-z0-9가-힣]{5,10}$/,
-              message: "가능한 문자 : 영문 대소문자, 글자 단위 한글, 숫자 ",
+              message: "가능한 문자 : 영문 대소문자, 글자 단위 한글, 숫자",
             },
           })}
           placeholder="닉네임"
+          onBlur={() => {
+            setClickNicknameCheck(false);
+          }}
         />
-        <span>{errors?.nickname?.message}</span>
-        <div onClick={nicknameCheck}>중복 확인</div>
+        {errors?.nickname?.message ? (
+          <Msg>{errors?.nickname?.message}</Msg>
+        ) : (
+          <Msg style={{ color: "#5fce80" }}>{nicknamePassMsg}</Msg>
+        )}
+        {/* <span>{errors?.nickname?.message}</span> */}
+        <div onClick={nicknameCheck} className="check">
+          중복 확인
+        </div>
         <Input
           {...register("password", {
             required: "필수 정보입니다.",
@@ -134,7 +165,7 @@ const Register = () => {
           placeholder="비밀번호"
           type="password"
         />
-        <span>{errors?.password?.message}</span>
+        <Msg>{errors?.password?.message}</Msg>
         <Input
           {...register("passwordCheck", {
             required: "필수 정보입니다.",
@@ -142,8 +173,7 @@ const Register = () => {
           placeholder="비밀번호 재확인"
           type="password"
         />
-        <span>{errors?.passwordCheck?.message}</span>
-
+        <Msg>{errors?.passwordCheck?.message}</Msg>
         {errors?.email?.message ||
         errors?.nickname?.message ||
         errors?.password?.message ||
@@ -152,7 +182,6 @@ const Register = () => {
         ) : (
           <button>확인</button>
         )}
-
         <span>{errors?.extraError?.message}</span>
       </Form>
     </Total>
@@ -198,10 +227,30 @@ const Form = styled.form`
     }
   }
   span {
-    font-size: 15px;
+    font-size: 13px;
     color: red;
+    text-align: left;
     margin-bottom: 15px;
   }
+  .check {
+    width: 80px;
+    height: 40px;
+    border: 1px solid black;
+    color: black;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+  }
+`;
+
+const Msg = styled.div`
+  min-width: 340px;
+  font-size: 13px;
+  color: red;
+  text-align: left;
+  margin-bottom: 15px;
 `;
 
 const Input = styled.input`
@@ -212,6 +261,10 @@ const Input = styled.input`
   background-color: #f9f9f9;
   padding-left: 15px;
   margin-bottom: 15px;
+
+  &:focus {
+    outline: 1px solid #5fce80;
+  }
 `;
 
 export default Register;

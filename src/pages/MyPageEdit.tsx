@@ -1,16 +1,16 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { nicknameCheckApi } from "../APIs/loginRegisterApi";
 import { editMyPage, getMyPage } from "../APIs/myPageApi";
 import LayOut from "../components/layout/LayOut";
+import { IForm } from "../types/loginRegisterType";
 import { IMyPage } from "../types/myPageType";
 
-interface IForm {
-  nickname: string;
-}
-
 const MyPageEdit = () => {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const {
@@ -19,50 +19,66 @@ const MyPageEdit = () => {
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm<IForm>({ mode: "onBlur" });
+    resetField,
+  } = useForm<IForm>({ mode: "onChange" });
 
-  const { isLoading, isError, data } = useQuery<IMyPage>(["myPage"], () =>
-    getMyPage(1)
-  );
+  const {
+    isLoading,
+    isError,
+    data: getData,
+  } = useQuery<IMyPage>(["myPage"], () => getMyPage(1));
 
-  const { mutate } = useMutation(editMyPage, {
+  const { mutateAsync } = useMutation(editMyPage, {
     onSuccess: () => {
       queryClient.invalidateQueries(["myPage"]);
     },
   });
+  const { mutateAsync: nicknameCheckMutate } = useMutation(nicknameCheckApi);
 
-  const [nickname, setNickname] = useState("");
+  const [onClickNicknameCheck, setClickNicknameCheck] = useState(true);
+  const [passMsg, setPassMsg] = useState("");
   const [file, setFile] = useState<File | undefined>();
-  const [userImage, setUserImage] = useState(data?.profileImage);
+  const [userImage, setUserImage] = useState(getData?.profileImage);
 
   useEffect(() => {
     // setNickname(data?.nickname);
-    setUserImage(data?.profileImage);
-  }, [data]);
+    setUserImage(getData?.profileImage);
+  }, [getData]);
 
   const getImage = (e: any) => {
     setFile(e.target.files[0]);
   };
 
-  const onSubmitHandler = (e: any) => {
-    e.preventDefault();
+  const onValid = (data: IForm) => {
     console.log("submit!!!");
+    if (!onClickNicknameCheck)
+      return alert("닉네임 중복확인 버튼을 눌러주세요!");
 
     if (file) {
       // console.log(nickname);
       const formData = new FormData();
 
-      if (data?.nickname) {
-        if (nickname.length === 0) {
-          formData.append("nickname", data?.nickname);
+      if (getData?.nickname) {
+        if (!data.nickname) {
+          formData.append("nickname", getData?.nickname);
         } else {
-          formData.append("nickname", nickname);
+          formData.append("nickname", data.nickname);
         }
       }
 
       formData.append("file", file);
 
-      mutate(formData);
+      mutateAsync(formData)
+        .then((res) => {
+          window.confirm("변경되었습니다!");
+          resetField("nickname");
+          setPassMsg("");
+        })
+        .catch((error) => {
+          setPassMsg("");
+          setError("extraError", { message: error.response.data.msg });
+          alert(error.response.data.msg);
+        });
     } else {
       // console.log(nickname);
       const formData = new FormData();
@@ -71,18 +87,26 @@ const MyPageEdit = () => {
       //   formData.append("nickname", nickname);
       // }
 
-      if (data?.nickname) {
-        if (nickname.length === 0) {
-          formData.append("nickname", data?.nickname);
+      if (getData?.nickname) {
+        if (!data.nickname) {
+          formData.append("nickname", getData?.nickname);
         } else {
-          formData.append("nickname", nickname);
+          formData.append("nickname", data.nickname);
         }
       }
 
-      mutate(formData);
+      mutateAsync(formData)
+        .then((res) => {
+          window.confirm("변경되었습니다!");
+          resetField("nickname");
+          setPassMsg("");
+        })
+        .catch((error) => {
+          setPassMsg("");
+          setError("extraError", { message: error.response.data.msg });
+          alert(error.response.data.msg);
+        });
     }
-    window.confirm("변경되었습니다!");
-    setNickname("");
   };
 
   const imgPreview = (e: any) => {
@@ -95,6 +119,22 @@ const MyPageEdit = () => {
     reader.onloadend = () => {
       setUserImage(String(reader.result));
     };
+  };
+
+  const nicknameCheck = () => {
+    setClickNicknameCheck(true);
+    const nickname: IForm = watch();
+    nicknameCheckMutate(nickname)
+      .then((res) => {
+        console.log(res);
+        setError("nickname", { message: "" });
+        setPassMsg("멋진 닉네임이네요!");
+      })
+      .catch((error) => {
+        console.log(error.response.data.msg);
+        setPassMsg("");
+        setError("nickname", { message: error.response.data.msg });
+      });
   };
 
   return (
@@ -117,23 +157,49 @@ const MyPageEdit = () => {
               }}
             />
 
-            <span>{data?.nickname}</span>
+            <span>{getData?.nickname}</span>
           </div>
         </MyPageProfile>
 
-        <UserProfileForm onSubmit={onSubmitHandler}>
+        <UserProfileForm onSubmit={handleSubmit(onValid)}>
           <EditNickname>
             <span>닉네임</span>
             <input
-              value={nickname}
+              {...register("nickname", {
+                minLength: {
+                  value: 5,
+                  message: "5~10글자를 적어주세요.",
+                },
+                maxLength: {
+                  value: 10,
+                  message: "5~10글자를 적어주세요.",
+                },
+                pattern: {
+                  value: /^[A-za-z0-9가-힣]{5,10}$/,
+                  message: "가능한 문자 : 영문 대소문자, 글자 단위 한글, 숫자 ",
+                },
+              })}
               placeholder="한글/영어 대소문자/숫자 가능 (5~10자)"
-              onChange={(e) => {
-                setNickname(e.target.value);
+              onBlur={() => {
+                setClickNicknameCheck(false);
               }}
             ></input>
+            {errors?.nickname?.message ? (
+              <span>{errors?.nickname?.message}</span>
+            ) : (
+              <span style={{ color: "#5fce80" }}>{passMsg}</span>
+            )}
+            {/* <span>{errors?.nickname?.message}</span> */}
           </EditNickname>
-          <div>중복확인</div>
-          <button>확인</button>
+          <CheckBtn onClick={nicknameCheck} color={passMsg.length === 0}>
+            중복확인
+          </CheckBtn>
+
+          {errors?.nickname?.message ? (
+            <button disabled>disabled</button>
+          ) : (
+            <button>확인</button>
+          )}
         </UserProfileForm>
       </LayOut>
     </>
@@ -222,6 +288,11 @@ const EditNickname = styled.div`
     font-weight: 400;
     margin-bottom: 15px;
   }
+  span:last-child {
+    font-size: 13px;
+    color: red;
+    margin: 10px 0px 10px 0px;
+  }
   input {
     width: 340px;
     height: 48px;
@@ -230,6 +301,23 @@ const EditNickname = styled.div`
     border-radius: 15px;
     border: 1px solid #efefef;
   }
+  input:focus {
+    outline: 1px solid #5fce80;
+  }
+`;
+
+const CheckBtn = styled.div<{ color: any }>`
+  width: 80px;
+  height: 40px;
+  /* border: 1px solid ${(props) => (props.color ? "red" : "#5fce80")};
+  color: ${(props) => (props.color ? "red" : "#5fce80")}; */
+  border: 1px solid black;
+  color: black;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
 `;
 
 export default MyPageEdit;

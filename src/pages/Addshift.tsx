@@ -57,7 +57,7 @@ function AddShift() {
   };
   console.log(workdays[0]);
   return (
-    <LayOut position="relative">
+    <LayOut>
       <STHeader>
         <img src="/image/leftArrow.png" alt="<" onClick={() => navigate("/")} />
         <h1>근무 등록</h1>
@@ -211,8 +211,7 @@ const STButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  left: 17px;
+  position: fixed;
   bottom: 17px;
 `;
 

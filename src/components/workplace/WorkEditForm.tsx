@@ -75,7 +75,7 @@ function WorkEditForm() {
   };
   const mutateEditwork = useMutation(putWork);
   return (
-    <LayOut position="relative">
+    <LayOut>
       <STHeader>
         <img src="/image/leftArrow.png" alt="<" onClick={() => navigate("/")} />
         <h1>근무지수정</h1>
@@ -272,8 +272,7 @@ const SaveBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  left: 17px;
+  position: fixed;
   bottom: 17px;
 `;
 
