@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getWork, putWork } from "../../APIs/workApi";
+import Header from "../header/Header";
+import LayOut from "../layout/LayOut";
 import Modal from "../modal/Modal";
 
 function WorkEditForm() {
@@ -74,11 +76,8 @@ function WorkEditForm() {
   };
   const mutateEditwork = useMutation(putWork);
   return (
-    <STContainer>
-      <STHeader>
-        <img src="/image/leftArrow.png" alt="<" onClick={() => navigate("/")} />
-        <h1>근무지수정</h1>
-      </STHeader>
+    <LayOut position="relative">
+      <Header title={"근무지수정"} />
       <STBody>
         <div className="place">
           <p>어디에서 일하시나요?</p>
@@ -135,42 +134,16 @@ function WorkEditForm() {
         </div>
       </STBody>
       <SaveBtn onClick={addWorkHandler}>수정하기</SaveBtn>
-    </STContainer>
+    </LayOut>
   );
 }
-const STContainer = styled.div``;
-
-const STHeader = styled.div`
-  display: flex;
-  margin: 12px 0px 41.5px 0px;
-  height: 35px;
-  img {
-    width: 24px;
-    height: 24px;
-  }
-  h1 {
-    width: 83px;
-    height: 25px;
-    font-size: 17px;
-    font-weight: 500;
-    margin-left: 102px;
-  }
-`;
-
-const STModal = styled.div`
-  width: 90%;
-  select {
-    width: 100%;
-    border-radius: 10px;
-  }
-`;
 
 const STBody = styled.div`
   .place {
     p {
       font-size: 15px;
       font-weight: 500;
-      margin-bottom: 15px;
+      margin: 21.5px 0px 15px 0px;
     }
     input {
       width: 90%;
@@ -271,8 +244,9 @@ const SaveBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  left: 19px;
-  bottom: 19px;
+  position: absolute;
+  left: 17px;
+  bottom: 17px;
 `;
+
 export default WorkEditForm;

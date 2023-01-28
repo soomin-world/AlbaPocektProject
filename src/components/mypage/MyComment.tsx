@@ -1,53 +1,72 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { getMyPage } from "../../APIs/myPageApi";
+import { getMyComment, getMyPage } from "../../APIs/myPageApi";
+import { allMyCommentAtom, myCommentDeleteAtom } from "../../atoms";
 import { IMyPage } from "../../types/myPageType";
+import { CommentType } from "../../types/postType";
 import PostCard from "../category/PostCard";
+import LayOut from "../layout/LayOut";
+import CommentCard from "./CommentCard";
 
 const MyComment = () => {
-  const [onClick, setOnClick] = useState(false);
-  const [onClickAll, setOnClickAll] = useState(false);
+  const [onClickAll, setOnClickAll] = useRecoilState(allMyCommentAtom);
+  const [deleteList, setDeleteList] = useRecoilState(myCommentDeleteAtom);
+
+  let pageParam = 1;
+  const { isLoading, isError, data, refetch } = useQuery(["myComment"], () =>
+    getMyComment(pageParam)
+  );
+  console.log(data?.content);
+
+  const allCommentList: number[] = [];
+
+  useEffect(() => {
+    if (!isLoading) {
+      for (const comment of data?.content) {
+        allCommentList.push(comment.commentId);
+      }
+      console.log("모든 댓글 id 리스트", allCommentList);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    console.log("삭제할 댓글 id 리스트", deleteList);
+  }, [deleteList]);
+
+  const numList = [];
+  for (let i = 1; i <= data?.totalPages; i++) {
+    numList.push(
+      <div
+        onClick={() => {
+          pageParam = i;
+          console.log(pageParam);
+          refetch();
+        }}
+      >
+        {i}
+      </div>
+    );
+  }
+  // console.log(numList);
+
   return (
     <>
-      <CommentCard>
-        {onClick || onClickAll ? (
-          <img
-            src="/image/iconFullCheck.png"
-            onClick={() => {
-              setOnClick(false);
-            }}
-          />
-        ) : (
-          <img
-            src="/image/iconEmptyCheck.png"
-            onClick={() => {
-              setOnClick(true);
-            }}
-          />
-        )}
+      {data?.content.map((comment: CommentType) => {
+        return <CommentCard key={comment.commentId} comment={comment} />;
+      })}
 
-        <CommentText>
-          <div className="first">
-            제 일도 아닌데 너무 억울하네요.제 일도 아닌데 너무 억울하네요.제
-            일도 아닌데 너무 억울하네요.
-          </div>
-
-          <CommentInfo>
-            <div>01-20 16:43</div>
-            <img src="/image/iconRedHeart.png" />
-            <div>1</div>
-          </CommentInfo>
-
-          <div>다들 그래...?</div>
-        </CommentText>
-      </CommentCard>
+      {numList?.length === 1 ? null : <PageNum>{numList}</PageNum>}
       <CommentDelete>
         <div>
           {onClickAll ? (
             <img
               src="/image/iconFullCheck.png"
               onClick={() => {
+                // console.log(deleteList);
+                setDeleteList([]);
+                // console.log(deleteList);
                 setOnClickAll(false);
               }}
             />
@@ -55,6 +74,10 @@ const MyComment = () => {
             <img
               src="/image/iconEmptyCheck.png"
               onClick={() => {
+                // console.log(deleteList);
+                let copy = [...allCommentList];
+                setDeleteList(copy);
+                // console.log(deleteList);
                 setOnClickAll(true);
               }}
             />
@@ -70,20 +93,20 @@ const MyComment = () => {
   );
 };
 
-const CommentCard = styled.div`
-  width: 100%;
-  height: 94px;
-  border-bottom: 1px solid #d9d9d9;
-  display: flex;
-  padding: 0px 15px 15px 15px;
-  margin-bottom: 15px;
+// const CommentCard = styled.div`
+//   width: 100%;
+//   height: 94px;
+//   border-bottom: 1px solid #d9d9d9;
+//   display: flex;
+//   padding: 0px 15px 15px 15px;
+//   margin-bottom: 15px;
 
-  img {
-    width: 15px;
-    height: 15px;
-    margin-right: 15px;
-  }
-`;
+//   img {
+//     width: 15px;
+//     height: 15px;
+//     margin-right: 15px;
+//   }
+// `;
 
 const CommentText = styled.div`
   width: 315px;
@@ -119,13 +142,14 @@ const CommentInfo = styled.div`
 `;
 
 const CommentDelete = styled.div`
-  width: 100%;
+  width: 375px;
   height: 76px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+  background-color: white;
   padding: 20px;
   font-size: 13px;
+  font-weight: 400;
   position: fixed;
-  left: 0px;
   bottom: 0px;
   display: flex;
   justify-content: space-between;
@@ -158,4 +182,15 @@ const CommentDelete = styled.div`
     }
   }
 `;
+
+const PageNum = styled.div`
+  display: flex;
+  margin: 0 auto;
+  margin-bottom: 94px;
+
+  div {
+    margin: 0px 10px 0px 10px;
+  }
+`;
+
 export default MyComment;

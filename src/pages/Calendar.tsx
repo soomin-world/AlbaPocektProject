@@ -21,7 +21,6 @@ import comma from "../hooks/comma";
 import RenderTotalWage from "../components/calendar/RenderTotalWage";
 import LayOut from "../components/layout/LayOut";
 
-
 type ICellsProps = {
   currentMonth: Date;
   selectedDate: Date;
@@ -400,13 +399,21 @@ const CellsBody = styled.div`
 const Cells = styled.div<{ color: string; backgroundColor: string }>`
   width: 50px;
   height: 100px;
-  border-top: 1px solid ${(props) => props.color};
+  padding-top: 2px;
+  border-top: 1px solid #d9d9d9;
+  /* ${(props) => props.color} */
   background-color: ${(props) => props.backgroundColor};
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const CellsNum = styled.span<{ color: string }>`
   color: ${(props) => props.color};
+  font-size: 11px;
+  font-weight: 400;
+  margin: 2px 0px 2px 0px;
 `;
 
 const TotalWage = styled.div`
@@ -423,6 +430,7 @@ const TotalWage = styled.div`
 
 const BonusWage = styled.div`
   font-size: 10px;
+  font-weight: 400;
   display: flex;
   align-items: center;
   margin-bottom: 1px;

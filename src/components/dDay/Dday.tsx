@@ -137,6 +137,7 @@ const Dday: React.FC<propsType> = (props) => {
 };
 
 export const Container = styled.div`
+  margin-bottom: 20px;
   button {
     border: 1px solid black;
   }

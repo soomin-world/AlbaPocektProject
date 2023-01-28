@@ -30,8 +30,27 @@ export type dataType = {
 function Board() {
   const navigate = useNavigate();
   const { ref, inView } = useInView();
-  const boardMatch = useMatch("/board");
+  const [showButton, setShowButton] = useState(false);
+  const [ScrollY, setScrollY] = useState(0); // 스크롤값을 저장하기 위한 상태
+  const scrollToTop = () => {
+    window.scrollTo(0, 0);
+  };
 
+  useEffect(() => {
+    const handleShowButton = () => {
+      if (window.scrollY > 500) {
+        setShowButton(true);
+      } else {
+        setShowButton(false);
+      }
+    };
+    window.addEventListener("scroll", handleShowButton);
+    return () => {
+      window.removeEventListener("scroll", handleShowButton);
+    };
+  }, []);
+
+  const boardMatch = useMatch("/board");
   const [boardModal, setBoardModal] = useRecoilState(boardModalAtom);
   const [boardType, setBoardType] = useRecoilState(boardAtom);
 
@@ -44,6 +63,7 @@ function Board() {
           !lastPage.last ? lastPage.nextPage : undefined,
       }
     );
+
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
@@ -54,8 +74,8 @@ function Board() {
   if (status === "error") return <div>에러다 </div>;
 
   return (
-    <>
-      <LayOut>
+    <LayOut position="relative">
+      <STContainer>
         <Navigate>
           <Selector
             onClick={() => {
@@ -132,22 +152,30 @@ function Board() {
                 return <PostCard key={p.postId} post={p} />;
               });
             })}
-        <Plus
-          onClick={() => {
-            navigate("/posting");
-          }}
-        >
-          <img src="/image/iconPencil.png" />
-        </Plus>
 
-        {isFetchingNextPage ? <Loading /> : <div ref={ref}>여기 </div>}
-
+        <PlusWrap>
+          <Plus
+            onClick={() => {
+              navigate("/posting");
+            }}
+          >
+            <img src="/image/iconPencil.png" />
+          </Plus>
+        </PlusWrap>
+        {isFetchingNextPage ? <Loading /> : <div ref={ref} />}
         <Footer />
-      </LayOut>
-    </>
+        {showButton && (
+          <Scroll>
+            <button onClick={scrollToTop}>top</button>
+          </Scroll>
+        )}
+      </STContainer>
+    </LayOut>
   );
 }
-
+const STContainer = styled.div`
+  width: 100%;
+`;
 const Navigate = styled.div`
   width: 100%;
   display: flex;
@@ -183,17 +211,19 @@ const Icon = styled.div`
   }
 `;
 
+const PlusWrap = styled.div`
+  width: 100%;
+  padding: 285px;
+`;
 const Plus = styled.div`
   width: 56px;
   height: 56px;
   border-radius: 50%;
   background-color: #5fce80;
-
   position: fixed;
   bottom: 70px;
-  right: 20px;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
 
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -221,10 +251,26 @@ const List = styled.div`
   border-radius: 10px;
   animation: modal-bg-show 0.6s;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-
   div {
     font-size: 15px;
     padding: 6px 8px 6px 8px;
+  }
+`;
+const Scroll = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  //right: 30px;
+  button {
+    bottom: 150px;
+    position: fixed;
+    border: none;
+    background-color: #5fce80;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    color: white;
+    font-weight: 800;
   }
 `;
 

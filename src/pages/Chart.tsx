@@ -112,49 +112,51 @@ const Chart = () => {
           <ChartText marginTop="40px">
             최근 {data.fiveMonth.categories.length}개월 급여
           </ChartText>
-          <ReactApexChart
-            options={{
-              chart: {
-                height: 350,
-                type: "area",
-                toolbar: {
+          <div style={{ marginBottom: "50x" }}>
+            <ReactApexChart
+              options={{
+                chart: {
+                  height: 350,
+                  type: "area",
+                  toolbar: {
+                    show: false,
+                  },
+                },
+                grid: { show: false },
+                dataLabels: {
+                  enabled: false,
+                },
+                stroke: {
+                  curve: "smooth",
+                },
+                xaxis: {
+                  axisBorder: { show: false },
+                  axisTicks: { show: true },
+                  labels: { show: false },
+                  type: "datetime",
+                  categories: data.fiveMonth.categories,
+                },
+                yaxis: {
                   show: false,
                 },
-              },
-              grid: { show: false },
-              dataLabels: {
-                enabled: false,
-              },
-              stroke: {
-                curve: "smooth",
-              },
-              xaxis: {
-                axisBorder: { show: false },
-                axisTicks: { show: true },
-                labels: { show: false },
-                type: "datetime",
-                categories: data.fiveMonth.categories,
-              },
-              yaxis: {
-                show: false,
-              },
-              tooltip: {
-                x: {
-                  format: "yyyy/MM",
+                tooltip: {
+                  x: {
+                    format: "yyyy/MM",
+                  },
                 },
-              },
-              colors: data.fiveMonth.colors,
-              legend: {
-                markers: {
-                  fillColors: data.fiveMonth.colors,
+                colors: data.fiveMonth.colors,
+                legend: {
+                  markers: {
+                    fillColors: data.fiveMonth.colors,
+                  },
                 },
-              },
-            }}
-            series={data.fiveMonth.series}
-            type="area"
-            height={250}
-            width={340}
-          />{" "}
+              }}
+              series={data.fiveMonth.series}
+              type="area"
+              height={250}
+              width={340}
+            />
+          </div>
         </>
       )}
       {/* <ChartText marginTop="40px">
@@ -230,7 +232,7 @@ const ChartText = styled.div<{ marginTop: string }>`
 
 const Input = styled.input`
   width: 120px;
-  height: 30px;
+  min-height: 30px;
   font-size: 15px;
   margin: 20px 0px 20px 0px;
 `;

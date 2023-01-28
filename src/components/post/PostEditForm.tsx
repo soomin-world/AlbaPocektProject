@@ -119,8 +119,9 @@ function PostEditForm() {
             alt="임시기본이미지"
           />
         </div>
-        <Line />
-        <div className="imageUpload">
+
+        <STImageUpLoad>
+          <div className="line" />
           <label className="signup-profileImg-label" htmlFor="profileImg">
             <img src="/image/camera-mono.png" alt="카메라" />
           </label>
@@ -132,7 +133,7 @@ function PostEditForm() {
             onChange={getImage}
             multiple
           />
-        </div>
+        </STImageUpLoad>
       </SContianer>
     </>
   );
@@ -210,22 +211,28 @@ const SContianer = styled.div`
       object-fit: cover;
     }
   }
-  .imageUpload {
-    input {
-      display: none;
-      .img {
-        width: 24px;
-        height: 24px;
-      }
+`;
+const STImageUpLoad = styled.div`
+  position: absolute;
+  bottom: 10px;
+  width: 375px;
+  .line {
+    width: 90%;
+    height: 0px;
+    border: 0.5px solid rgba(197, 197, 197, 0.7);
+    margin-bottom: 10px;
+    position: absolute;
+    bottom: 30px;
+  }
+  input {
+    display: none;
+    .img {
+      position: absolute;
+      bottom: 5px;
+      width: 24px;
+      height: 24px;
     }
   }
-`;
-
-const Line = styled.div`
-  width: 100%;
-  height: 0px;
-  border: 0.5px solid rgba(197, 197, 197, 0.7);
-  margin-bottom: 10px;
 `;
 
 export default PostEditForm;

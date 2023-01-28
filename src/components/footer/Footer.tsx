@@ -6,6 +6,7 @@ function Footer() {
   const mainMatch = useMatch("/");
   const calMatch = useMatch("/calendar");
   const comMatch = useMatch("/board");
+  const chartMatch = useMatch("/chart");
 
   return (
     <Wrap>
@@ -53,6 +54,20 @@ function Footer() {
             onClick={() => navigate("/board")}
           />
         )}
+
+        {chartMatch ? (
+          <img
+            src="/image/Group 241.svg"
+            alt="통계"
+            onClick={() => navigate("/chart")}
+          />
+        ) : (
+          <img
+            src="/image/Group 240.svg"
+            alt="통계"
+            onClick={() => navigate("/chart")}
+          />
+        )}
       </STContainer>
     </Wrap>
   );
@@ -62,20 +77,22 @@ const Wrap = styled.div`
   display: flex;
   justify-content: center;
 `;
+
 const STContainer = styled.div`
   position: fixed;
-  bottom: -50px;
+  bottom: 0px;
   display: flex;
   width: 375px;
   height: 50px;
   justify-content: space-around;
-  transform: translateY(-100%);
+  // transform: translateY(-100%);
   background-color: white;
   box-shadow: 0px -5px 15px rgba(0, 0, 0, 0.2);
   /* border-radius: 20px; */
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   padding: 10px;
+
   div {
     font-size: 30px;
     cursor: pointer;

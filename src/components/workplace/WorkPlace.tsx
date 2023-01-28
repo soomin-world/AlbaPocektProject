@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { deleteWork, getWorks } from "../../APIs/workApi";
 import Dday from "../dDay/Dday";
 import DropDown from "../dropDown/DropDown";
+import MainHeader from "../header/MainHeader";
 import Modal from "../modal/Modal";
 import Work from "./Work";
 
@@ -30,26 +31,9 @@ function WorkPlace() {
   // };
   return (
     <>
-      <STHeader>
-        <img
-          src="/image/Logo.png"
-          alt="logo"
-          className="logo"
-          onClick={() => navigate("/")}
-        />
-        <div className="nav">
-          <img src="/image/iconChat.png" alt="채팅" />
-          <img
-            src="/image/iconUser.png"
-            alt="마이페이지"
-            onClick={() => navigate("/mypage")}
-          />
-        </div>
-      </STHeader>
+      <MainHeader />
       <Dday workList={data?.data.workList} />
-      <STAdd onClick={() => navigate("/addwork")}>
-        <img src="/image/Frame 12.png" alt="+" />
-      </STAdd>
+
       {data
         ? data.data.workList.map((w: WorkType) => {
             return (
@@ -95,18 +79,22 @@ function WorkPlace() {
             );
           })
         : null}
+
+      <STAdd onClick={() => navigate("/addwork")}>
+        <img src="/image/Frame 12.png" alt="+" />
+      </STAdd>
     </>
   );
 }
 
 const STAdd = styled.div`
   width: 90%;
-  height: 110px;
+  min-height: 110px;
   border: 2px solid #d7d8df;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px auto 20px auto;
+  margin: 0px auto 70px auto;
   border-radius: 8px;
   img {
     width: 73px;

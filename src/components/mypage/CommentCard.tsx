@@ -1,23 +1,80 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { allMyCommentAtom, myCommentDeleteAtom } from "../../atoms";
+import { CommentType } from "../../types/postType";
 
-const CommentCard = () => {
+interface IComment {
+  comment: CommentType;
+}
+
+const CommentCard = ({ comment }: IComment) => {
+  const navigate = useNavigate();
+  const [onClick, setOnClick] = useState(false);
+  // const [onClickAll, setOnClickAll] = useRecoilState(allMyCommentAtom);
+  const [deleteList, setDeleteList] = useRecoilState(myCommentDeleteAtom);
+
+  useEffect(() => {
+    console.log(deleteList);
+    for (const commentId of deleteList) {
+      if (commentId === comment.commentId) {
+        setOnClick(true);
+      }
+    }
+  }, [deleteList]);
+
+  // console.log(comment);
   return (
     <Comment>
-      <img src="/image/iconEmptyCheck.png" />
+      {onClick ? (
+        <img
+          src="/image/iconFullCheck.png"
+          onClick={() => {
+            setOnClick(false);
+            const copy = deleteList.filter((commentId) => {
+              return commentId !== comment.commentId;
+            });
+            setDeleteList([...copy]);
+            // console.log(deleteList);
+          }}
+        />
+      ) : (
+        <img
+          src="/image/iconEmptyCheck.png"
+          onClick={() => {
+            setOnClick(true);
+            setDeleteList([...deleteList, comment.commentId]);
+            // console.log(deleteList);
+          }}
+        />
+      )}
 
-      <CommentText>
+      <CommentText
+        onClick={() => {
+          navigate(`/post/${comment.postId}`);
+        }}
+      >
         <div className="first">
-          제 일도 아닌데 너무 억울하네요.제 일도 아닌데 너무 억울하네요.제 일도
-          아닌데 너무 억울하네요.
+          {comment.comment}
+          {/* 제 일도 아닌데 너무 억울하네요.제 일도 아닌데 너무 억울하네요.제 일도
+          아닌데 너무 억울하네요. */}
         </div>
 
         <CommentInfo>
-          <div>01-20 16:43</div>
-          <img src="/image/iconRedHeart.png" />
+          <div>
+            {comment.createAt.slice(5, 10)} {comment.createAt.slice(11, 16)}
+          </div>
+          {comment.likeComment ? (
+            <img src="/image/iconRedHeart.png" />
+          ) : (
+            <img src="/image/iconMiniHeart.png" />
+          )}
+          {/* <img src="/image/iconRedHeart.png" /> */}
           <div>1</div>
         </CommentInfo>
 
-        <div>다들 그래...?</div>
+        <div>{comment.title}</div>
       </CommentText>
     </Comment>
   );
@@ -41,7 +98,7 @@ const Comment = styled.div`
 const CommentText = styled.div`
   width: 315px;
   font-size: 13px;
-  font-weight: 400px;
+  font-weight: 400;
 
   .first {
     height: 39px;

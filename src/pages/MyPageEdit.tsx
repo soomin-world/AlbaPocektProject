@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { editMyPage, getMyPage } from "../APIs/myPageApi";
+import Header from "../components/header/Header";
 import LayOut from "../components/layout/LayOut";
 import { IMyPage } from "../types/myPageType";
 
@@ -9,7 +10,7 @@ const MyPageEdit = () => {
   const queryClient = useQueryClient();
 
   const { isLoading, isError, data } = useQuery<IMyPage>(["myPage"], () =>
-    getMyPage()
+    getMyPage(1)
   );
 
   const { mutate } = useMutation(editMyPage, {
@@ -74,8 +75,8 @@ const MyPageEdit = () => {
 
   return (
     <>
-      <LayOut padding="0">
-        <EditBar>커뮤니티 프로필</EditBar>
+      <LayOut padding="0" position="relative">
+        <Header title={"프로필 수정"} />
         <MyPageProfile>
           <div>
             <label htmlFor="profileImg">
@@ -183,9 +184,9 @@ const UserProfileForm = styled.form`
     display: flex;
     justify-content: center;
     align-items: center;
-    position: fixed;
-    left: 19px;
-    bottom: 19px;
+    position: absolute;
+    left: 17px;
+    bottom: 17px;
   }
 `;
 

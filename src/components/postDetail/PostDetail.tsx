@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { changeLikePost } from "../../APIs/communityBoardApi";
 import { deletePost, getPost } from "../../APIs/detailPostApi";
 import DropDown from "../dropDown/DropDown";
+import Header from "../header/Header";
 
 function PostDetail() {
   const { id } = useParams();
@@ -12,11 +13,11 @@ function PostDetail() {
   const { data, isLoading, isError } = useQuery(["post", id], () =>
     getPost(id)
   );
-  console.log(data);
   const queryClient = useQueryClient();
   const [likePost, setLikePost] = useState<boolean>(data?.likePost);
   const [postLikeNum, setPostLikeNum] = useState<number>(data?.postLikeNum);
   const [isOpen, setIsOpen] = useState(false);
+  const [category, setCategory] = useState("");
   const createTime = data?.createAt.substr(14, 5);
   console.log();
   // console.log(likePost, postLikeNum);
@@ -27,6 +28,20 @@ function PostDetail() {
   //     setPostLikeNum(data.postLikeNum);
   //   }
   // }, [data]);
+  const categoryToKor = (e: string) => {
+    if (e === "free") {
+      setCategory("자유게시판");
+    } else if (e === "cover") {
+      setCategory("대타구해요");
+    } else if (e === "partTime") {
+      setCategory("알바고민");
+    }
+    return category;
+  };
+
+  useEffect(() => {
+    data && categoryToKor(data.category);
+  }, [data]);
 
   const myId = localStorage.getItem("userId");
 
@@ -55,6 +70,7 @@ function PostDetail() {
   };
   return (
     <SContainer className="detailContainer">
+      <Header title={category} />
       <div className="header">
         <img src={data.profileImage} alt="유저프로필사진" className="profile" />
         <div className="info">
