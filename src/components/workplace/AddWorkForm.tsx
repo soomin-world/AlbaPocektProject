@@ -13,14 +13,7 @@ function AddWorkForm() {
   const [salaryDay, setSalaryday] = useState<string | undefined>("");
   const [color, setColor] = useState("");
   const [isClicked, setIsClicked] = useState("");
-  const colors = [
-    "#ee9071",
-    "#F6E279",
-    "#5FCE80",
-    "#6290F0",
-    "#6532E9",
-    "#ab51b9d7",
-  ];
+  const colors = ["#FADED5", "#FCF6D7", "#CFF0D9", "#D0DEFB", "#D1C2F8"];
   const openModal = () => {
     setModalOpen(!modalOpen);
   };
@@ -220,7 +213,7 @@ const STColor = styled.div`
     height: 36px;
     border-radius: 100%;
     border: none;
-    box-shadow: 0 0 0 2px #777877;
+    box-shadow: 0 0 0 2px #888888;
   }
 `;
 

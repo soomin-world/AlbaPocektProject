@@ -61,7 +61,7 @@ const STCard = styled.div`
   height: 110px;
   border-radius: 8px;
   margin: 0px auto 20px auto;
-  color: #ffffff;
+  color: white;
   padding: 10px;
   position: relative;
 
