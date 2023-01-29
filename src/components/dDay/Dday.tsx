@@ -12,7 +12,8 @@ const contentStyle: React.CSSProperties = {
   textAlign: "center",
   background: "#EFFFFE",
   display: "flex",
-  flexDirection: "column",
+  justifyContent: "space-between",
+  //border: "1px solid black",
 };
 
 interface propsType {
@@ -117,17 +118,16 @@ const Dday: React.FC<propsType> = (props) => {
                 <div key={w.workId}>
                   <div style={contentStyle}>
                     <SalaryWrap>
-                      <div className="wrap">
-                        <p>{w.placeName} 월급날까지</p>
-                        {diffDay[i] === 0 ? (
-                          <div> D-Day 입니다!!!</div>
-                        ) : (
-                          <div>D-{diffDay[i]} 남았어요!</div>
-                        )}
-
-                        <img src="/image/piggy-bank 1.svg" alt="저금통" />
-                      </div>
+                      <p>{w.placeName} 월급날까지</p>
+                      {diffDay[i] === 0 ? (
+                        <div> D-Day 입니다!!!</div>
+                      ) : (
+                        <div>D-{diffDay[i]} 남았어요!</div>
+                      )}
                     </SalaryWrap>
+                    <STWrap>
+                      <img src="/image/piggy-bank 1.svg" alt="저금통" />
+                    </STWrap>
                   </div>
                 </div>
               );
@@ -200,35 +200,36 @@ export const BlankWrap = styled.div`
 `;
 
 export const SalaryWrap = styled.div`
-  width: 100%;
+  //border: 1px solid black;
+  width: 60%;
   height: 100%;
   display: flex;
-  justify-content: space-between;
-  .wrap {
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-    width: 50%;
-    p {
-      color: #37adae;
-      font-size: 18px;
-      font-weight: 500;
-    }
-    div {
-      font-size: 18px;
-      color: #37adae;
-      font-weight: 800;
-    }
+  flex-direction: column;
+  justify-content: center;
+  p {
+    color: #37adae;
+    font-size: 18px;
+    font-weight: 500;
   }
+  div {
+    font-size: 18px;
+    color: #37adae;
+    font-weight: 800;
+  }
+`;
+
+export const STWrap = styled.div`
+  width: 40%;
   img {
-    border-radius: 8px;
     position: absolute;
-    right: 19px;
-    bottom: -5px;
-    width: 30%;
-    height: 125px;
+    top: -10px;
+    width: 122px;
+    height: 122px;
+    border-radius: 8px;
   }
+`;
+export const STPig = styled.img`
+  //border: 1px solid black;
+  width: 50%;
 `;
 export default Dday;
