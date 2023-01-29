@@ -10,6 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { addShift, editWork, getEditWork } from "../APIs/workApi";
 import { getPost } from "../APIs/detailPostApi";
 import LayOut from "../components/layout/LayOut";
+import Header from "../components/header/Header";
 
 interface IEditWork {
   endTime: string;
@@ -57,11 +58,10 @@ function EditShift() {
   };
 
   return (
-    <LayOut>
-      <STHeader>
-        <img src="/image/leftArrow.png" alt="<" onClick={() => navigate("/")} />
-        <h1>근무 수정</h1>
-      </STHeader>
+
+    <LayOut position="relative">
+      <Header title={"근무수정"} />
+
       <SThourlyWage>
         <label>시급</label>
         <input
@@ -95,27 +95,10 @@ function EditShift() {
   );
 }
 
-const STHeader = styled.div`
-  display: flex;
-  margin: 12px 0px 41.5px 0px;
-  height: 35px;
-  img {
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-  }
-  h1 {
-    width: 83px;
-    height: 25px;
-    font-size: 17px;
-    font-weight: 500;
-    margin-left: 102px;
-  }
-`;
-
 const SThourlyWage = styled.div`
   display: flex;
   flex-direction: column;
+  margin: 21.5px 0px 11px 0px;
   label {
     font-size: 15px;
     font-weight: 500;

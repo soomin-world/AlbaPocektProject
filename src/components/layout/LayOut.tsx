@@ -38,7 +38,7 @@ const STLayOut = styled.div<{
   height: ${(props) => (props.height ? props.height : null)};
   // padding-bottom: 100px;
   width: 375px;
-  // border: 1px solid black;
+  //border: 1px solid black;
   overflow: auto;
   padding: ${(props) => (props.padding ? props.padding : "0px 17px 0px 17px")};
   position: ${(props) => (props.position ? props.position : "static")};

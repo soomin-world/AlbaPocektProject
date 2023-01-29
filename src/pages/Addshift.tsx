@@ -1,5 +1,4 @@
-import { TimePicker } from "antd";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { calendarAtom, calendarDayList } from "../atoms";
 import { CalendarModal } from "./CalendarModal";
@@ -9,6 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { addShift } from "../APIs/workApi";
 import LayOut from "../components/layout/LayOut";
+import Header from "../components/header/Header";
 
 export type EventValue<DateType> = DateType | null;
 export type RangeValue<DateType> =
@@ -66,11 +66,10 @@ function AddShift() {
   };
   console.log(dayList[0]);
   return (
-    <LayOut>
-      <STHeader>
-        <img src="/image/leftArrow.png" alt="<" onClick={() => navigate("/")} />
-        <h1>근무 등록</h1>
-      </STHeader>
+
+    <LayOut position="relative">
+      <Header title={"근무등록"} />
+
       <STLabel>
         <h1>날짜</h1>
       </STLabel>
@@ -127,27 +126,10 @@ function AddShift() {
   );
 }
 
-const STHeader = styled.div`
-  display: flex;
-  margin: 12px 0px 41.5px 0px;
-  height: 35px;
-  img {
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-  }
-  h1 {
-    width: 83px;
-    height: 25px;
-    font-size: 17px;
-    font-weight: 500;
-    margin-left: 102px;
-  }
-`;
 const STLabel = styled.div`
   font-size: 15px;
   font-weight: 500;
-  margin-bottom: 11px;
+  margin: 21.5px 0px 11px 0px;
 `;
 
 const WorkDayInput = styled.div`

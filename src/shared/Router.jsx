@@ -20,6 +20,7 @@ import EditShift from "../pages/EditShift";
 import Chart from "../pages/Chart";
 import MyLike from "../components/mypage/MyLike";
 import MyComment from "../components/mypage/MyComment";
+import ChatList from "../pages/ChatList";
 
 function Router() {
   return (
@@ -59,6 +60,8 @@ function Router() {
         <Route path="/addShift/:id/:dateId" element={<AddShift />} />
         <Route path="/test" element={<Test />} />
         <Route path="/chart" element={<Chart />} />
+
+        <Route path="/chat" element={<ChatList />} />
       </Routes>
     </BrowserRouter>
   );

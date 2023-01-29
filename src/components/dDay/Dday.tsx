@@ -1,18 +1,19 @@
 import { Carousel } from "antd";
 import { useState } from "react";
 import styled from "styled-components";
+import LayOut from "../layout/LayOut";
 
 const contentStyle: React.CSSProperties = {
   width: "90%",
   marginLeft: "5%",
-  height: "90px",
-  borderRadius: "10px",
+  height: "110px",
+  borderRadius: "8px",
   color: "#000000",
   textAlign: "center",
-  background: "#e3fde1",
+  background: "#EFFFFE",
   display: "flex",
-  flexDirection: "column",
-  paddingTop: "17px",
+  justifyContent: "space-between",
+  //border: "1px solid black",
 };
 
 interface propsType {
@@ -108,31 +109,51 @@ const Dday: React.FC<propsType> = (props) => {
 
   //-------------------------------------------
   return (
-    <Container>
-      <Carousel afterChange={onChange}>
-        {props?.workList?.map((w, i) => {
-          return (
-            <div key={w.workId}>
+    <LayOut>
+      <Container>
+        <Carousel afterChange={onChange}>
+          {props?.workList?.length >= 1 ? (
+            props?.workList?.map((w, i) => {
+              return (
+                <div key={w.workId}>
+                  <div style={contentStyle}>
+                    <SalaryWrap>
+                      <p>{w.placeName} 월급날까지</p>
+                      {diffDay[i] === 0 ? (
+                        <div> D-Day 입니다!!!</div>
+                      ) : (
+                        <div>D-{diffDay[i]} 남았어요!</div>
+                      )}
+                    </SalaryWrap>
+                    <STWrap>
+                      <img src="/image/piggy-bank 1.svg" alt="저금통" />
+                    </STWrap>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div>
               <div style={contentStyle}>
-                <SalaryWrap>
-                  <div className="wrap">
-                    <img src="/image/image 118.png" alt="돈" />
-                    {w.placeName} 월급날까지
+                <BlankWrap>
+                  <div className="text">
+                    <img src="/image/Group 178.svg" alt="디데이" />
                   </div>
-                  <div>
-                    {diffDay[i] === 0 ? (
-                      <div> D-Day 입니다!!!</div>
-                    ) : (
-                      <div>D-{diffDay[i]}</div>
-                    )}
+                  <div className="image">
+                    <img
+                      className="money"
+                      src="/image/cash 1.svg"
+                      alt="money"
+                    />
+                    <img className="add" src="image/add 1.svg" alt="더하기" />
                   </div>
-                </SalaryWrap>
+                </BlankWrap>
               </div>
             </div>
-          );
-        })}
-      </Carousel>
-    </Container>
+          )}
+        </Carousel>
+      </Container>
+    </LayOut>
   );
 };
 
@@ -143,21 +164,72 @@ export const Container = styled.div`
   }
 `;
 
-export const SalaryWrap = styled.div`
+export const BlankWrap = styled.div`
   display: flex;
+
+  width: 100%;
+  height: 100%;
   justify-content: space-between;
-  padding: 15px;
-  .wrap {
+  .text {
     display: flex;
-    gap: 15px;
+    height: 100%;
+    align-items: center;
+    margin-left: 20.68px;
+    img {
+      width: 189px;
+      height: 54px;
+    }
   }
-  img {
-    width: 25px;
-    height: 25px;
+  .image {
+    width: 100%;
+    height: 100%;
+    .money {
+      margin-top: 10px;
+      width: 62.28px;
+      height: 62.28px;
+    }
+    .add {
+      object-fit: fill;
+      position: absolute;
+      top: 30px;
+      right: 18px;
+      width: 80px;
+      height: 80px;
+    }
+  }
+`;
+
+export const SalaryWrap = styled.div`
+  //border: 1px solid black;
+  width: 60%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  p {
+    color: #37adae;
+    font-size: 18px;
+    font-weight: 500;
   }
   div {
-    font-size: 17px;
-    font-weight: bold;
+    font-size: 18px;
+    color: #37adae;
+    font-weight: 800;
   }
+`;
+
+export const STWrap = styled.div`
+  width: 40%;
+  img {
+    position: absolute;
+    top: -10px;
+    width: 122px;
+    height: 122px;
+    border-radius: 8px;
+  }
+`;
+export const STPig = styled.img`
+  //border: 1px solid black;
+  width: 50%;
 `;
 export default Dday;
