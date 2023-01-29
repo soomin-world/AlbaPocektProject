@@ -2,7 +2,7 @@ import { TimePicker } from "antd";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { calendarAtom, calendarDayList, moreBtnsAtom } from "../atoms";
-import { CalendarModal } from "./Test";
+import { CalendarModal } from "./CalendarModal";
 import dayjs from "dayjs";
 import styled from "styled-components";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -57,7 +57,7 @@ function EditShift() {
   };
 
   return (
-    <LayOut position="relative">
+    <LayOut>
       <STHeader>
         <img src="/image/leftArrow.png" alt="<" onClick={() => navigate("/")} />
         <h1>근무 수정</h1>
@@ -166,8 +166,7 @@ const STButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  left: 17px;
+  position: fixed;
   bottom: 17px;
 `;
 

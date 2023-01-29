@@ -15,6 +15,8 @@ export interface WorkType {
 
 const WorkplaceBtnsModal = ({ children }: any) => {
   const navigate = useNavigate();
+  const { id } = useParams();
+  // console.log(id);
   const setIsWorkplaceBtns = useSetRecoilState(workplaceBtnsAtom);
   const { data, isLoading, isError } = useQuery(["workList"], () => getWorks());
   // console.log(data?.data.workList);
@@ -31,7 +33,12 @@ const WorkplaceBtnsModal = ({ children }: any) => {
       <Modal>
         {workList?.map((work: WorkType) => {
           return (
-            <Button onClick={() => navigate(`/addShift/${work.placeId}`)}>
+            <Button
+              onClick={() => {
+                navigate(`/addShift/${work.placeId}/${id}`);
+                setIsWorkplaceBtns(false);
+              }}
+            >
               <span>{work.placeName}</span>
             </Button>
           );

@@ -10,7 +10,7 @@ import { calendarAtom, calendarDayList } from "../atoms";
 import RenderDays from "../components/calendar/RenderDays";
 import RenderHeader from "../components/calendar/RenderHeader";
 import TodosModal from "../components/calendarModal/TodosModal";
-import CalendarTest from "../components/calendar/CalendarTest";
+import CalendarMiniModal from "../components/calendar/CalendarMiniModal";
 
 type ICellsProps = {
   currentMonth: Date;
@@ -46,7 +46,7 @@ ICellsProps) => {
       // const [isActive, setIsActive] = useState(false);
 
       days.push(
-        <CalendarTest
+        <CalendarMiniModal
           day={day}
           monthStart={monthStart}
           currentMonth={currentMonth}

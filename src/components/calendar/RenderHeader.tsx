@@ -2,8 +2,12 @@ import { format } from "date-fns";
 import { Icon } from "@iconify/react";
 import { IHeaderProps } from "../../types/calendar";
 import styled from "styled-components";
+import { useState } from "react";
+import { useMatch } from "react-router-dom";
 
 const RenderHeader = ({ currentMonth, prevMonth, nextMonth }: IHeaderProps) => {
+  const [date, setDate] = useState(new Date().toISOString().slice(0, 7));
+  const calendarMatch = useMatch("/calendar");
   return (
     <Header>
       {/* <div>
@@ -13,6 +17,20 @@ const RenderHeader = ({ currentMonth, prevMonth, nextMonth }: IHeaderProps) => {
         </HeaderText>
       </div> */}
       <HeaderIcon>
+        {calendarMatch ? (
+          <SelectMonth>
+            <input
+              type="month"
+              id="monthInput"
+              value={date}
+              onChange={(e) => {
+                setDate(() => e.target.value);
+                console.log(date);
+              }}
+            />
+          </SelectMonth>
+        ) : null}
+
         <Icon
           icon="bi:arrow-left-circle-fill"
           onClick={prevMonth}
@@ -63,4 +81,25 @@ const HeaderIcon = styled.div`
   align-items: center;
 `;
 
+const SelectMonth = styled.div`
+  input {
+    width: 150px;
+    min-height: 29px;
+    font-size: 20px;
+    font-weight: 500;
+    font-family: "Noto Sans KR";
+    height: 21px;
+    border: none;
+    background: url("image/iconCalendarInput.png") no-repeat right 20px center /
+      24px auto;
+  }
+  input[type="month"]::-webkit-inner-spin-button,
+  input[type="month"]::-webkit-calendar-picker-indicator {
+    background: transparent;
+    -webkit-appearance: none;
+  }
+  input:focus {
+    outline: none;
+  }
+`;
 export default RenderHeader;

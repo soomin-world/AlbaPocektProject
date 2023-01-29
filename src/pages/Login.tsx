@@ -133,6 +133,11 @@ const Input = styled.input`
   background-color: #f9f9f9;
   padding-left: 15px;
   margin-bottom: 15px;
+
+  &:focus {
+    outline: 1px solid #5fce80;
+    background-color: white;
+  }
 `;
 
 const Register = styled.div`

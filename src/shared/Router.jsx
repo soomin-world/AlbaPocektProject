@@ -15,7 +15,7 @@ import MyPageEdit from "../pages/MyPageEdit";
 import Calendar from "../pages/Calendar";
 import AddWork from "../pages/Addwork";
 import AddShift from "../pages/Addshift";
-import Test from "../pages/Test";
+import Test from "../pages/CalendarModal";
 import EditShift from "../pages/EditShift";
 import Chart from "../pages/Chart";
 import MyLike from "../components/mypage/MyLike";
@@ -56,6 +56,7 @@ function Router() {
 
         <Route path="/addWork/:id?" element={<AddWork />} />
         <Route path="/addShift/:id" element={<AddShift />} />
+        <Route path="/addShift/:id/:dateId" element={<AddShift />} />
         <Route path="/test" element={<Test />} />
         <Route path="/chart" element={<Chart />} />
       </Routes>

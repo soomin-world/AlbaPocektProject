@@ -25,8 +25,8 @@ export const getMyComment = async (payload: number) => {
 };
 
 export const deleteMyComment = async (payload: number[]) => {
-  await instance.delete("/api/mypage/comments", {
-    data: { commentIdList: payload },
+  const { data } = await instance.delete("/api/mypage/comments", {
+    data: { commentIdList: [...payload] },
   });
-  return;
+  return data;
 };
