@@ -47,6 +47,7 @@ const MoreBtnsModal = ({ children }: any) => {
           <span
             onClick={() => {
               navigate(`/editShift/${todoId}`);
+              setIsMoreBtns(false);
             }}
           >
             수정

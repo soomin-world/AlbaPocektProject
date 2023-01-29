@@ -178,53 +178,6 @@ const Chart = () => {
           />
         </>
       )}
-
-      {/* <ChartText marginTop="40px">
-        최근 {data.fiveMonth.categories.length}개월 급여
-      </ChartText>
-      <ReactApexChart
-        options={{
-          chart: {
-            height: 350,
-            type: "area",
-            toolbar: {
-              show: false,
-            },
-          },
-          grid: { show: false },
-          dataLabels: {
-            enabled: false,
-          },
-          stroke: {
-            curve: "smooth",
-          },
-          xaxis: {
-            axisBorder: { show: false },
-            axisTicks: { show: true },
-            labels: { show: false },
-            type: "datetime",
-            categories: data.fiveMonth.categories,
-          },
-          yaxis: {
-            show: false,
-          },
-          tooltip: {
-            x: {
-              format: "yyyy/MM",
-            },
-          },
-          colors: data.fiveMonth.colors,
-          legend: {
-            markers: {
-              fillColors: data.fiveMonth.colors,
-            },
-          },
-        }}
-        series={data.fiveMonth.series}
-        type="area"
-        height={250}
-        width={340}
-      /> */}
       <Footer />
     </LayOut>
   );
