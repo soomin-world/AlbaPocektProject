@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { calendarAtom, calendarDayList } from "../atoms";
 import { CalendarModal } from "./CalendarModal";
@@ -66,7 +66,6 @@ function AddShift() {
   };
   console.log(dayList[0]);
   return (
-
     <LayOut position="relative">
       <Header title={"근무등록"} />
 
