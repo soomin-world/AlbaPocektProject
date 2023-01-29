@@ -35,7 +35,8 @@ const MyPageEdit = () => {
   });
   const { mutateAsync: nicknameCheckMutate } = useMutation(nicknameCheckApi);
 
-  const [onClickNicknameCheck, setClickNicknameCheck] = useState(true);
+  const [onClickNicknameCheck, setClickNicknameCheck] =
+    useState<boolean>(false);
   const [passMsg, setPassMsg] = useState("");
   const [file, setFile] = useState<File | undefined>();
   const [userImage, setUserImage] = useState(getData?.profileImage);
@@ -51,7 +52,7 @@ const MyPageEdit = () => {
 
   const onValid = (data: IForm) => {
     console.log("submit!!!");
-    if (!onClickNicknameCheck)
+    if (!onClickNicknameCheck && data.nickname)
       return alert("닉네임 중복확인 버튼을 눌러주세요!");
 
     if (file) {
@@ -164,39 +165,41 @@ const MyPageEdit = () => {
         <UserProfileForm onSubmit={handleSubmit(onValid)}>
           <EditNickname>
             <span>닉네임</span>
-            <input
-              {...register("nickname", {
-                minLength: {
-                  value: 5,
-                  message: "5~10글자를 적어주세요.",
-                },
-                maxLength: {
-                  value: 10,
-                  message: "5~10글자를 적어주세요.",
-                },
-                pattern: {
-                  value: /^[A-za-z0-9가-힣]{5,10}$/,
-                  message: "가능한 문자 : 영문 대소문자, 글자 단위 한글, 숫자 ",
-                },
-              })}
-              placeholder="한글/영어 대소문자/숫자 가능 (5~10자)"
-              onBlur={() => {
-                setClickNicknameCheck(false);
-              }}
-            ></input>
+            <div style={{ display: "flex" }}>
+              <input
+                {...register("nickname", {
+                  minLength: {
+                    value: 5,
+                    message: "5~10글자를 적어주세요.",
+                  },
+                  maxLength: {
+                    value: 10,
+                    message: "5~10글자를 적어주세요.",
+                  },
+                  pattern: {
+                    value: /^[A-za-z0-9가-힣]{5,10}$/,
+                    message:
+                      "가능한 문자 : 영문 대소문자, 글자 단위 한글, 숫자 ",
+                  },
+                })}
+                placeholder="한글/영어 대소문자/숫자 가능 (5~10자)"
+                onBlur={() => {
+                  setClickNicknameCheck(false);
+                }}
+              ></input>
+              <CheckBtn onClick={nicknameCheck} color={onClickNicknameCheck}>
+                중복확인
+              </CheckBtn>
+            </div>
             {errors?.nickname?.message ? (
               <span>{errors?.nickname?.message}</span>
             ) : (
               <span style={{ color: "#5fce80" }}>{passMsg}</span>
             )}
-            {/* <span>{errors?.nickname?.message}</span> */}
           </EditNickname>
-          <CheckBtn onClick={nicknameCheck} color={passMsg.length === 0}>
-            중복확인
-          </CheckBtn>
 
           {errors?.nickname?.message ? (
-            <button disabled>disabled</button>
+            <button disabled>확인</button>
           ) : (
             <button>확인</button>
           )}
@@ -294,7 +297,7 @@ const EditNickname = styled.div`
     margin: 10px 0px 10px 0px;
   }
   input {
-    width: 340px;
+    width: 240px;
     height: 48px;
     padding: 15px;
     font-size: 15px;
@@ -307,13 +310,15 @@ const EditNickname = styled.div`
 `;
 
 const CheckBtn = styled.div<{ color: any }>`
-  width: 80px;
-  height: 40px;
-  /* border: 1px solid ${(props) => (props.color ? "red" : "#5fce80")};
-  color: ${(props) => (props.color ? "red" : "#5fce80")}; */
-  border: 1px solid black;
-  color: black;
+  width: 90px;
+  height: 48px;
+  border: 1px solid ${(props) => (props.color ? "#5fce80" : "gray")};
+  color: ${(props) => (props.color ? "#5fce80" : "gray")};
+  margin-left: 11px;
+  /* border: 1px solid #5fce80;
+  color: #5fce80; */
   font-size: 14px;
+  font-weight: 400;
   display: flex;
   justify-content: center;
   align-items: center;

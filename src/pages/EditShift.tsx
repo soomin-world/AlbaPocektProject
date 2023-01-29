@@ -2,7 +2,7 @@ import { TimePicker } from "antd";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { calendarAtom, calendarDayList, moreBtnsAtom } from "../atoms";
-import { CalendarModal } from "./Test";
+import { CalendarModal } from "./CalendarModal";
 import dayjs from "dayjs";
 import styled from "styled-components";
 import { useMutation, useQuery } from "@tanstack/react-query";

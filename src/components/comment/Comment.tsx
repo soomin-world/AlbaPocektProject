@@ -127,20 +127,6 @@ const Comment: React.FC<CommentType> = (props) => {
               <span>{likeNum}</span>
             </div>
           </div>
-          {/* <div className="like">
-            <span
-              onClick={() => {
-                onClickLikeHandler();
-              }}
-            >
-              {like === true ? (
-                <img src="/image/iconRedHeart.png" />
-              ) : (
-                <img src="/image/iconMiniHeart.png" />
-              )}
-            </span>
-            <span>{likeNum}</span>
-          </div> */}
         </STContainer>
       ) : (
         <STContainer>
@@ -195,6 +181,7 @@ const STContainer = styled.div`
         height: 30px;
         border-radius: 50%;
         background-color: gray;
+        object-fit: cover;
       }
     }
     .userInfo {
@@ -205,6 +192,7 @@ const STContainer = styled.div`
       div:last-child {
         font-size: 10px;
         color: #aeaeae;
+        margin-top: 2px;
       }
     }
     .btn {
@@ -241,6 +229,7 @@ const STContainer = styled.div`
     align-items: center;
     border: 1px solid #d9d9d9;
     border-radius: 3px;
+    background-color: white;
     span {
       width: 13px;
       height: 13px;

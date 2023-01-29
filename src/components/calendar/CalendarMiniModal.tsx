@@ -16,7 +16,7 @@ interface ITest {
   // dayList: string[];
 }
 
-const CalendarTest = ({
+const CalendarMiniModal = ({
   day,
   monthStart,
   currentMonth,
@@ -111,4 +111,4 @@ const CellsNum = styled.span<{ color: string }>`
   color: ${(props) => props.color};
 `;
 
-export default CalendarTest;
+export default CalendarMiniModal;

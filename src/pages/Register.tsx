@@ -9,6 +9,7 @@ import {
 import { IForm } from "../types/loginRegisterType";
 import styled from "styled-components";
 import { useState } from "react";
+import LayOut from "../components/layout/LayOut";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -91,100 +92,108 @@ const Register = () => {
 
   console.log(errors?.email?.message);
   return (
-    <Total>
-      <Header>회원가입</Header>
-      <Form
-        style={{ display: "flex", flexDirection: "column" }}
-        onSubmit={handleSubmit(onValid)}
-      >
-        <Input
-          {...register("email", {
-            required: "필수 정보입니다.",
-            pattern: {
-              value: /\w+@\w+\.\w{2,4}\.?\w{0,2}/,
-              message: "올바른 이메일 형식이 아닙니다.",
-            },
-          })}
-          placeholder="이메일"
-          onBlur={() => {
-            setClickIdCheck(false);
-          }}
-        />
-        {errors?.email?.message ? (
-          <Msg>{errors?.email?.message}</Msg>
-        ) : (
-          <Msg style={{ color: "#5fce80" }}>{userIdPassMsg}</Msg>
-        )}
-        {/* <span>{errors?.email?.message}</span> */}
-        <div onClick={userIdCheck} className="check">
-          중복 확인
-        </div>
-        <Input
-          {...register("nickname", {
-            required: "필수 정보입니다.",
-            minLength: {
-              value: 5,
-              message: "5~10글자를 적어주세요.",
-            },
-            maxLength: {
-              value: 10,
-              message: "5~10글자를 적어주세요.",
-            },
-            pattern: {
-              value: /^[A-za-z0-9가-힣]{5,10}$/,
-              message: "가능한 문자 : 영문 대소문자, 글자 단위 한글, 숫자",
-            },
-          })}
-          placeholder="닉네임"
-          onBlur={() => {
-            setClickNicknameCheck(false);
-          }}
-        />
-        {errors?.nickname?.message ? (
-          <Msg>{errors?.nickname?.message}</Msg>
-        ) : (
-          <Msg style={{ color: "#5fce80" }}>{nicknamePassMsg}</Msg>
-        )}
-        {/* <span>{errors?.nickname?.message}</span> */}
-        <div onClick={nicknameCheck} className="check">
-          중복 확인
-        </div>
-        <Input
-          {...register("password", {
-            required: "필수 정보입니다.",
-            minLength: {
-              value: 8,
-              message: "8글자 이상 적어주세요.",
-            },
-            pattern: {
-              value:
-                /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&].{8,20}$/,
-              message: "영문 대소문자, 숫자, 특수문자를 포함한 8~20글자",
-            },
-          })}
-          placeholder="비밀번호"
-          type="password"
-        />
-        <Msg>{errors?.password?.message}</Msg>
-        <Input
-          {...register("passwordCheck", {
-            required: "필수 정보입니다.",
-          })}
-          placeholder="비밀번호 재확인"
-          type="password"
-        />
-        <Msg>{errors?.passwordCheck?.message}</Msg>
-        {errors?.email?.message ||
-        errors?.nickname?.message ||
-        errors?.password?.message ||
-        errors?.passwordCheck?.message ? (
-          <button disabled>disabled</button>
-        ) : (
-          <button>확인</button>
-        )}
-        <span>{errors?.extraError?.message}</span>
-      </Form>
-    </Total>
+    <LayOut>
+      <Total>
+        <Header>회원가입</Header>
+        <Form
+          style={{ display: "flex", flexDirection: "column" }}
+          onSubmit={handleSubmit(onValid)}
+        >
+          <div style={{ display: "flex" }}>
+            <Input
+              {...register("email", {
+                required: "필수 정보입니다.",
+                pattern: {
+                  value: /\w+@\w+\.\w{2,4}\.?\w{0,2}/,
+                  message: "올바른 이메일 형식이 아닙니다.",
+                },
+              })}
+              placeholder="이메일"
+              onBlur={() => {
+                setClickIdCheck(false);
+                setUserIdPassMsg("");
+              }}
+            />
+            <Check onClick={userIdCheck} color={onClickIdCheck}>
+              중복 확인
+            </Check>
+          </div>
+          {errors?.email?.message ? (
+            <Msg>{errors?.email?.message}</Msg>
+          ) : (
+            <Msg style={{ color: "#5fce80" }}>{userIdPassMsg}</Msg>
+          )}
+
+          <div style={{ display: "flex" }}>
+            <Input
+              {...register("nickname", {
+                required: "필수 정보입니다.",
+                minLength: {
+                  value: 5,
+                  message: "5~10글자를 적어주세요.",
+                },
+                maxLength: {
+                  value: 10,
+                  message: "5~10글자를 적어주세요.",
+                },
+                pattern: {
+                  value: /^[A-za-z0-9가-힣]{5,10}$/,
+                  message: "가능한 문자 : 영문 대소문자, 글자 단위 한글, 숫자",
+                },
+              })}
+              placeholder="닉네임"
+              onBlur={() => {
+                setClickNicknameCheck(false);
+                setNicknamePassMsg("");
+              }}
+            />
+            <Check onClick={nicknameCheck} color={onClickNicknameCheck}>
+              중복 확인
+            </Check>
+          </div>
+          {errors?.nickname?.message ? (
+            <Msg>{errors?.nickname?.message}</Msg>
+          ) : (
+            <Msg style={{ color: "#5fce80" }}>{nicknamePassMsg}</Msg>
+          )}
+
+          <Input
+            {...register("password", {
+              required: "필수 정보입니다.",
+              minLength: {
+                value: 8,
+                message: "8글자 이상 적어주세요.",
+              },
+              pattern: {
+                value:
+                  /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&].{8,20}$/,
+                message: "영문 대소문자, 숫자, 특수문자를 포함한 8~20글자",
+              },
+            })}
+            placeholder="비밀번호"
+            type="password"
+          />
+          <Msg>{errors?.password?.message}</Msg>
+          <Input
+            {...register("passwordCheck", {
+              required: "필수 정보입니다.",
+            })}
+            placeholder="비밀번호 재확인"
+            type="password"
+          />
+          <Msg>{errors?.passwordCheck?.message}</Msg>
+          {errors?.email?.message ||
+          errors?.nickname?.message ||
+          errors?.password?.message ||
+          errors?.passwordCheck?.message ? (
+            <button disabled>확인</button>
+          ) : (
+            <button>확인</button>
+          )}
+          <span>{errors?.extraError?.message}</span>
+        </Form>
+      </Total>
+    </LayOut>
   );
 };
 
@@ -199,8 +208,9 @@ const Total = styled.div`
 const Header = styled.div`
   width: 100%;
   height: 60px;
-  font-size: 15px;
-  font-weight: 400;
+  font-size: 17px;
+  font-weight: 500;
+  margin-bottom: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -213,14 +223,19 @@ const Form = styled.form`
   align-items: center;
 
   button {
-    width: 100%;
+    width: 340px;
     height: 56px;
-    margin: 15px 0px 15px 0px;
-    border-radius: 10px;
-    border: none;
     background-color: #5fce80;
-    font-size: 17px;
+    border: none;
+    border-radius: 10px;
     color: white;
+    font-size: 17px;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 17px;
 
     div {
       height: 17px;
@@ -232,38 +247,45 @@ const Form = styled.form`
     text-align: left;
     margin-bottom: 15px;
   }
-  .check {
-    width: 80px;
-    height: 40px;
-    border: 1px solid black;
-    color: black;
-    font-size: 14px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 15px;
-  }
 `;
 
 const Msg = styled.div`
-  min-width: 340px;
+  width: 340px;
   font-size: 13px;
+  font-weight: 400;
   color: red;
   text-align: left;
-  margin-bottom: 15px;
+  margin: 7px 0px 13px 0px;
+`;
+
+const Check = styled.div<{ color: any }>`
+  min-width: 90px;
+  height: 48px;
+  border: 1px solid gray;
+  color: gray;
+  font-weight: 400;
+  border: 1px solid ${(props) => (props.color ? "#5fce80" : "gray")};
+  color: ${(props) => (props.color ? "#5fce80" : "gray")};
+  font-size: 14px;
+  margin-left: 11px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
 `;
 
 const Input = styled.input`
   width: 100%;
+  min-width: 238px;
   height: 48px;
   border-radius: 10px;
   border: none;
   background-color: #f9f9f9;
   padding-left: 15px;
-  margin-bottom: 15px;
 
   &:focus {
     outline: 1px solid #5fce80;
+    background-color: white;
   }
 `;
 
