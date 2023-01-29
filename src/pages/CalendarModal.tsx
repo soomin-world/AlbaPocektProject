@@ -72,6 +72,11 @@ const Calendar = () => {
   const [isCalendarBtns, setIsCalendarBtns] = useRecoilState(calendarAtom);
   // const dayList: string[] = [];
 
+  const selectedMonth = (date: Date) => {
+    setCurrentMonth(date);
+    return currentMonth;
+  };
+
   const prevMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
     return currentMonth;
@@ -99,6 +104,7 @@ const Calendar = () => {
       <Total>
         <RenderHeader
           currentMonth={currentMonth}
+          selectedMonth={selectedMonth}
           prevMonth={prevMonth}
           nextMonth={nextMonth}
         />

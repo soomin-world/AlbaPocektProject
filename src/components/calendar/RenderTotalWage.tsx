@@ -20,33 +20,70 @@ const RenderTotalWage = ({ data }: ITotalWage) => {
 
   return (
     <TotalWage>
-      <label onClick={() => setIsTax(!isTax)}>
+      <Tax onClick={() => setIsTax(!isTax)}>
         {isTax ? (
-          <input type="checkbox" name="tax" checked />
+          <img src="/image/iconFullCheck.svg" />
         ) : (
-          <input type="checkbox" name="tax" />
+          <img src="/image/iconEmptyCheck.svg" />
         )}
-        세금 제외
-      </label>
-      {isTax
-        ? comma(String(Math.floor(Number(data?.total) * (1 - 0.033))))
-        : comma(String(data?.total))}
-      원
+        <div>세금 제외</div>
+      </Tax>
+
+      <TotalText>
+        <div>총급여</div>
+        <div>
+          {isTax
+            ? comma(String(Math.floor(Number(data?.total) * (1 - 0.033))))
+            : comma(String(data?.total))}
+          원
+        </div>
+      </TotalText>
     </TotalWage>
   );
 };
 
 const TotalWage = styled.div`
-  width: 365px;
+  width: 350px;
+  height: 50px;
   text-align: right;
-  margin-right: 14px;
-  margin-bottom: 70px;
+  padding-right: 10px;
+  margin-bottom: 57px;
   font-weight: 400;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 
-  label {
-    font-weight: 300;
+const Tax = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+
+  img {
+    width: 15px;
+    height: 15px;
     margin-right: 10px;
+  }
+
+  div {
+    height: 13px;
   }
 `;
 
+const TotalText = styled.div`
+  display: flex;
+  align-items: center;
+
+  div:first-child {
+    font-size: 13px;
+    height: 13px;
+    margin-right: 10px;
+  }
+
+  div:last-child {
+    font-size: 18px;
+    height: 18px;
+    font-weight: 500;
+  }
+`;
 export default RenderTotalWage;

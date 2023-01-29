@@ -71,7 +71,7 @@ const MyComment = () => {
         <div>
           {onClickAll ? (
             <img
-              src="/image/iconFullCheck.png"
+              src="/image/iconFullCheck.svg"
               onClick={() => {
                 // console.log(deleteList);
                 let copy: number[] = [];
@@ -82,7 +82,7 @@ const MyComment = () => {
             />
           ) : (
             <img
-              src="/image/iconEmptyCheck.png"
+              src="/image/iconEmptyCheck.svg"
               onClick={() => {
                 console.log("클릭 시 나오는 모든 댓글 리스트", allCommentList);
                 let copy = [...allCommentList];

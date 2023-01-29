@@ -1,5 +1,6 @@
 export interface IHeaderProps {
   currentMonth: Date;
+  selectedMonth: (date: Date) => Date;
   prevMonth: () => Date;
   nextMonth: () => Date; // 부모컴포넌트에서 import 해온 타입을 재사용 해 줍시다.
 }
