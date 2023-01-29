@@ -162,7 +162,9 @@ function Board() {
             <img src="/image/iconPencil.png" />
           </Plus>
         </PlusWrap>
+
         {isFetchingNextPage ? <Loading /> : <div ref={ref} />}
+
         <Footer />
         {showButton && (
           <Scroll>
@@ -213,8 +215,10 @@ const Icon = styled.div`
 
 const PlusWrap = styled.div`
   width: 100%;
-  padding: 285px;
+  display: flex;
+  justify-content: flex-end;
 `;
+
 const Plus = styled.div`
   width: 56px;
   height: 56px;

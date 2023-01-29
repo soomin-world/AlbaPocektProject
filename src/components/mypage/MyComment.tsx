@@ -1,8 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { getMyComment, getMyPage } from "../../APIs/myPageApi";
+import { deleteMyComment, getMyComment, getMyPage } from "../../APIs/myPageApi";
 import { allMyCommentAtom, myCommentDeleteAtom } from "../../atoms";
 import { IMyPage } from "../../types/myPageType";
 import { CommentType } from "../../types/postType";
@@ -11,6 +11,7 @@ import LayOut from "../layout/LayOut";
 import CommentCard from "./CommentCard";
 
 const MyComment = () => {
+  const queryClient = useQueryClient();
   const [onClickAll, setOnClickAll] = useRecoilState(allMyCommentAtom);
   const [deleteList, setDeleteList] = useRecoilState(myCommentDeleteAtom);
 
@@ -18,7 +19,12 @@ const MyComment = () => {
   const { isLoading, isError, data, refetch } = useQuery(["myComment"], () =>
     getMyComment(pageParam)
   );
-  console.log(data?.content);
+  const { mutateAsync } = useMutation(deleteMyComment, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["myComment"]);
+    },
+  });
+  //  console.log(data?.content);
 
   const allCommentList: number[] = [];
 
@@ -29,7 +35,7 @@ const MyComment = () => {
       }
       console.log("모든 댓글 id 리스트", allCommentList);
     }
-  }, [data]);
+  }, [data, onClickAll]);
 
   useEffect(() => {
     console.log("삭제할 댓글 id 리스트", deleteList);
@@ -43,6 +49,9 @@ const MyComment = () => {
           pageParam = i;
           console.log(pageParam);
           refetch();
+          let copy: number[] = [];
+          setDeleteList(copy);
+          setOnClickAll(false);
         }}
       >
         {i}
@@ -65,7 +74,8 @@ const MyComment = () => {
               src="/image/iconFullCheck.png"
               onClick={() => {
                 // console.log(deleteList);
-                setDeleteList([]);
+                let copy: number[] = [];
+                setDeleteList(copy);
                 // console.log(deleteList);
                 setOnClickAll(false);
               }}
@@ -74,8 +84,9 @@ const MyComment = () => {
             <img
               src="/image/iconEmptyCheck.png"
               onClick={() => {
-                // console.log(deleteList);
+                console.log("클릭 시 나오는 모든 댓글 리스트", allCommentList);
                 let copy = [...allCommentList];
+                console.log(copy);
                 setDeleteList(copy);
                 // console.log(deleteList);
                 setOnClickAll(true);
@@ -84,7 +95,14 @@ const MyComment = () => {
           )}
           <div>전체 선택</div>
         </div>
-        <button>
+        <button
+          onClick={() => {
+            mutateAsync(deleteList);
+            let copy: number[] = [];
+            setDeleteList(copy);
+            setOnClickAll(false);
+          }}
+        >
           <span>삭제</span>
           <img src="/image/iconDelete.png" />
         </button>

@@ -1,8 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Outlet, useMatch, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { getMyPage } from "../APIs/myPageApi";
+import { deleteMyComment, getMyPage } from "../APIs/myPageApi";
 import PostCard from "../components/category/PostCard";
 import Header from "../components/header/Header";
 import LayOut from "../components/layout/LayOut";
@@ -21,6 +21,7 @@ const MyPage = () => {
   const { isLoading, isError, data, refetch } = useQuery(["myPage"], () =>
     getMyPage(pageParam)
   );
+
   console.log(data);
 
   const LogoutHandler = () => {

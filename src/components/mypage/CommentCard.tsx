@@ -12,11 +12,12 @@ interface IComment {
 const CommentCard = ({ comment }: IComment) => {
   const navigate = useNavigate();
   const [onClick, setOnClick] = useState(false);
-  // const [onClickAll, setOnClickAll] = useRecoilState(allMyCommentAtom);
+  const [onClickAll, setOnClickAll] = useRecoilState(allMyCommentAtom);
   const [deleteList, setDeleteList] = useRecoilState(myCommentDeleteAtom);
 
   useEffect(() => {
     console.log(deleteList);
+    setOnClick(false);
     for (const commentId of deleteList) {
       if (commentId === comment.commentId) {
         setOnClick(true);
@@ -27,28 +28,43 @@ const CommentCard = ({ comment }: IComment) => {
   // console.log(comment);
   return (
     <Comment>
-      {onClick ? (
-        <img
-          src="/image/iconFullCheck.png"
-          onClick={() => {
-            setOnClick(false);
-            const copy = deleteList.filter((commentId) => {
-              return commentId !== comment.commentId;
-            });
-            setDeleteList([...copy]);
-            // console.log(deleteList);
-          }}
-        />
-      ) : (
-        <img
-          src="/image/iconEmptyCheck.png"
-          onClick={() => {
-            setOnClick(true);
-            setDeleteList([...deleteList, comment.commentId]);
-            // console.log(deleteList);
-          }}
-        />
-      )}
+      {
+        // onClickAll ? (
+        //   <img
+        //     src="/image/iconFullCheck.png"
+        //     onClick={() => {
+        //       setOnClick(false);
+        //       const copy = deleteList.filter((commentId) => {
+        //         return commentId !== comment.commentId;
+        //       });
+        //       setDeleteList([...copy]);
+        //       // console.log(deleteList);
+        //     }}
+        //   />
+        // ) :
+        onClickAll || onClick ? (
+          <img
+            src="/image/iconFullCheck.png"
+            onClick={() => {
+              setOnClick(false);
+              const copy = deleteList.filter((commentId) => {
+                return commentId !== comment.commentId;
+              });
+              setDeleteList([...copy]);
+              // console.log(deleteList);
+            }}
+          />
+        ) : (
+          <img
+            src="/image/iconEmptyCheck.png"
+            onClick={() => {
+              setOnClick(true);
+              setDeleteList([...deleteList, comment.commentId]);
+              // console.log(deleteList);
+            }}
+          />
+        )
+      }
 
       <CommentText
         onClick={() => {

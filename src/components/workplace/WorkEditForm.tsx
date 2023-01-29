@@ -70,8 +70,10 @@ function WorkEditForm() {
   };
   const mutateEditwork = useMutation(putWork);
   return (
+
     <LayOut position="relative">
       <Header title={"근무지수정"} />
+
       <STBody>
         <div className="place">
           <p>어디에서 일하시나요?</p>
@@ -238,8 +240,7 @@ const SaveBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  left: 17px;
+  position: fixed;
   bottom: 17px;
 `;
 

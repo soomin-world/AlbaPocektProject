@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { calendarAtom, calendarDayList } from "../atoms";
-import { CalendarModal } from "./Test";
+import { CalendarModal } from "./CalendarModal";
 import dayjs from "dayjs";
 import styled from "styled-components";
 import { useMutation } from "@tanstack/react-query";
@@ -18,12 +18,21 @@ export type RangeValue<DateType> =
 function AddShift() {
   const navigate = useNavigate();
   const { id } = useParams();
+  const { dateId } = useParams();
+  // console.log(dateId);
   const [hourlyWage, setHourlyWage] = useState("");
   const [isCalendarBtns, setIsCalendarBtns] = useRecoilState(calendarAtom);
-  const workdays = useRecoilValue(calendarDayList);
+  const [dayList, setDayList] = useRecoilState(calendarDayList);
   const [workingTime, setWorkingTime] = useState<string[]>([]);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+
+  useEffect(() => {
+    if (dateId) {
+      setDayList([dateId]);
+    }
+    console.log(dayList);
+  }, []);
   const onChangeHandler = (
     time: RangeValue<dayjs.Dayjs>,
     timestring: [string, string]
@@ -35,7 +44,7 @@ function AddShift() {
     hourlyWage: Number(hourlyWage),
     startTime: startTime,
     endTime: endTime,
-    workDay: workdays,
+    workDay: dayList,
   };
 
   const payload = [id, work];
@@ -48,30 +57,32 @@ function AddShift() {
       alert("근무시간을 입력해주세요!");
       return;
     }
-    if (workdays.length === 0) {
+    if (dayList.length === 0) {
       alert("근무일자를 입력해주세요!");
       return;
     }
     mutateWork.mutate(payload);
     // navigate(-1);
   };
-  console.log(workdays[0]);
+  console.log(dayList[0]);
   return (
+
     <LayOut position="relative">
       <Header title={"근무등록"} />
+
       <STLabel>
         <h1>날짜</h1>
       </STLabel>
       <WorkDayInput>
         <div>
-          {workdays[0]
-            ? workdays[0].slice(4, 6) + "." + workdays[0].slice(6, 8)
+          {dayList[0]
+            ? dayList[0].slice(4, 6) + "." + dayList[0].slice(6, 8)
             : null}
-          {workdays[1]
+          {dayList[1]
             ? "/" +
-              workdays[1].slice(4, 6) +
+              dayList[1].slice(4, 6) +
               "." +
-              workdays[1].slice(6, 8) +
+              dayList[1].slice(6, 8) +
               "..."
             : null}
         </div>
@@ -191,8 +202,7 @@ const STButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  left: 17px;
+  position: fixed;
   bottom: 17px;
 `;
 

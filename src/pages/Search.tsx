@@ -53,8 +53,10 @@ const Search = () => {
   console.log(numList);
   return (
     <>
+
       <LayOut>
         <Header title={"게시물 검색"} />
+
         <SearchInputBox>
           <SearchInput
             value={keyword}
@@ -76,7 +78,10 @@ const Search = () => {
             })}
 
         {data?.content?.length === 0 && isBtnClick ? (
-          <SearchEmpty>게시물이 없습니다.</SearchEmpty>
+          <SearchEmpty>
+            <img src="/image/iconSearchEmpty.png" />
+            <div>조회된 게시물이 없습니다.</div>
+          </SearchEmpty>
         ) : null}
 
         {numList?.length === 1 ? null : <PageNum>{numList}</PageNum>}
@@ -113,6 +118,7 @@ const SearchInput = styled.input`
   border-bottom-left-radius: 10px;
   background-color: #f0f0f0;
   padding-left: 13px;
+  outline: none;
 `;
 
 const SearchBtn = styled.button`
@@ -125,10 +131,26 @@ const SearchBtn = styled.button`
 `;
 
 const SearchEmpty = styled.div`
-  position: fixed;
-  top: 43%;
-  left: 29%;
-  font-size: 20px;
+  width: 180px;
+  height: 120px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+  }
+  div {
+    font-size: 15px;
+    color: #b4b2b2;
+  }
 `;
 
 const PageNum = styled.div`
@@ -140,4 +162,5 @@ const PageNum = styled.div`
     margin: 0px 10px 0px 10px;
   }
 `;
+
 export default Search;

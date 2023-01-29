@@ -4,12 +4,13 @@ type Props = {
   children: React.ReactNode;
   padding?: string;
   position?: string;
+  height?: string;
 };
 
-const LayOut: React.FC<Props> = ({ children, padding, position }) => {
+const LayOut: React.FC<Props> = ({ children, padding, position, height }) => {
   return (
     <STContainer>
-      <STLayOut padding={padding} position={position}>
+      <STLayOut padding={padding} position={position} height={height}>
         {children}
       </STLayOut>
     </STContainer>
@@ -24,15 +25,17 @@ const STContainer = styled.div`
 const STLayOut = styled.div<{
   padding: string | undefined;
   position: string | undefined;
+  height: string | undefined;
 }>`
   ::-webkit-scrollbar {
     display: none;
   }
   font-family: "Noto Sans KR";
+  background-color: white;
   display: flex;
   flex-direction: column;
   // min-height: 734px;
-  //height: 100vh;
+  height: ${(props) => (props.height ? props.height : null)};
   // padding-bottom: 100px;
   width: 375px;
   //border: 1px solid black;
