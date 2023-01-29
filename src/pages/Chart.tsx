@@ -48,21 +48,32 @@ const Chart = () => {
 
   return (
     <LayOut padding="0 17px 50px 17px">
-      <ChartBar>나의 근무 통계</ChartBar>
+      <ChartBar>
+        <div>나의 근무 통계</div>
+        <img src="image/iconMypage.svg" />
+      </ChartBar>
+
       {isLoading ? null : (
         <>
-          <Input
-            type="month"
-            value={date}
-            onChange={(e) => {
-              setDate(() => e.target.value);
-              console.log(date);
-            }}
-          />
-          <ChartText marginTop="0px">
+          <SelectMonth>
+            <WorkingHours>
+              <div>알바포켓님의 일한 시간</div>
+              <div>123 시간</div>
+            </WorkingHours>
+            <input
+              type="month"
+              value={date}
+              onChange={(e) => {
+                setDate(() => e.target.value);
+                console.log(date);
+              }}
+            />
+          </SelectMonth>
+
+          {/* <ChartText marginTop="0px">
             {date?.slice(5)[0] === "0" ? date.slice(6) : date.slice(5)}월 달
             소득 비중
-          </ChartText>
+          </ChartText> */}
           <ReactApexChart
             options={{
               chart: {
@@ -74,23 +85,23 @@ const Chart = () => {
                   endAngle: 270,
                   expandOnClick: false,
                   donut: {
-                    size: "55%",
-                    labels: {
-                      show: true,
-                      total: {
-                        showAlways: true,
-                        show: true,
-                        label: "총 일한 시간",
-                        fontSize: "10px",
-                        color: "black",
-                      },
-                      value: {
-                        fontSize: "15px",
-                        show: true,
-                        color: "black",
-                        offsetY: 0,
-                      },
-                    },
+                    size: "50%",
+                    // labels: {
+                    //   show: true,
+                    //   total: {
+                    //     showAlways: true,
+                    //     show: true,
+                    //     label: "총 일한 시간",
+                    //     fontSize: "10px",
+                    //     color: "black",
+                    //   },
+                    //   value: {
+                    //     fontSize: "15px",
+                    //     show: true,
+                    //     color: "black",
+                    //     offsetY: 0,
+                    //   },
+                    // },
                   },
                 },
               },
@@ -186,11 +197,10 @@ const ChartBar = styled.div`
   width: 100%;
   height: 50px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   font-size: 17px;
   font-weight: 500;
-  padding: 5%;
 `;
 
 const ChartText = styled.div<{ marginTop: string }>`
@@ -209,4 +219,49 @@ const Input = styled.input`
   font-size: 15px;
   margin: 20px 0px 20px 0px;
 `;
+
+const WorkingHours = styled.div`
+  font-weight: 400;
+
+  div:first-child {
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+  div:last-child {
+    font-size: 24px;
+    font-weight: 600;
+  }
+`;
+
+const SelectMonth = styled.div`
+  width: 340px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+
+  input {
+    width: 120px;
+    min-height: 44px;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: "Noto Sans KR";
+    height: 21px;
+    border: none;
+    border-radius: 8px;
+    color: #545456;
+    background-color: #f7f7f7;
+    /* background: url("image/iconCalendarInput.png") no-repeat right 3px center /
+      24px auto; */
+  }
+  input[type="month"]::-webkit-inner-spin-button,
+  input[type="month"]::-webkit-calendar-picker-indicator {
+    /* background: transparent;
+    -webkit-appearance: none; */
+  }
+  input:focus {
+    outline: none;
+  }
+`;
+
 export default Chart;

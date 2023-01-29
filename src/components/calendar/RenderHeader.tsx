@@ -20,10 +20,9 @@ const RenderHeader = ({
   return (
     <Header>
       {calendarMatch || calTodoMatch || calBtnMatch ? (
-        <SelectMonth className="header">
+        <SelectMonth>
           <input
             type="month"
-            id="monthInput"
             value={date}
             onChange={(e) => {
               console.log(e.target.value);
@@ -32,7 +31,7 @@ const RenderHeader = ({
             }}
           />
           <img
-            src="/image/iconMypage.png"
+            src="/image/iconMypage.svg"
             onClick={() => navigate("/mypage")}
           />
         </SelectMonth>
@@ -63,10 +62,6 @@ const Header = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0px 10px 0px 10px;
-
-  /* div:first-child {
-    margin-right: 10px;
-  } */
 `;
 
 const HeaderText = styled.div`
@@ -118,6 +113,7 @@ const SelectMonth = styled.div`
   img {
     width: 24px;
     height: 24px;
+    margin-top: 3px;
   }
 `;
 export default RenderHeader;
