@@ -1,13 +1,15 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { deleteTodo } from "../../APIs/calendarApi";
 import { deletePost } from "../../APIs/detailPostApi";
 import { deleteWork } from "../../APIs/workApi";
 
 interface propsType {
   id: number;
-  open: boolean;
-  close: () => void;
+  open?: boolean;
+  close?: () => void;
   address: string;
   deleteValue: string;
 }
@@ -20,6 +22,7 @@ const DropDown: React.FC<propsType> = ({
   deleteValue,
 }) => {
   const queryClient = useQueryClient();
+  const { todoId } = useParams();
   const [value, setValue] = useState<() => {}>();
   const mutateDelete = useMutation(deleteWork, {
     onSuccess: () => {
@@ -31,6 +34,15 @@ const DropDown: React.FC<propsType> = ({
       queryClient.invalidateQueries(["post"]);
     },
   });
+  const { mutateAsync } = useMutation(deleteTodo, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["monthly"]);
+      queryClient.invalidateQueries(["todos", id]);
+      queryClient.invalidateQueries(["bonus"]);
+      queryClient.invalidateQueries(["totalWage"]);
+    },
+  });
+
   const deletePostHandler = () => {
     mutatePostDelete.mutate(id);
     alert("삭제되었습니다!");
@@ -39,24 +51,32 @@ const DropDown: React.FC<propsType> = ({
     mutateDelete.mutate(id);
     alert("삭제되었습니다!");
   };
+  const deleteShiftHandler = () => {
+    mutateAsync(String(id));
+    alert("삭제되었습니다!");
+  };
+
   useEffect(() => {
     if (deleteValue === "post") {
       setValue(() => deletePostHandler);
+    } else if (deleteValue === "shift") {
+      setValue(() => deleteShiftHandler);
     } else {
       setValue(() => deleteWorkHandler);
     }
   }, [deleteValue]);
+
   return (
     <STDropdown>
       <li>
         <a href={address}>
           수정하기
-          <img src="/image/icon-pencil.png" alt="수정" />
+          <img src="/image/iconPencil.svg" alt="수정" />
         </a>
       </li>
       <li>
         <div className="delete" onClick={value}>
-          삭제하기 <img src="/image/bin.png" alt="삭제" />
+          삭제하기 <img src="/image/iconBin.svg" alt="삭제" />
         </div>
       </li>
     </STDropdown>
@@ -71,7 +91,7 @@ const STDropdown = styled.div`
   margin-top: -2px;
   margin-left: -80px;
   width: 100px;
-  height: 64px;
+  min-height: 64px;
   animation: modal-bg-show 0.6s;
   background: #ffffffda;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
@@ -106,4 +126,5 @@ const STDropdown = styled.div`
     cursor: pointer;
   }
 `;
+
 export default DropDown;

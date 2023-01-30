@@ -5,12 +5,24 @@ type Props = {
   padding?: string;
   position?: string;
   height?: string;
+  font?: string;
 };
 
-const LayOut: React.FC<Props> = ({ children, padding, position, height }) => {
+const LayOut: React.FC<Props> = ({
+  children,
+  padding,
+  position,
+  height,
+  font,
+}) => {
   return (
     <STContainer>
-      <STLayOut padding={padding} position={position} height={height}>
+      <STLayOut
+        padding={padding}
+        position={position}
+        height={height}
+        font={font}
+      >
         {children}
       </STLayOut>
     </STContainer>
@@ -26,11 +38,12 @@ const STLayOut = styled.div<{
   padding: string | undefined;
   position: string | undefined;
   height: string | undefined;
+  font: string | undefined;
 }>`
   ::-webkit-scrollbar {
     display: none;
   }
-  font-family: "Noto Sans KR";
+  font-family: ${(props) => (props.font ? props.font : "Noto Sans KR")};
   background-color: white;
   display: flex;
   flex-direction: column;

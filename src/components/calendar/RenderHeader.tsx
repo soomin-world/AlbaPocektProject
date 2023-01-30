@@ -2,8 +2,10 @@ import { format } from "date-fns";
 import { Icon } from "@iconify/react";
 import { IHeaderProps } from "../../types/calendar";
 import styled from "styled-components";
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import { useMatch, useNavigate } from "react-router-dom";
+import ReactDatePicker from "react-datepicker";
+import { ko } from "date-fns/esm/locale";
 
 const RenderHeader = ({
   currentMonth,
@@ -13,15 +15,35 @@ const RenderHeader = ({
 }: IHeaderProps) => {
   const navigate = useNavigate();
   const [date, setDate] = useState(new Date().toISOString().slice(0, 7));
+  const [startDate, setStartDate] = useState(new Date());
   const calendarMatch = useMatch("/calendar");
   const calTodoMatch = useMatch("/calendar/:id");
   const calBtnMatch = useMatch("/calendar/:id/:todoId");
+
+  const ExampleCustomInput = forwardRef(({ value, onClick }: any, ref: any) => (
+    <Button className="example-custom-input" onClick={onClick} ref={ref}>
+      {value}
+      <img src="/image/iconCalendarInput.png" />
+    </Button>
+  ));
 
   return (
     <Header>
       {calendarMatch || calTodoMatch || calBtnMatch ? (
         <SelectMonth>
-          <input
+          <ReactDatePicker
+            selected={startDate}
+            onChange={(date: Date) => {
+              setStartDate(date);
+              selectedMonth(date);
+            }}
+            dateFormat="yyyy년 M월"
+            showMonthYearPicker
+            locale={ko}
+            className="selectedMonth"
+            customInput={<ExampleCustomInput />}
+          />
+          {/* <input
             type="month"
             value={date}
             onChange={(e) => {
@@ -29,7 +51,7 @@ const RenderHeader = ({
               setDate(() => e.target.value);
               selectedMonth(new Date(e.target.value));
             }}
-          />
+          /> */}
           <img
             src="/image/iconMypage.svg"
             onClick={() => navigate("/mypage")}
@@ -37,10 +59,15 @@ const RenderHeader = ({
         </SelectMonth>
       ) : (
         <HeaderIcon>
-          <Icon
+          {/* <Icon
             icon="bi:arrow-left-circle-fill"
             onClick={prevMonth}
             style={{ marginRight: "9px" }}
+          /> */}
+          <img
+            src="/image/iconCalendarLeftArrow.svg"
+            onClick={prevMonth}
+            style={{ marginRight: "7px" }}
           />
           <div>
             <HeaderText>
@@ -48,7 +75,8 @@ const RenderHeader = ({
               <div>{format(currentMonth, "M")}월</div>
             </HeaderText>
           </div>
-          <Icon icon="bi:arrow-right-circle-fill" onClick={nextMonth} />
+          {/* <Icon icon="bi:arrow-right-circle-fill" onClick={nextMonth} /> */}
+          <img src="/image/iconCalendarArrow.svg" onClick={nextMonth} />
         </HeaderIcon>
       )}
     </Header>
@@ -89,31 +117,34 @@ const SelectMonth = styled.div`
   width: 340px;
   display: flex;
   justify-content: space-between;
-
-  input {
-    width: 140px;
-    min-height: 29px;
-    font-size: 20px;
-    font-weight: 500;
-    font-family: "Noto Sans KR";
-    height: 21px;
-    border: none;
-    background: url("image/iconCalendarInput.png") no-repeat right 3px center /
-      24px auto;
-  }
-  input[type="month"]::-webkit-inner-spin-button,
-  input[type="month"]::-webkit-calendar-picker-indicator {
-    background: transparent;
-    -webkit-appearance: none;
-  }
-  input:focus {
-    outline: none;
-  }
+  align-items: center;
 
   img {
     width: 24px;
     height: 24px;
-    margin-top: 3px;
   }
 `;
+
+const Button = styled.button`
+  width: 160px;
+  height: 50px;
+  font-size: 20px;
+  font-family: "Noto Sans KR";
+  border: none;
+  border-radius: 8px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin-left: -30px;
+
+  img {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    margin-left: 2px;
+  }
+`;
+
 export default RenderHeader;

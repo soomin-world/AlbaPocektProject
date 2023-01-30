@@ -366,29 +366,30 @@ const Calendar = () => {
 
   return (
     <>
-      <Total>
-        <RenderHeader
-          currentMonth={currentMonth}
-          selectedMonth={selectedMonth}
-          prevMonth={prevMonth}
-          nextMonth={nextMonth}
-        />
-        <RenderDays />
-        <RenderCells
-          currentMonth={currentMonth}
-          selectedDate={selectedDate}
-          onDateClick={onDateClick}
-          todosData={todosData}
-          bonusData={bonusData}
-          isLoadingTodos={isLoadingTodos}
-          isLoadingBonus={isLoadingBonus}
-        />
-        <RenderTotalWage data={data} />
-        <Footer />
-      </Total>
-
+      <LayOut height="100vh" font="null">
+        <Total>
+          <RenderHeader
+            currentMonth={currentMonth}
+            selectedMonth={selectedMonth}
+            prevMonth={prevMonth}
+            nextMonth={nextMonth}
+          />
+          <RenderDays />
+          <RenderCells
+            currentMonth={currentMonth}
+            selectedDate={selectedDate}
+            onDateClick={onDateClick}
+            todosData={todosData}
+            bonusData={bonusData}
+            isLoadingTodos={isLoadingTodos}
+            isLoadingBonus={isLoadingBonus}
+          />
+          <RenderTotalWage data={data} />
+          <Footer />
+        </Total>
+      </LayOut>
       {dayMatch || dayBtnMatch ? <TodosModal /> : null}
-      {isMoreBtns && <MoreBtnsModal />}
+      {/* {isMoreBtns && <MoreBtnsModal />} */}
       {isWorkplaceBtns && <WorkplaceBtnsModal />}
     </>
   );

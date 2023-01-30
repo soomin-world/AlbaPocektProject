@@ -4,6 +4,7 @@ import { loginApi } from "../APIs/loginRegisterApi";
 import { KAKAO_AUTH_URL } from "../APIs/OAuth";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import LayOut from "../components/layout/LayOut";
 
 interface IErrormsg {
   response: {
@@ -33,52 +34,54 @@ const Login = () => {
   };
 
   return (
-    <Total>
-      <Header>이메일 로그인</Header>
-      <Form
-        onSubmit={(e) => {
-          e.preventDefault();
-          const userInfo = { userId: userId, password: password };
-          onSubmitHandler();
-        }}
-      >
-        <Input
-          onChange={(e) => {
-            setUserId(e.target.value);
+    <LayOut height="100vh">
+      <Total>
+        <Header>이메일 로그인</Header>
+        <Form
+          onSubmit={(e) => {
+            e.preventDefault();
+            const userInfo = { userId: userId, password: password };
+            onSubmitHandler();
           }}
-          placeholder="이메일"
-        ></Input>
-        <Input
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-          placeholder="비밀번호"
-          type="password"
-        ></Input>
-        <span>{errorMsg}</span>
-        <button>
-          <div>시작하기</div>
-        </button>
-        <Register>
-          <span>회원이 아니신가요? </span>
-          <span
-            onClick={() => {
-              navigate("/register");
+        >
+          <Input
+            onChange={(e) => {
+              setUserId(e.target.value);
             }}
-          >
-            회원 가입하기
-          </span>
-        </Register>
-        <Line>
-          <hr />
-          <div>또는</div>
-          <hr />
-        </Line>
-        <a href={KAKAO_AUTH_URL}>
-          <img src="/image/kakao.png" />
-        </a>
-      </Form>
-    </Total>
+            placeholder="이메일"
+          ></Input>
+          <Input
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            placeholder="비밀번호"
+            type="password"
+          ></Input>
+          <span>{errorMsg}</span>
+          <button>
+            <div>시작하기</div>
+          </button>
+          <Register>
+            <span>회원이 아니신가요? </span>
+            <span
+              onClick={() => {
+                navigate("/register");
+              }}
+            >
+              회원 가입하기
+            </span>
+          </Register>
+          <Line>
+            <hr />
+            <div>또는</div>
+            <hr />
+          </Line>
+          <a href={KAKAO_AUTH_URL}>
+            <img src="/image/kakao.png" />
+          </a>
+        </Form>
+      </Total>
+    </LayOut>
   );
 };
 const Total = styled.div`

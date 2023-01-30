@@ -16,7 +16,7 @@ function Main() {
 
   return (
     <>
-      <LayOut>
+      <LayOut height="100vh">
         <WorkPlace />
         <Footer />
       </LayOut>

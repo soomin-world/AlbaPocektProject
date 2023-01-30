@@ -66,7 +66,7 @@ function AddShift() {
   };
   console.log(dayList[0]);
   return (
-    <LayOut position="relative">
+    <LayOut position="relative" height="100vh">
       <Header title={"근무등록"} />
 
       <STLabel>

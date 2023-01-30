@@ -71,7 +71,6 @@ const Modal = styled.div`
   top: 0;
   bottom: 0;
   margin: auto;
-
   background-color: white;
   border-radius: 10px;
 `;

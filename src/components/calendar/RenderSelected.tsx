@@ -37,7 +37,7 @@ const SelectedBox = styled.div`
   position: absolute;
   bottom: 0px;
   border-radius: 15px;
-  background-color: red;
+  background-color: #5fce80;
   opacity: 0.5;
 `;
 export default RenderSelected;

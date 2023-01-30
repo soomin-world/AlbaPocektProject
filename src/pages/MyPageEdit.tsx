@@ -141,7 +141,7 @@ const MyPageEdit = () => {
 
   return (
     <>
-      <LayOut padding="0" position="relative">
+      <LayOut padding="0" position="relative" height="100vh">
         <Header title={"프로필 수정"} />
         <MyPageProfile>
           <div>
