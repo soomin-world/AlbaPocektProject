@@ -60,6 +60,7 @@ function WorkEditForm() {
   const onColorClick = (i: number, v: string) => {
     setIsClicked(String(i));
     setColor(v);
+    setEditWork({ ...editWork, placeColor: v });
   };
   const onSalaryClick = (e: any) => {
     setEditWork({
@@ -70,7 +71,6 @@ function WorkEditForm() {
   };
   const mutateEditwork = useMutation(putWork);
   return (
-
     <LayOut position="relative">
       <Header title={"근무지수정"} />
 

@@ -8,9 +8,8 @@ const ChatList = () => {
   return (
     <LayOut>
       <STContainer>
-        <ChatHeader title={"채팅"} />
+        <ChatHeader title={"채팅"} arrow={true} />
         <ChatRoomCard />
-        <Footer />
       </STContainer>
     </LayOut>
   );

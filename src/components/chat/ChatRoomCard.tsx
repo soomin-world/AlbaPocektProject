@@ -1,9 +1,12 @@
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const ChatRoomCard = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
   return (
     <>
-      <STContainer>
+      <STContainer onClick={() => navigate(`/chat/${1}`)}>
         <div className="profileImg">
           <img src="/image/댓글 예시.jpeg" />
         </div>
@@ -20,7 +23,6 @@ const ChatRoomCard = () => {
 };
 
 const STContainer = styled.div`
-  border-bottom: 1px solid grey;
   width: 100%;
   height: 100px;
   display: flex;
@@ -33,7 +35,7 @@ const STContainer = styled.div`
     img {
       width: 100%;
       height: 100%;
-      border-radius: 40%;
+      border-radius: 100%;
     }
   }
   .body {

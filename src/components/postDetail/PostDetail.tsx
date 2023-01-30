@@ -68,6 +68,9 @@ function PostDetail() {
     setLikePost(!likePost);
     mutatelike.mutate(Number(id));
   };
+  const onChatHandler = (e: string) => {
+    navigate(`/chat/${e}`);
+  };
   return (
     <SContainer className="detailContainer">
       <Header title={category} />
@@ -75,10 +78,17 @@ function PostDetail() {
         <img src={data.profileImage} alt="유저프로필사진" className="profile" />
         <div className="info">
           <div className="userInfo">
-            <div>{data.nickname}</div>
             <div>
-              {data.createAt.substr(5, 5)} -{createTime}
+              <div>{data.nickname}</div>
+              <div>
+                {data.createAt.substr(5, 5)} -{createTime}
+              </div>
             </div>
+            {data.userId !== myId ? (
+              <button onClick={() => onChatHandler(data.nickname)}>
+                1:1채팅
+              </button>
+            ) : null}
           </div>
           {data.userId === myId ? (
             <div className="dropDown">
@@ -151,8 +161,8 @@ const SContainer = styled.div`
           height: 24px;
         }
       }
-
       .userInfo {
+        display: flex;
         margin-left: 5px;
         div:first-child {
           font-size: 16px;
@@ -164,6 +174,18 @@ const SContainer = styled.div`
           font-size: 13px;
           font-weight: 400;
           color: #aeaeae;
+        }
+        button {
+          position: absolute;
+          left: 230px;
+          top: 105px;
+          border: none;
+          width: 44px;
+          height: 15px;
+          font-size: 10px;
+          color: #5fce80;
+          background-color: #5fce8044;
+          border-radius: 4px;
         }
       }
     }

@@ -13,7 +13,7 @@ function AddWorkForm() {
   const [salaryDay, setSalaryday] = useState<string | undefined>("");
   const [color, setColor] = useState("");
   const [isClicked, setIsClicked] = useState("");
-  const colors = ["#FADED5", "#FCF6D7", "#CFF0D9", "#D0DEFB", "#D1C2F8"];
+  const colors = ["#FFB69E", "#FDE569", "#6CDA8D", "#9BBCFF", "#AB8CFE"];
   const openModal = () => {
     setModalOpen(!modalOpen);
   };
@@ -59,7 +59,6 @@ function AddWorkForm() {
   };
   const navigate = useNavigate();
   return (
-
     <LayOut position="relative">
       <Header title={"근무지추가"} />
 
