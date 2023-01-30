@@ -21,6 +21,7 @@ import Chart from "../pages/Chart";
 import MyLike from "../components/mypage/MyLike";
 import MyComment from "../components/mypage/MyComment";
 import ChatList from "../pages/ChatList";
+import ChatRoom from "../components/chat/ChatRoom";
 
 function Router() {
   return (
@@ -62,6 +63,7 @@ function Router() {
         <Route path="/chart" element={<Chart />} />
 
         <Route path="/chat" element={<ChatList />} />
+        <Route path="/chat/:id" element={<ChatRoom />} />
       </Routes>
     </BrowserRouter>
   );

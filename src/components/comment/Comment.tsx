@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import {
   changeLikeComment,
@@ -31,6 +31,7 @@ const Comment: React.FC<CommentType> = (props) => {
 
   console.log(typeof createAt);
   const { id } = useParams();
+  const navigate = useNavigate();
   const [commentClick, setCommentClick] = useState(false);
   const [newComment, setNewComment] = useState(comment);
   const delComment = useMutation(deleteComment, {
@@ -75,8 +76,10 @@ const Comment: React.FC<CommentType> = (props) => {
   const onCommentClick = () => {
     setCommentClick(!commentClick);
   };
+  const onChatHandler = (e: string) => {
+    navigate(`/chat/${e}`);
+  };
 
-  console.log(like);
   return (
     <>
       {isClicked === false ? (
@@ -85,8 +88,11 @@ const Comment: React.FC<CommentType> = (props) => {
             <div className="info">
               <img src={profileImage} />
               <div className="userInfo">
-                <div>{nickname}</div>
-                <div>{createAt.substring(5, 10)}</div>
+                <div>
+                  <div>{nickname}</div>
+                  <div>{createAt.substring(5, 10)}</div>
+                </div>
+                <button onClick={() => onChatHandler(nickname)}>1:1채팅</button>
               </div>
             </div>
             <div className="btn">
@@ -131,17 +137,29 @@ const Comment: React.FC<CommentType> = (props) => {
       ) : (
         <STContainer>
           <div className="editbody">
-            <input
-              type="text"
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-            />
-            {myId === userId ? (
-              <div className="btn">
-                <button onClick={() => commentEdit(commentId)}>수정완료</button>
-                <button onClick={() => setIsClicked(false)}>취소</button>
+            <div className="header">
+              <div className="info">
+                <img src={profileImage} />
+                <div className="userInfo">
+                  <div>
+                    <div>{nickname}</div>
+                    <div>{createAt.substring(5, 10)}</div>
+                  </div>
+                </div>
               </div>
-            ) : null}
+            </div>
+            <div className="editInput">
+              <textarea
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+              />
+              {myId === userId ? (
+                <div className="btn">
+                  <button onClick={() => setIsClicked(false)}>취소</button>
+                  <button onClick={() => commentEdit(commentId)}>등록</button>
+                </div>
+              ) : null}
+            </div>
           </div>
         </STContainer>
       )}
@@ -155,16 +173,34 @@ const STContainer = styled.div`
   border-bottom: 1px solid #d9d9d9;
   .editbody {
     display: flex;
-    justify-content: space-between;
-    input {
-      width: 80%;
-    }
-    button {
-      border: none;
+    flex-direction: column;
+    .editInput {
+      margin-left: 35px;
+      width: 90%;
+      padding: 5px;
       display: flex;
-      background-color: transparent;
-      font-size: 12px;
-      cursor: pointer;
+      border: 1px solid #5fce80;
+      border-radius: 8px;
+      justify-content: space-between;
+      .btn {
+        display: flex;
+        gap: 4px;
+        button {
+          margin-top: 3px;
+          background-color: #f2f3f5;
+          border: none;
+          border-radius: 6px;
+          width: 44px;
+          height: 30px;
+          font-size: 13px;
+        }
+      }
+      textarea {
+        min-width: 68%;
+        max-width: 68%;
+        border: none;
+        resize: none;
+      }
     }
   }
   .header {
@@ -188,11 +224,21 @@ const STContainer = styled.div`
       font-size: 13px;
       font-weight: 400;
       margin-left: 5px;
-
+      display: flex;
       div:last-child {
         font-size: 10px;
         color: #aeaeae;
         margin-top: 2px;
+      }
+      button {
+        margin-left: 5px;
+        border: none;
+        width: 44px;
+        height: 15px;
+        font-size: 10px;
+        color: #5fce80;
+        background-color: #5fce8044;
+        border-radius: 4px;
       }
     }
     .btn {

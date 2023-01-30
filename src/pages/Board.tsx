@@ -31,7 +31,6 @@ function Board() {
   const navigate = useNavigate();
   const { ref, inView } = useInView();
   const [showButton, setShowButton] = useState(false);
-  const [ScrollY, setScrollY] = useState(0); // 스크롤값을 저장하기 위한 상태
   const scrollToTop = () => {
     window.scrollTo(0, 0);
   };
@@ -162,9 +161,7 @@ function Board() {
             <img src="/image/iconPencil.png" />
           </Plus>
         </PlusWrap>
-
         {isFetchingNextPage ? <Loading /> : <div ref={ref} />}
-
         <Footer />
         {showButton && (
           <Scroll>

@@ -1,7 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { HeaderProps } from "../../types/header";
 
-const ChatHeader: React.FC<HeaderProps> = ({ title, arrow }) => {
+const ChatHeader: React.FC<HeaderProps> = ({ title, arrow, menu }) => {
+  const navigate = useNavigate();
   return (
     <STHeader>
       <div className="wrap">
@@ -15,8 +17,7 @@ const ChatHeader: React.FC<HeaderProps> = ({ title, arrow }) => {
         <h1>{title}</h1>
       </div>
       <div className="icons">
-        <img src="/image/iconChat.png" />
-        <img src="/image/iconChat.png" />
+        {menu && <img src="/image/icon-line-three-mono.svg" alt="menu" />}
       </div>
     </STHeader>
   );
@@ -26,8 +27,8 @@ const ChatHeader: React.FC<HeaderProps> = ({ title, arrow }) => {
 const STHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 12px 0px 41.5px 0px;
-  height: 35px;
+  margin: 12px 0px 10px 0px;
+  height: 50px;
   .wrap {
     display: flex;
     img {
@@ -37,7 +38,7 @@ const STHeader = styled.div`
     h1 {
       //width: 83px;
       height: 25px;
-      font-size: 17px;
+      font-size: 20px;
       font-weight: 500;
       margin-left: 10px;
     }
