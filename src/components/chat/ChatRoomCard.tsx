@@ -8,7 +8,7 @@ const ChatRoomCard = () => {
     <>
       <STContainer onClick={() => navigate(`/chat/${1}`)}>
         <div className="profileImg">
-          <img src="/image/댓글 예시.jpeg" />
+          <img src="/image/x.png" />
         </div>
         <div className="body">
           <h1>상대방 닉네임</h1>

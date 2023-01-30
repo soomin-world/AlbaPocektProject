@@ -6,7 +6,7 @@ import LayOut from "../components/layout/LayOut";
 
 const ChatList = () => {
   return (
-    <LayOut>
+    <LayOut height="100vh">
       <STContainer>
         <ChatHeader title={"채팅"} arrow={true} />
         <ChatRoomCard />
