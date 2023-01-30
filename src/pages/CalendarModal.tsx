@@ -72,6 +72,11 @@ const Calendar = () => {
   const [isCalendarBtns, setIsCalendarBtns] = useRecoilState(calendarAtom);
   // const dayList: string[] = [];
 
+  const selectedMonth = (date: Date) => {
+    setCurrentMonth(date);
+    return currentMonth;
+  };
+
   const prevMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
     return currentMonth;
@@ -99,6 +104,7 @@ const Calendar = () => {
       <Total>
         <RenderHeader
           currentMonth={currentMonth}
+          selectedMonth={selectedMonth}
           prevMonth={prevMonth}
           nextMonth={nextMonth}
         />
@@ -129,14 +135,14 @@ export const CalendarModal = () => {
       <Modal>
         <Calendar />
         <Buttons>
-          <button
+          {/* <button
             onClick={() => {
               setIsCalendarBtns(false);
               // setDayList([]);
             }}
           >
             확인
-          </button>
+          </button> */}
           <button
             onClick={() => {
               setIsCalendarBtns(false);
@@ -144,6 +150,14 @@ export const CalendarModal = () => {
             }}
           >
             닫기
+          </button>
+          <button
+            onClick={() => {
+              setIsCalendarBtns(false);
+              // setDayList([]);
+            }}
+          >
+            확인
           </button>
         </Buttons>
       </Modal>
@@ -183,31 +197,16 @@ const Overlay = styled.div`
 const Modal = styled.div`
   position: absolute;
   width: 300px;
-  height: 330px;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   margin: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: white;
   border-radius: 10px;
-`;
-
-const Cells = styled.div<{ color: string; backgroundColor: string }>`
-  width: 40px;
-  height: 40px;
-  padding-top: 3px;
-  background-color: ${(props) => props.backgroundColor};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const CellsNum = styled.span<{ color: string }>`
-  color: ${(props) => props.color};
+  padding-bottom: 20px;
 `;
 
 const CellsRow = styled.div`
@@ -222,15 +221,24 @@ const CellsBody = styled.div`
 
 const Buttons = styled.div`
   position: relative;
-  left: 75px;
+  left: 70px;
+  bottom: -5px;
+
   button {
-    width: 50px;
-    height: 25px;
+    width: 60px;
+    height: 30px;
     border: none;
     border-radius: 5px;
+    font-weight: 500;
   }
   & :first-child {
-    margin-right: 10px;
+    margin-right: 8px;
+    background-color: #f2f3f5;
+  }
+  & :last-child {
+    background-color: #5fce80;
+    color: white;
   }
 `;
+
 export default Test;

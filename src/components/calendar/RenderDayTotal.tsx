@@ -9,7 +9,7 @@ const RenderDayTotal = ({ day, Month, todos, bonus }: IDayTotalProps) => {
   const dayMonth = format(day, "MM");
   const dayDate = format(day, "dd");
 
-  console.log(bonus);
+  // console.log(bonus);
   // console.log(dayDate);
   // console.log(todos);
   let num = 0;
@@ -36,7 +36,7 @@ const RenderDayTotal = ({ day, Month, todos, bonus }: IDayTotalProps) => {
         dayMonth === Month &&
         b.date === dayDate
     );
-    console.log(result2);
+    // console.log(result2);
 
     for (const r of result2) {
       num = num + Number(r.bonus);
@@ -51,7 +51,7 @@ const DayTotal = styled.div`
   width: 100%;
   font-size: 10px;
   font-weight: 400;
-  margin-bottom: 3px;
+  margin: 3px 0px 3px 0px;
   position: absolute;
   left: 0px;
   bottom: 0px;

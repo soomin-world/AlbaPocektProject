@@ -80,7 +80,7 @@ const CalendarMiniModal = ({
         // isActive
         //   ? "skyblue"
         //   :
-        isSameDay(day, currentDay) ? "#EDE1E3" : "transparent"
+        isSameDay(day, currentDay) ? "rgba(207, 240, 217, 0.3)" : "transparent"
       }
     >
       <CellsNum

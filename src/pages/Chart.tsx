@@ -1,10 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { ko } from "date-fns/esm/locale";
 import styled from "styled-components";
 import { getFiveMonths, getHours } from "../APIs/chartApi";
 import Footer from "../components/footer/Footer";
 import LayOut from "../components/layout/LayOut";
+import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
 const data = {
   thisMonth: {
@@ -29,40 +34,92 @@ const data = {
 };
 
 const Chart = () => {
+  const navigate = useNavigate();
   const [date, setDate] = useState(new Date().toISOString().slice(0, 7));
+  const [startDate, setStartDate] = useState(new Date());
   // let date = new Date().toISOString().slice(0, 7);
+  console.log(format(startDate, "yyyyMM"));
   const { data, isLoading, refetch } = useQuery(["getHours"], () =>
-    getHours(date.split("-").join(""))
+    getHours(format(startDate, "yyyyMM"))
   );
   const { data: fiveMthsData, isLoading: fiveMthsLoading } = useQuery(
     ["getFiveMonths"],
     () => getFiveMonths()
   );
 
-  console.log(date.split("-").join(""));
-  console.log(fiveMthsData);
+  let totalHours = 0;
+
+  if (!isLoading) {
+    for (const hour of data.series) {
+      console.log(hour);
+      totalHours += hour;
+    }
+    console.log(totalHours);
+  }
+  // console.log(date.split("-").join(""));
+  console.log(data?.nickname);
 
   useEffect(() => {
     refetch();
-  }, [date]);
+  }, [startDate]);
+
+  const ExampleCustomInput = forwardRef(({ value, onClick }: any, ref: any) => (
+    <Button className="example-custom-input" onClick={onClick} ref={ref}>
+      {value}
+      <img src="/image/iconCalendarInput.png" />
+    </Button>
+  ));
 
   return (
-    <LayOut padding="0 17px 50px 17px">
-      <ChartBar>나의 근무 통계</ChartBar>
+    <LayOut padding="0 17px 50px 17px" height="100vh">
+      {/* <DatePicker
+        selected={startDate}
+        onChange={(date: Date) => setStartDate(date)}
+        dateFormat="yyyy년 M월"
+        showMonthYearPicker
+        locale={ko}
+        className="selectedMonth"
+        customInput={<ExampleCustomInput />}
+      /> */}
+
+      <ChartBar>
+        <div>나의 근무 통계</div>
+        <img src="image/iconMypage.svg" onClick={() => navigate("/mypage")} />
+      </ChartBar>
+
       {isLoading ? null : (
         <>
-          <Input
-            type="month"
-            value={date}
-            onChange={(e) => {
-              setDate(() => e.target.value);
-              console.log(date);
-            }}
-          />
-          <ChartText marginTop="0px">
+          <SelectMonth>
+            <WorkingHours>
+              <div>{data?.nickname}님의 일한 시간</div>
+              <div>{totalHours}시간</div>
+            </WorkingHours>
+            <div>
+              <DatePicker
+                selected={startDate}
+                onChange={(date: Date) => setStartDate(date)}
+                dateFormat="yyyy년 M월"
+                showMonthYearPicker
+                locale={ko}
+                className="selectedMonth"
+                customInput={<ExampleCustomInput />}
+              />
+            </div>
+            {/* <input
+              type="month"
+              value={date}
+              onChange={(e) => {
+                setDate(() => e.target.value);
+                console.log(date);
+              }}
+            /> */}
+          </SelectMonth>
+
+          {/* <ChartText marginTop="0px">
             {date?.slice(5)[0] === "0" ? date.slice(6) : date.slice(5)}월 달
             소득 비중
-          </ChartText>
+          </ChartText> */}
+
           <ReactApexChart
             options={{
               chart: {
@@ -74,23 +131,23 @@ const Chart = () => {
                   endAngle: 270,
                   expandOnClick: false,
                   donut: {
-                    size: "55%",
-                    labels: {
-                      show: true,
-                      total: {
-                        showAlways: true,
-                        show: true,
-                        label: "총 일한 시간",
-                        fontSize: "10px",
-                        color: "black",
-                      },
-                      value: {
-                        fontSize: "15px",
-                        show: true,
-                        color: "black",
-                        offsetY: 0,
-                      },
-                    },
+                    size: "50%",
+                    // labels: {
+                    //   show: true,
+                    //   total: {
+                    //     showAlways: true,
+                    //     show: true,
+                    //     label: "총 일한 시간",
+                    //     fontSize: "10px",
+                    //     color: "black",
+                    //   },
+                    //   value: {
+                    //     fontSize: "15px",
+                    //     show: true,
+                    //     color: "black",
+                    //     offsetY: 0,
+                    //   },
+                    // },
                   },
                 },
               },
@@ -130,7 +187,7 @@ const Chart = () => {
       {fiveMthsLoading ? null : fiveMthsData?.categories.length <= 1 ? null : (
         <>
           <ChartText marginTop="40px">
-            최근 {fiveMthsData?.categories.length}개월 급여
+            최근 {fiveMthsData?.categories.length}개월 소득을 확인하세요!
           </ChartText>
 
           <ReactApexChart
@@ -186,19 +243,18 @@ const ChartBar = styled.div`
   width: 100%;
   height: 50px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   font-size: 17px;
   font-weight: 500;
-  padding: 5%;
 `;
 
 const ChartText = styled.div<{ marginTop: string }>`
   width: 100%;
   height: 50px;
-  font-size: 20px;
+  font-size: 19px;
+  font-weight: 500;
   display: flex;
-  justify-content: center;
   align-items: center;
   margin-top: ${(props) => (props.marginTop ? props.marginTop : "0px")};
 `;
@@ -209,4 +265,66 @@ const Input = styled.input`
   font-size: 15px;
   margin: 20px 0px 20px 0px;
 `;
+
+const WorkingHours = styled.div`
+  font-weight: 400;
+
+  div:first-child {
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+  div:last-child {
+    font-size: 24px;
+    font-weight: 600;
+  }
+`;
+
+const SelectMonth = styled.div`
+  width: 340px;
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0px 15px 0px;
+
+  input {
+    width: 120px;
+    min-height: 44px;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: "Noto Sans KR";
+    height: 21px;
+    border: none;
+    border-radius: 8px;
+    color: #545456;
+    background-color: #f7f7f7;
+    /* background: url("image/iconCalendarInput.png") no-repeat right 3px center /
+      24px auto; */
+  }
+  input[type="month"]::-webkit-inner-spin-button,
+  input[type="month"]::-webkit-calendar-picker-indicator {
+    /* background: transparent;
+    -webkit-appearance: none; */
+  }
+  input:focus {
+    outline: none;
+  }
+`;
+
+const Button = styled.button`
+  width: 120px;
+  height: 44px;
+  font-size: 15px;
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 20px;
+    height: 20px;
+    margin-left: 2px;
+  }
+`;
+
 export default Chart;

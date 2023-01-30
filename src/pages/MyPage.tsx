@@ -48,7 +48,7 @@ const MyPage = () => {
 
   return (
     <>
-      <LayOut padding="0" position="relative">
+      <LayOut padding="0" position="relative" height="100vh">
         <Header title={"마이페이지"} />
         <MyPageProfile>
           <div>

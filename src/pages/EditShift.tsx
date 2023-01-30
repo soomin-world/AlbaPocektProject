@@ -30,7 +30,7 @@ function EditShift() {
   );
   console.log(data);
 
-  const { mutate } = useMutation(editWork);
+  const { mutateAsync } = useMutation(editWork);
 
   const [hourlyWage, setHourlyWage] = useState(data?.hourlyWage);
   const [startTime, setStartTime] = useState(data?.startTime);
@@ -52,14 +52,12 @@ function EditShift() {
 
   const onClickHandler = () => {
     console.log(work);
-    mutate(payload);
     setIsMoreBtns(false);
-    navigate(-1);
+    mutateAsync(payload).then(() => navigate(-1));
   };
 
   return (
-
-    <LayOut position="relative">
+    <LayOut position="relative" height="100vh">
       <Header title={"근무수정"} />
 
       <SThourlyWage>

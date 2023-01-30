@@ -92,7 +92,7 @@ const Register = () => {
 
   console.log(errors?.email?.message);
   return (
-    <LayOut>
+    <LayOut height="100vh">
       <Total>
         <Header>회원가입</Header>
         <Form

@@ -1,5 +1,6 @@
 import { instance } from "./axios";
 import { IworkType } from "../types/workType";
+import { useNavigate } from "react-router-dom";
 
 // 근무지 추가
 export const addWork = async (payload: any) => {
@@ -47,7 +48,7 @@ export const getEditWork = async (payload: string | undefined) => {
 // 근무 등록(수정)
 export const editWork = async (payload: any) => {
   const { data } = await instance.put(`/api/work/${payload[0]}`, payload[1]);
-  return data;
+  return;
 };
 
 //근무지에 따른 한달치 수익
