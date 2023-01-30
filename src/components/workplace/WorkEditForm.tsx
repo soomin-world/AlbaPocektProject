@@ -71,7 +71,7 @@ function WorkEditForm() {
   };
   const mutateEditwork = useMutation(putWork);
   return (
-    <LayOut position="relative">
+    <LayOut position="relative" height="100vh">
       <Header title={"근무지수정"} />
 
       <STBody>

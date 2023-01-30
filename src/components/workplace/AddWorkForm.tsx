@@ -59,7 +59,7 @@ function AddWorkForm() {
   };
   const navigate = useNavigate();
   return (
-    <LayOut position="relative">
+    <LayOut position="relative" height="100vh">
       <Header title={"근무지추가"} />
 
       <STBody>
