@@ -1,8 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { getNotifications } from "../../APIs/alert";
+import {
+  getNotifications,
+  notificationDelete,
+  notificationDeleteAll,
+  notificationRead,
+} from "../../APIs/alertApi";
 // import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
 
 const MyAlert = () => {
@@ -13,6 +18,9 @@ const MyAlert = () => {
     getNotifications()
   );
   console.log(data);
+  const { mutateAsync: readNoti } = useMutation(notificationRead);
+  const { mutateAsync: deleteNoti } = useMutation(notificationDelete);
+  const { mutateAsync: deleteAllNoti } = useMutation(notificationDeleteAll);
   // const eventSource = new EventSource("https://woooo.shop/subscribe", {
   //   headers: {
   //     Authorization: token,
@@ -35,23 +43,34 @@ const MyAlert = () => {
         알림
       </Alert>
       {isOpen ? (
-        <AlertList>
-          {data.map((alert: any) => {
-            return (
-              <div
-                onClick={() => {
-                  navigate(`post/${alert.url.slice(-3)}`);
-                }}
-              >
-                {alert.content}
-              </div>
-            );
-          })}
-          {/* <div>알림이 도착했어요!</div>
-          <div>알림이 도착했어요!</div>
-          <div>알림이 도착했어요!</div>
-          <div>알림이 도착했어요!</div> */}
-        </AlertList>
+        <div>
+          <AlertList>
+            {data.map((alert: any) => {
+              return (
+                <>
+                  <div>
+                    <div
+                      onClick={() => {
+                        navigate(`post/${alert.url.slice(-3)}`);
+                      }}
+                    >
+                      {alert.content}
+                    </div>
+                    <button
+                      onClick={() => {
+                        deleteNoti(alert.id);
+                        refetch();
+                      }}
+                    >
+                      X
+                    </button>
+                  </div>
+                </>
+              );
+            })}
+          </AlertList>
+          <button>전체 삭제</button>
+        </div>
       ) : null}
     </Total>
   );
