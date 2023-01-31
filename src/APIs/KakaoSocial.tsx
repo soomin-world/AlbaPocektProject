@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import { useEffect } from "react";
+import LayOut from "../components/layout/LayOut";
 // import Spinner from "./Spinner";
 interface IData {
   headers: {
@@ -46,7 +47,11 @@ const KakaoSocial = () => {
   );
   console.log(code);
   kakaoLogin(code);
-  return <div>카카오 로그인 처리중...</div>;
+  return (
+    <LayOut height="100vh">
+      <div>카카오 로그인 처리중...</div>
+    </LayOut>
+  );
 };
 
 export default KakaoSocial;
