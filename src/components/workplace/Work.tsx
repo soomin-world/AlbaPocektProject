@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { getMonthlyWage } from "../../APIs/workApi";
 import comma from "../../hooks/comma";
@@ -14,12 +15,15 @@ const Work = ({ placeId, placeName, placeColor, salaryDay }: WorkType) => {
   const yearMonth = String(
     new Date(today.getFullYear(), today.getMonth())
   ).split(" ");
+
   const month = yearMonth[3] + "년" + yearMonth[2] + "월";
   const dropDownHandler = () => {
     setIsOpen(!isOpen);
   };
+
   const data = useQuery(["post", placeId], () => getMonthlyWage(placeId));
   window.addEventListener("scroll", () => setIsOpen(false));
+
   return (
     <STCard key={placeId} style={{ backgroundColor: `${placeColor}` }}>
       <div className="wrap">
@@ -38,7 +42,7 @@ const Work = ({ placeId, placeName, placeColor, salaryDay }: WorkType) => {
             <DropDown
               id={placeId}
               open={isOpen}
-              close={dropDownHandler}
+              setIsOpen={setIsOpen}
               address={`/addwork/${placeId}`}
               deleteValue={"workPlace"}
             />
@@ -47,8 +51,8 @@ const Work = ({ placeId, placeName, placeColor, salaryDay }: WorkType) => {
       </div>
       <div className="footer">
         <button onClick={() => navigate(`/addShift/${placeId}`)}>
-          <img src="/image/Group 180.png" alt="+" />
-          근무등록
+          <img src="/image/iconPlus.svg" alt="+" />
+          <div>근무등록</div>
         </button>
         <div className="money"> ₩ {comma(String(data?.data?.totalWage))}</div>
       </div>
@@ -92,19 +96,27 @@ const STCard = styled.div`
     justify-content: space-between;
     padding-bottom: 10px;
     button {
-      width: 75px;
+      width: 73px;
       height: 29px;
-      font-size: 13px;
       color: white;
       background-color: transparent;
       border: none;
       display: flex;
+      align-items: center;
       gap: 1px;
-      font-weight: 500;
+      padding: 0;
+
       cursor: pointer;
       img {
-        width: 17px;
-        height: 17px;
+        width: 15px;
+        height: 15px;
+      }
+      div {
+        height: 15px;
+        min-width: 57px;
+        font-size: 15px;
+        font-weight: 500;
+        margin-bottom: 2px;
       }
     }
     div {

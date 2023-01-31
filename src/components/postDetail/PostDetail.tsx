@@ -102,7 +102,7 @@ function PostDetail() {
                 <DropDown
                   id={data.postId}
                   open={isOpen}
-                  close={dropDownHandler}
+                  setIsOpen={setIsOpen}
                   address={`/posting/${data.postId}`}
                   deleteValue={"post"}
                 />
@@ -116,7 +116,7 @@ function PostDetail() {
           <h1>{data.title}</h1>
         </div>
         <div className="contentArea">
-          <div className="contentBody">{data.content}</div>
+          <p className="contentBody">{data.content}</p>
         </div>
         <div className="imageBox">
           <img src={data.imgUrl} alt="유저업로드 사진입니다" />
@@ -210,7 +210,6 @@ const SContainer = styled.div`
       }
     }
     .contentArea {
-      width: 100%;
       .contentBody {
         font-size: 15px;
         font-weight: 400;

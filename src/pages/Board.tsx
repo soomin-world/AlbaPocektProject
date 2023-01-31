@@ -127,15 +127,15 @@ function Board() {
 
           <Icon>
             <img
-              src="/image/iconSearch.png"
+              src="/image/iconSearch.svg"
               onClick={() => {
                 navigate("/search");
               }}
               alt="search"
             />
-            <img src="/image/iconChat.png" alt="chat" />
+            <img src="/image/iconChat.svg" alt="chat" />
             <img
-              src="/image/iconUser.png"
+              src="/image/iconMypage.svg"
               onClick={() => {
                 navigate("/mypage");
               }}
@@ -158,7 +158,7 @@ function Board() {
               navigate("/posting");
             }}
           >
-            <img src="/image/iconPencil.png" />
+            <img src="/image/iconPlusPencil.svg" />
           </Plus>
         </PlusWrap>
         {isFetchingNextPage ? <Loading /> : <div ref={ref} />}
@@ -207,6 +207,9 @@ const Icon = styled.div`
     width: 24px;
     height: 24px;
     margin-left: 15px;
+  }
+  img:nth-child(3) {
+    margin-left: 13px;
   }
 `;
 

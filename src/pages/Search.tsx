@@ -4,6 +4,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
+import { tr } from "date-fns/locale";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
@@ -36,10 +37,11 @@ const Search = () => {
   };
 
   console.log(data);
-  const numList = [];
+  const numList: JSX.Element[] = [];
   for (let i = 1; i <= data?.totalPages; i++) {
     numList.push(
-      <div
+      <Num
+        // bgcolor={pageParam === i}
         onClick={() => {
           pageParam = i;
           console.log(pageParam);
@@ -47,15 +49,32 @@ const Search = () => {
         }}
       >
         {i}
-      </div>
+      </Num>
     );
   }
+
+  // useEffect(() => {
+  //   for (let i = 1; i <= data?.totalPages; i++) {
+  //     numList.push(
+  //       <Num
+  //         bgcolor={pageParam === i}
+  //         onClick={() => {
+  //           pageParam = i;
+  //           console.log(pageParam);
+  //           refetch();
+  //         }}
+  //       >
+  //         {i}
+  //       </Num>
+  //     );
+  //   }
+  // }, [data]);
+
   console.log(numList);
   return (
     <>
-
-      <LayOut>
-        <Header title={"게시물 검색"} />
+      <LayOut height="100vh">
+        <Header title={"게시물 검색"} padding="5% 0 5% 0" />
 
         <SearchInputBox>
           <SearchInput
@@ -66,7 +85,7 @@ const Search = () => {
             }}
           />
           <SearchBtn onClick={onClickSearchBtnHandler}>
-            <img src="/image/iconSearchInput.png" />
+            <img src="/image/iconSearchGray.svg" />
           </SearchBtn>
         </SearchInputBox>
 
@@ -128,6 +147,11 @@ const SearchBtn = styled.button`
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   background-color: #f0f0f0;
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
 `;
 
 const SearchEmpty = styled.div`
@@ -163,4 +187,5 @@ const PageNum = styled.div`
   }
 `;
 
+const Num = styled.div``;
 export default Search;

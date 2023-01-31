@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { HeaderProps } from "../../types/header";
 
-const Header: React.FC<HeaderProps> = ({ title }) => {
+const Header: React.FC<HeaderProps> = ({ title, padding }) => {
   return (
-    <STHeader>
+    <STHeader padding={padding}>
       <img
-        src="/image/leftArrow.png"
+        src="/image/iconLeftArrow.svg"
         alt="<"
         onClick={() => window.history.back()}
       />
@@ -14,10 +14,10 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
   );
 };
 
-const STHeader = styled.div`
+const STHeader = styled.div<{ padding: string | undefined }>`
   display: flex;
-  margin: 12px 0px 20px 0px;
-  height: 35px;
+  min-height: 50px;
+  padding: ${(props) => (props.padding ? props.padding : "null")};
   img {
     width: 24px;
     height: 24px;

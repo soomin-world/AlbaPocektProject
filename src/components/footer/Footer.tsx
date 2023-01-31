@@ -13,13 +13,13 @@ function Footer() {
       <STContainer>
         {mainMatch ? (
           <img
-            src="/image/iconHomeGreen.png"
+            src="/image/iconHomeFull.svg"
             alt="홈"
             onClick={() => navigate("/")}
           />
         ) : (
           <img
-            src="/image/iconHome.png"
+            src="/image/iconHome.svg"
             alt="홈"
             onClick={() => navigate("/")}
           />
@@ -27,14 +27,14 @@ function Footer() {
 
         {calMatch ? (
           <img
-            src="/image/iconCalGreen.png"
+            src="/image/iconCalFull.svg"
             alt="캘린더"
             onClick={() => navigate("/calendar")}
             style={{ marginLeft: "17px" }}
           />
         ) : (
           <img
-            src="/image/iconCal.png"
+            src="/image/iconCal.svg"
             alt="캘린더"
             onClick={() => navigate("/calendar")}
             style={{ marginLeft: "17px" }}
@@ -43,13 +43,13 @@ function Footer() {
 
         {comMatch ? (
           <img
-            src="/image/iconComGreen.png"
+            src="/image/iconComFull.svg"
             alt="커뮤니티"
             onClick={() => navigate("/board")}
           />
         ) : (
           <img
-            src="/image/iconCom.png"
+            src="/image/iconCom.svg"
             alt="커뮤니티"
             onClick={() => navigate("/board")}
           />

@@ -3,4 +3,5 @@ export type HeaderProps = {
   arrow?: boolean;
   id?: string;
   menu?: boolean;
+  padding?: string;
 };

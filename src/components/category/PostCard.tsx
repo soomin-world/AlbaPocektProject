@@ -47,10 +47,10 @@ const PostCard = ({ post, padding }: postProps) => {
       <div className="wrap">
         <p className="title">{post.title}</p>
         <p className="content">
-          {/* {post && post?.content.length >= 20
-            ? post?.content.slice(0, 20)
-            : post?.content} */}
-          {post?.content?.slice(0, 20)}
+          {post && post?.content.length >= 20
+            ? `${post?.content.slice(0, 23)}...`
+            : post?.content}
+          {/* {post?.content?.slice(0, 20)} */}
         </p>
         <UnderInfo>
           <p>
@@ -146,6 +146,7 @@ const UnderInfo = styled.div`
       display: flex;
       gap: 5px;
       line-height: 21px;
+
       img {
         margin-top: 5.5px;
         width: 11px;
@@ -154,4 +155,5 @@ const UnderInfo = styled.div`
     }
   }
 `;
+
 export default PostCard;

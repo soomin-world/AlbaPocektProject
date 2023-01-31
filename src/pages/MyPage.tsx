@@ -49,12 +49,15 @@ const MyPage = () => {
   return (
     <>
       <LayOut padding="0" position="relative" height="100vh">
-        <Header title={"마이페이지"} />
+        <Header title={"마이페이지"} padding="5%" />
         <MyPageProfile>
-          <div>
-            <img src={data?.profileImage} />
-            <span>{data?.nickname}</span>
-          </div>
+          <ProfileInfo>
+            <div>
+              <img src={data?.profileImage} />
+              <span>{data?.nickname}</span>
+            </div>
+            <div onClick={LogoutHandler}>로그아웃</div>
+          </ProfileInfo>
 
           <div>
             <MyPageEditBtn
@@ -62,10 +65,9 @@ const MyPage = () => {
                 navigate("/mypage/edit");
               }}
             >
-              <img src="/image/iconMypagePencil.png" />
+              <img src="/image/iconMypagePencil.svg" />
               수정하기
             </MyPageEditBtn>
-            <MyPageEditBtn onClick={LogoutHandler}>로그아웃</MyPageEditBtn>
           </div>
         </MyPageProfile>
 
@@ -134,9 +136,9 @@ const MypageBar = styled.div`
 
 const MyPageProfile = styled.div`
   width: 100%;
-  height: 156px;
+  height: 158px;
   border-bottom: 8px solid #ebebeb;
-  padding: 15px;
+  padding: 17px;
   display: flex;
   flex-direction: column;
   /* justify-content: space-between;
@@ -157,21 +159,36 @@ const MyPageProfile = styled.div`
   }
 `;
 
+const ProfileInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  div:first-child {
+    font-size: 19px;
+    font-weight: 500;
+  }
+  div:last-child {
+    font-size: 13px;
+    font-weight: 400;
+    color: #ff3b30;
+  }
+`;
+
 const MyPageEditBtn = styled.button`
-  width: 165px;
+  width: 341px;
   height: 48px;
   background-color: transparent;
   border-radius: 30px;
   border: 1px solid #d7d8df;
-  margin-top: 15px;
+  margin: 15px 0px 15px 0px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 15px;
-
-  &:first-child {
+  padding: 0;
+  /* &:first-child {
     margin-right: 15px;
-  }
+  } */
   img {
     width: 18px;
     height: 18px;

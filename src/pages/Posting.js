@@ -6,7 +6,7 @@ import LayOut from "../components/layout/LayOut";
 
 function Posting() {
   const { id } = useParams();
-  return <LayOut>{id ? <PostEditForm /> : <PostForm />}</LayOut>;
+  return <LayOut height="100vh">{id ? <PostEditForm /> : <PostForm />}</LayOut>;
 }
 
 export default Posting;

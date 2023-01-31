@@ -13,12 +13,12 @@ function MainHeader() {
       />
       <div className="nav">
         <img
-          src="/image/iconChat.png"
+          src="/image/iconChat.svg"
           alt="채팅"
           onClick={() => navigate("/chat")}
         />
         <img
-          src="/image/iconUser.png"
+          src="/image/iconMypage.svg"
           alt="마이페이지"
           onClick={() => navigate("/mypage")}
         />

@@ -1,5 +1,11 @@
+import LayOut from "../layout/LayOut";
+
 function Loading() {
-  return <div>로딩중~</div>;
+  return (
+    <LayOut height="100vh">
+      <div>로딩중~</div>
+    </LayOut>
+  );
 }
 
 export default Loading;
