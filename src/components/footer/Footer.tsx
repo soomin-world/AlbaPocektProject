@@ -16,6 +16,8 @@ function Footer() {
   if (locationNow.pathname === "/mypage/edit") return null;
   if (window.location.pathname.slice(0, 8) === "/posting") return null;
   if (window.location.pathname.slice(0, 8) === "/addwork") return null;
+  if (window.location.pathname.slice(0, 9) === "/addShift") return null;
+  if (window.location.pathname.slice(0, 10) === "/editShift") return null;
 
   return (
     <Wrap>
