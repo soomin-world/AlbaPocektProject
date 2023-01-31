@@ -162,7 +162,7 @@ function Board() {
           </Plus>
         </PlusWrap>
         {isFetchingNextPage ? <Loading /> : <div ref={ref} />}
-        <Footer />
+        {/* <Footer /> */}
         {showButton && (
           <Scroll>
             <button onClick={scrollToTop}>top</button>

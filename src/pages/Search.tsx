@@ -149,8 +149,9 @@ const SearchBtn = styled.button`
   background-color: #f0f0f0;
 
   img {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
+    margin-top: 1px;
   }
 `;
 

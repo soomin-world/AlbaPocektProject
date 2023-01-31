@@ -235,7 +235,7 @@ const Chart = () => {
           />
         </>
       )}
-      <Footer />
+      {/* <Footer /> */}
     </LayOut>
   );
 };

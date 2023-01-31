@@ -22,6 +22,7 @@ import MyLike from "../components/mypage/MyLike";
 import MyComment from "../components/mypage/MyComment";
 import ChatList from "../pages/ChatList";
 import ChatRoom from "../components/chat/ChatRoom";
+import Footer from "../components/footer/Footer";
 
 function Router() {
   return (
@@ -65,6 +66,9 @@ function Router() {
         <Route path="/chat" element={<ChatList />} />
         <Route path="/chat/:id" element={<ChatRoom />} />
       </Routes>
+      {window.location.pathname !== "/posting" ? <Footer /> : null}
+      {window.location.pathname !== "/mypage" ? <Footer /> : null}
+      {/* <Footer /> */}
     </BrowserRouter>
   );
 }

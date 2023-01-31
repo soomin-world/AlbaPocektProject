@@ -58,7 +58,7 @@ function EditShift() {
 
   return (
     <LayOut position="relative" height="100vh">
-      <Header title={"근무수정"} />
+      <Header title={"근무수정"} padding="5% 0" />
 
       <SThourlyWage>
         <label>시급</label>
