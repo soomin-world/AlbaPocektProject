@@ -125,15 +125,15 @@ function PostDetail() {
       <div className="like">
         <div onClick={onClickLikeHandler}>
           {data.likePost === true ? (
-            <img src="/image/iconRedHeart.png" alt="heart" />
+            <img src="/image/iconRedHeart.svg" alt="heart" />
           ) : (
-            <img src="/image/iconMiniHeart.png" alt="miniHeart" />
+            <img src="/image/iconEmptyHeart.svg" alt="miniHeart" />
           )}
         </div>
         <span>좋아요 {data.postLikeNum}</span>
 
         <div>
-          <img src="/image/iconChatBubble.png" alt="heart" />
+          <img src="/image/iconComment.svg" alt="heart" />
         </div>
         <span>댓글 {data.commentCount}</span>
       </div>

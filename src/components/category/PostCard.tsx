@@ -58,20 +58,24 @@ const PostCard = ({ post, padding }: postProps) => {
           </p>
           <div className="underWrap">
             <div className="detailWrap">
-              <img className="comment" src="/image/comment.png" alt="댓글" />
+              <img
+                className="comment"
+                src="/image/iconComment.svg"
+                alt="댓글"
+              />
               <div>{post.commentCount}</div>
             </div>
             <div className="detailWrap">
               {post.likePost ? (
                 <img
                   className="heart"
-                  src="/image/iconRedHeart.png"
+                  src="/image/iconRedHeart.svg"
                   alt="하트 "
                 />
               ) : (
                 <img
                   className="heart"
-                  src="/image/iconMiniHeart.png"
+                  src="/image/iconEmptyHeart.svg"
                   alt="하트 "
                 />
               )}

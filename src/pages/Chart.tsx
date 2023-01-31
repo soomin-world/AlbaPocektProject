@@ -313,6 +313,7 @@ const SelectMonth = styled.div`
 const Button = styled.button`
   width: 120px;
   height: 44px;
+  font-family: "Noto Sans KR";
   font-size: 15px;
   border: none;
   border-radius: 8px;

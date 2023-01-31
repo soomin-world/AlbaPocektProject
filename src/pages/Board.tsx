@@ -73,7 +73,7 @@ function Board() {
   if (status === "error") return <div>에러다 </div>;
 
   return (
-    <LayOut position="relative">
+    <LayOut>
       <STContainer>
         <Navigate>
           <Selector

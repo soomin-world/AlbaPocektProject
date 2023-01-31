@@ -66,9 +66,7 @@ function Router() {
         <Route path="/chat" element={<ChatList />} />
         <Route path="/chat/:id" element={<ChatRoom />} />
       </Routes>
-      {window.location.pathname !== "/posting" ? <Footer /> : null}
-      {window.location.pathname !== "/mypage" ? <Footer /> : null}
-      {/* <Footer /> */}
+      <Footer />
     </BrowserRouter>
   );
 }

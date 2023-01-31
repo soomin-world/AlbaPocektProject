@@ -26,6 +26,7 @@ const LayOut: React.FC<Props> = ({
       >
         {children}
       </STLayOut>
+      {/* <Footer /> */}
     </STContainer>
   );
 };
@@ -49,7 +50,7 @@ const STLayOut = styled.div<{
   display: flex;
   flex-direction: column;
   // min-height: 734px;
-  height: ${(props) => (props.height ? props.height : null)};
+  height: ${(props) => (props.height ? props.height : "auto")};
   // padding-bottom: 100px;
   width: 375px;
   //border: 1px solid black;

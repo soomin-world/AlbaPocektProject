@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getPost, putPost } from "../../APIs/detailPostApi";
 
@@ -67,6 +67,9 @@ function PostEditForm() {
       queryClient.invalidateQueries(["post", id]);
     },
   });
+
+  const locationNow = useLocation();
+  console.log(window.location.pathname.slice(0, 8));
 
   if (isError) return <div>Error!!!!!!</div>;
   if (isLoading) return <div>Loading~~~</div>;

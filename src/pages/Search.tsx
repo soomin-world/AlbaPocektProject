@@ -105,7 +105,7 @@ const Search = () => {
 
         {numList?.length === 1 ? null : <PageNum>{numList}</PageNum>}
 
-        <Footer />
+        {/* <Footer /> */}
       </LayOut>
     </>
   );

@@ -6,7 +6,7 @@ function MainHeader() {
   return (
     <STHeader>
       <img
-        src="/image/Logo.png"
+        src="/image/iconLogo.svg"
         alt="logo"
         className="logo"
         onClick={() => navigate("/")}
@@ -40,8 +40,8 @@ const STHeader = styled.div`
     cursor: pointer;
   }
   .logo {
-    width: 39px;
-    height: 19px;
+    width: 90px;
+    height: 25px;
     cursor: pointer;
   }
 `;

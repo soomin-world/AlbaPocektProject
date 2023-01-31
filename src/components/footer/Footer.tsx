@@ -1,12 +1,20 @@
-import { useMatch, useNavigate } from "react-router-dom";
+import { useLocation, useMatch, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 function Footer() {
   const navigate = useNavigate();
+  const locationNow = useLocation();
   const mainMatch = useMatch("/");
   const calMatch = useMatch("/calendar");
   const comMatch = useMatch("/board");
   const chartMatch = useMatch("/chart");
+
+  if (locationNow.pathname === "/mypage") return null;
+  if (locationNow.pathname === "/mypage/myLike") return null;
+  if (locationNow.pathname === "/mypage/myComment") return null;
+  if (locationNow.pathname === "/mypage/edit") return null;
+  if (window.location.pathname.slice(0, 8) === "/posting") return null;
+  if (window.location.pathname.slice(0, 8) === "/addwork") return null;
 
   return (
     <Wrap>
