@@ -1,17 +1,15 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import { RecoilRoot } from "recoil";
 
-const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
-);
-root.render(
+const root = ReactDOM.render(
   // <React.StrictMode>
   <RecoilRoot>
     <App />
-  </RecoilRoot>
+  </RecoilRoot>,
+  document.getElementById("root")
 
   // </React.StrictMode>
 );

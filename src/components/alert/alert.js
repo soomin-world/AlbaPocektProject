@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-
 import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
 import Cookies from "universal-cookie";
 import { useSelector } from "react-redux";

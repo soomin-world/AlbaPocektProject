@@ -1,3 +1,4 @@
+import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -21,16 +22,32 @@ const MyAlert = () => {
   const { mutateAsync: readNoti } = useMutation(notificationRead);
   const { mutateAsync: deleteNoti } = useMutation(notificationDelete);
   const { mutateAsync: deleteAllNoti } = useMutation(notificationDeleteAll);
-  // const eventSource = new EventSource("https://woooo.shop/subscribe", {
-  //   headers: {
-  //     Authorization: token,
-  //   },
-  // });
 
-  // eventSource.onmessage = (event) => {
-  //   const data = JSON.parse(event.data);
-  //   console.log(data.message);
-  // };
+  const EventSource = EventSourcePolyfill || NativeEventSource;
+
+  // let HEADER;
+
+  // if (token) {
+  //   HEADER = {
+  //     headers: {
+  //       Authorization: token,
+  //     },
+  //   };
+  // }
+
+  // console.log(HEADER);
+  // const eventSource = new EventSource("https://woooo.shop/subscribe", HEADER);
+
+  const eventSource = new EventSource("https://woooo.shop/subscribe", {
+    headers: {
+      Authorization: token,
+    },
+  });
+
+  eventSource.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    console.log(data.message);
+  };
 
   return (
     <Total>
@@ -44,7 +61,7 @@ const MyAlert = () => {
       </Alert>
       {isOpen ? (
         <AlertList>
-          {data.map((alert: any) => {
+          {data.map((alert) => {
             return (
               <>
                 <div>
@@ -58,8 +75,7 @@ const MyAlert = () => {
                   </span>
                   <button
                     onClick={() => {
-                      deleteNoti(alert.id);
-                      refetch();
+                      deleteNoti(alert.id).then((res) => refetch());
                     }}
                   >
                     X
