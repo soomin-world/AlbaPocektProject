@@ -43,38 +43,45 @@ const MyAlert = () => {
         알림
       </Alert>
       {isOpen ? (
-        <div>
-          <AlertList>
-            {data.map((alert: any) => {
-              return (
-                <>
-                  <div>
-                    <div
-                      onClick={() => {
-                        navigate(`post/${alert.url.slice(-3)}`);
-                      }}
-                    >
-                      {alert.content}
-                    </div>
-                    <button
-                      onClick={() => {
-                        deleteNoti(alert.id);
-                        refetch();
-                      }}
-                    >
-                      X
-                    </button>
-                  </div>
-                </>
-              );
-            })}
-          </AlertList>
-          <button>전체 삭제</button>
-        </div>
+        <AlertList>
+          {data.map((alert: any) => {
+            return (
+              <>
+                <div>
+                  <span
+                    onClick={() => {
+                      navigate(`post/${alert.url.slice(-3)}`);
+                      readNoti(alert.id);
+                    }}
+                  >
+                    {alert.content}
+                  </span>
+                  <button
+                    onClick={() => {
+                      deleteNoti(alert.id);
+                      refetch();
+                    }}
+                  >
+                    X
+                  </button>
+                </div>
+              </>
+            );
+          })}
+
+          <button
+            onClick={() => {
+              deleteAllNoti().then((res) => refetch());
+            }}
+          >
+            전체 삭제
+          </button>
+        </AlertList>
       ) : null}
     </Total>
   );
 };
+
 const Total = styled.div`
   width: 100%;
   display: flex;
@@ -102,7 +109,11 @@ const AlertList = styled.div`
   bottom: 170px;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+  overflow: auto;
 
+  &::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
+  }
   div {
     width: 100%;
     height: 50px;
