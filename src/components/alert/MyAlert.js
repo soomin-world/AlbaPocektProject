@@ -40,7 +40,7 @@ const MyAlert = () => {
 
   const eventSource = new EventSource("https://woooo.shop/subscribe", {
     headers: {
-      Authorization: token,
+      authorization: token,
     },
   });
 
