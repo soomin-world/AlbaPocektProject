@@ -174,6 +174,7 @@ function Board() {
 }
 const STContainer = styled.div`
   width: 100%;
+  margin-bottom: 1px;
 `;
 const Navigate = styled.div`
   width: 100%;

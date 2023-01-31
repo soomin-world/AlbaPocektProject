@@ -93,7 +93,7 @@ function PostDetail() {
           {data.userId === myId ? (
             <div className="dropDown">
               <img
-                src="/image/iconDotsMono.png"
+                src="/image/iconMoreDotsGray.svg"
                 alt=":"
                 className="button"
                 onClick={() => setIsOpen(!isOpen)}

@@ -7,6 +7,7 @@ function Footer() {
   const mainMatch = useMatch("/");
   const calMatch = useMatch("/calendar");
   const comMatch = useMatch("/board");
+  const comDetailMatch = useMatch("/post/:id");
   const chartMatch = useMatch("/chart");
 
   if (locationNow.pathname === "/mypage") return null;
@@ -49,7 +50,7 @@ function Footer() {
           />
         )}
 
-        {comMatch ? (
+        {comMatch || comDetailMatch ? (
           <img
             src="/image/iconComFull.svg"
             alt="커뮤니티"

@@ -47,7 +47,7 @@ const PostCard = ({ post, padding }: postProps) => {
       <div className="wrap">
         <p className="title">{post.title}</p>
         <p className="content">
-          {post && post?.content.length >= 20
+          {post && post?.content?.length >= 20
             ? `${post?.content.slice(0, 23)}...`
             : post?.content}
           {/* {post?.content?.slice(0, 20)} */}

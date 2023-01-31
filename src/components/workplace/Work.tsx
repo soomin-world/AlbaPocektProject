@@ -33,7 +33,7 @@ const Work = ({ placeId, placeName, placeColor, salaryDay }: WorkType) => {
         </div>
         <div>
           <img
-            src="/image/dots.png"
+            src="/image/iconMoreDots.svg"
             alt=":"
             className="button"
             onClick={() => setIsOpen(!isOpen)}
