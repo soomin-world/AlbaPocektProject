@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { addShift } from "../APIs/workApi";
 import LayOut from "../components/layout/LayOut";
 import Header from "../components/header/Header";
+import { format } from "date-fns";
 
 export type EventValue<DateType> = DateType | null;
 export type RangeValue<DateType> =
@@ -24,13 +25,18 @@ function AddShift() {
   const [isCalendarBtns, setIsCalendarBtns] = useRecoilState(calendarAtom);
   const [dayList, setDayList] = useRecoilState(calendarDayList);
   const [workingTime, setWorkingTime] = useState<string[]>([]);
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+  const [startTime, setStartTime] = useState("00:00");
+  const [endTime, setEndTime] = useState("00:00");
 
   useEffect(() => {
     if (dateId) {
       setDayList([dateId]);
     }
+    const nowTime = format(new Date(), "HH:mm");
+    setStartTime(nowTime);
+    setEndTime(nowTime);
+    console.log(new Date());
+    console.log(format(new Date(), "HH:mm"));
     console.log(dayList);
   }, []);
   const onChangeHandler = (
@@ -86,7 +92,7 @@ function AddShift() {
             : null}
         </div>
         <img
-          src="/image/calendar.png"
+          src="/image/iconCalendar.svg"
           onClick={() => setIsCalendarBtns((pre) => !pre)}
           alt="달력"
         />
@@ -107,6 +113,7 @@ function AddShift() {
             type="time"
             value={startTime}
             onChange={(e) => {
+              console.log(e.target.value);
               setStartTime(e.target.value);
             }}
           />
