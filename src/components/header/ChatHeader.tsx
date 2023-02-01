@@ -26,11 +26,14 @@ const ChatHeader: React.FC<HeaderProps> = ({ title, arrow, menu }) => {
 };
 const STHeader = styled.div`
   position: fixed;
+  width: 345px;
   top: 0;
   display: flex;
   justify-content: space-between;
-  margin: 12px 0px 10px 0px;
+  margin: px 0px 10px 0px;
+  align-items: center;
   height: 50px;
+  background-color: white;
   .wrap {
     display: flex;
     img {

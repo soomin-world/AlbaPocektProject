@@ -1,4 +1,4 @@
-import { IMessage, Stomp } from "@stomp/stompjs";
+import { IMessage } from "@stomp/stompjs";
 import { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -11,6 +11,7 @@ import { otherNickName } from "../../atoms";
 import ChatHeader from "../header/ChatHeader";
 import LayOut from "../layout/LayOut";
 import Chat, { ChatType } from "./Chat";
+import stompJS from "stompjs";
 
 export type IPayload = {
   roomId: string | undefined;
@@ -38,29 +39,27 @@ function ChatRoom() {
   console.log(chatList);
   const url = baseURL;
   const sock = new SockJS(url + "/ws/chat");
-  const client = Stomp.over(sock);
+  const client = stompJS.over(sock);
   const scrollToBot = () => {
     window.scrollTo(0, document.body.scrollHeight);
   };
   const connectStomp = () => {
     client.connect({ myNickName }, onConnect, onError);
-    client.debug = () => console.log();
+    //client.debug = () => console.log();
     //client.activate();
   };
   const onError = () => {
     console.log("에러에요 ");
   };
   const onConnect = () => {
-    client.subscribe(`/sub/chat/room/${id}`, onMessageRecieve);
+    client.subscribe(`/sub/chat/room/${id}`, () => onMessageRecieve);
     userEnter();
     scrollToBot();
-
-    console.log(chatList);
+    console.log("연결성공~");
   };
 
   const onMessageRecieve = (e: IMessage) => {
     let data = JSON.parse(e.body);
-    console.log(data);
     if (data.type === "talk") {
       getDetailChat(id).then((res: AxiosResponse) => {
         setChatList(res.data);
@@ -93,21 +92,16 @@ function ChatRoom() {
       message: message,
     };
 
-    // client.publish({
-    //   destination: `/pub/api/chat/message`,
-    //   body: JSON.stringify(payload),
-    // });
-
     client.send(
       `/pub/api/chat/message`,
       { myNickName },
       JSON.stringify(payload)
     );
+    setMessage("");
     console.log("메세지 전송");
   };
 
-  const enterMessage = (e: React.MouseEvent<HTMLImageElement>) => {
-    e.preventDefault();
+  const enterMessage = () => {
     sendMessage();
   };
   console.log(message);
@@ -142,7 +136,7 @@ function ChatRoom() {
             <img
               src="/image/icon-arrow-right-circle-mono.svg"
               alt="전송"
-              onClick={(e) => enterMessage(e)}
+              onClick={enterMessage}
             />
           </STInputFooter>
         </STWrap>
@@ -168,9 +162,9 @@ const STChatList = styled.div`
     color: #aeaeae;
   }
 `;
-const STInputFooter = styled.form`
+const STInputFooter = styled.div`
   //border: 1px solid black;
-  width: 48%;
+  width: 350px;
   height: 44px;
   position: fixed;
   bottom: 5px;
@@ -199,7 +193,7 @@ const STInputFooter = styled.form`
 
 const STWrap = styled.div`
   //border: 1px solid black;
-  width: 50%;
+  width: 358px;
   height: 50px;
   position: fixed;
   bottom: 0px;
