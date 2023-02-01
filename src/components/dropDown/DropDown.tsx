@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { deleteTodo } from "../../APIs/calendarApi";
 import { deletePost } from "../../APIs/detailPostApi";
@@ -9,7 +10,7 @@ import { deleteWork } from "../../APIs/workApi";
 interface propsType {
   id: number;
   open?: boolean;
-  close?: () => void;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   address: string;
   deleteValue: string;
 }
@@ -17,13 +18,14 @@ interface propsType {
 const DropDown: React.FC<propsType> = ({
   id,
   open,
-  close,
+  setIsOpen,
   address,
   deleteValue,
 }) => {
   const queryClient = useQueryClient();
   const { todoId } = useParams();
   const [value, setValue] = useState<() => {}>();
+
   const mutateDelete = useMutation(deleteWork, {
     onSuccess: () => {
       queryClient.invalidateQueries(["work"]);
@@ -44,15 +46,15 @@ const DropDown: React.FC<propsType> = ({
   });
 
   const deletePostHandler = () => {
-    mutatePostDelete.mutate(id);
+    mutatePostDelete.mutateAsync(id).then(() => setIsOpen(false));
     alert("삭제되었습니다!");
   };
   const deleteWorkHandler = () => {
-    mutateDelete.mutate(id);
+    mutateDelete.mutateAsync(id).then(() => setIsOpen(false));
     alert("삭제되었습니다!");
   };
   const deleteShiftHandler = () => {
-    mutateAsync(String(id));
+    mutateAsync(String(id)).then(() => setIsOpen(false));
     alert("삭제되었습니다!");
   };
 

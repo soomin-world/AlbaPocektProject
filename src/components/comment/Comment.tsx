@@ -107,7 +107,7 @@ const Comment: React.FC<CommentType> = (props) => {
                     </>
                   ) : (
                     <img
-                      src="/image/iconDotsMono.png"
+                      src="/image/iconMoreDotsGray.svg"
                       alt=":"
                       onClick={onCommentClick}
                     />
@@ -125,9 +125,9 @@ const Comment: React.FC<CommentType> = (props) => {
                 }}
               >
                 {like === true ? (
-                  <img src="/image/iconRedHeart.png" />
+                  <img src="/image/iconRedHeart.svg" />
                 ) : (
-                  <img src="/image/iconMiniHeart.png" />
+                  <img src="/image/iconEmptyHeart.svg" />
                 )}
               </span>
               <span>{likeNum}</span>
@@ -265,7 +265,7 @@ const STContainer = styled.div`
     align-items: center;
   }
   .comment {
-    width: 60%;
+    width: 80%;
   }
   .like {
     width: 44px;

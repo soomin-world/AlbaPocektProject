@@ -6,19 +6,19 @@ function MainHeader() {
   return (
     <STHeader>
       <img
-        src="/image/Logo.png"
+        src="/image/iconLogo.svg"
         alt="logo"
         className="logo"
         onClick={() => navigate("/")}
       />
       <div className="nav">
         <img
-          src="/image/iconChat.png"
+          src="/image/iconChat.svg"
           alt="채팅"
           onClick={() => navigate("/chat")}
         />
         <img
-          src="/image/iconUser.png"
+          src="/image/iconMypage.svg"
           alt="마이페이지"
           onClick={() => navigate("/mypage")}
         />
@@ -40,8 +40,8 @@ const STHeader = styled.div`
     cursor: pointer;
   }
   .logo {
-    width: 39px;
-    height: 19px;
+    width: 90px;
+    height: 25px;
     cursor: pointer;
   }
 `;

@@ -4,6 +4,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
+import { tr } from "date-fns/locale";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
@@ -20,6 +21,7 @@ const Search = () => {
   const [keyword, setKeyword] = useRecoilState(searchKeywordAtom);
   const [isBtnClick, setIsBtnClick] = useRecoilState(searchAtom);
   let pageParam = 1;
+  // const [pageParam, setPageParam] = useState(1);
 
   const { isLoading, data, refetch } = useQuery(["searchPost"], () =>
     getSearch([keyword, pageParam])
@@ -36,10 +38,12 @@ const Search = () => {
   };
 
   console.log(data);
-  const numList = [];
+  const numList: JSX.Element[] = [];
+  // const [numList, setNumList] = useState([<div></div>]);
   for (let i = 1; i <= data?.totalPages; i++) {
     numList.push(
-      <div
+      <Num
+        bgcolor={pageParam === i}
         onClick={() => {
           pageParam = i;
           console.log(pageParam);
@@ -47,15 +51,50 @@ const Search = () => {
         }}
       >
         {i}
-      </div>
+      </Num>
     );
   }
+
+  // for (let i = 1; i <= data?.totalPages; i++) {
+  //   let copy = numList;
+  //   copy?.push(
+  //     <Num
+  //       bgcolor={pageParam === i}
+  //       onClick={() => {
+  //         setPageParam(i);
+  //         console.log(pageParam);
+  //         refetch();
+  //       }}
+  //     ></Num>
+  //   );
+  //   setNumList(copy);
+  // }
+
+  // useEffect(() => {
+  //   for (let i = 1; i <= data?.totalPages; i++) {
+  //     console.log(numList);
+  //     let copy = numList;
+  //     copy?.push(
+  //       <Num
+  //         bgcolor={pageParam === i}
+  //         onClick={() => {
+  //           setPageParam(i);
+  //           console.log(pageParam);
+  //           refetch();
+  //         }}
+  //       ></Num>
+  //     );
+  //     console.log(copy);
+  //     setNumList(copy);
+  //     // numList = copy;
+  //   }
+  // }, [data, pageParam]);
+
   console.log(numList);
   return (
     <>
-
-      <LayOut>
-        <Header title={"게시물 검색"} />
+      <LayOut height="100vh">
+        <Header title={"게시물 검색"} padding="5% 0 5% 0" />
 
         <SearchInputBox>
           <SearchInput
@@ -66,7 +105,7 @@ const Search = () => {
             }}
           />
           <SearchBtn onClick={onClickSearchBtnHandler}>
-            <img src="/image/iconSearchInput.png" />
+            <img src="/image/iconSearchGray.svg" />
           </SearchBtn>
         </SearchInputBox>
 
@@ -84,9 +123,10 @@ const Search = () => {
           </SearchEmpty>
         ) : null}
 
-        {numList?.length === 1 ? null : <PageNum>{numList}</PageNum>}
+        <PageNum>{numList}</PageNum>
+        {/* {numList?.length === 1 ? null : <PageNum>{numList}</PageNum>} */}
 
-        <Footer />
+        {/* <Footer /> */}
       </LayOut>
     </>
   );
@@ -128,6 +168,12 @@ const SearchBtn = styled.button`
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   background-color: #f0f0f0;
+
+  img {
+    width: 22px;
+    height: 22px;
+    margin-top: 1px;
+  }
 `;
 
 const SearchEmpty = styled.div`
@@ -157,10 +203,16 @@ const PageNum = styled.div`
   display: flex;
   margin: 0 auto;
   margin-bottom: 70px;
+  //cursor: pointer;
 
   div {
     margin: 0px 10px 0px 10px;
   }
+`;
+
+const Num = styled.div<{ bgcolor: boolean }>`
+  // color: ${(props) => (props.bgcolor ? "blue" : "black")};
+  cursor: pointer;
 `;
 
 export default Search;

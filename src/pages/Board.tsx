@@ -73,7 +73,7 @@ function Board() {
   if (status === "error") return <div>에러다 </div>;
 
   return (
-    <LayOut position="relative">
+    <LayOut>
       <STContainer>
         <Navigate>
           <Selector
@@ -127,15 +127,15 @@ function Board() {
 
           <Icon>
             <img
-              src="/image/iconSearch.png"
+              src="/image/iconSearch.svg"
               onClick={() => {
                 navigate("/search");
               }}
               alt="search"
             />
-            <img src="/image/iconChat.png" alt="chat" />
+            <img src="/image/iconChat.svg" alt="chat" />
             <img
-              src="/image/iconUser.png"
+              src="/image/iconMypage.svg"
               onClick={() => {
                 navigate("/mypage");
               }}
@@ -158,11 +158,11 @@ function Board() {
               navigate("/posting");
             }}
           >
-            <img src="/image/iconPencil.png" />
+            <img src="/image/iconPlusPencil.svg" />
           </Plus>
         </PlusWrap>
         {isFetchingNextPage ? <Loading /> : <div ref={ref} />}
-        <Footer />
+        {/* <Footer /> */}
         {showButton && (
           <Scroll>
             <button onClick={scrollToTop}>top</button>
@@ -174,6 +174,7 @@ function Board() {
 }
 const STContainer = styled.div`
   width: 100%;
+  margin-bottom: 1px;
 `;
 const Navigate = styled.div`
   width: 100%;
@@ -207,6 +208,9 @@ const Icon = styled.div`
     width: 24px;
     height: 24px;
     margin-left: 15px;
+  }
+  img:nth-child(3) {
+    margin-left: 13px;
   }
 `;
 

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Footer from "../components/footer/Footer";
 import LayOut from "../components/layout/LayOut";
 import WorkPlace from "../components/workplace/WorkPlace";
+import MyAlert from "../components/alert/MyAlert";
 
 function Main() {
   const navigate = useNavigate();
@@ -18,7 +19,8 @@ function Main() {
     <>
       <LayOut height="100vh">
         <WorkPlace />
-        <Footer />
+        {/* <Footer /> */}
+        <MyAlert />
       </LayOut>
     </>
   );

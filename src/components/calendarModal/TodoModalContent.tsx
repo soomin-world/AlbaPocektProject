@@ -32,6 +32,7 @@ const TodoModalContent = ({ todo }: ITodoProps) => {
           {isOpen ? (
             <DropDown
               id={todo.todoId}
+              setIsOpen={setIsOpen}
               address={`/editShift/${todo.todoId}`}
               deleteValue="shift"
             />

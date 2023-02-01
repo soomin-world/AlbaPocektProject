@@ -71,8 +71,8 @@ function WorkEditForm() {
   };
   const mutateEditwork = useMutation(putWork);
   return (
-    <LayOut position="relative">
-      <Header title={"근무지수정"} />
+    <LayOut position="relative" height="100vh">
+      <Header title={"근무지수정"} padding="5% 0" />
 
       <STBody>
         <div className="place">
@@ -148,6 +148,7 @@ const STBody = styled.div`
       border: 1px solid #efefef;
       border-radius: 8px;
       margin-bottom: 41px;
+      padding-left: 10px;
     }
   }
   .salary {

@@ -81,7 +81,7 @@ function WorkPlace() {
         : null}
 
       <STAdd onClick={() => navigate("/addwork")}>
-        <img src="/image/Frame 12.png" alt="+" />
+        <img src="/image/iconPlusFrame.svg" alt="+" />
       </STAdd>
     </>
   );
@@ -96,10 +96,12 @@ const STAdd = styled.div`
   align-items: center;
   margin: 0px auto 70px auto;
   border-radius: 8px;
+
   img {
     width: 73px;
     height: 50px;
     cursor: pointer;
+    margin-left: 10px;
   }
 `;
 

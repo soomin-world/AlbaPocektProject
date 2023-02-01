@@ -77,7 +77,7 @@ const Login = () => {
             <hr />
           </Line>
           <a href={KAKAO_AUTH_URL}>
-            <img src="/image/kakao.png" />
+            <img src="/image/iconKakao.svg" />
           </a>
         </Form>
       </Total>

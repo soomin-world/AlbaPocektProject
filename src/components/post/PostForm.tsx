@@ -53,18 +53,21 @@ function PostForm() {
       writePost.mutate(formData);
     } else {
       const formData = new FormData();
-      formData.append(
-        "title",
-        new Blob([JSON.stringify(title)], { type: "application/json" })
-      );
-      formData.append(
-        "content",
-        new Blob([JSON.stringify(content)], { type: "application/json" })
-      );
-      formData.append(
-        "category",
-        new Blob([JSON.stringify(category)], { type: "application/json" })
-      );
+      formData.append("title", title.title);
+      formData.append("content", content.content);
+      formData.append("category", category.category);
+      // formData.append(
+      //   "title",
+      //   new Blob([JSON.stringify(title)], { type: "application/json" })
+      // );
+      // formData.append(
+      //   "content",
+      //   new Blob([JSON.stringify(content)], { type: "application/json" })
+      // );
+      // formData.append(
+      //   "category",
+      //   new Blob([JSON.stringify(category)], { type: "application/json" })
+      // );
       writePost.mutate(formData);
     }
   };

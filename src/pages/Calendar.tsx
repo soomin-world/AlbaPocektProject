@@ -385,7 +385,7 @@ const Calendar = () => {
             isLoadingBonus={isLoadingBonus}
           />
           <RenderTotalWage data={data} />
-          <Footer />
+          {/* <Footer /> */}
         </Total>
       </LayOut>
       {dayMatch || dayBtnMatch ? <TodosModal /> : null}

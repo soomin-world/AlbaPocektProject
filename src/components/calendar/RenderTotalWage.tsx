@@ -26,7 +26,7 @@ const RenderTotalWage = ({ data }: ITotalWage) => {
         ) : (
           <img src="/image/iconEmptyCheck.svg" />
         )}
-        <div>세금 제외</div>
+        <div>세금 포함</div>
       </Tax>
 
       <TotalText>

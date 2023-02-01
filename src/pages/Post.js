@@ -10,9 +10,11 @@ function Post() {
       <LayOut padding="0" position="relative" height="100vh">
         <PostDetail />
         <CommentPost />
-        <CommentList />
+        <div style={{ paddingBottom: "50px" }}>
+          <CommentList />
+        </div>
       </LayOut>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

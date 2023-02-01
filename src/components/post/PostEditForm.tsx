@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getPost, putPost } from "../../APIs/detailPostApi";
 
@@ -12,6 +12,7 @@ function PostEditForm() {
   const [file, setFile] = useState<string | Blob>();
   const { id } = useParams();
   const [imgFile, setImgFile] = useState<any>("");
+
   const getImage = (e: any) => {
     const image = e.target.files[0];
     const reader = new FileReader();
@@ -26,14 +27,21 @@ function PostEditForm() {
     getPost(id)
   );
   console.log(data);
+
+  const mutatePost = useMutation(putPost, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["post", id]);
+    },
+  });
+
   useEffect(() => {
-    if (isSuccess) {
-      setTitle(data.title);
-      setCategory(data.category);
-      setContent(data.content);
+    if (data) {
+      setTitle({ title: data.title });
+      setCategory({ category: data.category });
+      setContent({ content: data.content });
       setImgFile(data.imgUrl);
     }
-  }, [isSuccess]);
+  }, [data]);
   const queryClient = useQueryClient();
 
   const submitHandler = (e: any) => {
@@ -59,14 +67,19 @@ function PostEditForm() {
       const payload = [id, formData];
       mutatePost.mutate(payload);
       alert("수정되었습니다!");
+    } else {
+      const formData = new FormData();
+      formData.append("title", title.title);
+      formData.append("content", content.content);
+      formData.append("category", category.category);
+      const payload = [id, formData];
+      mutatePost.mutate(payload);
+      alert("수정되었습니다!");
     }
   };
 
-  const mutatePost = useMutation(putPost, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["post", id]);
-    },
-  });
+  const locationNow = useLocation();
+  console.log(window.location.pathname.slice(0, 8));
 
   if (isError) return <div>Error!!!!!!</div>;
   if (isLoading) return <div>Loading~~~</div>;
@@ -115,7 +128,7 @@ function PostEditForm() {
         </div>
         <div className="preview">
           <img
-            src={imgFile ? imgFile : `/images/pencil.png`}
+            src={imgFile ? imgFile : "/image/cash 1.png"}
             alt="임시기본이미지"
           />
         </div>

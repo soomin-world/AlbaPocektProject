@@ -59,8 +59,8 @@ function AddWorkForm() {
   };
   const navigate = useNavigate();
   return (
-    <LayOut position="relative">
-      <Header title={"근무지추가"} />
+    <LayOut position="relative" height="100vh">
+      <Header title={"근무지추가"} padding="5% 0" />
 
       <STBody>
         <div className="place">
@@ -133,6 +133,7 @@ const STBody = styled.div`
       border: 1px solid #efefef;
       border-radius: 8px;
       margin-bottom: 41px;
+      padding-left: 10px;
     }
   }
   .salary {

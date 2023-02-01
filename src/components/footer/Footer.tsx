@@ -1,25 +1,38 @@
-import { useMatch, useNavigate } from "react-router-dom";
+import { useLocation, useMatch, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 function Footer() {
   const navigate = useNavigate();
+  const locationNow = useLocation();
   const mainMatch = useMatch("/");
   const calMatch = useMatch("/calendar");
   const comMatch = useMatch("/board");
+  const comDetailMatch = useMatch("/post/:id");
   const chartMatch = useMatch("/chart");
+
+  if (locationNow.pathname === "/login") return null;
+  if (locationNow.pathname === "/register") return null;
+  if (locationNow.pathname === "/mypage") return null;
+  if (locationNow.pathname === "/mypage/myLike") return null;
+  if (locationNow.pathname === "/mypage/myComment") return null;
+  if (locationNow.pathname === "/mypage/edit") return null;
+  if (window.location.pathname.slice(0, 8) === "/posting") return null;
+  if (window.location.pathname.slice(0, 8) === "/addwork") return null;
+  if (window.location.pathname.slice(0, 9) === "/addShift") return null;
+  if (window.location.pathname.slice(0, 10) === "/editShift") return null;
 
   return (
     <Wrap>
       <STContainer>
         {mainMatch ? (
           <img
-            src="/image/iconHomeGreen.png"
+            src="/image/iconHomeFull.svg"
             alt="홈"
             onClick={() => navigate("/")}
           />
         ) : (
           <img
-            src="/image/iconHome.png"
+            src="/image/iconHome.svg"
             alt="홈"
             onClick={() => navigate("/")}
           />
@@ -27,29 +40,29 @@ function Footer() {
 
         {calMatch ? (
           <img
-            src="/image/iconCalGreen.png"
+            src="/image/iconCalFull.svg"
             alt="캘린더"
             onClick={() => navigate("/calendar")}
             style={{ marginLeft: "17px" }}
           />
         ) : (
           <img
-            src="/image/iconCal.png"
+            src="/image/iconCal.svg"
             alt="캘린더"
             onClick={() => navigate("/calendar")}
             style={{ marginLeft: "17px" }}
           />
         )}
 
-        {comMatch ? (
+        {comMatch || comDetailMatch ? (
           <img
-            src="/image/iconComGreen.png"
+            src="/image/iconComFull.svg"
             alt="커뮤니티"
             onClick={() => navigate("/board")}
           />
         ) : (
           <img
-            src="/image/iconCom.png"
+            src="/image/iconCom.svg"
             alt="커뮤니티"
             onClick={() => navigate("/board")}
           />

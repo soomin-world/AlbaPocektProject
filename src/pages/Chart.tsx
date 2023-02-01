@@ -235,13 +235,13 @@ const Chart = () => {
           />
         </>
       )}
-      <Footer />
+      {/* <Footer /> */}
     </LayOut>
   );
 };
 const ChartBar = styled.div`
   width: 100%;
-  height: 50px;
+  min-height: 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -313,6 +313,7 @@ const SelectMonth = styled.div`
 const Button = styled.button`
   width: 120px;
   height: 44px;
+  font-family: "Noto Sans KR";
   font-size: 15px;
   border: none;
   border-radius: 8px;

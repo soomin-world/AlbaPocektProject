@@ -47,10 +47,11 @@ const PostCard = ({ post, padding }: postProps) => {
       <div className="wrap">
         <p className="title">{post.title}</p>
         <p className="content">
-          {/* {post && post?.content.length >= 20
-            ? post?.content.slice(0, 20)
-            : post?.content} */}
-          {post?.content?.slice(0, 20)}
+          {/* {post.content} */}
+          {post?.content?.length >= 5
+            ? `${post?.content.slice(0, 5)}...`
+            : post?.content}
+          {/* {post?.content?.slice(0, 20)} */}
         </p>
         <UnderInfo>
           <p>
@@ -58,20 +59,24 @@ const PostCard = ({ post, padding }: postProps) => {
           </p>
           <div className="underWrap">
             <div className="detailWrap">
-              <img className="comment" src="/image/comment.png" alt="댓글" />
+              <img
+                className="comment"
+                src="/image/iconComment.svg"
+                alt="댓글"
+              />
               <div>{post.commentCount}</div>
             </div>
             <div className="detailWrap">
               {post.likePost ? (
                 <img
                   className="heart"
-                  src="/image/iconRedHeart.png"
+                  src="/image/iconRedHeart.svg"
                   alt="하트 "
                 />
               ) : (
                 <img
                   className="heart"
-                  src="/image/iconMiniHeart.png"
+                  src="/image/iconEmptyHeart.svg"
                   alt="하트 "
                 />
               )}
@@ -109,9 +114,12 @@ const STContainer = styled.div<{
       font-size: 15px;
       line-height: 22px;
       margin: 9px 0px 9px 0px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .content {
-      width: 235px;
+      width: 80%;
       font-style: normal;
       font-weight: 400;
       font-size: 13px;
@@ -120,6 +128,9 @@ const STContainer = styled.div<{
       align-items: center;
       color: #545456;
       margin: 9px 0px 9px 0px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
   .profileImage {
@@ -146,6 +157,7 @@ const UnderInfo = styled.div`
       display: flex;
       gap: 5px;
       line-height: 21px;
+
       img {
         margin-top: 5.5px;
         width: 11px;
@@ -154,4 +166,5 @@ const UnderInfo = styled.div`
     }
   }
 `;
+
 export default PostCard;

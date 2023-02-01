@@ -93,7 +93,7 @@ function PostDetail() {
           {data.userId === myId ? (
             <div className="dropDown">
               <img
-                src="/image/iconDotsMono.png"
+                src="/image/iconMoreDotsGray.svg"
                 alt=":"
                 className="button"
                 onClick={() => setIsOpen(!isOpen)}
@@ -102,7 +102,7 @@ function PostDetail() {
                 <DropDown
                   id={data.postId}
                   open={isOpen}
-                  close={dropDownHandler}
+                  setIsOpen={setIsOpen}
                   address={`/posting/${data.postId}`}
                   deleteValue={"post"}
                 />
@@ -125,15 +125,15 @@ function PostDetail() {
       <div className="like">
         <div onClick={onClickLikeHandler}>
           {data.likePost === true ? (
-            <img src="/image/iconRedHeart.png" alt="heart" />
+            <img src="/image/iconRedHeart.svg" alt="heart" />
           ) : (
-            <img src="/image/iconMiniHeart.png" alt="miniHeart" />
+            <img src="/image/iconEmptyHeart.svg" alt="miniHeart" />
           )}
         </div>
         <span>좋아요 {data.postLikeNum}</span>
 
         <div>
-          <img src="/image/iconChatBubble.png" alt="heart" />
+          <img src="/image/iconComment.svg" alt="heart" />
         </div>
         <span>댓글 {data.commentCount}</span>
       </div>
@@ -210,8 +210,8 @@ const SContainer = styled.div`
       }
     }
     .contentArea {
-      width: 100%;
       .contentBody {
+        word-break: break-all;
         font-size: 15px;
         font-weight: 400;
       }
