@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { createChatRoom } from "../../APIs/chatApi";
 import { changeLikePost } from "../../APIs/communityBoardApi";
 import { deletePost, getPost } from "../../APIs/detailPostApi";
 import DropDown from "../dropDown/DropDown";
@@ -19,15 +20,7 @@ function PostDetail() {
   const [isOpen, setIsOpen] = useState(false);
   const [category, setCategory] = useState("");
   const createTime = data?.createAt.substr(14, 5);
-  console.log();
-  // console.log(likePost, postLikeNum);
 
-  // useEffect(() => {
-  //   if (data) {
-  //     setLikePost(data.postLike);
-  //     setPostLikeNum(data.postLikeNum);
-  //   }
-  // }, [data]);
   const categoryToKor = (e: string) => {
     if (e === "free") {
       setCategory("자유게시판");
@@ -44,7 +37,11 @@ function PostDetail() {
   }, [data]);
 
   const myId = localStorage.getItem("userId");
-
+  const { mutateAsync } = useMutation(createChatRoom, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["chat"]);
+    },
+  });
   const mutatelike = useMutation(changeLikePost, {
     onSuccess: () => {
       queryClient.invalidateQueries(["post"]);
@@ -68,9 +65,11 @@ function PostDetail() {
     setLikePost(!likePost);
     mutatelike.mutate(Number(id));
   };
+
   const onChatHandler = (e: string) => {
-    navigate(`/chat/${e}`);
+    mutateAsync(e).then((roomId) => navigate(`/chat/${roomId}`));
   };
+
   return (
     <SContainer className="detailContainer">
       <Header title={category} />

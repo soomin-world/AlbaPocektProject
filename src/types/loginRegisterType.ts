@@ -25,5 +25,6 @@ export interface IData {
   };
   data: {
     userId: string;
+    nickname: string;
   };
 }
