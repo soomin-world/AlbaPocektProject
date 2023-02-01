@@ -27,6 +27,13 @@ function PostEditForm() {
     getPost(id)
   );
   console.log(data);
+
+  const mutatePost = useMutation(putPost, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["post", id]);
+    },
+  });
+
   useEffect(() => {
     if (data) {
       setTitle({ title: data.title });
@@ -60,14 +67,16 @@ function PostEditForm() {
       const payload = [id, formData];
       mutatePost.mutate(payload);
       alert("수정되었습니다!");
+    } else {
+      const formData = new FormData();
+      formData.append("title", title.title);
+      formData.append("content", content.content);
+      formData.append("category", category.category);
+      const payload = [id, formData];
+      mutatePost.mutate(payload);
+      alert("수정되었습니다!");
     }
   };
-
-  const mutatePost = useMutation(putPost, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["post", id]);
-    },
-  });
 
   const locationNow = useLocation();
   console.log(window.location.pathname.slice(0, 8));
