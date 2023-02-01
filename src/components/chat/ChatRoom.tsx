@@ -21,6 +21,7 @@ export type IPayload = {
 
 function ChatRoom() {
   const { id } = useParams();
+  const [other, setOther] = useState("");
   const otherName = useRecoilValue(otherNickName);
   const myNickName = localStorage.getItem("nickname");
   const [message, setMessage] = useState("");
@@ -32,12 +33,15 @@ function ChatRoom() {
       const data = res.data;
       setChatList(data);
     });
-  }, []);
+    setOther(otherName);
+  }, [otherName]);
   console.log(chatList);
   const url = baseURL;
   const sock = new SockJS(url + "/ws/chat");
   const client = Stomp.over(sock);
-
+  const scrollToBot = () => {
+    window.scrollTo(0, document.body.scrollHeight);
+  };
   const connectStomp = () => {
     client.connect({ myNickName }, onConnect, onError);
     client.debug = () => console.log();
@@ -49,6 +53,7 @@ function ChatRoom() {
   const onConnect = () => {
     client.subscribe(`/sub/chat/room/${id}`, onMessageRecieve);
     userEnter();
+    scrollToBot();
 
     console.log(chatList);
   };
@@ -109,9 +114,11 @@ function ChatRoom() {
   return (
     <LayOut height={"100vh"}>
       <STContainer>
-        <ChatHeader title={otherName} arrow={true} menu={true} />
+        <ChatHeader title={other} arrow={true} menu={true} />
         <STChatList>
-          <div className="작성시간">오후 10시</div>
+          <div className="time">
+            <p>오후10:00</p>
+          </div>
           {chatList.map((c: ChatType, i) => {
             return (
               <Chat
@@ -123,20 +130,22 @@ function ChatRoom() {
             );
           })}
         </STChatList>
-        <STInputFooter>
-          <input
-            className="chat_input"
-            type="text"
-            placeholder="메세지를 입력하세요"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-          <img
-            src="/image/icon-arrow-right-circle-mono.svg"
-            alt="전송"
-            onClick={(e) => enterMessage(e)}
-          />
-        </STInputFooter>
+        <STWrap>
+          <STInputFooter>
+            <input
+              className="chat_input"
+              type="text"
+              placeholder="메세지 입력"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            />
+            <img
+              src="/image/icon-arrow-right-circle-mono.svg"
+              alt="전송"
+              onClick={(e) => enterMessage(e)}
+            />
+          </STInputFooter>
+        </STWrap>
       </STContainer>
     </LayOut>
   );
@@ -148,6 +157,16 @@ const STContainer = styled.div`
 const STChatList = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: 70px;
+  .time {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 400;
+    color: #aeaeae;
+  }
 `;
 const STInputFooter = styled.form`
   //border: 1px solid black;
@@ -178,47 +197,13 @@ const STInputFooter = styled.form`
   }
 `;
 
-const STOther = styled.div`
-  display: flex;
-  //justify-content: flex-end;
+const STWrap = styled.div`
   //border: 1px solid black;
-`;
-const STMe = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  //border: 1px solid black;
-`;
-const STProfile = styled.div`
-  width: 50px;
+  width: 50%;
   height: 50px;
-  img {
-    width: 36px;
-    height: 36px;
-    border-radius: 100%;
-    object-fit: cover;
-  }
-`;
-
-const STBody = styled.div`
-  //border: 1px solid black;
-  display: flex;
-  flex-direction: column;
-  max-width: 70%;
-  div {
-  }
-`;
-
-const ChatPiece = styled.div`
-  width: 100%;
-  padding: 7px;
-  background-color: #f2f4f6;
-  display: flex;
-  align-items: center;
-  border-radius: 8px;
-  width: 100%;
-  min-height: 36px;
-  font-size: 13px;
-  margin-bottom: 10px;
+  position: fixed;
+  bottom: 0px;
+  background-color: white;
 `;
 
 export default ChatRoom;

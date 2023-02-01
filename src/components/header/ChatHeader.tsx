@@ -25,6 +25,8 @@ const ChatHeader: React.FC<HeaderProps> = ({ title, arrow, menu }) => {
   // 검색 -> 되면넣기, 채팅방 추가필수, 톱니바퀴(설정) => 편집-> 편집 눌렀을때 마이페이지처럼 체크박스나와서 나가기 가능 체크된 사항이 없을 경우 버튼 disable
 };
 const STHeader = styled.div`
+  position: fixed;
+  top: 0;
   display: flex;
   justify-content: space-between;
   margin: 12px 0px 10px 0px;
