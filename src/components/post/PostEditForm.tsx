@@ -12,6 +12,7 @@ function PostEditForm() {
   const [file, setFile] = useState<string | Blob>();
   const { id } = useParams();
   const [imgFile, setImgFile] = useState<any>("");
+
   const getImage = (e: any) => {
     const image = e.target.files[0];
     const reader = new FileReader();
@@ -27,13 +28,13 @@ function PostEditForm() {
   );
   console.log(data);
   useEffect(() => {
-    if (isSuccess) {
-      setTitle(data.title);
-      setCategory(data.category);
-      setContent(data.content);
+    if (data) {
+      setTitle({ title: data.title });
+      setCategory({ category: data.category });
+      setContent({ content: data.content });
       setImgFile(data.imgUrl);
     }
-  }, [isSuccess]);
+  }, [data]);
   const queryClient = useQueryClient();
 
   const submitHandler = (e: any) => {
@@ -118,7 +119,7 @@ function PostEditForm() {
         </div>
         <div className="preview">
           <img
-            src={imgFile ? imgFile : `/images/pencil.png`}
+            src={imgFile ? imgFile : "/image/cash 1.png"}
             alt="임시기본이미지"
           />
         </div>

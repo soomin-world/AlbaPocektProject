@@ -203,6 +203,7 @@ const PageNum = styled.div`
   display: flex;
   margin: 0 auto;
   margin-bottom: 70px;
+  //cursor: pointer;
 
   div {
     margin: 0px 10px 0px 10px;
@@ -210,7 +211,8 @@ const PageNum = styled.div`
 `;
 
 const Num = styled.div<{ bgcolor: boolean }>`
-  color: ${(props) => (props.bgcolor ? "blue" : "black")};
+  // color: ${(props) => (props.bgcolor ? "blue" : "black")};
+  cursor: pointer;
 `;
 
 export default Search;
