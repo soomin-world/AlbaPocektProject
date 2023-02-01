@@ -3,84 +3,58 @@ import { Client, Message, Stomp } from "@stomp/stompjs";
 import { Children, useEffect } from "react";
 import SockJS from "sockjs-client";
 import styled from "styled-components";
+import ChatList from "../../pages/ChatList";
+import { IPayload } from "./ChatRoom";
 
-type StyleProps = {
-  children?: React.ReactNode;
-  isMe?: true;
+export type ChatType = {
+  message: string;
+  nickname: string;
+  profileImage: string;
 };
-function Chat() {
-  // ------
-  // var socket = new SockJS(url);
 
-  // var stompClient = Stomp.over(()=> socket)
+type IsMe = {
+  me: boolean;
+};
 
-  // stompClient.connect(header, connectCallback, errorCallback, closeEventCallback)
-  // const client = new StompJs.Client({
-  //   brokerURL: url,
-  //   connectHeaders: {
-  //     login: "user",
-  //     passcode: "password",
-  //   },
-  //   debug: function (str) {
-  //     console.log(str);
-  //   },
-  //   reconnectDelay: 5000, //자동 재 연결
-  //   heartbeatIncoming: 4000,
-  //   heartbeatOutgoing: 4000,
-  // });
-
-  // client.onConnect = function (frame) {
-  //   Do something, all subscribes must be done is this callback
-  //   This is needed because this will be executed after a (re)connect
-  // };
-
-  // client.onStompError = function (frame) {
-  //   Will be invoked in case of error encountered at Broker
-  //   Bad login/passcode typically will cause an error
-  //   Complaint brokers will set `message` header with a brief message. Body may contain details.
-  //   Compliant brokers will terminate the connection after any error
-  //   console.log("Broker reported error: " + frame.headers["message"]);
-  //   console.log("Additional details: " + frame.body);
-  // };
-
-  // client.activate();
-  const myId = localStorage.getItem("userId");
-  const userId = "내아이디";
+const Chat: React.FC<ChatType> = ({ message, nickname, profileImage }) => {
+  const me = localStorage.getItem("nickname");
   return (
     <>
-      {/* {myId === userId ? (
-        <STOther>
-          <STProfile>
-            <img src="/image/댓글 예시.jpeg" alt="프로필사진" />
-          </STProfile>
-          <STBody>
-            <ChatPiece>채팅내용sdfsdfsasdfasdfasdfasdasdfassㅇ뭐지</ChatPiece>
-          </STBody>
-        </STOther>
-      ) : (
+      {nickname === me ? (
         <STMe>
           <STBody>
-            <ChatPiece>내가보낸 내용 </ChatPiece>
+            <ChatPiece backGround="#5FCE80" color="white">
+              {message}{" "}
+            </ChatPiece>
           </STBody>
         </STMe>
-      )} */}
+      ) : (
+        <STOther>
+          <STProfile>
+            <img src={profileImage} alt="프로필사진" />
+          </STProfile>
+          <STBody>
+            <ChatPiece>{message}</ChatPiece>
+          </STBody>
+        </STOther>
+      )}
+
+      {/* <STMe>
+        <STBody>
+          <ChatPiece>aptpwl </ChatPiece>
+        </STBody>
+      </STMe>
       <STOther>
         <STProfile>
           <img src="/image/댓글 예시.jpeg" alt="프로필사진" />
         </STProfile>
         <STBody>
-          <ChatPiece>채팅내용sdfsdfsasdfasdfasdfasdasdfassㅇ뭐지</ChatPiece>
+          <ChatPiece>aptpwl</ChatPiece>
         </STBody>
-      </STOther>
-      {/** 나면 밑에거, 상대면 위에거 props로 나인지 아닌지 boolean 보내기  */}
-      <STMe>
-        <STBody>
-          <ChatPiece>내가보낸 내용 </ChatPiece>
-        </STBody>
-      </STMe>
+      </STOther> */}
     </>
   );
-}
+};
 
 const STOther = styled.div`
   display: flex;
@@ -92,6 +66,7 @@ const STMe = styled.div`
   justify-content: flex-end;
   //border: 1px solid black;
 `;
+
 const STProfile = styled.div`
   width: 50px;
   height: 50px;
@@ -112,10 +87,11 @@ const STBody = styled.div`
   }
 `;
 
-const ChatPiece = styled.div`
+const ChatPiece = styled.div<{ backGround?: string; color?: string }>`
   width: 100%;
   padding: 7px;
-  background-color: #f2f4f6;
+  background-color: ${(props) => props.backGround || "#F2F4F6"};
+  color: ${(props) => props.color || "black"};
   display: flex;
   align-items: center;
   border-radius: 8px;
@@ -124,4 +100,5 @@ const ChatPiece = styled.div`
   font-size: 13px;
   margin-bottom: 10px;
 `;
+
 export default Chat;
