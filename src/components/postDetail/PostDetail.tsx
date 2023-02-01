@@ -75,19 +75,27 @@ function PostDetail() {
       <Header title={category} />
       <div className="header">
         <img src={data.profileImage} alt="유저프로필사진" className="profile" />
+
         <div className="info">
           <div className="userInfo">
             <div>
-              <div>{data.nickname}</div>
+              <div className="userNickname">
+                <div>{data.nickname}</div>
+                {data.userId !== myId ? (
+                  <button onClick={() => onChatHandler(data.nickname)}>
+                    1:1채팅
+                  </button>
+                ) : null}
+              </div>
               <div>
                 {data.createAt.substr(5, 5)} -{createTime}
               </div>
             </div>
-            {data.userId !== myId ? (
+            {/* {data.userId !== myId ? (
               <button onClick={() => onChatHandler(data.nickname)}>
                 1:1채팅
               </button>
-            ) : null}
+            ) : null} */}
           </div>
           {data.userId === myId ? (
             <div className="dropDown">
@@ -155,18 +163,36 @@ const SContainer = styled.div`
       display: flex;
       justify-content: space-between;
       .dropDown {
-        .button {
-          width: 24px;
-          height: 24px;
+        img {
+          margin-top: 2px;
         }
       }
       .userInfo {
         display: flex;
         margin-left: 5px;
+        .userNickname {
+          display: flex;
+          align-items: center;
+
+          div {
+            margin-right: 7px;
+          }
+          button {
+            padding-top: 2px;
+            padding-left: 5px;
+            border: none;
+            width: 44px;
+            height: 15px;
+            font-size: 10px;
+            color: #5fce80;
+            background-color: #5fce8044;
+            border-radius: 4px;
+          }
+        }
         div:first-child {
           font-size: 16px;
           font-weight: 400;
-          margin-top: 8px;
+          margin-top: 1px;
           margin-bottom: 3px;
         }
         div:nth-child(2) {
@@ -174,22 +200,11 @@ const SContainer = styled.div`
           font-weight: 400;
           color: #aeaeae;
         }
-        button {
-          position: absolute;
-          left: 230px;
-          top: 105px;
-          border: none;
-          width: 44px;
-          height: 15px;
-          font-size: 10px;
-          color: #5fce80;
-          background-color: #5fce8044;
-          border-radius: 4px;
-        }
       }
     }
     .profile {
       width: 47px;
+      min-width: 47px;
       height: 47px;
       border-radius: 50%;
       object-fit: cover;
@@ -245,4 +260,8 @@ const SContainer = styled.div`
   }
 `;
 
+const userNickname = styled.div`
+  display: flex;
+  align-items: center;
+`;
 export default PostDetail;

@@ -243,6 +243,7 @@ const STContainer = styled.div`
       }
       button {
         margin-left: 5px;
+        padding-top: 2px;
         border: none;
         width: 44px;
         height: 15px;
@@ -250,6 +251,9 @@ const STContainer = styled.div`
         color: #5fce80;
         background-color: #5fce8044;
         border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
     .btn {
