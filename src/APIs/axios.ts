@@ -5,9 +5,11 @@ import axios, {
   // AxiosResponse,
 } from "axios";
 
+export const baseURL = "https://jaeha.shop";
+
 export const instance = axios.create({
   withCredentials: true,
-  baseURL: "https://woooo.shop",
+  baseURL: "https://jaeha.shop",
   headers: {
     // "content-type": "application/json;charset=UTF-8",
     //accept: "application/json,",

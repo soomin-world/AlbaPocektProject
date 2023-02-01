@@ -57,6 +57,11 @@ export const myCommentDeleteAtom = atom<number[]>({
   default: [],
 });
 
+export const otherNickName = atom({
+  key: "otherNickName",
+  default: "",
+});
+
 // export const calendarDayListFormat = selector<string[]>({
 //   key : "dayFormat",
 //   get:({get})=>get(calendarDayList.map((d)=>d.slice(" "))

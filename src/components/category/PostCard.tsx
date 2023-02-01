@@ -48,8 +48,8 @@ const PostCard = ({ post, padding }: postProps) => {
         <p className="title">{post.title}</p>
         <p className="content">
           {/* {post.content} */}
-          {post?.content?.length >= 5
-            ? `${post?.content.slice(0, 5)}...`
+          {post?.content?.length >= 12
+            ? `${post?.content.slice(0, 12)}...`
             : post?.content}
           {/* {post?.content?.slice(0, 20)} */}
         </p>

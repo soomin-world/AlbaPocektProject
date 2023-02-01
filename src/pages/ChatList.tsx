@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import ChatRoomCard from "../components/chat/ChatRoomCard";
-import Footer from "../components/footer/Footer";
 import ChatHeader from "../components/header/ChatHeader";
 import LayOut from "../components/layout/LayOut";
 
@@ -15,6 +14,8 @@ const ChatList = () => {
   );
 };
 
-const STContainer = styled.div``;
+const STContainer = styled.div`
+  margin-top: 50px;
+`;
 
 export default ChatList;

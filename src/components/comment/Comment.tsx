@@ -139,7 +139,7 @@ const Comment: React.FC<CommentType> = (props) => {
           <div className="editbody">
             <div className="header">
               <div className="info">
-                <img src={profileImage} />
+                <img src={profileImage} alt="프사" />
                 <div className="userInfo">
                   <div>
                     <div>{nickname}</div>
@@ -185,9 +185,20 @@ const STContainer = styled.div`
       .btn {
         display: flex;
         gap: 4px;
-        button {
+        button:first-child {
           margin-top: 3px;
           background-color: #f2f3f5;
+          border: none;
+          color: #aeaeae;
+          border-radius: 6px;
+          width: 44px;
+          height: 30px;
+          font-size: 13px;
+        }
+        button:nth-child(2) {
+          margin-top: 3px;
+          background-color: #5fce80;
+          color: white;
           border: none;
           border-radius: 6px;
           width: 44px;

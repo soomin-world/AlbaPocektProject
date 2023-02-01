@@ -133,7 +133,11 @@ function Board() {
               }}
               alt="search"
             />
-            <img src="/image/iconChat.svg" alt="chat" />
+            <img
+              src="/image/iconChat.png"
+              alt="chat"
+              onClick={() => navigate("/chat")}
+            />
             <img
               src="/image/iconMypage.svg"
               onClick={() => {
