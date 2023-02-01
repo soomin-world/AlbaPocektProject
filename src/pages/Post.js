@@ -14,7 +14,7 @@ function Post() {
           <CommentList />
         </div>
       </LayOut>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

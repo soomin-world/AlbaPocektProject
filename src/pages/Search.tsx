@@ -21,6 +21,7 @@ const Search = () => {
   const [keyword, setKeyword] = useRecoilState(searchKeywordAtom);
   const [isBtnClick, setIsBtnClick] = useRecoilState(searchAtom);
   let pageParam = 1;
+  // const [pageParam, setPageParam] = useState(1);
 
   const { isLoading, data, refetch } = useQuery(["searchPost"], () =>
     getSearch([keyword, pageParam])
@@ -38,10 +39,11 @@ const Search = () => {
 
   console.log(data);
   const numList: JSX.Element[] = [];
+  // const [numList, setNumList] = useState([<div></div>]);
   for (let i = 1; i <= data?.totalPages; i++) {
     numList.push(
       <Num
-        // bgcolor={pageParam === i}
+        bgcolor={pageParam === i}
         onClick={() => {
           pageParam = i;
           console.log(pageParam);
@@ -53,22 +55,40 @@ const Search = () => {
     );
   }
 
+  // for (let i = 1; i <= data?.totalPages; i++) {
+  //   let copy = numList;
+  //   copy?.push(
+  //     <Num
+  //       bgcolor={pageParam === i}
+  //       onClick={() => {
+  //         setPageParam(i);
+  //         console.log(pageParam);
+  //         refetch();
+  //       }}
+  //     ></Num>
+  //   );
+  //   setNumList(copy);
+  // }
+
   // useEffect(() => {
   //   for (let i = 1; i <= data?.totalPages; i++) {
-  //     numList.push(
+  //     console.log(numList);
+  //     let copy = numList;
+  //     copy?.push(
   //       <Num
   //         bgcolor={pageParam === i}
   //         onClick={() => {
-  //           pageParam = i;
+  //           setPageParam(i);
   //           console.log(pageParam);
   //           refetch();
   //         }}
-  //       >
-  //         {i}
-  //       </Num>
+  //       ></Num>
   //     );
+  //     console.log(copy);
+  //     setNumList(copy);
+  //     // numList = copy;
   //   }
-  // }, [data]);
+  // }, [data, pageParam]);
 
   console.log(numList);
   return (
@@ -103,7 +123,8 @@ const Search = () => {
           </SearchEmpty>
         ) : null}
 
-        {numList?.length === 1 ? null : <PageNum>{numList}</PageNum>}
+        <PageNum>{numList}</PageNum>
+        {/* {numList?.length === 1 ? null : <PageNum>{numList}</PageNum>} */}
 
         {/* <Footer /> */}
       </LayOut>
@@ -188,5 +209,8 @@ const PageNum = styled.div`
   }
 `;
 
-const Num = styled.div``;
+const Num = styled.div<{ bgcolor: boolean }>`
+  color: ${(props) => (props.bgcolor ? "blue" : "black")};
+`;
+
 export default Search;

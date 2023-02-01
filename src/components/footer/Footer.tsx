@@ -10,6 +10,8 @@ function Footer() {
   const comDetailMatch = useMatch("/post/:id");
   const chartMatch = useMatch("/chart");
 
+  if (locationNow.pathname === "/login") return null;
+  if (locationNow.pathname === "/register") return null;
   if (locationNow.pathname === "/mypage") return null;
   if (locationNow.pathname === "/mypage/myLike") return null;
   if (locationNow.pathname === "/mypage/myComment") return null;
