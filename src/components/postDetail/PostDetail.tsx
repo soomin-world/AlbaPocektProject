@@ -116,7 +116,7 @@ function PostDetail() {
           <h1>{data.title}</h1>
         </div>
         <div className="contentArea">
-          <p className="contentBody">{data.content}</p>
+          <div className="contentBody">{data.content}</div>
         </div>
         <div className="imageBox">
           <img src={data.imgUrl} alt="유저업로드 사진입니다" />
@@ -211,6 +211,7 @@ const SContainer = styled.div`
     }
     .contentArea {
       .contentBody {
+        word-break: break-all;
         font-size: 15px;
         font-weight: 400;
       }

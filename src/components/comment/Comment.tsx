@@ -265,7 +265,7 @@ const STContainer = styled.div`
     align-items: center;
   }
   .comment {
-    width: 60%;
+    width: 80%;
   }
   .like {
     width: 44px;

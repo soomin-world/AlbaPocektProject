@@ -47,8 +47,9 @@ const PostCard = ({ post, padding }: postProps) => {
       <div className="wrap">
         <p className="title">{post.title}</p>
         <p className="content">
-          {post && post?.content?.length >= 20
-            ? `${post?.content.slice(0, 23)}...`
+          {/* {post.content} */}
+          {post?.content?.length >= 5
+            ? `${post?.content.slice(0, 5)}...`
             : post?.content}
           {/* {post?.content?.slice(0, 20)} */}
         </p>
@@ -113,9 +114,12 @@ const STContainer = styled.div<{
       font-size: 15px;
       line-height: 22px;
       margin: 9px 0px 9px 0px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .content {
-      width: 235px;
+      width: 80%;
       font-style: normal;
       font-weight: 400;
       font-size: 13px;
@@ -124,6 +128,9 @@ const STContainer = styled.div<{
       align-items: center;
       color: #545456;
       margin: 9px 0px 9px 0px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
   .profileImage {
