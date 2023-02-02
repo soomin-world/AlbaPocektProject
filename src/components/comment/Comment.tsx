@@ -2,12 +2,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import {
   changeLikeComment,
   deleteComment,
   editComment,
 } from "../../APIs/detailPostApi";
+import { otherNickName } from "../../atoms";
 import { CommentType } from "../../types/postType";
 import LayOut from "../layout/LayOut";
 
@@ -27,9 +29,7 @@ const Comment: React.FC<CommentType> = (props) => {
   } = props;
   const [like, setLike] = useState(likeComment);
   const [likeNum, setLikeNum] = useState(commentLikeNum);
-  console.log("댓글 좋아요", likeComment, commentLikeNum);
-
-  console.log(typeof createAt);
+  const [otherNickname, setOtherNickName] = useRecoilState(otherNickName);
   const { id } = useParams();
   const navigate = useNavigate();
   const [commentClick, setCommentClick] = useState(false);
@@ -78,6 +78,7 @@ const Comment: React.FC<CommentType> = (props) => {
   };
   const onChatHandler = (e: string) => {
     navigate(`/chat/${e}`);
+    setOtherNickName(nickname);
   };
 
   return (
@@ -86,13 +87,17 @@ const Comment: React.FC<CommentType> = (props) => {
         <STContainer>
           <div className="header">
             <div className="info">
-              <img src={profileImage} />
+              <img src={profileImage} alt="프로필이미지" />
               <div className="userInfo">
                 <div>
                   <div>{nickname}</div>
-                  <div>{createAt.substring(5, 10)}</div>
+                  <div className="time">{createAt.substring(5, 10)}</div>
                 </div>
-                <button onClick={() => onChatHandler(nickname)}>1:1채팅</button>
+                {myId !== userId ? (
+                  <button onClick={() => onChatHandler(nickname)}>
+                    1:1채팅
+                  </button>
+                ) : null}
               </div>
             </div>
             <div className="btn">
@@ -143,7 +148,7 @@ const Comment: React.FC<CommentType> = (props) => {
                 <div className="userInfo">
                   <div>
                     <div>{nickname}</div>
-                    <div>{createAt.substring(5, 10)}</div>
+                    <div className="time">{createAt.substring(5, 10)}</div>
                   </div>
                 </div>
               </div>
@@ -218,11 +223,10 @@ const STContainer = styled.div`
     display: flex;
     justify-content: space-between;
     font-size: 15px;
-
+    margin-bottom: 5px;
     .info {
       display: flex;
       margin-right: 10px;
-
       img {
         width: 30px;
         height: 30px;
@@ -236,7 +240,7 @@ const STContainer = styled.div`
       font-weight: 400;
       margin-left: 5px;
       display: flex;
-      div:last-child {
+      .time {
         font-size: 10px;
         color: #aeaeae;
         margin-top: 2px;

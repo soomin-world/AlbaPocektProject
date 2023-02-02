@@ -14,7 +14,7 @@ type ChatCardType = {
 };
 
 const ChatRoomCard = () => {
-  const [nickname, setOtherNickName] = useRecoilState(otherNickName);
+  const [otherNickname, setOtherNickName] = useRecoilState(otherNickName);
   const navigate = useNavigate();
   const { data } = useQuery(["chat"], () => getChatList());
   const detailDate = (a: Date) => {
@@ -42,22 +42,29 @@ const ChatRoomCard = () => {
   };
   return (
     <>
-      {data?.data.map((c: ChatCardType) => {
-        return (
-          <STContainer key={c.roomId} onClick={() => onClickHandler(c)}>
-            <div className="profileImg">
-              <img src={c.profileImage} />
-            </div>
-            <div className="body">
-              <h1>{c.nickname}</h1>
-              <div className="content">{c.lastMessage}</div>
-            </div>
-            <div className="lastMsgTime">
-              {detailDate(new Date(c.createdAt))}
-            </div>
-          </STContainer>
-        );
-      })}
+      {data?.data.length !== 0 ? (
+        data?.data.map((c: ChatCardType) => {
+          return (
+            <STContainer key={c.roomId} onClick={() => onClickHandler(c)}>
+              <div className="profileImg">
+                <img src={c.profileImage} />
+              </div>
+              <div className="body">
+                <h1>{c.nickname}</h1>
+                <div className="content">
+                  {c.lastMessage ? c.lastMessage : "첫 메세지롤 보내보세요!"}
+                </div>
+              </div>
+              <div className="lastMsgTime">
+                {c.createdAt ? detailDate(new Date(c.createdAt)) : null}
+                {}
+              </div>
+            </STContainer>
+          );
+        })
+      ) : (
+        <div>텅~ </div>
+      )}
     </>
   );
 

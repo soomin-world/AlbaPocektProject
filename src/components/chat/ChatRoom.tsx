@@ -23,22 +23,23 @@ function ChatRoom() {
   const url = baseURL;
   //----------------------------------------------
 
-  useEffect(() => {
-    setOther(otherName);
-    connectStomp();
-    scrollToBot();
-  }, [otherName]);
-
   // 입력받은 message값
   const [message, setMessage] = useState("");
   // chat내용 리스트
   const [chatList, setChatList] = useState<IPayload[]>([]);
   // 서버에서 get해온 이전 채팅 조회부분
-  const { data } = useQuery(["chat", id], () => getDetailChat(id));
+  const { data, isSuccess } = useQuery(["chat", id], () => getDetailChat(id));
   // 스크롤 최하단으로 내리기
   const scrollToBot = () => {
     window.scrollTo(0, document.body.scrollHeight);
   };
+
+  useEffect(() => {
+    connectStomp();
+    scrollToBot();
+    setChatList(data?.data);
+  }, [isSuccess]);
+
   //------------------------------------------------
 
   // stompclient생성부분
@@ -121,7 +122,7 @@ function ChatRoom() {
   return (
     <LayOut>
       <STContainer>
-        <ChatHeader title={other} arrow={true} menu={id} location="/chat" />
+        <ChatHeader title={otherName} arrow={true} menu={id} location="/chat" />
         <STChatList>
           <div className="time">{/* <p>오후10:00</p> */}</div>
           {chatList?.map((c: ChatType, i) => {

@@ -1,10 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { createChatRoom } from "../../APIs/chatApi";
 import { changeLikePost } from "../../APIs/communityBoardApi";
 import { deletePost, getPost } from "../../APIs/detailPostApi";
+import { otherNickName } from "../../atoms";
 import DropDown from "../dropDown/DropDown";
 import Header from "../header/Header";
 
@@ -20,6 +22,7 @@ function PostDetail() {
   const [isOpen, setIsOpen] = useState(false);
   const [category, setCategory] = useState("");
   const createTime = data?.createAt.substr(14, 5);
+  const [otherNickname, setOtherNickName] = useRecoilState(otherNickName);
 
   const categoryToKor = (e: string) => {
     if (e === "free") {
@@ -68,6 +71,7 @@ function PostDetail() {
 
   const onChatHandler = (e: string) => {
     mutateAsync(e).then((roomId) => navigate(`/chat/${roomId}`));
+    setOtherNickName(data.nickname);
   };
 
   return (
