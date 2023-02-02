@@ -15,6 +15,7 @@ import {
 const MyAlert = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("is_login");
+  console.log(token);
   const [isOpen, setIsOpen] = useState(false);
   const { data, isLoading, refetch } = useQuery(["getNotifications"], () =>
     getNotifications()
@@ -33,29 +34,36 @@ const MyAlert = () => {
 
   const EventSource = EventSourcePolyfill || NativeEventSource;
 
-  // let HEADER;
+  let HEADER;
 
-  // if (token) {
-  //   HEADER = {
+  if (token) {
+    HEADER = {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        Authorization: token,
+      },
+    };
+  }
+
+  console.log(HEADER);
+
+  // const eventSource = new EventSource(
+  //   "https://woooo.shop/subscribe",
+
+  //   {
   //     headers: {
   //       Authorization: token,
   //     },
-  //   };
-  // }
+  //   }
+  // );
 
-  // console.log(HEADER);
-  // const eventSource = new EventSource("https://woooo.shop/subscribe", HEADER);
+  const eventSource = new EventSource("https://woooo.shop/subscribe", HEADER);
 
-  // const eventSource = new EventSource("https://woooo.shop/subscribe", {
-  //   headers: {
-  //     authorization: token,
-  //   },
-  // });
-
-  // eventSource.onmessage = (event) => {
-  //   const data = JSON.parse(event.data);
-  //   console.log(data.message);
-  // };
+  eventSource.onmessage = (event) => {
+    console.log(event);
+    //const data = JSON.parse(event.data);
+    // console.log(data.message);
+  };
 
   return (
     <Total>
