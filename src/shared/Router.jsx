@@ -24,6 +24,7 @@ import ChatList from "../pages/ChatList";
 import ChatRoom from "../components/chat/ChatRoom";
 import Footer from "../components/footer/Footer";
 import Loading from "../components/Loading/Loading";
+import Alert from "../pages/Alert";
 
 function Router() {
   return (
@@ -68,6 +69,7 @@ function Router() {
         <Route path="/chat/:id" element={<ChatRoom />} />
 
         <Route path="/loading" element={<Loading />} />
+        <Router path="/alert" element={<Alert />} />
       </Routes>
       <Footer />
     </BrowserRouter>

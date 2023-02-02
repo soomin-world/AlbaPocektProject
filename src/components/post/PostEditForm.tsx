@@ -9,6 +9,7 @@ function PostEditForm() {
   const [title, setTitle] = useState({ title: "" });
   const [category, setCategory] = useState({ category: "" });
   const [content, setContent] = useState({ content: "" });
+  const [isDelete, setIsDelete] = useState({ isDelete: "false" });
   const [file, setFile] = useState<string | Blob>();
   const { id } = useParams();
   const [imgFile, setImgFile] = useState<any>("");
@@ -63,6 +64,7 @@ function PostEditForm() {
       formData.append("title", title.title);
       formData.append("content", content.content);
       formData.append("category", category.category);
+      formData.append("isDelete", isDelete.isDelete);
       formData.append("file", file);
       const payload = [id, formData];
       mutatePost.mutate(payload);
@@ -72,6 +74,7 @@ function PostEditForm() {
       formData.append("title", title.title);
       formData.append("content", content.content);
       formData.append("category", category.category);
+      formData.append("isDelete", isDelete.isDelete);
       const payload = [id, formData];
       mutatePost.mutate(payload);
       alert("수정되었습니다!");
@@ -142,6 +145,15 @@ function PostEditForm() {
 
         <STImageUpLoad>
           <div className="preview">
+            <div
+              onClick={() => {
+                setIsDelete({ isDelete: "true" });
+                setFile(undefined);
+                setImgFile("");
+              }}
+            >
+              X
+            </div>
             {imgFile ? <img src={imgFile} /> : null}
           </div>
           <div className="line" />

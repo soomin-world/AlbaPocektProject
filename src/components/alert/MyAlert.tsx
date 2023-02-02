@@ -38,16 +38,16 @@ const MyAlert = () => {
   // console.log(HEADER);
   // const eventSource = new EventSource("https://woooo.shop/subscribe", HEADER);
 
-  const eventSource = new EventSource("https://woooo.shop/subscribe", {
-    headers: {
-      authorization: token,
-    },
-  });
+  // const eventSource = new EventSource("https://woooo.shop/subscribe", {
+  //   headers: {
+  //     authorization: token,
+  //   },
+  // });
 
-  eventSource.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-    console.log(data.message);
-  };
+  // eventSource.onmessage = (event) => {
+  //   const data = JSON.parse(event.data);
+  //   console.log(data.message);
+  // };
 
   return (
     <Total>
@@ -61,18 +61,19 @@ const MyAlert = () => {
       </Alert>
       {isOpen ? (
         <AlertList>
-          {data.map((alert) => {
+          {data.map((alert: any) => {
             return (
               <>
                 <div>
-                  <span
+                  <AlertMsg
                     onClick={() => {
                       navigate(`post/${alert.url.slice(-3)}`);
                       readNoti(alert.id);
                     }}
+                    fontColor={alert.status}
                   >
                     {alert.content}
-                  </span>
+                  </AlertMsg>
                   <button
                     onClick={() => {
                       deleteNoti(alert.id).then((res) => refetch());
@@ -143,6 +144,10 @@ const AlertList = styled.div`
       border: none;
     }
   }
+`;
+
+const AlertMsg = styled.span<{ fontColor: Boolean }>`
+  color: ${(props) => (props.fontColor ? "blue" : "black")};
 `;
 
 export default MyAlert;
