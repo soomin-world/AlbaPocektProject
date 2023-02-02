@@ -24,6 +24,7 @@ const MyAlert = () => {
     isLoading: cntLoading,
     refetch: cntRefetch,
   } = useQuery(["getNotificationsCnt"], () => getNotificationsCnt());
+  console.log(data);
   console.log("안 읽은 알림 개수", count?.count);
 
   const { mutateAsync: readNoti } = useMutation(notificationRead);
