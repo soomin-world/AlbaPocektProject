@@ -1,9 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { quitChatRoom } from "../../APIs/chatApi";
 import { HeaderProps } from "../../types/header";
 
 const ChatHeader: React.FC<HeaderProps> = ({ title, arrow, menu }) => {
   const navigate = useNavigate();
+  const quitRoom = (id: string) => {
+    quitChatRoom(id);
+  };
   return (
     <STHeader>
       <div className="wrap">
@@ -17,7 +21,13 @@ const ChatHeader: React.FC<HeaderProps> = ({ title, arrow, menu }) => {
         <h1>{title}</h1>
       </div>
       <div className="icons">
-        {menu && <img src="/image/icon-line-three-mono.svg" alt="menu" />}
+        {menu && (
+          <img
+            src="/image/icon-out-mono.svg"
+            alt="menu"
+            onClick={() => quitChatRoom(menu)}
+          />
+        )}
       </div>
     </STHeader>
   );

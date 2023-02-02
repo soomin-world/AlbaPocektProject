@@ -8,8 +8,8 @@ import { IPayload } from "./ChatRoom";
 
 export type ChatType = {
   message: string;
-  nickname: string;
-  profileImage: string;
+  nickname?: string | null;
+  profileImage?: string;
 };
 
 type IsMe = {

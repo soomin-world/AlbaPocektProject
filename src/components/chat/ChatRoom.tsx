@@ -1,6 +1,6 @@
 import { IMessage } from "@stomp/stompjs";
 import { AxiosResponse } from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import SockJS from "sockjs-client";
@@ -20,28 +20,31 @@ export type IPayload = {
   type: string;
 };
 
+export type IMychat = {
+  message: string;
+};
+
 function ChatRoom() {
+  const scrollRef = useRef<HTMLDivElement>(null);
   const { id } = useParams();
   const [other, setOther] = useState("");
   const otherName = useRecoilValue(otherNickName);
   const myNickName = localStorage.getItem("nickname");
   const [message, setMessage] = useState("");
   const [chatList, setChatList] = useState([]);
-
+  const [myChat, setMyChat] = useState<IMychat[]>([]);
   useEffect(() => {
     connectStomp();
-    getDetailChat(id).then((res: AxiosResponse<any, any>) => {
-      const data = res.data;
-      setChatList(data);
-    });
-    setOther(otherName);
+    scrollToBot();
   }, [otherName]);
-  console.log(chatList);
+
   const url = baseURL;
   const sock = new SockJS(url + "/ws/chat");
   const client = stompJS.over(sock);
   const scrollToBot = () => {
-    window.scrollTo(0, document.body.scrollHeight);
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
   };
   const connectStomp = () => {
     client.connect({ myNickName }, onConnect, onError);
@@ -55,16 +58,18 @@ function ChatRoom() {
     client.subscribe(`/sub/chat/room/${id}`, () => onMessageRecieve);
     userEnter();
     scrollToBot();
+    getDetailChat(id).then((res) => setChatList(res.data));
     console.log("연결성공~");
   };
 
   const onMessageRecieve = (e: IMessage) => {
     let data = JSON.parse(e.body);
-    if (data.type === "talk") {
+    if (data.type === "TALK") {
       getDetailChat(id).then((res: AxiosResponse) => {
         setChatList(res.data);
       });
     }
+    scrollToBot();
   };
 
   const userEnter = () => {
@@ -81,35 +86,39 @@ function ChatRoom() {
     );
     console.log("유저입장");
   };
-
+  // useEffect(() => {
+  //   setMyChat(message);
+  // }, [message]);
   const sendMessage = () => {
-    console.log(typeof message);
-    console.log(message);
-    let payload = {
-      type: "TALK",
-      roomId: id,
-      sender: myNickName,
-      message: message,
-    };
-
-    client.send(
-      `/pub/api/chat/message`,
-      { myNickName },
-      JSON.stringify(payload)
-    );
-    setMessage("");
-    console.log("메세지 전송");
+    if (message) {
+      let payload = {
+        type: "TALK",
+        roomId: id,
+        sender: myNickName,
+        message: message,
+      };
+      client.send(
+        `/pub/api/chat/message`,
+        { myNickName },
+        JSON.stringify(payload)
+      );
+      setMessage("");
+    }
+    scrollToBot();
   };
 
-  const enterMessage = () => {
+  const enterMessage = (e: React.FormEvent) => {
+    e.preventDefault();
+    scrollToBot();
     sendMessage();
+    setMyChat([...myChat, { message: message }]);
   };
   console.log(message);
   return (
-    <LayOut height={"100vh"}>
+    <LayOut>
       <STContainer>
-        <ChatHeader title={other} arrow={true} menu={true} />
-        <STChatList>
+        <ChatHeader title={other} arrow={true} menu={id} />
+        <STChatList ref={scrollRef}>
           <div className="time">
             <p>오후10:00</p>
           </div>
@@ -123,9 +132,12 @@ function ChatRoom() {
               />
             );
           })}
+          {myChat.map((m: IMychat) => {
+            return <Chat nickname={myNickName} message={m.message} />;
+          })}
         </STChatList>
-        <STWrap>
-          <STInputFooter>
+        <div className="footWrap">
+          <STInputFooter onSubmit={(e) => enterMessage(e)}>
             <input
               className="chat_input"
               type="text"
@@ -133,13 +145,9 @@ function ChatRoom() {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
             />
-            <img
-              src="/image/icon-arrow-right-circle-mono.svg"
-              alt="전송"
-              onClick={enterMessage}
-            />
+            <button onClick={enterMessage} />
           </STInputFooter>
-        </STWrap>
+        </div>
       </STContainer>
     </LayOut>
   );
@@ -147,11 +155,25 @@ function ChatRoom() {
 
 const STContainer = styled.div`
   width: 100%;
+  min-height: 100vh;
+  //overflow-y: scroll;
+  .footWrap {
+    // border: 1px solid black;
+    width: 358px;
+    height: 50px;
+    position: fixed;
+    bottom: 0px;
+    background-color: white;
+  }
 `;
 const STChatList = styled.div`
+  //border: 1px solid black;
   display: flex;
   flex-direction: column;
   margin-top: 70px;
+  margin-bottom: 50px;
+  //height: 100%;
+  //soverflow: auto;
   .time {
     width: 100%;
     display: flex;
@@ -162,14 +184,14 @@ const STChatList = styled.div`
     color: #aeaeae;
   }
 `;
-const STInputFooter = styled.div`
+const STInputFooter = styled.form`
   //border: 1px solid black;
   width: 350px;
   height: 44px;
   position: fixed;
   bottom: 5px;
   border-radius: 8px;
-  border: 1px solid #efefef;
+  //border: 1px solid #efefef;
   display: flex;
   align-items: center;
   background-color: #f9f9f9;
@@ -178,6 +200,7 @@ const STInputFooter = styled.div`
     height: 24px;
     border-radius: 100%;
     border: none;
+    background-image: url("/image/icon-arrow-right-circle-mono.svg");
   }
   input {
     width: 90%;
@@ -189,15 +212,6 @@ const STInputFooter = styled.div`
     padding: 10px;
     background-color: #f9f9f9;
   }
-`;
-
-const STWrap = styled.div`
-  //border: 1px solid black;
-  width: 358px;
-  height: 50px;
-  position: fixed;
-  bottom: 0px;
-  background-color: white;
 `;
 
 export default ChatRoom;
