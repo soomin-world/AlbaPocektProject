@@ -21,3 +21,8 @@ export const notificationDeleteAll = async () => {
   const { data } = await instance.delete("/notifications/delete");
   return data;
 };
+
+export const getNotificationsCnt = async () => {
+  const { data } = await instance.get("/notifications/count");
+  return data;
+};

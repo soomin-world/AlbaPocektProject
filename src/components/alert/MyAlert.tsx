@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import {
   getNotifications,
+  getNotificationsCnt,
   notificationDelete,
   notificationDeleteAll,
   notificationRead,
@@ -18,25 +19,31 @@ const MyAlert = () => {
   const { data, isLoading, refetch } = useQuery(["getNotifications"], () =>
     getNotifications()
   );
-  console.log(data);
+  const {
+    data: count,
+    isLoading: cntLoading,
+    refetch: cntRefetch,
+  } = useQuery(["getNotificationsCnt"], () => getNotificationsCnt());
+  console.log("안 읽은 알림 개수", count?.count);
+
   const { mutateAsync: readNoti } = useMutation(notificationRead);
   const { mutateAsync: deleteNoti } = useMutation(notificationDelete);
   const { mutateAsync: deleteAllNoti } = useMutation(notificationDeleteAll);
 
   const EventSource = EventSourcePolyfill || NativeEventSource;
 
-  let HEADER;
+  // let HEADER;
 
-  if (token) {
-    HEADER = {
-      headers: {
-        authorization: token,
-      },
-    };
-  }
+  // if (token) {
+  //   HEADER = {
+  //     headers: {
+  //       Authorization: token,
+  //     },
+  //   };
+  // }
 
-  console.log(HEADER);
-  const eventSource = new EventSource("https://woooo.shop/subscribe", HEADER);
+  // console.log(HEADER);
+  // const eventSource = new EventSource("https://woooo.shop/subscribe", HEADER);
 
   // const eventSource = new EventSource("https://woooo.shop/subscribe", {
   //   headers: {
@@ -44,10 +51,10 @@ const MyAlert = () => {
   //   },
   // });
 
-  eventSource.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-    console.log(data.message);
-  };
+  // eventSource.onmessage = (event) => {
+  //   const data = JSON.parse(event.data);
+  //   console.log(data.message);
+  // };
 
   return (
     <Total>
@@ -59,8 +66,9 @@ const MyAlert = () => {
       >
         알림
       </Alert>
-      {isOpen ? (
+      {isOpen && !cntLoading ? (
         <AlertList>
+          <div>{count?.count}개의 안 읽은 알림이 존재합니다!</div>
           {data.map((alert: any) => {
             return (
               <>
