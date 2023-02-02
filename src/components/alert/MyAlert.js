@@ -1,71 +1,114 @@
 import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import React, { Children, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import MuiAlert from "@mui/material/Alert";
+import { Snackbar } from "@mui/material";
 import {
   getNotifications,
+  getNotificationsCnt,
   notificationDelete,
   notificationDeleteAll,
   notificationRead,
 } from "../../APIs/alertApi";
-// import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
+
+const AlertMsg = React.forwardRef(function Alert(props, ref, children) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const MyAlert = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("is_login");
+  console.log(token);
   const [isOpen, setIsOpen] = useState(false);
+  const [notification, setNotification] = useState([]);
+  const [alertOpen, setAlertOpen] = useState(false);
+
+  const handleAlertClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setAlertOpen(false);
+  };
+
   const { data, isLoading, refetch } = useQuery(["getNotifications"], () =>
     getNotifications()
   );
-  console.log(data);
+  const {
+    data: count,
+    isLoading: cntLoading,
+    refetch: cntRefetch,
+  } = useQuery(["getNotificationsCnt"], () => getNotificationsCnt());
+
+  console.log("받아온 알림", data);
+  console.log("안 읽은 알림 개수", count?.count);
+
   const { mutateAsync: readNoti } = useMutation(notificationRead);
   const { mutateAsync: deleteNoti } = useMutation(notificationDelete);
   const { mutateAsync: deleteAllNoti } = useMutation(notificationDeleteAll);
 
   const EventSource = EventSourcePolyfill || NativeEventSource;
 
-  // let HEADER;
+  let HEADER;
 
-  // if (token) {
-  //   HEADER = {
+  if (token) {
+    HEADER = {
+      headers: {
+        Authorization: token,
+      },
+    };
+  }
+
+  console.log(HEADER);
+
+  // const eventSource = new EventSource(
+  //   "https://woooo.shop/subscribe",
+
+  //   {
   //     headers: {
   //       Authorization: token,
   //     },
-  //   };
-  // }
+  //   }
+  // );
 
-  // console.log(HEADER);
-  // const eventSource = new EventSource("https://woooo.shop/subscribe", HEADER);
+  const eventSource = new EventSource("https://woooo.shop/subscribe", HEADER);
 
-  // const eventSource = new EventSource("https://woooo.shop/subscribe", {
-  //   headers: {
-  //     authorization: token,
-  //   },
+  eventSource.onmessage = (event) => {
+    console.log(event);
+    if (event.type === "message" && event.data.startsWith("{")) {
+      console.log("실시간 알림이 있을 때만 나오는 것", JSON.parse(event.data));
+      setNotification((prev) => [JSON.parse(event.data)]);
+      setAlertOpen(true);
+    }
+    //const data = JSON.parse(event.data);
+    // console.log(data.message);
+  };
+
+  // eventSource.addEventListener("error", function (e) {
+  //   if (e) {
+  //     eventSource.close();
+  //   }
   // });
-
-  // eventSource.onmessage = (event) => {
-  //   const data = JSON.parse(event.data);
-  //   console.log(data.message);
-  // };
 
   return (
     <Total>
-      <Alert
+      {/* <Alert
         onClick={() => {
           setIsOpen(!isOpen);
-          refetch();
+          // refetch();
         }}
       >
         알림
-      </Alert>
-      {isOpen ? (
+      </Alert> */}
+      {data && isOpen && !cntLoading ? (
         <AlertList>
-          {data.map((alert: any) => {
+          <div>{count?.count}개의 안 읽은 알림이 존재합니다!</div>
+          {data.map((alert) => {
             return (
               <>
                 <div>
-                  <AlertMsg
+                  <AlertListMsg
                     onClick={() => {
                       navigate(`post/${alert.url.slice(-3)}`);
                       readNoti(alert.id);
@@ -73,7 +116,7 @@ const MyAlert = () => {
                     fontColor={alert.status}
                   >
                     {alert.content}
-                  </AlertMsg>
+                  </AlertListMsg>
                   <button
                     onClick={() => {
                       deleteNoti(alert.id).then((res) => refetch());
@@ -95,6 +138,17 @@ const MyAlert = () => {
           </button>
         </AlertList>
       ) : null}
+
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        onClose={handleAlertClose}
+      >
+        <AlertMsg onClose={handleAlertClose} severity="success">
+          {notification[notification.length - notification.length]?.content}
+        </AlertMsg>
+      </Snackbar>
     </Total>
   );
 };
@@ -146,8 +200,11 @@ const AlertList = styled.div`
   }
 `;
 
-const AlertMsg = styled.span<{ fontColor: Boolean }>`
-  color: ${(props) => (props.fontColor ? "blue" : "black")};
+const AlertListMsg =
+  styled.span <
+  { fontColor: Boolean } >
+  `
+  color: ${(props) => (props.fontColor ? "#AEAEAE" : "black")};
 `;
 
 export default MyAlert;

@@ -15,14 +15,17 @@ function Footer() {
   const comDetailMatch = useMatch("/post/:id");
   const chartMatch = useMatch("/chart");
   const { id } = useParams();
+
   if (locationNow.pathname === "/login") return null;
   if (locationNow.pathname === "/register") return null;
   if (locationNow.pathname === "/mypage") return null;
   if (locationNow.pathname === "/mypage/myLike") return null;
   if (locationNow.pathname === "/mypage/myComment") return null;
   if (locationNow.pathname === "/mypage/edit") return null;
+  if (locationNow.pathname === "/alert") return null;
+  if (locationNow.pathname === "/loading") return null;
+  if (locationNow.pathname.slice(0, 6) === "/oauth") return null;
   if (locationNow.pathname.slice(0, 5) === "/chat") return null;
-  if (locationNow.pathname === `/chat/716013902`) return null;
   if (window.location.pathname.slice(0, 8) === "/posting") return null;
   if (window.location.pathname.slice(0, 8) === "/addwork") return null;
   if (window.location.pathname.slice(0, 9) === "/addShift") return null;
