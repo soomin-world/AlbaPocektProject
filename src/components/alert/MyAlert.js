@@ -1,6 +1,6 @@
 import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import React, { Children, useState } from "react";
+import React, { Children, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import MuiAlert from "@mui/material/Alert";
@@ -13,15 +13,16 @@ import {
   notificationRead,
 } from "../../APIs/alertApi";
 
-const AlertMsg = React.forwardRef(function Alert(props, ref, children) {
+const AlertMsg = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
 const MyAlert = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("is_login");
-  console.log(token);
+  // console.log(token);
   const [isOpen, setIsOpen] = useState(false);
+  const [listening, setListening] = useState(false);
   const [notification, setNotification] = useState([]);
   const [alertOpen, setAlertOpen] = useState(false);
 
@@ -41,8 +42,8 @@ const MyAlert = () => {
     refetch: cntRefetch,
   } = useQuery(["getNotificationsCnt"], () => getNotificationsCnt());
 
-  console.log("받아온 알림", data);
-  console.log("안 읽은 알림 개수", count?.count);
+  // console.log("받아온 알림", data);
+  // console.log("안 읽은 알림 개수", count?.count);
 
   const { mutateAsync: readNoti } = useMutation(notificationRead);
   const { mutateAsync: deleteNoti } = useMutation(notificationDelete);
@@ -60,7 +61,7 @@ const MyAlert = () => {
     };
   }
 
-  console.log(HEADER);
+  // console.log(HEADER);
 
   // const eventSource = new EventSource(
   //   "https://woooo.shop/subscribe",
@@ -72,18 +73,47 @@ const MyAlert = () => {
   //   }
   // );
 
-  const eventSource = new EventSource("https://woooo.shop/subscribe", HEADER);
+  useEffect(() => {
+    if (!listening) {
+      const eventSource = new EventSource(
+        "https://woooo.shop/subscribe",
+        HEADER
+      );
 
-  eventSource.onmessage = (event) => {
-    console.log(event);
-    if (event.type === "message" && event.data.startsWith("{")) {
-      console.log("실시간 알림이 있을 때만 나오는 것", JSON.parse(event.data));
-      setNotification((prev) => [JSON.parse(event.data)]);
-      setAlertOpen(true);
+      // eventSource.addEventListener("sse", async (e) => {
+      //   console.log(e);
+      //   const result = await e.data;
+      //   // console.log(result);
+      //   // setData(result);
+      //   setListening(true);
+      // });
+
+      eventSource.onmessage = (event) => {
+        console.log(event);
+        setListening(true);
+
+        if (event.type === "message" && event.data.startsWith("{")) {
+          console.log(
+            "실시간 알림이 있을 때만 나오는 것",
+            JSON.parse(event.data)
+          );
+          setNotification((prev) => [JSON.parse(event.data)]);
+          setAlertOpen(true);
+        }
+      };
     }
-    //const data = JSON.parse(event.data);
-    // console.log(data.message);
-  };
+  }, []);
+
+  // const eventSource = new EventSource("https://woooo.shop/subscribe", HEADER);
+
+  // eventSource.onmessage = (event) => {
+  //   console.log(event);
+  //   if (event.type === "message" && event.data.startsWith("{")) {
+  //     console.log("실시간 알림이 있을 때만 나오는 것", JSON.parse(event.data));
+  //     setNotification((prev) => [JSON.parse(event.data)]);
+  //     setAlertOpen(true);
+  //   }
+  // };
 
   // eventSource.addEventListener("error", function (e) {
   //   if (e) {
