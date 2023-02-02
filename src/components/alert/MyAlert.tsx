@@ -25,18 +25,18 @@ const MyAlert = () => {
 
   const EventSource = EventSourcePolyfill || NativeEventSource;
 
-  // let HEADER;
+  let HEADER;
 
-  // if (token) {
-  //   HEADER = {
-  //     headers: {
-  //       Authorization: token,
-  //     },
-  //   };
-  // }
+  if (token) {
+    HEADER = {
+      headers: {
+        authorization: token,
+      },
+    };
+  }
 
-  // console.log(HEADER);
-  // const eventSource = new EventSource("https://woooo.shop/subscribe", HEADER);
+  console.log(HEADER);
+  const eventSource = new EventSource("https://woooo.shop/subscribe", HEADER);
 
   // const eventSource = new EventSource("https://woooo.shop/subscribe", {
   //   headers: {
@@ -44,10 +44,10 @@ const MyAlert = () => {
   //   },
   // });
 
-  // eventSource.onmessage = (event) => {
-  //   const data = JSON.parse(event.data);
-  //   console.log(data.message);
-  // };
+  eventSource.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    console.log(data.message);
+  };
 
   return (
     <Total>
@@ -147,7 +147,7 @@ const AlertList = styled.div`
 `;
 
 const AlertMsg = styled.span<{ fontColor: Boolean }>`
-  color: ${(props) => (props.fontColor ? "blue" : "black")};
+  color: ${(props) => (props.fontColor ? "#AEAEAE" : "black")};
 `;
 
 export default MyAlert;

@@ -25,7 +25,7 @@ function MainHeader() {
         <img
           src="/image/iconBell.svg"
           alt="마이페이지"
-          onClick={() => navigate("/mypage")}
+          onClick={() => navigate("/alert")}
         />
       </div>
     </STHeader>
