@@ -69,7 +69,7 @@ function Router() {
         <Route path="/chat/:id" element={<ChatRoom />} />
 
         <Route path="/loading" element={<Loading />} />
-        <Router path="/alert" element={<Alert />} />
+        <Route path="/alert" element={<Alert />} />
       </Routes>
       <Footer />
     </BrowserRouter>

@@ -4,27 +4,35 @@ import { Children, useEffect } from "react";
 import SockJS from "sockjs-client";
 import styled from "styled-components";
 import ChatList from "../../pages/ChatList";
-import { IPayload } from "./ChatRoom";
 
 export type ChatType = {
   message: string;
-  nickname?: string | null;
+  sender?: string | null;
   profileImage?: string;
+  createdAt: string;
 };
 
-type IsMe = {
-  me: boolean;
-};
-
-const Chat: React.FC<ChatType> = ({ message, nickname, profileImage }) => {
+const Chat: React.FC<ChatType> = ({
+  message,
+  sender,
+  profileImage,
+  createdAt,
+}) => {
   const me = localStorage.getItem("nickname");
+  const timeToKor = (t: string) => {
+    return t.slice(11, 16);
+  };
+  //console.log(timeToKor(createdAt));
   return (
     <>
-      {nickname === me ? (
+      {sender === me ? (
         <STMe>
           <STBody>
+            <div className="time">
+              <div>{timeToKor(createdAt)}</div>
+            </div>
             <ChatPiece backGround="#5FCE80" color="white">
-              {message}{" "}
+              {message}
             </ChatPiece>
           </STBody>
         </STMe>
@@ -35,36 +43,22 @@ const Chat: React.FC<ChatType> = ({ message, nickname, profileImage }) => {
           </STProfile>
           <STBody>
             <ChatPiece>{message}</ChatPiece>
+            <div className="time">
+              <div>{timeToKor(createdAt)}</div>
+            </div>
           </STBody>
         </STOther>
       )}
-
-      {/* <STMe>
-        <STBody>
-          <ChatPiece>aptpwl </ChatPiece>
-        </STBody>
-      </STMe>
-      <STOther>
-        <STProfile>
-          <img src="/image/댓글 예시.jpeg" alt="프로필사진" />
-        </STProfile>
-        <STBody>
-          <ChatPiece>aptpwl</ChatPiece>
-        </STBody>
-      </STOther> */}
     </>
   );
 };
 
 const STOther = styled.div`
   display: flex;
-  //justify-content: flex-end;
-  //border: 1px solid black;
 `;
 const STMe = styled.div`
   display: flex;
   justify-content: flex-end;
-  //border: 1px solid black;
 `;
 
 const STProfile = styled.div`
@@ -81,21 +75,27 @@ const STProfile = styled.div`
 const STBody = styled.div`
   //border: 1px solid black;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   max-width: 70%;
-  div {
+  .time {
+    width: 50px;
+    padding: 7px;
+    display: flex;
+    flex-direction: column-reverse;
+    div {
+      font-size: 10px;
+    }
   }
 `;
 
 const ChatPiece = styled.div<{ backGround?: string; color?: string }>`
-  width: 100%;
+  //border: 1px solid black;
   padding: 7px;
   background-color: ${(props) => props.backGround || "#F2F4F6"};
   color: ${(props) => props.color || "black"};
   display: flex;
   align-items: center;
   border-radius: 8px;
-  width: 100%;
   min-height: 36px;
   font-size: 13px;
   margin-bottom: 10px;

@@ -4,4 +4,5 @@ export type HeaderProps = {
   id?: string;
   menu?: string;
   padding?: string;
+  location?: string;
 };

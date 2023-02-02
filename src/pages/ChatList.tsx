@@ -7,7 +7,7 @@ const ChatList = () => {
   return (
     <LayOut height="100vh">
       <STContainer>
-        <ChatHeader title={"채팅"} arrow={true} />
+        <ChatHeader title={"채팅"} arrow={true} location="/" />
         <ChatRoomCard />
       </STContainer>
     </LayOut>

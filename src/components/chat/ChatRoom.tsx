@@ -11,62 +11,65 @@ import { otherNickName } from "../../atoms";
 import ChatHeader from "../header/ChatHeader";
 import LayOut from "../layout/LayOut";
 import Chat, { ChatType } from "./Chat";
-import stompJS from "stompjs";
-
-export type IPayload = {
-  roomId: string | undefined;
-  sender: string | null;
-  message: string;
-  type: string;
-};
-
-export type IMychat = {
-  message: string;
-};
+import stompJS, { Message } from "stompjs";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { IMychat, IPayload } from "../../types/chatType";
 
 function ChatRoom() {
-  const scrollRef = useRef<HTMLDivElement>(null);
   const { id } = useParams();
   const [other, setOther] = useState("");
   const otherName = useRecoilValue(otherNickName);
   const myNickName = localStorage.getItem("nickname");
-  const [message, setMessage] = useState("");
-  const [chatList, setChatList] = useState([]);
-  const [myChat, setMyChat] = useState<IMychat[]>([]);
+  const url = baseURL;
+  //----------------------------------------------
+
   useEffect(() => {
+    setOther(otherName);
     connectStomp();
     scrollToBot();
   }, [otherName]);
 
-  const url = baseURL;
+  // 입력받은 message값
+  const [message, setMessage] = useState("");
+  // chat내용 리스트
+  const [chatList, setChatList] = useState<IPayload[]>([]);
+  // 서버에서 get해온 이전 채팅 조회부분
+  const { data } = useQuery(["chat", id], () => getDetailChat(id));
+  // 스크롤 최하단으로 내리기
+  const scrollToBot = () => {
+    window.scrollTo(0, document.body.scrollHeight);
+  };
+  //------------------------------------------------
+
+  // stompclient생성부분
   const sock = new SockJS(url + "/ws/chat");
   const client = stompJS.over(sock);
-  const scrollToBot = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  };
+
   const connectStomp = () => {
     client.connect({ myNickName }, onConnect, onError);
-    //client.debug = () => console.log();
-    //client.activate();
   };
-  const onError = () => {
-    console.log("에러에요 ");
-  };
+
   const onConnect = () => {
-    client.subscribe(`/sub/chat/room/${id}`, () => onMessageRecieve);
+    client.subscribe(`/sub/chat/room/${id}`, (e) => onMessageRecieve(e));
     userEnter();
     scrollToBot();
-    getDetailChat(id).then((res) => setChatList(res.data));
+    setChatList(data?.data);
+    // 연결되면 이전데이터로 chatlist 설정
     console.log("연결성공~");
   };
 
-  const onMessageRecieve = (e: IMessage) => {
+  const onError = () => {
+    console.log("에러에요 ");
+  };
+
+  //-------------------------------------------------
+
+  const onMessageRecieve = (e: Message) => {
+    // 메세지가 오면 받아온 데이터의 body를 json.parse해서 data 라는 변수에 넣음
     let data = JSON.parse(e.body);
     if (data.type === "TALK") {
-      getDetailChat(id).then((res: AxiosResponse) => {
-        setChatList(res.data);
+      getDetailChat(id).then((res) => {
+        return setChatList([...res.data]);
       });
     }
     scrollToBot();
@@ -84,11 +87,14 @@ function ChatRoom() {
       { myNickName },
       JSON.stringify(payload)
     );
+    scrollToBot();
     console.log("유저입장");
   };
-  // useEffect(() => {
-  //   setMyChat(message);
-  // }, [message]);
+
+  useEffect(() => {
+    scrollToBot();
+  }, [chatList]);
+
   const sendMessage = () => {
     if (message) {
       let payload = {
@@ -103,37 +109,31 @@ function ChatRoom() {
         JSON.stringify(payload)
       );
       setMessage("");
+      scrollToBot();
     }
-    scrollToBot();
   };
 
   const enterMessage = (e: React.FormEvent) => {
     e.preventDefault();
-    scrollToBot();
     sendMessage();
-    setMyChat([...myChat, { message: message }]);
   };
-  console.log(message);
+
   return (
     <LayOut>
       <STContainer>
-        <ChatHeader title={other} arrow={true} menu={id} />
-        <STChatList ref={scrollRef}>
-          <div className="time">
-            <p>오후10:00</p>
-          </div>
-          {chatList.map((c: ChatType, i) => {
+        <ChatHeader title={other} arrow={true} menu={id} location="/chat" />
+        <STChatList>
+          <div className="time">{/* <p>오후10:00</p> */}</div>
+          {chatList?.map((c: ChatType, i) => {
             return (
               <Chat
+                createdAt={c.createdAt}
                 key={i}
                 message={c.message}
-                nickname={c.nickname}
+                sender={c.sender}
                 profileImage={c.profileImage}
               />
             );
-          })}
-          {myChat.map((m: IMychat) => {
-            return <Chat nickname={myNickName} message={m.message} />;
           })}
         </STChatList>
         <div className="footWrap">
@@ -173,7 +173,7 @@ const STChatList = styled.div`
   margin-top: 70px;
   margin-bottom: 50px;
   //height: 100%;
-  //soverflow: auto;
+  //overflow: auto;
   .time {
     width: 100%;
     display: flex;

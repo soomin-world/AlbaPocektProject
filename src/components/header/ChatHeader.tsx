@@ -3,7 +3,12 @@ import styled from "styled-components";
 import { quitChatRoom } from "../../APIs/chatApi";
 import { HeaderProps } from "../../types/header";
 
-const ChatHeader: React.FC<HeaderProps> = ({ title, arrow, menu }) => {
+const ChatHeader: React.FC<HeaderProps> = ({
+  title,
+  arrow,
+  menu,
+  location,
+}) => {
   const navigate = useNavigate();
   const quitRoom = (id: string) => {
     quitChatRoom(id);
@@ -15,7 +20,7 @@ const ChatHeader: React.FC<HeaderProps> = ({ title, arrow, menu }) => {
           <img
             src="/image/leftArrow.png"
             alt="<"
-            onClick={() => window.history.back()}
+            onClick={() => navigate(`${location}`)}
           />
         )}
         <h1>{title}</h1>
