@@ -134,7 +134,7 @@ function Board() {
               alt="search"
             />
             <img
-              src="/image/iconChat.png"
+              src="/image/iconChat.svg"
               alt="chat"
               onClick={() => navigate("/chat")}
             />
@@ -214,7 +214,7 @@ const Icon = styled.div`
     margin-left: 15px;
   }
   img:nth-child(3) {
-    margin-left: 13px;
+    margin-left: 12px;
   }
 `;
 

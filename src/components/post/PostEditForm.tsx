@@ -9,6 +9,7 @@ function PostEditForm() {
   const [title, setTitle] = useState({ title: "" });
   const [category, setCategory] = useState({ category: "" });
   const [content, setContent] = useState({ content: "" });
+  const [isDelete, setIsDelete] = useState({ isDelete: "false" });
   const [file, setFile] = useState<string | Blob>();
   const { id } = useParams();
   const [imgFile, setImgFile] = useState<any>("");
@@ -63,6 +64,7 @@ function PostEditForm() {
       formData.append("title", title.title);
       formData.append("content", content.content);
       formData.append("category", category.category);
+      formData.append("isDelete", isDelete.isDelete);
       formData.append("file", file);
       const payload = [id, formData];
       mutatePost.mutate(payload);
@@ -72,6 +74,7 @@ function PostEditForm() {
       formData.append("title", title.title);
       formData.append("content", content.content);
       formData.append("category", category.category);
+      formData.append("isDelete", isDelete.isDelete);
       const payload = [id, formData];
       mutatePost.mutate(payload);
       alert("수정되었습니다!");
@@ -86,25 +89,32 @@ function PostEditForm() {
   return (
     <>
       <STHeader>
-        <img src="/image/x.png" alt="x" onClick={() => navigate("/board")} />
+        <img
+          src="/image/iconX.svg"
+          alt="x"
+          onClick={() => navigate("/board")}
+        />
         <div className="wrap">
-          <span>게시판 ·</span>
-          <select
-            value={category.category}
-            onChange={(e) => {
-              const { value } = e.target;
-              setCategory({ category: value });
-            }}
-          >
-            <option defaultValue="">카테고리</option>
-            <option value="free">자유</option>
-            <option value="partTime">알바고민</option>
-            <option value="cover">대타</option>
-          </select>
+          <div>게시글 수정</div>
         </div>
-        <button onClick={submitHandler}>등록</button>
+        <button onClick={submitHandler}>
+          <div>등록</div>
+        </button>
       </STHeader>
+
       <SContianer>
+        <select
+          value={category.category}
+          onChange={(e) => {
+            const { value } = e.target;
+            setCategory({ category: value });
+          }}
+        >
+          <option defaultValue="">카테고리</option>
+          <option value="free">자유</option>
+          <option value="partTime">알바고민</option>
+          <option value="cover">대타</option>
+        </select>
         <div className="titleForm">
           <input
             type="text"
@@ -126,17 +136,29 @@ function PostEditForm() {
             }}
           />
         </div>
-        <div className="preview">
+        {/* <div className="preview">
           <img
             src={imgFile ? imgFile : "/image/cash 1.png"}
             alt="임시기본이미지"
           />
-        </div>
+        </div> */}
 
         <STImageUpLoad>
+          <div className="preview">
+            <div
+              onClick={() => {
+                setIsDelete({ isDelete: "true" });
+                setFile(undefined);
+                setImgFile("");
+              }}
+            >
+              X
+            </div>
+            {imgFile ? <img src={imgFile} /> : null}
+          </div>
           <div className="line" />
           <label className="signup-profileImg-label" htmlFor="profileImg">
-            <img src="/image/camera-mono.png" alt="카메라" />
+            <img src="/image/iconCamera.svg" alt="카메라" />
           </label>
           <input
             className="signup-profileImg-input"
@@ -152,24 +174,22 @@ function PostEditForm() {
   );
 }
 const STHeader = styled.div`
-  display: flex;
   margin: 12px 0px 19.36px 0px;
   height: 35px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   img {
     width: 24px;
     height: 24px;
     cursor: pointer;
   }
   .wrap {
-    margin-left: 85px;
+    // margin-left: 85px;
     font-size: 17px;
     font-weight: 500;
-    select {
-      border: none;
-      width: 83px;
-      height: 25px;
-      font-size: 17px;
-      font-weight: 500;
+    div {
+      height: 19px;
     }
   }
   button {
@@ -179,13 +199,24 @@ const STHeader = styled.div`
     border: none;
     background-color: transparent;
     color: #5fce80;
-    margin-left: 44px;
+    // margin-left: 44px;
+    div {
+      font-size: 17px;
+      height: 19px;
+    }
   }
 `;
 const SContianer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  select {
+    border: none;
+    width: 83px;
+    height: 25px;
+    font-size: 17px;
+    font-weight: 500;
+  }
   .titleForm {
     border-bottom: 0.5px solid rgba(197, 197, 197, 0.7);
     margin-bottom: 10px;
@@ -213,24 +244,25 @@ const SContianer = styled.div`
       }
     }
   }
-  .preview {
-    img {
-      width: 345px;
-      height: 258px;
-      min-width: 345px;
-      min-height: 258px;
-      border: 0.5px solid rgba(197, 197, 197, 0.7);
-      margin-bottom: 43px;
-      object-fit: cover;
-    }
-  }
 `;
 const STImageUpLoad = styled.div`
   position: absolute;
   bottom: 10px;
   width: 375px;
+  .preview {
+    position: absolute;
+    bottom: 50px;
+    // border: 1px solid black;
+    width: 341px;
+    height: 220px;
+    img {
+      width: 341px;
+      height: 220px;
+      object-fit: cover;
+    }
+  }
   .line {
-    width: 90%;
+    width: 341px;
     height: 0px;
     border: 0.5px solid rgba(197, 197, 197, 0.7);
     margin-bottom: 10px;

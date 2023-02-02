@@ -22,6 +22,11 @@ function MainHeader() {
           alt="마이페이지"
           onClick={() => navigate("/mypage")}
         />
+        <img
+          src="/image/iconBell.svg"
+          alt="마이페이지"
+          onClick={() => navigate("/mypage")}
+        />
       </div>
     </STHeader>
   );
@@ -29,15 +34,20 @@ function MainHeader() {
 
 const STHeader = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  margin: 20px 20px 20px 20px;
+  padding: 20px 18px 20px 18px;
   .nav {
     gap: 15px;
     display: flex;
     height: 24px;
-    width: 63px;
+    // width: 63px;
     cursor: pointer;
+
+    img:last-child {
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+    }
   }
   .logo {
     width: 90px;

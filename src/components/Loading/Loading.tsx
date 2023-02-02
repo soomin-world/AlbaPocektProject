@@ -5,7 +5,7 @@ function Loading() {
   return (
     <LayOut height="100vh">
       <Wrap>
-        <img src="/image/iconLogo.svg" />
+        <img src="/image/iconLogoLarge.svg" />
       </Wrap>
     </LayOut>
   );
@@ -20,7 +20,7 @@ const Wrap = styled.div`
   margin-bottom: 50px;
 
   img {
-    width: 200px;
+    width: 100px;
   }
 `;
 

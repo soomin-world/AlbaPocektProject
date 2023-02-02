@@ -75,12 +75,19 @@ function PostForm() {
   return (
     <>
       <STHeader>
-        <img src="/image/x.png" alt="x" onClick={() => navigate("/board")} />
+        <img
+          src="/image/iconX.svg"
+          alt="x"
+          onClick={() => navigate("/board")}
+        />
         <div className="wrap">
-          <span>게시글 작성</span>
+          <div>게시글 작성</div>
         </div>
-        <button onClick={submitHandler}>등록</button>
+        <button onClick={submitHandler}>
+          <div>등록</div>
+        </button>
       </STHeader>
+
       <SBody>
         <select
           onChange={(e) => {
@@ -112,18 +119,19 @@ function PostForm() {
             }}
           />
         </div>
-        <div className="preview">
+        {/* <div className="preview">
           {imgFile ? (
             <img src={imgFile} />
           ) : (
             <div style={{ width: "345px", height: "258px", border: "none" }} />
           )}
-        </div>
+        </div> */}
       </SBody>
       <STImageUpLoad>
+        <div className="preview">{imgFile ? <img src={imgFile} /> : null}</div>
         <div className="line" />
         <label className="signup-profileImg-label" htmlFor="profileImg">
-          <img src="/image/camera-mono.png" alt="카메라" />
+          <img src="/image/iconCamera.svg" alt="카메라" />
         </label>
         <input
           className="signup-profileImg-input"
@@ -138,10 +146,11 @@ function PostForm() {
 }
 
 const STHeader = styled.div`
-  display: flex;
   margin: 12px 0px 19.36px 0px;
   height: 35px;
+  display: flex;
   justify-content: space-between;
+  align-items: center;
   img {
     width: 24px;
     height: 24px;
@@ -151,12 +160,8 @@ const STHeader = styled.div`
     //margin-left: 85px;
     font-size: 17px;
     font-weight: 500;
-    select {
-      border: none;
-      width: 83px;
-      height: 25px;
-      font-size: 17px;
-      font-weight: 500;
+    div {
+      height: 19px;
     }
   }
   button {
@@ -167,6 +172,10 @@ const STHeader = styled.div`
     background-color: transparent;
     color: #5fce80;
     //margin-left: 44px;
+    div {
+      font-size: 17px;
+      height: 19px;
+    }
   }
 `;
 const SBody = styled.div`
@@ -211,25 +220,26 @@ const SBody = styled.div`
       }
     }
   }
-  .preview {
-    border: 1px solid black;
-    img {
-      width: 345px;
-      height: 258px;
-      min-width: 345px;
-      min-height: 258px;
-      max-height: 258px;
-      object-fit: cover;
-    }
-  }
 `;
 
 const STImageUpLoad = styled.div`
   position: absolute;
   bottom: 10px;
   width: 375px;
+  .preview {
+    position: absolute;
+    bottom: 50px;
+    // border: 1px solid black;
+    width: 341px;
+    height: 220px;
+    img {
+      width: 341px;
+      height: 220px;
+      object-fit: cover;
+    }
+  }
   .line {
-    width: 90%;
+    width: 341px;
     height: 0px;
     border: 0.5px solid rgba(197, 197, 197, 0.7);
     margin-bottom: 10px;
