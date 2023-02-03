@@ -1,6 +1,4 @@
-import { IMessage } from "@stomp/stompjs";
-import { AxiosResponse } from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import SockJS from "sockjs-client";
@@ -12,12 +10,11 @@ import ChatHeader from "../header/ChatHeader";
 import LayOut from "../layout/LayOut";
 import Chat, { ChatType } from "./Chat";
 import stompJS, { Message } from "stompjs";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { IMychat, IPayload } from "../../types/chatType";
+import { useQuery } from "@tanstack/react-query";
+import { IPayload } from "../../types/chatType";
 
 function ChatRoom() {
   const { id } = useParams();
-  const [other, setOther] = useState("");
   const otherName = useRecoilValue(otherNickName);
   const myNickName = localStorage.getItem("nickname");
   const url = baseURL;
@@ -28,17 +25,20 @@ function ChatRoom() {
   // chat내용 리스트
   const [chatList, setChatList] = useState<IPayload[]>([]);
   // 서버에서 get해온 이전 채팅 조회부분
-  const { data, isSuccess } = useQuery(["chat", id], () => getDetailChat(id));
+  const { data, isSuccess, isLoading } = useQuery(
+    ["chat", id],
+    () => getDetailChat(id),
+    {
+      onSuccess: (data) => {
+        setChatList(data.data);
+      },
+    }
+  );
+
   // 스크롤 최하단으로 내리기
   const scrollToBot = () => {
     window.scrollTo(0, document.body.scrollHeight);
   };
-
-  useEffect(() => {
-    connectStomp();
-    scrollToBot();
-    setChatList(data?.data);
-  }, [isSuccess]);
 
   //------------------------------------------------
 
@@ -50,17 +50,29 @@ function ChatRoom() {
     client.connect({ myNickName }, onConnect, onError);
   };
 
+  useEffect(() => {
+    connectStomp();
+    scrollToBot();
+    if (isSuccess) {
+      setChatList(data?.data);
+    }
+  }, [isSuccess, data?.data]);
+
   const onConnect = () => {
-    client.subscribe(`/sub/chat/room/${id}`, (e) => onMessageRecieve(e));
     userEnter();
     scrollToBot();
     setChatList(data?.data);
+    onSub();
     // 연결되면 이전데이터로 chatlist 설정
     console.log("연결성공~");
   };
 
   const onError = () => {
     console.log("에러에요 ");
+  };
+
+  const onSub = () => {
+    client.subscribe(`/sub/chat/room/${id}`, (e) => onMessageRecieve(e));
   };
 
   //-------------------------------------------------
@@ -92,10 +104,6 @@ function ChatRoom() {
     console.log("유저입장");
   };
 
-  useEffect(() => {
-    scrollToBot();
-  }, [chatList]);
-
   const sendMessage = () => {
     if (message) {
       let payload = {
@@ -119,10 +127,24 @@ function ChatRoom() {
     sendMessage();
   };
 
+  useEffect(() => {
+    scrollToBot();
+  }, [chatList]);
+
+  if (isLoading) {
+    return <div> 로딩중</div>;
+  }
+
   return (
     <LayOut>
       <STContainer>
-        <ChatHeader title={otherName} arrow={true} menu={id} location="/chat" />
+        <ChatHeader
+          title={otherName}
+          arrow={true}
+          menu={id}
+          location="/chat"
+          client={client}
+        />
         <STChatList>
           <div className="time">{/* <p>오후10:00</p> */}</div>
           {chatList?.map((c: ChatType, i) => {

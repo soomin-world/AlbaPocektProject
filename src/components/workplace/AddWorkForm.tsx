@@ -215,7 +215,7 @@ const STColor = styled.div`
     height: 36px;
     border-radius: 100%;
     border: none;
-    box-shadow: 0 0 0 2px #888888;
+    box-shadow: 0 0 0 2px #afadad;
   }
 `;
 

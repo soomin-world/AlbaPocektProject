@@ -8,32 +8,37 @@ const ChatHeader: React.FC<HeaderProps> = ({
   arrow,
   menu,
   location,
+  client,
+  margin,
 }) => {
   const navigate = useNavigate();
   const quitRoom = (id: string) => {
     quitChatRoom(id);
   };
+  const onArrowClick = () => {
+    if (client) {
+      client?.disconnect(() => {});
+      alert("연결끊기");
+    }
+    navigate(`${location}`);
+  };
   return (
     <STHeader>
       <div className="wrap">
         {arrow && (
-          <img
-            src="/image/leftArrow.png"
-            alt="<"
-            onClick={() => navigate(`${location}`)}
-          />
+          <img src="/image/leftArrow.png" alt="<" onClick={onArrowClick} />
         )}
-        <h1>{title}</h1>
+        <h1 style={{ marginLeft: `${margin}` }}>{title}</h1>
       </div>
-      <div className="icons">
-        {menu && (
+      {menu && (
+        <div className="icons">
           <img
             src="/image/icon-out-mono.svg"
             alt="menu"
             onClick={() => quitChatRoom(menu)}
           />
-        )}
-      </div>
+        </div>
+      )}
     </STHeader>
   );
   // 필요한 요소들 , 채팅방 추가 채팅방 나가기 현재 존재하는 채팅방이 업을경우 뭔가 이미지

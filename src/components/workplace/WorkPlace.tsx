@@ -38,6 +38,7 @@ function WorkPlace() {
         ? data.data.workList.map((w: WorkType) => {
             return (
               <Work
+                key={w.placeId}
                 placeId={w.placeId}
                 placeName={w.placeName}
                 placeColor={w.placeColor}

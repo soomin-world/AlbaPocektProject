@@ -1,3 +1,5 @@
+import stompJS from "stompjs";
+
 export type HeaderProps = {
   title: string;
   arrow?: boolean;
@@ -5,4 +7,6 @@ export type HeaderProps = {
   menu?: string;
   padding?: string;
   location?: string;
+  client?: stompJS.Client;
+  margin?: string;
 };
