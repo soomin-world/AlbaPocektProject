@@ -20,7 +20,7 @@ function Main() {
       <LayOut height="100vh">
         <WorkPlace />
         {/* <Footer /> */}
-        <MyAlert />
+        {/* <MyAlert /> */}
       </LayOut>
     </>
   );

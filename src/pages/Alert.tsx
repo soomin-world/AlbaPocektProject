@@ -40,8 +40,11 @@ const Alert = () => {
                 <div>
                   <AlertListMsg
                     onClick={() => {
-                      navigate(`/post/${alert.url.slice(-3)}`);
-                      readNoti(alert.id);
+                      // navigate(`/post/${alert.url.slice(-3)}`);
+                      readNoti(alert.id).then((res) => {
+                        console.log("읽음 성공!");
+                        navigate(`/post/${alert.url.slice(-3)}`);
+                      });
                     }}
                     fontColor={alert.status}
                   >
@@ -49,7 +52,10 @@ const Alert = () => {
                   </AlertListMsg>
                   <button
                     onClick={() => {
-                      deleteNoti(alert.id).then((res) => refetch());
+                      deleteNoti(alert.id).then((res) => {
+                        console.log("삭제 성공");
+                        // refetch();
+                      });
                     }}
                   >
                     X
@@ -61,7 +67,10 @@ const Alert = () => {
 
           <button
             onClick={() => {
-              deleteAllNoti().then((res) => refetch());
+              deleteAllNoti().then((res) => {
+                console.log("전체 삭제 성공");
+                // refetch();
+              });
             }}
           >
             전체 삭제

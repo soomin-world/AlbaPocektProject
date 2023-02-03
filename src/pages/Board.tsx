@@ -31,6 +31,7 @@ function Board() {
   const navigate = useNavigate();
   const { ref, inView } = useInView();
   const [showButton, setShowButton] = useState(false);
+
   const scrollToTop = () => {
     window.scrollTo(0, 0);
   };
@@ -53,15 +54,21 @@ function Board() {
   const [boardModal, setBoardModal] = useRecoilState(boardModalAtom);
   const [boardType, setBoardType] = useRecoilState(boardAtom);
 
-  const { data, status, isFetchingNextPage, fetchNextPage, hasNextPage } =
-    useInfiniteQuery(
-      ["posts"],
-      ({ pageParam = 1 }) => getInfinitePost(pageParam),
-      {
-        getNextPageParam: (lastPage) =>
-          !lastPage.last ? lastPage.nextPage : undefined,
-      }
-    );
+  const {
+    data,
+    status,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+    refetch,
+  } = useInfiniteQuery(
+    ["posts"],
+    ({ pageParam = 1 }) => getInfinitePost(pageParam),
+    {
+      getNextPageParam: (lastPage) =>
+        !lastPage.last ? lastPage.nextPage : undefined,
+    }
+  );
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -82,7 +89,7 @@ function Board() {
             }}
           >
             {boardType}
-            <img src="/image/iconMore.png" />
+            <img src="/image/iconCategory.svg" />
           </Selector>
           {boardModal ? (
             <List>
@@ -91,6 +98,8 @@ function Board() {
                   setBoardType("전체");
                   setBoardModal(false);
                   navigate("/board/");
+                  // window.location.href = "/board";
+                  refetch();
                 }}
               >
                 전체
@@ -189,24 +198,6 @@ const Navigate = styled.div`
   position: relative;
 `;
 
-const Select = styled.select`
-  width: 120px;
-  height: 28px;
-  font-size: 20px;
-  font-weight: 400;
-  border: none;
-  display: flex;
-  justify-content: space-between;
-  span {
-    min-width: 70;
-    font-weight: 500;
-  }
-  img {
-    width: 24px;
-    height: 24px;
-  }
-`;
-
 const Icon = styled.div`
   img {
     width: 24px;
@@ -247,7 +238,7 @@ const Selector = styled.div`
   img {
     width: 24px;
     height: 24px;
-    margin-left: 5px;
+    margin: 2px 0px 0px 5px;
   }
 `;
 
