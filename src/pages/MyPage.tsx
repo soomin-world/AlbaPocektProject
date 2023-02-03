@@ -49,7 +49,13 @@ const MyPage = () => {
   return (
     <>
       <LayOut padding="0" position="relative" height="100vh">
-        <Header title={"마이페이지"} padding="3%" option={LogoutHandler} />
+        <Header
+          title="마이페이지"
+          padding="0 3% 0 3%"
+          option={LogoutHandler}
+          button="로그아웃"
+          marginLeft="115px"
+        />
         <MyPageProfile>
           <ProfileInfo>
             <div>

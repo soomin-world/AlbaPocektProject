@@ -8,6 +8,7 @@ import {
   notificationDeleteAll,
   notificationRead,
 } from "../APIs/alertApi";
+import Header from "../components/header/Header";
 import LayOut from "../components/layout/LayOut";
 
 const Alert = () => {
@@ -28,53 +29,85 @@ const Alert = () => {
   const { mutateAsync: deleteNoti } = useMutation(notificationDelete);
   const { mutateAsync: deleteAllNoti } = useMutation(notificationDeleteAll);
 
+  const deleteAllHandler = () => {
+    deleteAllNoti().then((res) => {
+      console.log("전체 삭제 성공");
+      refetch();
+      cntRefetch();
+    });
+  };
   return (
-    <LayOut height="100vh">
-      <div>알림 페이지</div>
+    <LayOut padding="0" position="relative" height="100vh">
+      <Header
+        title={"알림"}
+        padding="0 3% 0 3%"
+        option={deleteAllHandler}
+        button="전체삭제"
+        marginLeft="135px"
+      />
+      {/* <div>알림 페이지</div> */}
       {data && !cntLoading ? (
         <>
-          <div>{count?.count}개의 안 읽은 알림이 존재합니다!</div>
+          <UnRead>
+            {count?.count === 0
+              ? "알림을 모두 읽었습니다!"
+              : `${count?.count}개의 안 읽은 알림이 존재합니다!`}
+          </UnRead>
           {data.map((alert: any) => {
             return (
-              <>
-                <div>
-                  <AlertListMsg
-                    onClick={() => {
-                      // navigate(`/post/${alert.url.slice(-3)}`);
-                      readNoti(alert.id).then((res) => {
-                        console.log("읽음 성공!");
-                        navigate(`/post/${alert.url.slice(-3)}`);
-                      });
-                    }}
-                    fontColor={alert.status}
-                  >
-                    {alert.content}
-                  </AlertListMsg>
-                  <button
+              <MsgBox>
+                <MsgTop>
+                  <div>게시판</div>
+                  <img
+                    src="/image/iconLightGrayX.svg"
                     onClick={() => {
                       deleteNoti(alert.id).then((res) => {
                         console.log("삭제 성공");
-                        // refetch();
+                        refetch();
+                        cntRefetch();
                       });
                     }}
-                  >
-                    X
-                  </button>
-                </div>
-              </>
+                  />
+                </MsgTop>
+                <Msg
+                  onClick={() => {
+                    // navigate(`/post/${alert.url.slice(-3)}`);
+                    readNoti(alert.id).then((res) => {
+                      console.log("읽음 성공!");
+                      navigate(`/post/${alert.url.slice(-3)}`);
+                      cntRefetch();
+                    });
+                  }}
+                  fontColor={alert.status}
+                >
+                  {alert.content}
+                </Msg>
+                {/* <button
+                  onClick={() => {
+                    deleteNoti(alert.id).then((res) => {
+                      console.log("삭제 성공");
+                      refetch();
+                      cntRefetch();
+                    });
+                  }}
+                >
+                  X
+                </button> */}
+              </MsgBox>
             );
           })}
 
-          <button
+          {/* <button
             onClick={() => {
               deleteAllNoti().then((res) => {
                 console.log("전체 삭제 성공");
-                // refetch();
+                refetch();
+                cntRefetch();
               });
             }}
           >
             전체 삭제
-          </button>
+          </button> */}
         </>
       ) : null}
     </LayOut>
@@ -108,8 +141,37 @@ const AlertList = styled.div`
   }
 `;
 
-const AlertListMsg = styled.span<{ fontColor: Boolean }>`
+const MsgBox = styled.div`
+  padding: 4% 4.5% 4% 4.5%;
+  border-bottom: 1px solid #d9d9d9;
+`;
+
+const MsgTop = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  div {
+    font-size: 10px;
+    font-weight: 500;
+    color: #5fce80;
+  }
+`;
+const Msg = styled.span<{ fontColor: Boolean }>`
   color: ${(props) => (props.fontColor ? "#AEAEAE" : "black")};
+  font-size: 15px;
+  font-weight: 400;
+`;
+
+const UnRead = styled.div`
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #d9d9d932;
+  font-size: 15px;
+  font-weight: 400;
 `;
 
 export default Alert;

@@ -10,4 +10,6 @@ export type HeaderProps = {
   client?: stompJS.Client;
   margin?: string;
   option?: () => void;
+  button?: string;
+  marginLeft?: string;
 };

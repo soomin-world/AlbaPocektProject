@@ -77,7 +77,19 @@ function PostDetail() {
   console.log(data);
   return (
     <SContainer className="detailContainer">
-      <Header title={category} />
+      <Header
+        title={category}
+        padding="5% 0 5% 0"
+        marginLeft={
+          category === "자유게시판"
+            ? "110px"
+            : category === "알바고민"
+            ? "120px"
+            : category === "대타구해요"
+            ? "110px"
+            : "0px"
+        }
+      />
       <div className="header">
         <img src={data.profileImage} alt="유저프로필사진" className="profile" />
 
@@ -160,7 +172,7 @@ const SContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  padding: 5%;
+  padding: 0 5%;
   padding-bottom: 0;
   width: 100%;
 
