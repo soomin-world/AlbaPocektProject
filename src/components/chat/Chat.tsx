@@ -96,7 +96,7 @@ const ChatPiece = styled.div<{ backGround?: string; color?: string }>`
   display: flex;
   align-items: center;
   border-radius: 8px;
-  min-height: 36px;
+  //min-height: 36px;
   font-size: 13px;
   margin-bottom: 10px;
 `;
