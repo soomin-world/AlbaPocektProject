@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { createChatRoom } from "../../APIs/chatApi";
 import {
   changeLikeComment,
   deleteComment,
@@ -72,12 +73,16 @@ const Comment: React.FC<CommentType> = (props) => {
     setLike(!like);
     mutatelike.mutateAsync(commentId);
   };
-
+  const { mutateAsync } = useMutation(createChatRoom, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["chat"]);
+    },
+  });
   const onCommentClick = () => {
     setCommentClick(!commentClick);
   };
   const onChatHandler = (e: string) => {
-    navigate(`/chat/${e}`);
+    mutateAsync(e).then((roomId) => navigate(`/chat/${roomId}`));
     setOtherNickName(nickname);
   };
 

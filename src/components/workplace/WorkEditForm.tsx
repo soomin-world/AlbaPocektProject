@@ -20,7 +20,7 @@ function WorkEditForm() {
   });
   console.log(editWork.placeColor);
   const { data, isSuccess } = useQuery(["work", id], () => getWork(id));
-  const colors = ["#FADED5", "#FCF6D7", "#CFF0D9", "#D0DEFB", "#D1C2F8"];
+  const colors = ["#FFB69E", "#FDE569", "#6CDA8D", "#9BBCFF", "#AB8CFE"];
 
   useEffect(() => {
     if (isSuccess) {
@@ -225,7 +225,7 @@ const STColor = styled.div`
     height: 36px;
     border-radius: 100%;
     border: none;
-    box-shadow: 0 0 0 2px #888888;
+    box-shadow: 0 0 0 2px #afadad;
   }
 `;
 

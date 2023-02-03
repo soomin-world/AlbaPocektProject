@@ -34,7 +34,7 @@ const ChatRoomCard = () => {
     const years = days / 365;
     return `${Math.floor(years)}년 전`;
   };
-  console.log(data?.data);
+
   const time = detailDate(new Date());
   const onClickHandler = (e: ChatCardType) => {
     setOtherNickName(e?.nickname);

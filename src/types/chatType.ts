@@ -5,8 +5,3 @@ export type IPayload = {
   type: string;
   createdAt: string;
 };
-
-export type IMychat = {
-  message: string;
-  sender?: string;
-};
