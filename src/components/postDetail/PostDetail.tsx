@@ -74,6 +74,7 @@ function PostDetail() {
     setOtherNickName(data.nickname);
   };
 
+  console.log(data);
   return (
     <SContainer className="detailContainer">
       <Header title={category} />
@@ -92,7 +93,8 @@ function PostDetail() {
                 ) : null}
               </div>
               <div>
-                {data.createAt.substr(5, 5)} -{createTime}
+                {data.createAt.substr(5, 2)}/{data.createAt.substr(8, 2)}{" "}
+                {createTime}
               </div>
             </div>
             {/* {data.userId !== myId ? (
@@ -130,7 +132,9 @@ function PostDetail() {
           <div className="contentBody">{data.content}</div>
         </div>
         <div className="imageBox">
-          <img src={data.imgUrl} alt="유저업로드 사진입니다" />
+          {data.imgUrl ? (
+            <img src={data.imgUrl} alt="유저업로드 사진입니다" />
+          ) : null}
         </div>
       </div>
       <div className="like">
@@ -235,6 +239,7 @@ const SContainer = styled.div`
       }
     }
     .title {
+      word-break: break-all;
       width: 100%;
       font-size: 24px;
       font-weight: 400;

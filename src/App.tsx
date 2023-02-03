@@ -2,6 +2,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createGlobalStyle } from "styled-components";
 import Router from "./shared/Router";
+import MyAlert from "./components/alert/MyAlert";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -72,6 +73,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <GlobalStyle />
         <Router />
+        {/* <MyAlert /> */}
         {/* <ReactQueryDevtools /> */}
       </QueryClientProvider>
     </>

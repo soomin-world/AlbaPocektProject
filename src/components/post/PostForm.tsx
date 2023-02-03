@@ -50,7 +50,10 @@ function PostForm() {
       formData.append("category", category.category);
       formData.append("file", file);
       console.log("formData 값:", formData);
-      writePost.mutate(formData);
+
+      writePost
+        .mutateAsync(formData)
+        .catch((error) => alert(error.response.data.msg));
     } else {
       const formData = new FormData();
       formData.append("title", title.title);
@@ -68,7 +71,10 @@ function PostForm() {
       //   "category",
       //   new Blob([JSON.stringify(category)], { type: "application/json" })
       // );
-      writePost.mutate(formData);
+
+      writePost
+        .mutateAsync(formData)
+        .catch((error) => alert(error.response.data.msg));
     }
   };
   const writePost = useMutation(addPost);
@@ -119,16 +125,31 @@ function PostForm() {
             }}
           />
         </div>
-        {/* <div className="preview">
-          {imgFile ? (
-            <img src={imgFile} />
-          ) : (
-            <div style={{ width: "345px", height: "258px", border: "none" }} />
-          )}
-        </div> */}
       </SBody>
+
       <STImageUpLoad>
-        <div className="preview">{imgFile ? <img src={imgFile} /> : null}</div>
+        <div className="preview">
+          {imgFile ? (
+            <>
+              {/* <div
+                onClick={() => {
+                  setFile(undefined);
+                  setImgFile("");
+                }}
+              >
+                X
+              </div> */}
+              <img
+                onClick={() => {
+                  setFile(undefined);
+                  setImgFile("");
+                }}
+                src="/image/iconX.svg"
+              />
+              <img src={imgFile} />
+            </>
+          ) : null}
+        </div>
         <div className="line" />
         <label className="signup-profileImg-label" htmlFor="profileImg">
           <img src="/image/iconCamera.svg" alt="카메라" />
@@ -182,7 +203,7 @@ const SBody = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
   select {
     border: none;
     width: 83px;
@@ -226,16 +247,34 @@ const STImageUpLoad = styled.div`
   position: absolute;
   bottom: 10px;
   width: 375px;
+
+  @media screen and (max-height: 600px) {
+    display: none;
+  }
+
   .preview {
     position: absolute;
     bottom: 50px;
     // border: 1px solid black;
     width: 341px;
     height: 220px;
+    img:first-child {
+      // border: 1px solid black;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: white;
+      border-radius: 8px;
+      position: absolute;
+      top: -1px;
+    }
     img {
       width: 341px;
       height: 220px;
       object-fit: cover;
+      border-radius: 10px;
     }
   }
   .line {

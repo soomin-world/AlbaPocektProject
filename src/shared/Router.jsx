@@ -25,6 +25,7 @@ import ChatRoom from "../components/chat/ChatRoom";
 import Footer from "../components/footer/Footer";
 import Loading from "../components/Loading/Loading";
 import Alert from "../pages/Alert";
+import MyAlert from "../components/alert/MyAlert";
 
 function Router() {
   return (
@@ -72,6 +73,7 @@ function Router() {
         <Route path="/alert" element={<Alert />} />
       </Routes>
       <Footer />
+      <MyAlert />
     </BrowserRouter>
   );
 }

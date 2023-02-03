@@ -23,8 +23,7 @@ const PostCard = ({ post, padding }: postProps) => {
   });
 
   // 연도 제외, 월일만 나오도록!!!
-  const createTime = post.createAt.substring(5, 10);
-  const time = post.createAt.substring(11, 16);
+  const createTime = post.createAt.slice(11, 16);
 
   const onClickHeartHandler = () => {
     if (likePost) {
@@ -43,19 +42,21 @@ const PostCard = ({ post, padding }: postProps) => {
         navigate(`/post/${post.postId}`);
       }}
       padding={padding}
+      width={post.imgUrl ? "236px" : "100%"}
     >
       <div className="wrap">
         <p className="title">{post.title}</p>
         <p className="content">
-          {/* {post.content} */}
-          {post?.content?.length >= 19
+          {post.content}
+          {/* {post?.content?.length >= 19
             ? `${post?.content.slice(0, 19)}...`
-            : post?.content}
+            : post?.content} */}
           {/* {post?.content?.slice(0, 20)} */}
         </p>
         <UnderInfo>
           <p>
-            {createTime} {time}
+            {post.createAt.slice(5, 7)}/{post.createAt.slice(8, 10)}{" "}
+            {createTime}
           </p>
           <div className="underWrap">
             <div className="detailWrap">
@@ -86,12 +87,16 @@ const PostCard = ({ post, padding }: postProps) => {
           </div>
         </UnderInfo>
       </div>
-      <img className="profileImage" alt="이미지" src={post.imgUrl} />
+      {post.imgUrl ? (
+        <img className="profileImage" alt="이미지" src={post.imgUrl} />
+      ) : null}
+      {/* <img className="profileImage" alt="이미지" src={post.imgUrl} /> */}
     </STContainer>
   );
 };
 const STContainer = styled.div<{
   padding: string | undefined;
+  width: string;
 }>`
   /* width: 341.24px; */
   width: 100%;
@@ -104,7 +109,9 @@ const STContainer = styled.div<{
   padding-bottom: 15px;
 
   .wrap {
-    width: 236px;
+    // width: 100%;
+    // width: 236px;
+    width: ${(props) => props.width};
     height: 90;
     .title {
       width: 100%;
@@ -124,8 +131,6 @@ const STContainer = styled.div<{
       font-weight: 400;
       font-size: 13px;
       line-height: 18px;
-      display: flex;
-      align-items: center;
       color: #545456;
       margin: 9px 0px 9px 0px;
       white-space: nowrap;
@@ -142,13 +147,15 @@ const STContainer = styled.div<{
 `;
 
 const UnderInfo = styled.div`
-  width: 235px;
+  // width: 100%;
+  // min-width: 235px;
   height: 21px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 11px;
   margin-top: 15px;
+  margin-right: 5px;
 
   .underWrap {
     display: flex;

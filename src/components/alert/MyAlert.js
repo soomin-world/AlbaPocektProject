@@ -102,7 +102,7 @@ const MyAlert = () => {
         }
       };
     }
-  }, [listening]);
+  }, []);
 
   // const eventSource = new EventSource("https://woooo.shop/subscribe", HEADER);
 

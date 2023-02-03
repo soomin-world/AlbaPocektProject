@@ -43,6 +43,7 @@ function PostEditForm() {
       setImgFile(data.imgUrl);
     }
   }, [data]);
+
   const queryClient = useQueryClient();
 
   const submitHandler = (e: any) => {
@@ -67,8 +68,11 @@ function PostEditForm() {
       formData.append("isDelete", isDelete.isDelete);
       formData.append("file", file);
       const payload = [id, formData];
-      mutatePost.mutate(payload);
-      alert("수정되었습니다!");
+
+      mutatePost
+        .mutateAsync(payload)
+        .then((res) => alert("수정되었습니다!"))
+        .catch((error) => alert(error.response.data.msg));
     } else {
       const formData = new FormData();
       formData.append("title", title.title);
@@ -76,8 +80,11 @@ function PostEditForm() {
       formData.append("category", category.category);
       formData.append("isDelete", isDelete.isDelete);
       const payload = [id, formData];
-      mutatePost.mutate(payload);
-      alert("수정되었습니다!");
+
+      mutatePost
+        .mutateAsync(payload)
+        .then((res) => alert("수정되었습니다!"))
+        .catch((error) => alert(error.response.data.msg));
     }
   };
 
@@ -86,6 +93,7 @@ function PostEditForm() {
 
   if (isError) return <div>Error!!!!!!</div>;
   if (isLoading) return <div>Loading~~~</div>;
+
   return (
     <>
       <STHeader>
@@ -136,25 +144,30 @@ function PostEditForm() {
             }}
           />
         </div>
-        {/* <div className="preview">
-          <img
-            src={imgFile ? imgFile : "/image/cash 1.png"}
-            alt="임시기본이미지"
-          />
-        </div> */}
 
         <STImageUpLoad>
-          <div className="preview">
-            <div
-              onClick={() => {
-                setIsDelete({ isDelete: "true" });
-                setFile(undefined);
-                setImgFile("");
-              }}
-            >
-              X
-            </div>
-            {imgFile ? <img src={imgFile} /> : null}
+          <div className="preview" id="previewer">
+            {imgFile ? (
+              <>
+                {/* <div
+                  onClick={() => {
+                    setIsDelete({ isDelete: "true" });
+                    setFile(undefined);
+                    setImgFile("");
+                  }}
+                > */}
+                <img
+                  onClick={() => {
+                    setIsDelete({ isDelete: "true" });
+                    setFile(undefined);
+                    setImgFile("");
+                  }}
+                  src="/image/iconX.svg"
+                />
+                {/* </div> */}
+                <img src={imgFile} />
+              </>
+            ) : null}
           </div>
           <div className="line" />
           <label className="signup-profileImg-label" htmlFor="profileImg">
@@ -249,16 +262,35 @@ const STImageUpLoad = styled.div`
   position: absolute;
   bottom: 10px;
   width: 375px;
+
+  @media screen and (max-height: 600px) {
+    display: none;
+  }
+
   .preview {
     position: absolute;
     bottom: 50px;
     // border: 1px solid black;
     width: 341px;
     height: 220px;
-    img {
+
+    img:first-child {
+      // border: 1px solid black;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: white;
+      border-radius: 8px;
+      position: absolute;
+      top: -1px;
+    }
+    img:last-child {
       width: 341px;
       height: 220px;
       object-fit: cover;
+      border-radius: 10px;
     }
   }
   .line {
