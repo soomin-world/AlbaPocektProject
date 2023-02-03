@@ -18,7 +18,6 @@ const ChatHeader: React.FC<HeaderProps> = ({
   const onArrowClick = () => {
     if (client) {
       client?.disconnect(() => {});
-      alert("연결끊기");
     }
     navigate(`${location}`);
   };
