@@ -54,7 +54,7 @@ const Alert = () => {
                     onClick={() => {
                       deleteNoti(alert.id).then((res) => {
                         console.log("삭제 성공");
-                        refetch();
+                        // refetch();
                       });
                     }}
                   >
@@ -69,7 +69,7 @@ const Alert = () => {
             onClick={() => {
               deleteAllNoti().then((res) => {
                 console.log("전체 삭제 성공");
-                refetch();
+                // refetch();
               });
             }}
           >

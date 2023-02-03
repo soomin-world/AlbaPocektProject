@@ -25,6 +25,7 @@ const MyAlert = () => {
   const [listening, setListening] = useState(false);
   const [notification, setNotification] = useState([]);
   const [alertOpen, setAlertOpen] = useState(false);
+  const [url, setUrl] = useState("");
 
   const handleAlertClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -97,6 +98,7 @@ const MyAlert = () => {
             "실시간 알림이 있을 때만 나오는 것",
             JSON.parse(event.data)
           );
+
           setNotification((prev) => [JSON.parse(event.data)]);
           setAlertOpen(true);
         }
