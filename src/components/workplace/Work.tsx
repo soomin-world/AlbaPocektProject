@@ -68,7 +68,7 @@ const STCard = styled.div`
   color: white;
   padding: 10px;
   position: relative;
-
+  box-shadow: rgb(0 0 0 / 20%) 2px 2px 8px;
   .info {
     width: 106px;
     height: 43px;

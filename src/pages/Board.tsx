@@ -178,7 +178,7 @@ function Board() {
         {/* <Footer /> */}
         {showButton && (
           <Scroll>
-            <button onClick={scrollToTop}>top</button>
+            <img src="/image/Up.svg" alt="up" onClick={scrollToTop} />
           </Scroll>
         )}
       </STContainer>
@@ -261,16 +261,14 @@ const Scroll = styled.div`
   display: flex;
   justify-content: flex-end;
   //right: 30px;
-  button {
+  img {
+    cursor: pointer;
     bottom: 150px;
     position: fixed;
     border: none;
-    background-color: #5fce80;
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 100%;
-    color: white;
-    font-weight: 800;
   }
 `;
 

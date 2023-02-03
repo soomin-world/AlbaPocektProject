@@ -54,6 +54,5 @@ export const editWork = async (payload: any) => {
 //근무지에 따른 한달치 수익
 export const getMonthlyWage = async (payload: number) => {
   const { data } = await instance.get(`/api/work/total/${payload}`);
-  console.log(payload);
   return data;
 };
