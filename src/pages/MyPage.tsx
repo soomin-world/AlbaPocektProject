@@ -49,14 +49,13 @@ const MyPage = () => {
   return (
     <>
       <LayOut padding="0" position="relative" height="100vh">
-        <Header title={"마이페이지"} padding="5%" />
+        <Header title={"마이페이지"} padding="3%" option={LogoutHandler} />
         <MyPageProfile>
           <ProfileInfo>
             <div>
               <img src={data?.profileImage} />
               <span>{data?.nickname}</span>
             </div>
-            <div onClick={LogoutHandler}>로그아웃</div>
           </ProfileInfo>
 
           <div>
@@ -167,11 +166,6 @@ const ProfileInfo = styled.div`
     font-size: 19px;
     font-weight: 500;
   }
-  div:last-child {
-    font-size: 13px;
-    font-weight: 400;
-    color: #ff3b30;
-  }
 `;
 
 const MyPageEditBtn = styled.button`
@@ -181,6 +175,7 @@ const MyPageEditBtn = styled.button`
   border-radius: 30px;
   border: 1px solid #d7d8df;
   margin: 15px 0px 15px 0px;
+  //box-shadow: rgb(0 0 0 / 20%) 2px 2px 8px;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -28,7 +28,7 @@ const Chat: React.FC<ChatType> = ({
       {sender === me ? (
         <STMe>
           <STBody>
-            <div className="time">
+            <div className="createdat">
               <div>{timeToKor(createdAt)}</div>
             </div>
             <ChatPiece backGround="#5FCE80" color="white">
@@ -43,7 +43,7 @@ const Chat: React.FC<ChatType> = ({
           </STProfile>
           <STBody>
             <ChatPiece>{message}</ChatPiece>
-            <div className="time">
+            <div className="createdat">
               <div>{timeToKor(createdAt)}</div>
             </div>
           </STBody>
@@ -76,8 +76,8 @@ const STBody = styled.div`
   //border: 1px solid black;
   display: flex;
   flex-direction: row;
-  max-width: 70%;
-  .time {
+  .createdat {
+    //border: 1px solid black;
     width: 50px;
     padding: 7px;
     display: flex;

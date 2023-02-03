@@ -209,6 +209,7 @@ const STColor = styled.div`
     height: 36px;
     border-radius: 100%;
     border: none;
+    box-shadow: rgb(0 0 0 / 20%) 2px 2px 8px;
   }
   .btnactive {
     width: 36px;
@@ -233,5 +234,6 @@ const SaveBtn = styled.button`
   align-items: center;
   position: fixed;
   bottom: 17px;
+  box-shadow: rgb(0 0 0 / 20%) 2px 2px 8px;
 `;
 export default AddWorkForm;
