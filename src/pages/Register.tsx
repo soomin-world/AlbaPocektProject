@@ -2,13 +2,14 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import {
+  emailAuth,
   nicknameCheckApi,
   registerApi,
   userIdCheckApi,
 } from "../APIs/loginRegisterApi";
-import { IForm } from "../types/loginRegisterType";
+import { IEmail, IForm, IUserId } from "../types/loginRegisterType";
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LayOut from "../components/layout/LayOut";
 
 const Register = () => {
@@ -24,14 +25,24 @@ const Register = () => {
   const { mutateAsync: registerMutate } = useMutation(registerApi);
   const { mutateAsync: userIdCheckMutate } = useMutation(userIdCheckApi);
   const { mutateAsync: nicknameCheckMutate } = useMutation(nicknameCheckApi);
+  const { mutateAsync: emailAuthMutate } = useMutation(emailAuth);
 
   const [onClickIdCheck, setClickIdCheck] = useState(false);
   const [onClickNicknameCheck, setClickNicknameCheck] = useState(false);
+  const [onEmailAuthClickCheck, setEmailAuthClickCheck] = useState(false);
+  const [onEmailAuthPass, setEmailAuthPass] = useState(false);
   const [userIdPassMsg, setUserIdPassMsg] = useState("");
   const [nicknamePassMsg, setNicknamePassMsg] = useState("");
+  const [emailAuthPassMsg, setEmailAuthPassMsg] = useState("");
+
+  const [email, setEmail] = useState("");
+  const [emailCode, setEmailCode] = useState("");
+  const [code, setCode] = useState("");
 
   const onValid = (data: IForm) => {
     if (!onClickIdCheck) return alert("이메일 중복확인 버튼을 눌러주세요!");
+    if (!onEmailAuthClickCheck) return alert("이메일 인증을 진행해 주세요!");
+    if (!onEmailAuthPass) return alert("인증코드를 다시한번 확인해주세요!");
     if (!onClickNicknameCheck)
       return alert("닉네임 중복확인 버튼을 눌러주세요!");
 
@@ -66,6 +77,8 @@ const Register = () => {
         console.log(res);
         setError("email", { message: "" });
         setUserIdPassMsg("사용가능한 이메일 주소입니다.");
+        setEmail(userId.email);
+        console.log(email);
       })
       .catch((error) => {
         console.log(error.response.data.msg);
@@ -90,6 +103,23 @@ const Register = () => {
       });
   };
 
+  const emailAuthCheckMail = () => {
+    setEmailAuthClickCheck(true);
+    emailAuthMutate({ email: email }).then((res) => {
+      setCode(res.msg);
+    });
+  };
+
+  const onEmailCheckHandler = (c: string) => {
+    if (c !== code) {
+      setEmailAuthPass(false);
+      setEmailAuthPassMsg("잘못된 코드입니다");
+      return;
+    } else {
+      setEmailAuthPass(true);
+      setEmailAuthPassMsg("인증되었습니다");
+    }
+  };
   console.log(errors?.email?.message);
   return (
     <LayOut height="100vh">
@@ -109,9 +139,11 @@ const Register = () => {
                 },
               })}
               placeholder="이메일"
+              //onChange={(e) => setEmail(e.target.value)}
               onBlur={() => {
                 setClickIdCheck(false);
                 setUserIdPassMsg("");
+                console.log(email);
               }}
             />
             <Check onClick={userIdCheck} color={onClickIdCheck}>
@@ -123,7 +155,28 @@ const Register = () => {
           ) : (
             <Msg style={{ color: "#5fce80" }}>{userIdPassMsg}</Msg>
           )}
-
+          {onClickIdCheck &&
+          userIdPassMsg === "사용가능한 이메일 주소입니다." ? (
+            <>
+              <EmailAuth>
+                <Input
+                  placeholder="인증코드"
+                  onChange={(e) => onEmailCheckHandler(e.target.value)}
+                />
+                <Check
+                  onClick={emailAuthCheckMail}
+                  color={onEmailAuthClickCheck}
+                >
+                  이메일 인증
+                </Check>
+              </EmailAuth>
+              {onEmailAuthPass ? (
+                <Msg style={{ color: "#5fce80" }}>{emailAuthPassMsg}</Msg>
+              ) : (
+                <Msg style={{ color: "red" }}>{emailAuthPassMsg}</Msg>
+              )}
+            </>
+          ) : null}
           <div style={{ display: "flex" }}>
             <Input
               {...register("nickname", {
@@ -287,6 +340,11 @@ const Input = styled.input`
     outline: 1px solid #5fce80;
     background-color: white;
   }
+`;
+
+const EmailAuth = styled.div`
+  display: flex;
+  //margin-bottom: 20px; ;
 `;
 
 export default Register;
