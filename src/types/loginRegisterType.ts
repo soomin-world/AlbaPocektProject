@@ -28,3 +28,7 @@ export interface IData {
     nickname: string;
   };
 }
+
+export interface IEmail {
+  email: string | undefined;
+}

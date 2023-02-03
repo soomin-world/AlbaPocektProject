@@ -7,6 +7,7 @@ import {
   INickname,
   ILogin,
   IData,
+  IEmail,
 } from "../types/loginRegisterType";
 // import useAccessToken from "../hooks/useAccessToken";
 
@@ -55,4 +56,10 @@ export const loginApi = async (userInfo: ILogin) => {
   setUserId(userId);
   setNickName(myNickName);
   window.location.href = "/";
+};
+
+export const emailAuth = async (payload: IEmail) => {
+  const { data } = await instance.post("/api/user/email", payload);
+  console.log(data.msg);
+  return data;
 };
