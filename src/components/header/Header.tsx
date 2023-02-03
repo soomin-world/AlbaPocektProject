@@ -53,10 +53,10 @@ const STHeader = styled.div<{
     height: 15px;
     // flex-direction: column-reverse;
     margin-left: 80px;
+    margin-bottom: 6px;
     font-size: 13px;
     font-weight: 400;
     color: #ff3b30;
-    margin-bottom: 5px;
   }
 `;
 

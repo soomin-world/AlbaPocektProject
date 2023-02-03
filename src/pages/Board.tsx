@@ -177,9 +177,11 @@ function Board() {
         {isFetchingNextPage ? <Loading /> : <div ref={ref} />}
         {/* <Footer /> */}
         {showButton && (
-          <Scroll>
-            <img src="/image/Up.svg" alt="up" onClick={scrollToTop} />
-          </Scroll>
+          <ScrollWrap>
+            <Scroll>
+              <img src="/image/iconUp.svg" alt="up" onClick={scrollToTop} />
+            </Scroll>
+          </ScrollWrap>
         )}
       </STContainer>
     </LayOut>
@@ -256,19 +258,28 @@ const List = styled.div`
     padding: 6px 8px 6px 8px;
   }
 `;
-const Scroll = styled.div`
+
+const ScrollWrap = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
-  //right: 30px;
+`;
+
+const Scroll = styled.div`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: white;
+  position: fixed;
+  bottom: 140px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 2px;
+
   img {
-    cursor: pointer;
-    bottom: 150px;
-    position: fixed;
-    border: none;
-    width: 36px;
-    height: 36px;
-    border-radius: 100%;
+    width: 20px;
   }
 `;
 
