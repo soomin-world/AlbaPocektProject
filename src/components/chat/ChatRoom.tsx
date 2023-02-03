@@ -234,6 +234,7 @@ const STInputFooter = styled.form`
     line-height: 22px;
     padding: 10px;
     background-color: #f9f9f9;
+    outline: none;
   }
 `;
 
