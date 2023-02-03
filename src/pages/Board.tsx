@@ -194,7 +194,7 @@ const Navigate = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 25px 0px 25px 0px;
+  margin: 15px 0px 15px 0px;
   position: relative;
 `;
 
