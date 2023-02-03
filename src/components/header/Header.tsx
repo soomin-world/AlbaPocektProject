@@ -10,17 +10,14 @@ const Header: React.FC<HeaderProps> = ({ title, padding, option }) => {
         onClick={() => window.history.back()}
       />
       <h1>{title}</h1>
-      {option ? (
-        <div onClick={option}>
-          <h3>로그아웃</h3>
-        </div>
-      ) : null}
+      {option ? <div onClick={option}>로그아웃</div> : null}
     </STHeader>
   );
 };
 
 const STHeader = styled.div<{ padding: string | undefined }>`
   display: flex;
+  align-items: center;
   //height: 100%;
   min-height: 50px;
   padding: ${(props) => (props.padding ? props.padding : "null")};
@@ -40,14 +37,13 @@ const STHeader = styled.div<{ padding: string | undefined }>`
   div {
     //border: 1px solid black;
     display: flex;
-    flex-direction: column-reverse;
-    height: 25px;
+    height: 15px;
+    // flex-direction: column-reverse;
     margin-left: 75px;
-    h3 {
-      font-size: 13px;
-      font-weight: 400;
-      color: #ff3b30;
-    }
+    font-size: 13px;
+    font-weight: 400;
+    color: #ff3b30;
+    margin-bottom: 5px;
   }
 `;
 
