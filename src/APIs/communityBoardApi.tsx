@@ -5,7 +5,6 @@ import { instance, postInstance } from "./axios";
 export const getInfinitePost = async (pageParam: number) => {
   const { data } = await instance.get(`/api/posts?page=${pageParam}&size=7`);
   const { content, last } = data;
-  console.log(data);
   return { content, last, nextPage: pageParam + 1 };
 };
 

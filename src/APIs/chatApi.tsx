@@ -6,7 +6,7 @@ export const createChatRoom = async (payload: string) => {
   return res.data;
 };
 
-export const quitChatRoom = async (payload: string) => {
+export const quitChatRoom = async (payload: string | undefined) => {
   const res = await instance.delete(`/api/chat/rooms/${payload}`);
   return (window.location.href = "/chat");
 };
@@ -18,5 +18,6 @@ export const getChatList = async () => {
 
 export const getDetailChat = async (payload: string | undefined) => {
   const res = await instance.get(`/api/chat/message/${payload}`);
+  console.log(res);
   return res;
 };

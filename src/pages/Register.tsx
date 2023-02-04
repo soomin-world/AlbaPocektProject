@@ -77,6 +77,7 @@ const Register = () => {
         console.log(res);
         setError("email", { message: "" });
         setUserIdPassMsg("사용가능한 이메일 주소입니다.");
+        //alert("이메일 인증을 진행해주세요!");
         setEmail(userId.email);
         console.log(email);
       })
@@ -105,6 +106,7 @@ const Register = () => {
 
   const emailAuthCheckMail = () => {
     setEmailAuthClickCheck(true);
+    alert("입력하신 이메일로 인증메일이 발송되었습니다!");
     emailAuthMutate({ email: email }).then((res) => {
       setCode(res.msg);
     });
@@ -121,6 +123,7 @@ const Register = () => {
     }
   };
   console.log(errors?.email?.message);
+
   return (
     <LayOut height="100vh">
       <Total>
