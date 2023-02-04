@@ -142,7 +142,7 @@ const MyPageEdit = () => {
   return (
     <>
       <LayOut padding="0" position="relative" height="100vh">
-        <Header title={"프로필 수정"} padding="5%" />
+        <Header title="프로필 수정" padding="5%" marginLeft="105px" />
         <MyPageProfile>
           <div>
             <label htmlFor="profileImg">
@@ -246,6 +246,7 @@ const MyPageProfile = styled.div`
     object-fit: cover;
     border-radius: 50%;
     margin-bottom: 10px;
+    cursor: pointer;
   }
   input {
     display: none;
@@ -256,11 +257,12 @@ const Camera = styled.div`
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-image: url("/image/iconCamera.png");
+  background-image: url("/image/iconMypageCamera.svg");
   background-size: cover;
   position: absolute;
   right: 155px;
   bottom: 50px;
+  cursor: pointer;
 `;
 
 const UserProfileForm = styled.form`

@@ -201,7 +201,7 @@ const SContainer = styled.div`
             padding-top: 2px;
             padding-left: 5px;
             border: none;
-            width: 44px;
+            min-width: 44px;
             height: 15px;
             font-size: 10px;
             color: #5fce80;

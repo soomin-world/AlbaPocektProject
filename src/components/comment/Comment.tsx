@@ -95,8 +95,11 @@ const Comment: React.FC<CommentType> = (props) => {
               <img src={profileImage} alt="프로필이미지" />
               <div className="userInfo">
                 <div>
-                  <div>{nickname}</div>
-                  <div className="time">{createAt.substring(5, 10)}</div>
+                  <div className="nickname">{nickname}</div>
+                  <div className="time">
+                    {createAt.slice(5, 7)}/{createAt.slice(8, 10)}{" "}
+                    {createAt.slice(11, 16)}
+                  </div>
                 </div>
                 {myId !== userId ? (
                   <button onClick={() => onChatHandler(nickname)}>
@@ -149,11 +152,14 @@ const Comment: React.FC<CommentType> = (props) => {
           <div className="editbody">
             <div className="header">
               <div className="info">
-                <img src={profileImage} alt="프사" />
+                <img src={profileImage} alt="프로필 사진" />
                 <div className="userInfo">
                   <div>
-                    <div>{nickname}</div>
-                    <div className="time">{createAt.substring(5, 10)}</div>
+                    <div className="nickname">{nickname}</div>
+                    <div className="time">
+                      {createAt.slice(5, 7)}/{createAt.slice(8, 10)}{" "}
+                      {createAt.slice(11, 16)}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -166,7 +172,14 @@ const Comment: React.FC<CommentType> = (props) => {
               {myId === userId ? (
                 <div className="btn">
                   <button onClick={() => setIsClicked(false)}>취소</button>
-                  <button onClick={() => commentEdit(commentId)}>등록</button>
+                  <button
+                    onClick={() => {
+                      commentEdit(commentId);
+                      setCommentClick(false);
+                    }}
+                  >
+                    등록
+                  </button>
                 </div>
               ) : null}
             </div>
@@ -196,7 +209,7 @@ const STContainer = styled.div`
         display: flex;
         gap: 4px;
         button:first-child {
-          margin-top: 3px;
+          margin-top: 2.5px;
           background-color: #f2f3f5;
           border: none;
           color: #aeaeae;
@@ -206,7 +219,7 @@ const STContainer = styled.div`
           font-size: 13px;
         }
         button:nth-child(2) {
-          margin-top: 3px;
+          margin-top: 2.5px;
           background-color: #5fce80;
           color: white;
           border: none;
@@ -221,6 +234,7 @@ const STContainer = styled.div`
         max-width: 68%;
         border: none;
         resize: none;
+        outline: none;
       }
     }
   }
@@ -236,7 +250,6 @@ const STContainer = styled.div`
         width: 30px;
         height: 30px;
         border-radius: 50%;
-        background-color: gray;
         object-fit: cover;
       }
     }
@@ -245,6 +258,9 @@ const STContainer = styled.div`
       font-weight: 400;
       margin-left: 5px;
       display: flex;
+      .nickname {
+        margin-top: -2px;
+      }
       .time {
         font-size: 10px;
         color: #aeaeae;
@@ -254,7 +270,7 @@ const STContainer = styled.div`
         margin-left: 5px;
         padding-top: 2px;
         border: none;
-        width: 44px;
+        min-width: 44px;
         height: 15px;
         font-size: 10px;
         color: #5fce80;
@@ -266,6 +282,7 @@ const STContainer = styled.div`
       }
     }
     .btn {
+      margin-top: -2px;
       img {
         width: 15px;
         height: 15px;
@@ -273,8 +290,10 @@ const STContainer = styled.div`
       }
       button {
         border: none;
-        background-color: #fbfbfb;
-        font-size: 10px;
+        background-color: #d9d9d972;
+        border-radius: 2px;
+        font-size: 11px;
+        margin-left: 4px;
         cursor: pointer;
       }
     }

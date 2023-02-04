@@ -110,7 +110,7 @@ const STContainer = styled.div`
   justify-content: space-around;
   // transform: translateY(-100%);
   background-color: white;
-  box-shadow: 0px -5px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
   /* border-radius: 20px; */
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;

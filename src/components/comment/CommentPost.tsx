@@ -48,17 +48,17 @@ const STContainer = styled.div`
   flex-direction: column;
   padding: 5px 5% 5px 5%;
   width: 100%;
-
   border-top: 1px solid #d9d9d9;
   border-bottom: 1px solid #d9d9d9;
+
   form {
     display: flex;
     justify-content: space-between;
-
     input {
       width: 100%;
       height: 30px;
       border: none;
+      outline: none;
     }
     button {
       width: 50px;

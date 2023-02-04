@@ -13,7 +13,6 @@ const contentStyle: React.CSSProperties = {
   background: "#EFFFFE",
   display: "flex",
   justifyContent: "space-between",
-  //  boxShadow: "rgb(0 0 0 / 20%) 2px 2px 8px",
   //border: "1px solid black",
 };
 
