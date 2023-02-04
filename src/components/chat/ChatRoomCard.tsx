@@ -56,14 +56,18 @@ const ChatRoomCard = () => {
                 </div>
               </div>
               <div className="lastMsgTime">
-                {c.createdAt ? detailDate(new Date(c.createdAt)) : null}
-                {}
+                <h3>
+                  {c.createdAt ? detailDate(new Date(c.createdAt)) : null}
+                </h3>
               </div>
             </STContainer>
           );
         })
       ) : (
-        <div>텅~ </div>
+        <EmptyChatList>
+          <img src="/image/speech-bubble 1.svg" alt="텅" />
+          <p>생성된 채팅방이 없습니다.</p>
+        </EmptyChatList>
       )}
     </>
   );
@@ -84,35 +88,67 @@ const STContainer = styled.div`
   width: 100%;
   height: 100px;
   display: flex;
-  padding: 3px;
+  padding: 4px;
   align-items: center;
   justify-content: space-between;
+  //border: 1px solid black;
   .profileImg {
     width: 20%;
-    height: 70%;
+    height: 80%;
+    //border: 1px solid black;
+    display: flex;
+    align-items: center;
     img {
-      width: 100%;
-      height: 100%;
+      width: 60px;
+      height: 60px;
       object-fit: cover;
       border-radius: 100%;
+      //border: 1px solid black;
     }
   }
   .body {
     width: 60%;
-    height: 70%;
+    height: 60%;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    //gap: 10px;
+    //border: 1px solid black;
     h1 {
       font-weight: 500;
+      font-size: 15px;
     }
     div {
       font-size: 12px;
+      margin-top: 20px;
     }
   }
   .lastMsgTime {
-    width: 10%;
+    width: 15%;
+    height: 60%;
     font-size: 10px;
+    padding: 2px;
+    //border: 1px solid black;
+    display: flex;
+    flex-direction: row-reverse;
+  }
+`;
+
+const EmptyChatList = styled.div`
+  display: flex;
+  flex-direction: column;
+  //border: 1px solid black;
+  width: 100%;
+  height: 80vh;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 100px;
+    height: 100px;
+  }
+  h3 {
+    color: #aeaeae;
+    font-size: 15px;
+    font-weight: 400;
   }
 `;
 export default ChatRoomCard;

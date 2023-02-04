@@ -219,7 +219,7 @@ const STChatList = styled.div`
 `;
 const STInputFooter = styled.form`
   //border: 1px solid black;
-  width: 350px;
+  width: 343px;
   height: 44px;
   position: fixed;
   bottom: 5px;
@@ -243,6 +243,7 @@ const STInputFooter = styled.form`
     font-size: 15px;
     line-height: 22px;
     padding: 10px;
+    border-radius: 8px;
     background-color: #f9f9f9;
     outline: none;
   }

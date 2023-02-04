@@ -77,11 +77,12 @@ const STBody = styled.div`
   display: flex;
   flex-direction: row;
   .createdat {
+    height: 90%;
     //border: 1px solid black;
     width: 50px;
-    padding: 7px;
     display: flex;
     flex-direction: column-reverse;
+    align-items: center;
     div {
       font-size: 10px;
     }
@@ -89,6 +90,7 @@ const STBody = styled.div`
 `;
 
 const ChatPiece = styled.div<{ backGround?: string; color?: string }>`
+  height: 90%;
   //border: 1px solid black;
   padding: 7px;
   background-color: ${(props) => props.backGround || "#F2F4F6"};
