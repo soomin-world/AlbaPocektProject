@@ -73,7 +73,7 @@ function Router() {
         <Route path="/alert" element={<Alert />} />
       </Routes>
       <Footer />
-      <MyAlert />
+      {/* <MyAlert /> */}
     </BrowserRouter>
   );
 }

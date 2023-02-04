@@ -75,32 +75,27 @@ const MyAlert = () => {
   // );
 
   useEffect(() => {
-    if (!listening) {
-      const eventSource = new EventSource(
-        `https://woooo.shop/subscribe/${USERID}`
-      );
-
-      // eventSource.addEventListener("sse", async (e) => {
-      //   console.log(e);
-      //   const result = await e.data;
-      //   // console.log(result);
-      //   // setData(result);
+    if (!listening && USERID) {
+      // const eventSource = new EventSource(
+      //   `https://woooo.shop/subscribe/${USERID}`
+      // );
+      // eventSource.onmessage = (event) => {
+      //   console.log(event);
       //   setListening(true);
-      // });
-
-      eventSource.onmessage = (event) => {
-        console.log(event);
-        setListening(true);
-
-        if (event.type === "message" && event.data.startsWith("{")) {
-          console.log(
-            "실시간 알림이 있을 때만 나오는 것",
-            JSON.parse(event.data)
-          );
-          setNotification((prev) => [JSON.parse(event.data)]);
-          setAlertOpen(true);
-        }
-      };
+      //   if (event.type === "message" && event.data.startsWith("{")) {
+      //     console.log(
+      //       "실시간 알림이 있을 때만 나오는 것",
+      //       JSON.parse(event.data)
+      //     );
+      //     setNotification((prev) => [JSON.parse(event.data)]);
+      //     setAlertOpen(true);
+      //   }
+      // };
+      // eventSource.onerror = async (event) => {
+      //   if (event) {
+      //     eventSource.close();
+      //   }
+      // };
     }
   }, []);
 
