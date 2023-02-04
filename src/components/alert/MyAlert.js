@@ -126,18 +126,29 @@ const MyAlert = () => {
   return (
     <Total>
       <Snackbar
-        onClick={() => {
-          readNoti(notification[0]?.id).then((res) =>
-            navigate(`${notification[0]?.url}`)
-          );
-        }}
         open={alertOpen}
         autoHideDuration={6000}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         onClose={handleAlertClose}
       >
-        <AlertMsg onClose={handleAlertClose} severity="success">
-          {notification[0]?.content}
+        <AlertMsg
+          // onClick={() => {
+          //   readNoti(notification[0]?.id).then((res) =>
+          //     navigate(`${notification[0]?.url}`)
+          //   );
+          // }}
+          onClose={handleAlertClose}
+          severity="success"
+        >
+          <div
+            onClick={() => {
+              readNoti(notification[0]?.id).then((res) =>
+                navigate(`${notification[0]?.url}`)
+              );
+            }}
+          >
+            {notification[0]?.content}
+          </div>
         </AlertMsg>
       </Snackbar>
     </Total>
