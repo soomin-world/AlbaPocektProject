@@ -68,6 +68,7 @@ function ChatRoom() {
     userEnter();
     scrollToBot();
     setChatList(data?.data);
+
     onSub();
     // 연결되면 이전데이터로 chatlist 설정
     console.log("연결성공~");
@@ -82,7 +83,7 @@ function ChatRoom() {
   };
 
   //-------------------------------------------------
-
+  console.log(isData);
   const onMessageRecieve = (e: Message) => {
     // 메세지가 오면 받아온 데이터의 body를 json.parse해서 data 라는 변수에 넣음
     let data = JSON.parse(e.body);
@@ -92,7 +93,7 @@ function ChatRoom() {
       });
     }
     scrollToBot();
-    setIsData(true);
+    //setIsData(true);
   };
 
   const userEnter = () => {
