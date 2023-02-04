@@ -4,7 +4,7 @@ import { useRecoilValue } from "recoil";
 import SockJS from "sockjs-client";
 import styled from "styled-components";
 import { baseURL } from "../../APIs/axios";
-import { getDetailChat } from "../../APIs/chatApi";
+import { getDetailChat, quitChatRoom } from "../../APIs/chatApi";
 import { otherNickName } from "../../atoms";
 import ChatHeader from "../header/ChatHeader";
 import LayOut from "../layout/LayOut";
@@ -25,16 +25,17 @@ function ChatRoom() {
   // chat내용 리스트
   const [chatList, setChatList] = useState<IPayload[]>([]);
   // 서버에서 get해온 이전 채팅 조회부분
+  const [isData, setIsData] = useState(false);
   const { data, isSuccess, isLoading } = useQuery(
     ["chat", id],
     () => getDetailChat(id),
     {
       onSuccess: (data) => {
+        //console.log(data);
         setChatList(data.data);
       },
     }
   );
-
   // 스크롤 최하단으로 내리기
   const scrollToBot = () => {
     window.scrollTo(0, document.body.scrollHeight);
@@ -55,6 +56,11 @@ function ChatRoom() {
     scrollToBot();
     if (isSuccess) {
       setChatList(data?.data);
+    }
+    if (data?.data.length === 0) {
+      setIsData(false);
+    } else {
+      setIsData(true);
     }
   }, [isSuccess, data?.data]);
 
@@ -86,6 +92,7 @@ function ChatRoom() {
       });
     }
     scrollToBot();
+    setIsData(true);
   };
 
   const userEnter = () => {
@@ -119,6 +126,7 @@ function ChatRoom() {
       );
       setMessage("");
       scrollToBot();
+      setIsData(true);
     }
   };
 
@@ -144,6 +152,7 @@ function ChatRoom() {
           menu={id}
           location="/chat"
           client={client}
+          isData={isData}
         />
         <STChatList>
           <div className="time">{/* <p>오후10:00</p> */}</div>

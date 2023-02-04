@@ -10,14 +10,15 @@ const ChatHeader: React.FC<HeaderProps> = ({
   location,
   client,
   margin,
+  isData,
 }) => {
   const navigate = useNavigate();
-  const quitRoom = (id: string) => {
-    quitChatRoom(id);
-  };
   const onArrowClick = () => {
     if (client) {
       client?.disconnect(() => {});
+    }
+    if (isData === false) {
+      quitChatRoom(menu);
     }
     navigate(`${location}`);
   };

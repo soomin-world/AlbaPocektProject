@@ -188,6 +188,7 @@ function Board() {
 const STContainer = styled.div`
   width: 100%;
   margin-bottom: 1px;
+  //border: 1px solid black;
 `;
 const Navigate = styled.div`
   width: 100%;
