@@ -58,7 +58,7 @@ function EditShift() {
 
   return (
     <LayOut position="relative" height="100vh">
-      <Header title={"근무수정"} padding="5% 0" />
+      <Header title="근무수정" padding="5% 0" marginLeft="120px" />
 
       <SThourlyWage>
         <label>시급</label>
@@ -110,7 +110,7 @@ const SThourlyWage = styled.div`
     border: 1px solid #efefef;
     font-size: 15px;
     font-weight: 500;
-    padding: 5px;
+    padding: 10px;
     margin-bottom: 30px;
   }
 `;
@@ -130,8 +130,8 @@ const TimeSelector = styled.div`
     border: 1px solid #efefef;
     font-size: 15px;
     font-weight: 500;
-    padding: 5px;
-    margin-bottom: 390px;
+    padding: 10px;
+    margin-bottom: 290px;
   }
 `;
 

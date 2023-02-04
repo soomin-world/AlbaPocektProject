@@ -52,7 +52,7 @@ const Work = ({ placeId, placeName, placeColor, salaryDay }: WorkType) => {
       <div className="footer">
         <button onClick={() => navigate(`/addShift/${placeId}`)}>
           <img src="/image/iconPlus.svg" alt="+" />
-          <div>근무등록</div>
+          <div className="addShift">근무등록</div>
         </button>
         <div className="money"> ₩ {comma(String(data?.data?.totalWage))}</div>
       </div>
@@ -95,6 +95,9 @@ const STCard = styled.div`
     display: flex;
     justify-content: space-between;
     padding-bottom: 10px;
+    .addShift {
+      min-width: 57px;
+    }
     button {
       width: 73px;
       height: 29px;

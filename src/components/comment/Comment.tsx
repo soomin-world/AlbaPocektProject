@@ -270,7 +270,7 @@ const STContainer = styled.div`
         margin-left: 5px;
         padding-top: 2px;
         border: none;
-        width: 44px;
+        min-width: 44px;
         height: 15px;
         font-size: 10px;
         color: #5fce80;
