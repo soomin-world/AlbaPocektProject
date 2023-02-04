@@ -25,7 +25,7 @@ const RenderTodos = ({ day, Month, todos }: ITodosProps) => {
       // if (workingTime(todo.workingTime).length !== 8) {
       todoList.push(
         <CellTodo key={todo.todoId} color={todo.color}>
-          {workingTime(todo.workingTime)}
+          <div>{workingTime(todo.workingTime)}</div>
         </CellTodo>
       );
       // } else {
@@ -47,9 +47,10 @@ const RenderTodos = ({ day, Month, todos }: ITodosProps) => {
 
 const CellTodo = styled.div<{ color: string }>`
   width: 48px;
+  min-width: 48px;
   height: 15px;
   margin-bottom: 2px;
-  padding-top: 1px;
+  // padding-top: 1px;
   border-radius: 3px;
   background-color: ${(props) => props.color};
   font-size: 10px;
@@ -57,6 +58,10 @@ const CellTodo = styled.div<{ color: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  div {
+    height: 11px;
+  }
 `;
 
 const CellTodoList = styled.div`
