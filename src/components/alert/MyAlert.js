@@ -19,7 +19,7 @@ const AlertMsg = React.forwardRef(function Alert(props, ref) {
 
 const MyAlert = () => {
   const navigate = useNavigate();
-  const token = localStorage.getItem("is_login");
+  const USERID = localStorage.getItem("userId");
   // console.log(token);
   const [isOpen, setIsOpen] = useState(false);
   const [listening, setListening] = useState(false);
@@ -50,17 +50,17 @@ const MyAlert = () => {
   const { mutateAsync: deleteNoti } = useMutation(notificationDelete);
   const { mutateAsync: deleteAllNoti } = useMutation(notificationDeleteAll);
 
-  const EventSource = EventSourcePolyfill || NativeEventSource;
+  // const EventSource = EventSourcePolyfill || NativeEventSource;
 
   let HEADER;
 
-  if (token) {
-    HEADER = {
-      headers: {
-        Authorization: token,
-      },
-    };
-  }
+  // if (token) {
+  //   HEADER = {
+  //     headers: {
+  //       Authorization: token,
+  //     },
+  //   };
+  // }
 
   // console.log(HEADER);
 
@@ -77,8 +77,7 @@ const MyAlert = () => {
   useEffect(() => {
     if (!listening) {
       const eventSource = new EventSource(
-        "https://woooo.shop/subscribe",
-        HEADER
+        `https://woooo.shop/subscribe/${USERID}`
       );
 
       // eventSource.addEventListener("sse", async (e) => {
