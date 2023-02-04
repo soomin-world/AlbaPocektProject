@@ -53,7 +53,7 @@ const CellTodo = styled.div<{ color: string }>`
   // padding-top: 1px;
   border-radius: 3px;
   background-color: ${(props) => props.color};
-  font-size: 10px;
+  font-size: 5px;
   font-weight: 400;
   display: flex;
   justify-content: center;
