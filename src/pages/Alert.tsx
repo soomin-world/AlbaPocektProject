@@ -96,7 +96,10 @@ const Alert = () => {
                   >
                     {alert.content}
                   </Msg>
-                  <MsgBottom>02/03 14:55</MsgBottom>
+                  <MsgBottom>
+                    {alert.time.slice(5, 7)}/{alert.time.slice(8, 10)}{" "}
+                    {alert.time.slice(11, 16)}
+                  </MsgBottom>
                 </MsgBox>
               );
             })}
