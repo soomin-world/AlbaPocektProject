@@ -27,6 +27,44 @@ const Alert = () => {
 
   const EventSource = EventSourcePolyfill || NativeEventSource;
 
+  ////////////////////다른 참고 코드
+  useEffect(() => {
+    if (loading && isLogin) {
+      let eventSource;
+      const fetchSse = async () => {
+        try {
+          eventSource = new EventSource(
+            `${process.env.REACT_APP_BASE_URL}/api/subscribe`,
+            {
+              headers: {
+                Authorization: getCookie("accessToken"),
+              },
+              withCredentials: true,
+            }
+          );
+
+          /* EVENTSOURCE ONMESSAGE ---------------------------------------------------- */
+          eventSource.onmessage = async (event) => {
+            const res = await event.data;
+            if (!res.includes("EventStream Created.")) setNewAlarms(true); // 헤더 마이페이지 아이콘 상태 변경
+            queryClient.invalidateQueries("myprofile"); // 프로필 업데이트
+            queryClient.invalidateQueries("alertNoti"); // 알람 리스트 개수 변경
+            queryClient.invalidateQueries("alertLists"); // 알림 목록 업데이트
+          };
+
+          /* EVENTSOURCE ONERROR ------------------------------------------------------ */
+          eventSource.onerror = async (event) => {
+            if (!event.error.message.includes("No activity"))
+              eventSource.close();
+          };
+        } catch (error) {}
+      };
+      fetchSse();
+      return () => eventSource.close();
+    }
+  });
+
+  //////////////////
   useEffect(() => {
     if (pathName.pathname === "/") {
       return;

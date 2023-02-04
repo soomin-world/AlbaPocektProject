@@ -98,7 +98,6 @@ const MyAlert = () => {
             "실시간 알림이 있을 때만 나오는 것",
             JSON.parse(event.data)
           );
-
           setNotification((prev) => [JSON.parse(event.data)]);
           setAlertOpen(true);
         }
@@ -106,6 +105,7 @@ const MyAlert = () => {
     }
   }, []);
 
+  console.log(notification[0]?.time);
   // const eventSource = new EventSource("https://woooo.shop/subscribe", HEADER);
 
   // eventSource.onmessage = (event) => {
@@ -125,60 +125,30 @@ const MyAlert = () => {
 
   return (
     <Total>
-      {/* <Alert
-        onClick={() => {
-          setIsOpen(!isOpen);
-          // refetch();
-        }}
-      >
-        알림
-      </Alert> */}
-      {data && isOpen && !cntLoading ? (
-        <AlertList>
-          <div>{count?.count}개의 안 읽은 알림이 존재합니다!</div>
-          {data.map((alert) => {
-            return (
-              <>
-                <div>
-                  <AlertListMsg
-                    onClick={() => {
-                      navigate(`post/${alert.url.slice(-3)}`);
-                      readNoti(alert.id);
-                    }}
-                    fontColor={alert.status}
-                  >
-                    {alert.content}
-                  </AlertListMsg>
-                  <button
-                    onClick={() => {
-                      deleteNoti(alert.id).then((res) => refetch());
-                    }}
-                  >
-                    X
-                  </button>
-                </div>
-              </>
-            );
-          })}
-
-          <button
-            onClick={() => {
-              deleteAllNoti().then((res) => refetch());
-            }}
-          >
-            전체 삭제
-          </button>
-        </AlertList>
-      ) : null}
-
       <Snackbar
         open={alertOpen}
         autoHideDuration={6000}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         onClose={handleAlertClose}
       >
-        <AlertMsg onClose={handleAlertClose} severity="success">
-          {notification[notification.length - notification.length]?.content}
+        <AlertMsg
+          // onClick={() => {
+          //   readNoti(notification[0]?.id).then((res) =>
+          //     navigate(`${notification[0]?.url}`)
+          //   );
+          // }}
+          onClose={handleAlertClose}
+          severity="success"
+        >
+          <div
+            onClick={() => {
+              readNoti(notification[0]?.id).then((res) =>
+                navigate(`${notification[0]?.url}`)
+              );
+            }}
+          >
+            {notification[0]?.content}
+          </div>
         </AlertMsg>
       </Snackbar>
     </Total>

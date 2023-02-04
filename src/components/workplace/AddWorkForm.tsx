@@ -60,7 +60,7 @@ function AddWorkForm() {
   const navigate = useNavigate();
   return (
     <LayOut position="relative" height="100vh">
-      <Header title={"근무지추가"} padding="5% 0" />
+      <Header title="근무지추가" padding="5% 0" marginLeft="110px" />
 
       <STBody>
         <div className="place">
@@ -77,7 +77,7 @@ function AddWorkForm() {
             <div className="input">
               <p>{salaryDay}</p>
               <img
-                src="/image/arrowDecrease.png"
+                src="/image/iconArrowDecrease.svg"
                 alt="arrow"
                 onClick={openModal}
               />
@@ -124,7 +124,7 @@ const STBody = styled.div`
     p {
       font-size: 15px;
       font-weight: 500;
-      margin: 21.5px 0px 15px 0px;
+      margin: 21px 0px 15px 0px;
     }
     input {
       width: 90%;
@@ -132,28 +132,30 @@ const STBody = styled.div`
       background-color: #f9f9f9;
       border: 1px solid #efefef;
       border-radius: 8px;
-      margin-bottom: 41px;
+      margin-bottom: 40px;
       padding-left: 10px;
     }
   }
   .salary {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     p {
       font-size: 15px;
       font-weight: 500;
       line-height: 22px;
     }
     .input {
-      width: 20%;
+      width: 70px;
       height: 44px;
       background-color: #f9f9f9;
       border: 1px solid #efefef;
-      border-bottom: none;
-      border-top-right-radius: 8px;
-      border-top-left-radius: 8px;
+      border-radius: 8px;
+      /* border-top-right-radius: 8px;
+      border-top-left-radius: 8px; */
       display: flex;
       align-items: center;
       padding: 7px;
+      padding-left: 15px;
+      margin-top: 15px;
       justify-content: space-between;
       img {
         width: 18px;
@@ -181,6 +183,7 @@ const DropDown = styled.div`
   //margin-top: px;
   width: 70px;
   height: 150px;
+  margin-top: -5px;
   overflow: auto;
   animation: modal-bg-show 0.6s;
   background-color: #f9f9f9;
@@ -202,21 +205,21 @@ const DropDown = styled.div`
 
 const STColor = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 15px;
   margin-bottom: 290px;
   .btn {
     width: 36px;
     height: 36px;
-    border-radius: 100%;
+    border-radius: 50%;
     border: none;
-    box-shadow: rgb(0 0 0 / 20%) 2px 2px 8px;
+    //  box-shadow: rgb(0 0 0 / 20%) 2px 2px 8px;
   }
   .btnactive {
     width: 36px;
     height: 36px;
-    border-radius: 100%;
+    border-radius: 50%;
     border: none;
-    box-shadow: 0 0 0 2px #afadad;
+    box-shadow: 0 0 0 4px #706f6f53;
   }
 `;
 
@@ -234,6 +237,6 @@ const SaveBtn = styled.button`
   align-items: center;
   position: fixed;
   bottom: 17px;
-  box-shadow: rgb(0 0 0 / 20%) 2px 2px 8px;
 `;
+
 export default AddWorkForm;

@@ -73,7 +73,7 @@ function AddShift() {
   console.log(dayList[0]);
   return (
     <LayOut position="relative" height="100vh">
-      <Header title={"근무등록"} padding="5% 0" />
+      <Header title="근무등록" padding="5% 0" marginLeft="120px" />
 
       <STLabel>
         <h1>날짜</h1>
@@ -135,7 +135,7 @@ function AddShift() {
 const STLabel = styled.div`
   font-size: 15px;
   font-weight: 500;
-  margin: 21.5px 0px 11px 0px;
+  margin: 21.5px 0px 15px 0px;
 `;
 
 const WorkDayInput = styled.div`
@@ -171,7 +171,7 @@ const SThourlyWage = styled.div`
     border: 1px solid #efefef;
     font-size: 15px;
     font-weight: 500;
-    padding: 5px;
+    padding: 10px;
     margin-bottom: 30px;
   }
 `;
@@ -191,7 +191,7 @@ const TimeSelector = styled.div`
     border: 1px solid #efefef;
     font-size: 15px;
     font-weight: 500;
-    padding: 5px;
+    padding: 10px;
     margin-bottom: 290px;
   }
 `;

@@ -74,9 +74,9 @@ const STHeader = styled.div`
     }
     .redAlert {
       position: absolute;
-      right: -2px;
-      width: 4px;
-      height: 4px;
+      right: -4px;
+      width: 5px;
+      height: 5px;
     }
   }
   .logo {

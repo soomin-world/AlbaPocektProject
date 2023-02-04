@@ -11,4 +11,6 @@ export type HeaderProps = {
   margin?: string;
   option?: () => void;
   isData?: boolean;
+  button?: string;
+  marginLeft?: string;
 };

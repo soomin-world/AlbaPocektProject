@@ -97,7 +97,7 @@ const STAdd = styled.div`
   align-items: center;
   margin: 0px auto 70px auto;
   border-radius: 8px;
-  box-shadow: rgb(0 0 0 / 20%) 2px 2px 8px;
+
   img {
     width: 73px;
     height: 50px;
