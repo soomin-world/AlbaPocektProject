@@ -98,9 +98,17 @@ const MyAlert = () => {
         setListening(true);
       });
 
-      eventSource.addEventListener("error", function (event) {
-        eventSource.close();
-      });
+      eventSource.onerror = async (event) => {
+        if (event) {
+          console.log("에러발생 시 뜨는 것", event);
+          eventSource.close();
+        }
+      };
+
+      // eventSource.addEventListener("error", function (event) {
+      //   console.log("에러발생 시 뜨는 것", event);
+      //   eventSource.close();
+      // });
 
       /////////////// 원래 코드 ///////
       // eventSource.onmessage = (event) => {
