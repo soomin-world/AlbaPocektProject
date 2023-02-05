@@ -98,9 +98,9 @@ const MyAlert = () => {
         setListening(true);
       });
 
-      // eventSource.addEventListener("error!!!", function (event) {
-      //   eventSource.close();
-      // });
+      eventSource.addEventListener("error", function (event) {
+        eventSource.close();
+      });
 
       /////////////// 원래 코드 ///////
       // eventSource.onmessage = (event) => {
@@ -115,11 +115,12 @@ const MyAlert = () => {
       //     setAlertOpen(true);
       //   }
       // };
-      eventSource.onerror = async (event) => {
-        if (event) {
-          eventSource.close();
-        }
-      };
+
+      // eventSource.onerror = async (event) => {
+      //   if (event) {
+      //     eventSource.close();
+      //   }
+      // };
     }
   }, []);
 
