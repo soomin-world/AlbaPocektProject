@@ -19,7 +19,7 @@ const AlertMsg = React.forwardRef(function Alert(props, ref) {
 
 const MyAlert = () => {
   const navigate = useNavigate();
-  const token = localStorage.getItem("is_login");
+  const USERID = localStorage.getItem("userId");
   // console.log(token);
   const [isOpen, setIsOpen] = useState(false);
   const [listening, setListening] = useState(false);
@@ -50,17 +50,17 @@ const MyAlert = () => {
   const { mutateAsync: deleteNoti } = useMutation(notificationDelete);
   const { mutateAsync: deleteAllNoti } = useMutation(notificationDeleteAll);
 
-  const EventSource = EventSourcePolyfill || NativeEventSource;
+  // const EventSource = EventSourcePolyfill || NativeEventSource;
 
   let HEADER;
 
-  if (token) {
-    HEADER = {
-      headers: {
-        Authorization: token,
-      },
-    };
-  }
+  // if (token) {
+  //   HEADER = {
+  //     headers: {
+  //       Authorization: token,
+  //     },
+  //   };
+  // }
 
   // console.log(HEADER);
 
@@ -75,25 +75,16 @@ const MyAlert = () => {
   // );
 
   useEffect(() => {
-    if (!listening) {
+    if (!listening && USERID) {
       const eventSource = new EventSource(
-        "https://woooo.shop/subscribe",
-        HEADER
+        `https://woooo.shop/subscribe/${USERID}`
       );
 
-      // eventSource.addEventListener("sse", async (e) => {
-      //   console.log(e);
-      //   const result = await e.data;
-      //   // console.log(result);
-      //   // setData(result);
-      //   setListening(true);
-      // });
+      ///////// 소영님 코드 따라함 ////////
 
-      eventSource.onmessage = (event) => {
+      eventSource.addEventListener("youjung", async (event) => {
         console.log(event);
-        setListening(true);
-
-        if (event.type === "message" && event.data.startsWith("{")) {
+        if (event.data.startsWith("{")) {
           console.log(
             "실시간 알림이 있을 때만 나오는 것",
             JSON.parse(event.data)
@@ -101,7 +92,43 @@ const MyAlert = () => {
           setNotification((prev) => [JSON.parse(event.data)]);
           setAlertOpen(true);
         }
+        // const result = await e.data;
+        // console.log(JSON.parse(result));
+        // setData(result);
+        setListening(true);
+      });
+
+      eventSource.onerror = async (event) => {
+        if (event) {
+          console.log("에러발생 시 뜨는 것", event);
+          eventSource.close();
+        }
       };
+
+      // eventSource.addEventListener("error", function (event) {
+      //   console.log("에러발생 시 뜨는 것", event);
+      //   eventSource.close();
+      // });
+
+      /////////////// 원래 코드 ///////
+      // eventSource.onmessage = (event) => {
+      //   console.log(event);
+      //   setListening(true);
+      //   if (event.type === "message" && event.data.startsWith("{")) {
+      //     console.log(
+      //       "실시간 알림이 있을 때만 나오는 것",
+      //       JSON.parse(event.data)
+      //     );
+      //     setNotification((prev) => [JSON.parse(event.data)]);
+      //     setAlertOpen(true);
+      //   }
+      // };
+
+      // eventSource.onerror = async (event) => {
+      //   if (event) {
+      //     eventSource.close();
+      //   }
+      // };
     }
   }, []);
 

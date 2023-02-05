@@ -26,7 +26,7 @@ const ChatHeader: React.FC<HeaderProps> = ({
     <STHeader>
       <div className="wrap">
         {arrow && (
-          <img src="/image/leftArrow.png" alt="<" onClick={onArrowClick} />
+          <img src="/image/iconLeftArrow.svg" alt="<" onClick={onArrowClick} />
         )}
         <h1 style={{ marginLeft: `${margin}` }}>{title}</h1>
       </div>
