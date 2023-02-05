@@ -76,9 +76,33 @@ const MyAlert = () => {
 
   useEffect(() => {
     if (!listening && USERID) {
-      // const eventSource = new EventSource(
-      //   `https://woooo.shop/subscribe/${USERID}`
-      // );
+      const eventSource = new EventSource(
+        `https://woooo.shop/subscribe/${USERID}`
+      );
+
+      ///////// 소영님 코드 따라함 ////////
+
+      eventSource.addEventListener("youjung", async (event) => {
+        console.log(event);
+        if (event.data.startsWith("{")) {
+          console.log(
+            "실시간 알림이 있을 때만 나오는 것",
+            JSON.parse(event.data)
+          );
+          setNotification((prev) => [JSON.parse(event.data)]);
+          setAlertOpen(true);
+        }
+        // const result = await e.data;
+        // console.log(JSON.parse(result));
+        // setData(result);
+        setListening(true);
+      });
+
+      eventSource.addEventListener("error", function (event) {
+        eventSource.close();
+      });
+
+      /////////////// 원래 코드 ///////
       // eventSource.onmessage = (event) => {
       //   console.log(event);
       //   setListening(true);
