@@ -118,11 +118,19 @@ const Dday: React.FC<propsType> = (props) => {
                 <div key={w.workId}>
                   <div style={contentStyle}>
                     <SalaryWrap>
-                      <p>{w.placeName} 월급날까지</p>
+                      <div style={{ marginLeft: "20px" }}>
+                        {w.placeName} 월급날
+                      </div>
                       {diffDay[i] === 0 ? (
-                        <div> D-Day 입니다!!!</div>
+                        <div>
+                          {" "}
+                          <div className="dDayText">D-Day</div> 입니다!!!
+                        </div>
                       ) : (
-                        <div>D-{diffDay[i]} 남았어요!</div>
+                        <div>
+                          <div className="dDayText">D-{diffDay[i]} </div>
+                          남았어요!
+                        </div>
                       )}
                     </SalaryWrap>
                     <STWrap>
@@ -202,20 +210,27 @@ export const BlankWrap = styled.div`
 
 export const SalaryWrap = styled.div`
   //border: 1px solid black;
-  width: 60%;
+  // min-width: 200px;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  p {
-    color: #37adae;
-    font-size: 18px;
-    font-weight: 500;
-  }
+  font-family: "Noto Sans KR";
+  color: #37adae;
+  font-size: 18px;
+  font-weight: 500;
+
   div {
-    font-size: 18px;
-    color: #37adae;
-    font-weight: 800;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+  }
+  .dDayText {
+    font-family: "Montserrat";
+    font-size: 24px;
+    font-weight: 700;
+    margin-top: 3px;
+    margin-right: 5px;
   }
 `;
 
