@@ -10,6 +10,7 @@ export type ChatType = {
   sender?: string | null;
   profileImage?: string;
   createdAt: string;
+  readUser: boolean;
 };
 
 const Chat: React.FC<ChatType> = ({
@@ -17,6 +18,7 @@ const Chat: React.FC<ChatType> = ({
   sender,
   profileImage,
   createdAt,
+  readUser,
 }) => {
   const me = localStorage.getItem("nickname");
   const timeToKor = (t: string) => {
@@ -28,8 +30,13 @@ const Chat: React.FC<ChatType> = ({
       {sender === me ? (
         <STMe>
           <STBody>
-            <div className="createdat">
-              <div>{timeToKor(createdAt)}</div>
+            <div className="wrap">
+              <div className="isRead">
+                {readUser ? <div></div> : <div>1</div>}
+              </div>
+              <div className="createdat">
+                <div>{timeToKor(createdAt)}</div>
+              </div>
             </div>
             <ChatPiece backGround="#5FCE80" color="white">
               {message}
@@ -43,8 +50,13 @@ const Chat: React.FC<ChatType> = ({
           </STProfile>
           <STBody>
             <ChatPiece>{message}</ChatPiece>
-            <div className="createdat">
-              <div>{timeToKor(createdAt)}</div>
+            <div className="wrap">
+              <div className="isRead">
+                <div></div>
+              </div>
+              <div className="createdat">
+                <div>{timeToKor(createdAt)}</div>
+              </div>
             </div>
           </STBody>
         </STOther>
@@ -76,15 +88,33 @@ const STBody = styled.div`
   //border: 1px solid black;
   display: flex;
   flex-direction: row;
-  .createdat {
-    height: 90%;
-    //border: 1px solid black;
-    width: 50px;
+  margin-bottom: 5px;
+  .wrap {
+    height: 70%;
     display: flex;
-    flex-direction: column-reverse;
-    align-items: center;
-    div {
+    flex-direction: column;
+    .createdat {
+      //border: 1px solid black;
+      width: 50px;
+      display: flex;
+      margin-top: 5px;
+      flex-direction: column;
+      align-items: center;
+      //margin-bottom: 5px;
+      div {
+        font-size: 10px;
+      }
+    }
+    .isRead {
+      margin-left: 10px;
+      width: 30px;
+      min-height: 50%;
+      margin-top: 3px;
+      //border: 1px solid black;
+      display: flex;
+      justify-content: end;
       font-size: 10px;
+      color: #5fce80;
     }
   }
 `;

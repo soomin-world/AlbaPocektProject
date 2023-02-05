@@ -4,7 +4,7 @@ import { useRecoilValue } from "recoil";
 import SockJS from "sockjs-client";
 import styled from "styled-components";
 import { baseURL } from "../../APIs/axios";
-import { getDetailChat, quitChatRoom } from "../../APIs/chatApi";
+import { getDetailChat } from "../../APIs/chatApi";
 import { otherNickName } from "../../atoms";
 import ChatHeader from "../header/ChatHeader";
 import LayOut from "../layout/LayOut";
@@ -40,7 +40,7 @@ function ChatRoom() {
   const scrollToBot = () => {
     window.scrollTo(0, document.body.scrollHeight);
   };
-
+  console.log(data);
   //------------------------------------------------
 
   // stompclient생성부분
@@ -50,25 +50,25 @@ function ChatRoom() {
   const connectStomp = () => {
     client.connect({ myNickName }, onConnect, onError);
   };
-
   useEffect(() => {
     connectStomp();
     scrollToBot();
-    if (isSuccess) {
-      setChatList(data?.data);
-    }
+  }, []);
+  useEffect(() => {
+    setChatList(data?.data);
     if (data?.data.length === 0) {
       setIsData(false);
     } else {
       setIsData(true);
     }
+    console.log("제발");
   }, [isSuccess, data?.data]);
 
+  //trouble shooting... useeffect를 잘 나누어 쓰자..
   const onConnect = () => {
     userEnter();
     scrollToBot();
     setChatList(data?.data);
-
     onSub();
     // 연결되면 이전데이터로 chatlist 설정
     console.log("연결성공~");
@@ -82,8 +82,21 @@ function ChatRoom() {
     client.subscribe(`/sub/chat/room/${id}`, (e) => onMessageRecieve(e));
   };
 
+  const onLeave = () => {
+    const payload = {
+      type: "QUIT",
+      roomId: id,
+      sender: myNickName,
+      message: "퇴장",
+    };
+    client.send(
+      `/pub/api/chat/message`,
+      { myNickName },
+      JSON.stringify(payload)
+    );
+  };
   //-------------------------------------------------
-  console.log(isData);
+
   const onMessageRecieve = (e: Message) => {
     // 메세지가 오면 받아온 데이터의 body를 json.parse해서 data 라는 변수에 넣음
     let data = JSON.parse(e.body);
@@ -93,8 +106,11 @@ function ChatRoom() {
       });
     }
     scrollToBot();
-    //setIsData(true);
   };
+
+  useEffect(() => {
+    scrollToBot();
+  }, [chatList]);
 
   const userEnter = () => {
     let payload = {
@@ -136,9 +152,16 @@ function ChatRoom() {
     sendMessage();
   };
 
-  useEffect(() => {
-    scrollToBot();
-  }, [chatList]);
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     setChatList(data?.data);
+  //   }
+  //   if (data?.data.length === 0) {
+  //     setIsData(false);
+  //   } else {
+  //     setIsData(true);
+  //   }
+  // }, [isSuccess, data?.data]);
 
   if (isLoading) {
     return <div> 로딩중</div>;
@@ -165,6 +188,7 @@ function ChatRoom() {
                 message={c.message}
                 sender={c.sender}
                 profileImage={c.profileImage}
+                readUser={c.readUser}
               />
             );
           })}

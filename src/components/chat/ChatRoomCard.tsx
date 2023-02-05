@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
@@ -17,6 +18,7 @@ const ChatRoomCard = () => {
   const [otherNickname, setOtherNickName] = useRecoilState(otherNickName);
   const navigate = useNavigate();
   const { data } = useQuery(["chat"], () => getChatList());
+  console.log(data);
   const detailDate = (a: Date) => {
     const milliSeconds = new Date().getTime() - a.getTime();
     const seconds = milliSeconds / 1000;
@@ -35,7 +37,6 @@ const ChatRoomCard = () => {
     return `${Math.floor(years)}년 전`;
   };
 
-  const time = detailDate(new Date());
   const onClickHandler = (e: ChatCardType) => {
     setOtherNickName(e?.nickname);
     navigate(`/chat/${e?.roomId}`);
