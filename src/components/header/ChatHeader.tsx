@@ -13,8 +13,20 @@ const ChatHeader: React.FC<HeaderProps> = ({
   isData,
 }) => {
   const navigate = useNavigate();
+  const myNickName = localStorage.getItem("nickname");
   const onArrowClick = () => {
     if (client) {
+      const payload = {
+        type: "QUIT",
+        roomId: menu,
+        sender: myNickName,
+        message: "퇴장",
+      };
+      client.send(
+        `/pub/api/chat/message`,
+        { myNickName },
+        JSON.stringify(payload)
+      );
       client?.disconnect(() => {});
     }
     if (isData === false) {

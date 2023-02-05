@@ -4,4 +4,5 @@ export type IPayload = {
   message: string;
   type: string;
   createdAt: string;
+  readUser: boolean;
 };

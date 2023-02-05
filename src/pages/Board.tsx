@@ -80,7 +80,7 @@ function Board() {
   if (status === "error") return <div>에러다 </div>;
 
   return (
-    <LayOut>
+    <LayOut height="100vh">
       <STContainer>
         <Navigate>
           <Selector
