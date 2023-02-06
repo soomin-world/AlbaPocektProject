@@ -1,9 +1,10 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { Outlet, useMatch, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { getChatCnt } from "../APIs/chatApi";
 import { getInfinitePost } from "../APIs/communityBoardApi";
 import { boardAtom, boardModalAtom } from "../atoms";
 import PostCard from "../components/category/PostCard";
@@ -69,7 +70,8 @@ function Board() {
         !lastPage.last ? lastPage.nextPage : undefined,
     }
   );
-
+  const { data: totalCount } = useQuery(["chat"], () => getChatCnt());
+  console.log(totalCount);
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
@@ -142,11 +144,18 @@ function Board() {
               }}
               alt="search"
             />
-            <img
-              src="/image/iconChat.svg"
-              alt="chat"
-              onClick={() => navigate("/chat")}
-            />
+            <div className="chat">
+              <img
+                src="/image/iconChat.svg"
+                alt="채팅"
+                onClick={() => navigate("/chat")}
+              />
+              {totalCount?.totalCount >= 1 ? (
+                <div className="chatCnt">
+                  <h3>{totalCount?.totalCount}</h3>
+                </div>
+              ) : null}
+            </div>
             <img
               src="/image/iconMypage.svg"
               onClick={() => {
@@ -189,8 +198,8 @@ function Board() {
 }
 const STContainer = styled.div`
   width: 100%;
-  margin-bottom: 1px;
-  //border: 1px solid black;
+  margin-bottom: 40px;
+  //border: 2px solid black;
 `;
 const Navigate = styled.div`
   width: 100%;
@@ -202,6 +211,29 @@ const Navigate = styled.div`
 `;
 
 const Icon = styled.div`
+  display: flex;
+  .chat {
+    display: flex;
+    img {
+      width: 24px;
+      height: 24px;
+    }
+    .chatCnt {
+      width: 15px;
+      height: 15px;
+      border-radius: 100%;
+      background-color: #ff4000;
+      color: white;
+      font-weight: 500;
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      right: 30px;
+      top: -7px;
+      font-size: 10px;
+    }
+  }
   img {
     width: 24px;
     height: 24px;

@@ -27,7 +27,6 @@ function PostEditForm() {
   const { data, isError, isLoading, isSuccess } = useQuery(["post", id], () =>
     getPost(id)
   );
-  console.log(data);
 
   const mutatePost = useMutation(putPost, {
     onSuccess: () => {
@@ -88,9 +87,6 @@ function PostEditForm() {
     }
   };
 
-  const locationNow = useLocation();
-  console.log(window.location.pathname.slice(0, 8));
-
   if (isError) return <div>Error!!!!!!</div>;
   if (isLoading) return <div>Loading~~~</div>;
 
@@ -100,7 +96,7 @@ function PostEditForm() {
         <img
           src="/image/iconX.svg"
           alt="x"
-          onClick={() => navigate("/board")}
+          onClick={() => window.history.back()}
         />
         <div className="wrap">
           <div>게시글 수정</div>

@@ -76,7 +76,7 @@ const Register = () => {
       .then((res) => {
         console.log(res);
         setError("email", { message: "" });
-        setUserIdPassMsg("사용가능한 이메일 주소입니다.");
+        setUserIdPassMsg("이메일 인증버튼을 눌러주세요");
         //alert("이메일 인증을 진행해주세요!");
         setEmail(userId.email);
         console.log(email);
@@ -122,8 +122,6 @@ const Register = () => {
       setEmailAuthPassMsg("인증되었습니다");
     }
   };
-  console.log(errors?.email?.message);
-
   return (
     <LayOut height="100vh">
       <Total>
@@ -146,7 +144,6 @@ const Register = () => {
               onBlur={() => {
                 setClickIdCheck(false);
                 setUserIdPassMsg("");
-                console.log(email);
               }}
             />
             <Check onClick={userIdCheck} color={onClickIdCheck}>
@@ -159,7 +156,7 @@ const Register = () => {
             <Msg style={{ color: "#5fce80" }}>{userIdPassMsg}</Msg>
           )}
           {onClickIdCheck &&
-          userIdPassMsg === "사용가능한 이메일 주소입니다." ? (
+          userIdPassMsg === "이메일 인증버튼을 눌러주세요" ? (
             <>
               <EmailAuth>
                 <Input
@@ -311,7 +308,8 @@ const Msg = styled.div`
   font-weight: 400;
   color: red;
   text-align: left;
-  margin: 7px 0px 13px 0px;
+  margin: 7px 0px 13px 12px;
+  //border: 1px solid black;
 `;
 
 const Check = styled.div<{ color: any }>`

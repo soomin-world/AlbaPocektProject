@@ -20,7 +20,6 @@ const AlertMsg = React.forwardRef(function Alert(props, ref) {
 const MyAlert = () => {
   const navigate = useNavigate();
   const USERID = localStorage.getItem("userId");
-  // console.log(token);
   const [isOpen, setIsOpen] = useState(false);
   const [listening, setListening] = useState(false);
   const [notification, setNotification] = useState([]);
@@ -43,9 +42,6 @@ const MyAlert = () => {
     refetch: cntRefetch,
   } = useQuery(["getNotificationsCnt"], () => getNotificationsCnt());
 
-  // console.log("받아온 알림", data);
-  // console.log("안 읽은 알림 개수", count?.count);
-
   const { mutateAsync: readNoti } = useMutation(notificationRead);
   const { mutateAsync: deleteNoti } = useMutation(notificationDelete);
   const { mutateAsync: deleteAllNoti } = useMutation(notificationDeleteAll);
@@ -61,8 +57,6 @@ const MyAlert = () => {
   //     },
   //   };
   // }
-
-  // console.log(HEADER);
 
   // const eventSource = new EventSource(
   //   "https://woooo.shop/subscribe",
@@ -83,7 +77,6 @@ const MyAlert = () => {
       ///////// 소영님 코드 따라함 ////////
 
       eventSource.addEventListener("youjung", async (event) => {
-        console.log(event);
         if (event.data.startsWith("{")) {
           console.log(
             "실시간 알림이 있을 때만 나오는 것",

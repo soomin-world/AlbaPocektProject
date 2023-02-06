@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getWorks } from "../../APIs/workApi";
 import { WorkType } from "../../types/workType";
@@ -8,12 +9,17 @@ import MainHeader from "../header/MainHeader";
 import Work from "./Work";
 
 function WorkPlace() {
+  const [pathName, setPathName] = useState("");
   const navigate = useNavigate();
   const { data } = useQuery(["work"], getWorks);
+  const locationNow = useLocation();
+  useEffect(() => {
+    setPathName(locationNow.pathname);
+  }, []);
 
   return (
     <>
-      <MainHeader />
+      <MainHeader location={pathName} />
       <Dday workList={data?.data.workList} />
 
       {data

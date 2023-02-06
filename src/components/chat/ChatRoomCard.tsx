@@ -20,7 +20,6 @@ const ChatRoomCard = () => {
   const [chatRoomList, setChatRoomList] = useState<ChatCardType[]>();
   const navigate = useNavigate();
   const { data, isSuccess } = useQuery(["chat"], () => getChatList());
-  console.log(data?.data);
 
   const detailDate = (a: Date) => {
     const milliSeconds = new Date().getTime() - a.getTime();
@@ -46,7 +45,6 @@ const ChatRoomCard = () => {
   };
 
   useEffect(() => {
-    console.log(data);
     setChatRoomList(data?.data);
   }, [isSuccess, data]);
 

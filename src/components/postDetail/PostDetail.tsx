@@ -21,7 +21,7 @@ function PostDetail() {
   const [postLikeNum, setPostLikeNum] = useState<number>(data?.postLikeNum);
   const [isOpen, setIsOpen] = useState(false);
   const [category, setCategory] = useState("");
-  const createTime = data?.createAt.substr(14, 5);
+  const createTime = data?.createAt.substr(11, 5);
   const [otherNickname, setOtherNickName] = useRecoilState(otherNickName);
 
   const categoryToKor = (e: string) => {
@@ -74,7 +74,6 @@ function PostDetail() {
     setOtherNickName(data.nickname);
   };
 
-  console.log(data);
   return (
     <SContainer className="detailContainer">
       <Header
@@ -89,6 +88,7 @@ function PostDetail() {
             ? "110px"
             : "0px"
         }
+        location="/board"
       />
       <div className="header">
         <img src={data.profileImage} alt="유저프로필사진" className="profile" />
@@ -109,11 +109,6 @@ function PostDetail() {
                 {createTime}
               </div>
             </div>
-            {/* {data.userId !== myId ? (
-              <button onClick={() => onChatHandler(data.nickname)}>
-                1:1채팅
-              </button>
-            ) : null} */}
           </div>
           {data.userId === myId ? (
             <div className="dropDown">

@@ -45,6 +45,7 @@ const Alert = () => {
         option={deleteAllHandler}
         button="전체삭제"
         marginLeft="135px"
+        location="/"
       />
 
       {data && !cntLoading ? (

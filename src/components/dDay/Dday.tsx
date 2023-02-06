@@ -1,5 +1,4 @@
 import { Carousel } from "antd";
-import { useState } from "react";
 import styled from "styled-components";
 import LayOut from "../layout/LayOut";
 
@@ -29,9 +28,7 @@ interface propsType {
 //다음달의 월급날 까지 남은 일수를 구해야되는데
 // 연도랑 월만 출력
 const Dday: React.FC<propsType> = (props) => {
-  const onChange = (currentSlide: number) => {
-    console.log(currentSlide);
-  };
+  const onChange = (currentSlide: number) => {};
 
   //------------- 디데이를 구해보자 ----------
   const today = new Date();

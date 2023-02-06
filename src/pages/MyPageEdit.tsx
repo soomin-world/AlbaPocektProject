@@ -140,7 +140,12 @@ const MyPageEdit = () => {
   return (
     <>
       <LayOut padding="0" position="relative" height="100vh">
-        <Header title="프로필 수정" padding="5%" marginLeft="105px" />
+        <Header
+          title="프로필 수정"
+          padding="5%"
+          marginLeft="105px"
+          location="/"
+        />
         <MyPageProfile>
           <div>
             <label htmlFor="profileImg">

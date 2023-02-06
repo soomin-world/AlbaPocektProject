@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { Outlet, useMatch, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useMatch, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { deleteMyComment, getMyPage } from "../APIs/myPageApi";
 import PostCard from "../components/category/PostCard";
@@ -15,6 +15,7 @@ const MyPage = () => {
   const mypageMatch = useMatch("/mypage");
   const myLikeMatch = useMatch("/mypage/myLike");
   const myCommentMatch = useMatch("/mypage/myComment");
+  //const location = useLocation().state.location;
 
   let pageParam = 1;
 
@@ -46,7 +47,8 @@ const MyPage = () => {
     );
   }
   // console.log(numList);
-
+  const locationNow = useLocation();
+  console.log(locationNow);
   return (
     <>
       <LayOut padding="0" position="relative" height="100vh">
@@ -56,6 +58,7 @@ const MyPage = () => {
           option={LogoutHandler}
           button="로그아웃"
           marginLeft="115px"
+          location="/"
         />
         <MyPageProfile>
           <ProfileInfo>

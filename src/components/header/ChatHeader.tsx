@@ -32,7 +32,7 @@ const ChatHeader: React.FC<HeaderProps> = ({
     if (isData === false) {
       quitChatRoom(menu);
     }
-    navigate(`${location}`);
+    window.history.back();
   };
   return (
     <STHeader>

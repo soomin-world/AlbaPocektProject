@@ -24,7 +24,6 @@ const MyComment = () => {
       queryClient.invalidateQueries(["myComment"]);
     },
   });
-  //  console.log(data?.content);
 
   const allCommentList: number[] = [];
 
@@ -33,13 +32,10 @@ const MyComment = () => {
       for (const comment of data?.content) {
         allCommentList.push(comment.commentId);
       }
-      console.log("모든 댓글 id 리스트", allCommentList);
     }
   }, [data, onClickAll]);
 
-  useEffect(() => {
-    console.log("삭제할 댓글 id 리스트", deleteList);
-  }, [deleteList]);
+  useEffect(() => {}, [deleteList]);
 
   const numList = [];
   for (let i = 1; i <= data?.totalPages; i++) {
@@ -48,7 +44,6 @@ const MyComment = () => {
         style={{ cursor: "pointer" }}
         onClick={() => {
           pageParam = i;
-          console.log(pageParam);
           refetch();
           let copy: number[] = [];
           setDeleteList(copy);
@@ -73,17 +68,17 @@ const MyComment = () => {
           {onClickAll ? (
             <img
               src="/image/iconFullCheck.svg"
+              alt=""
               onClick={() => {
-                // console.log(deleteList);
                 let copy: number[] = [];
                 setDeleteList(copy);
-                // console.log(deleteList);
                 setOnClickAll(false);
               }}
             />
           ) : (
             <img
               src="/image/iconEmptyCheck.svg"
+              alt=""
               onClick={() => {
                 console.log("클릭 시 나오는 모든 댓글 리스트", allCommentList);
                 let copy = [...allCommentList];
@@ -105,7 +100,7 @@ const MyComment = () => {
           }}
         >
           <span>삭제</span>
-          <img src="/image/iconDelete.png" />
+          <img src="/image/iconDelete.png" alt="" />
         </button>
       </CommentDelete>
     </>

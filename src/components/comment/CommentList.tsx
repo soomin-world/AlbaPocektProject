@@ -15,7 +15,7 @@ const CommentList = () => {
   //     setDataList(data);
   //   }
   // }, [data]);
-  console.log(data);
+
   return (
     <Stcontainer>
       {data?.map((e: CommentType) => (

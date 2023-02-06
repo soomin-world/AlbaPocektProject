@@ -1,14 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
-import { add } from "date-fns";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getNotificationsCnt } from "../../APIs/alertApi";
 import { getChatCnt, getChatList } from "../../APIs/chatApi";
-import { ChatCardType } from "../chat/ChatRoomCard";
 
-function MainHeader() {
-  const [chatCnt, setchatCnt] = useState(0);
+export type PathType = {
+  location: string;
+};
+
+const MainHeader: React.FC<PathType> = ({ location }) => {
+  console.log(location);
   const navigate = useNavigate();
   const {
     data: count,
@@ -47,7 +49,13 @@ function MainHeader() {
         <img
           src="/image/iconMypage.svg"
           alt="마이페이지"
-          onClick={() => navigate("/mypage")}
+          onClick={() =>
+            navigate("/mypage", {
+              state: {
+                location: location,
+              },
+            })
+          }
         />
         <img
           src="/image/iconBell.svg"
@@ -71,7 +79,7 @@ function MainHeader() {
       </div>
     </STHeader>
   );
-}
+};
 
 const STHeader = styled.div`
   display: flex;
