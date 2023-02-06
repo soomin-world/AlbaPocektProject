@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { getChatList } from "../../APIs/chatApi";
 import { otherNickName } from "../../atoms";
 
-type ChatCardType = {
+export type ChatCardType = {
   roomId: string;
   nickname: string;
   profileImage: string;
