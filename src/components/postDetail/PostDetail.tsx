@@ -257,6 +257,7 @@ const SContainer = styled.div`
         word-break: break-all;
         font-size: 15px;
         font-weight: 400;
+        line-height: 1.5;
       }
     }
     .title {
