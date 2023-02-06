@@ -1,16 +1,27 @@
 import { useQuery } from "@tanstack/react-query";
+import { add } from "date-fns";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getNotificationsCnt } from "../../APIs/alertApi";
+import { getChatCnt, getChatList } from "../../APIs/chatApi";
+import { ChatCardType } from "../chat/ChatRoomCard";
 
 function MainHeader() {
+  const [chatCnt, setchatCnt] = useState(0);
   const navigate = useNavigate();
   const {
     data: count,
     isLoading: cntLoading,
     refetch: cntRefetch,
   } = useQuery(["getNotificationsCnt"], () => getNotificationsCnt());
-  // console.log("안 읽은 알림 개수", count?.count);
+  const { data: totalCount, isSuccess } = useQuery(["chat"], () =>
+    getChatCnt()
+  );
+
+  // useEffect(() => {
+  //   setchatCnt(totalCount?.toalCount);
+  // }, [isSuccess, totalCount?.totalCount]);
 
   return (
     <STHeader>
@@ -21,11 +32,18 @@ function MainHeader() {
         onClick={() => navigate("/")}
       />
       <div className="nav">
-        <img
-          src="/image/iconChat.svg"
-          alt="채팅"
-          onClick={() => navigate("/chat")}
-        />
+        <div className="chat">
+          <img
+            src="/image/iconChat.svg"
+            alt="채팅"
+            onClick={() => navigate("/chat")}
+          />
+          {totalCount?.totalCount >= 1 ? (
+            <div className="chatCnt">
+              <h3>{totalCount?.totalCount}</h3>
+            </div>
+          ) : null}
+        </div>
         <img
           src="/image/iconMypage.svg"
           alt="마이페이지"
@@ -77,6 +95,28 @@ const STHeader = styled.div`
       right: -4px;
       width: 5px;
       height: 5px;
+    }
+    .chat {
+      display: flex;
+      img {
+        width: 24px;
+        height: 24px;
+      }
+      .chatCnt {
+        width: 15px;
+        height: 15px;
+        border-radius: 100%;
+        background-color: #ff4000;
+        color: white;
+        font-weight: 500;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        left: 15px;
+        top: -7px;
+        font-size: 10px;
+      }
     }
   }
   .logo {

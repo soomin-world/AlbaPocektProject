@@ -19,3 +19,8 @@ export const getDetailChat = async (payload: string | undefined) => {
   const res = await instance.get(`/api/chat/message/${payload}`);
   return res;
 };
+
+export const getChatCnt = async () => {
+  const { data } = await instance.get("/api/chat/message/count");
+  return data;
+};

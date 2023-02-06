@@ -74,7 +74,7 @@ function App() {
         <GlobalStyle />
         <Router />
         {/* <MyAlert /> */}
-        <ReactQueryDevtools />
+        {/* <ReactQueryDevtools /> */}
       </QueryClientProvider>
     </>
   );
