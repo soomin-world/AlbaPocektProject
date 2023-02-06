@@ -4,3 +4,10 @@ export interface IworkType {
   endTime: string;
   workDay: [workDay: {}];
 }
+
+export interface WorkType {
+  placeName: string;
+  placeColor: string;
+  placeId: number;
+  salaryDay?: number;
+}

@@ -1,6 +1,6 @@
 //import * as StompJs from "@stomp/stompjs";
 import { Client, Message, Stomp } from "@stomp/stompjs";
-import { Children, useEffect } from "react";
+import { Children, useEffect, useState } from "react";
 import SockJS from "sockjs-client";
 import styled from "styled-components";
 import ChatList from "../../pages/ChatList";
@@ -21,9 +21,17 @@ const Chat: React.FC<ChatType> = ({
   readUser,
 }) => {
   const me = localStorage.getItem("nickname");
+  const [isRead, setIsRead] = useState(false);
   const timeToKor = (t: string) => {
     return t.slice(11, 16);
   };
+  useEffect(() => {
+    if (readUser) {
+      setIsRead(true);
+    } else {
+      setIsRead(false);
+    }
+  }, [readUser]);
   //console.log(timeToKor(createdAt));
   return (
     <>
@@ -32,7 +40,7 @@ const Chat: React.FC<ChatType> = ({
           <STBody>
             <div className="wrap">
               <div className="isRead">
-                {readUser ? <div></div> : <div>1</div>}
+                {isRead ? <div></div> : <div>1</div>}
               </div>
               <div className="createdat">
                 <div>{timeToKor(createdAt)}</div>

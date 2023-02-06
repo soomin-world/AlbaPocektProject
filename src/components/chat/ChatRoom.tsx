@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import SockJS from "sockjs-client";
 import styled from "styled-components";
-import { baseURL } from "../../APIs/axios";
-import { getChatList, getDetailChat } from "../../APIs/chatApi";
+import { getDetailChat } from "../../APIs/chatApi";
 import { otherNickName } from "../../atoms";
 import ChatHeader from "../header/ChatHeader";
 import LayOut from "../layout/LayOut";
@@ -13,11 +11,10 @@ import stompJS, { Message } from "stompjs";
 import { useQuery } from "@tanstack/react-query";
 import { IPayload } from "../../types/chatType";
 
-function ChatRoom() {
+const ChatRoom = ({ client }: { client: stompJS.Client }) => {
   const { id } = useParams();
   const otherName = useRecoilValue(otherNickName);
   const myNickName = localStorage.getItem("nickname");
-  const url = baseURL;
   //----------------------------------------------
 
   // 입력받은 message값
@@ -42,14 +39,6 @@ function ChatRoom() {
   };
   //------------------------------------------------
 
-  // stompclient생성부분
-  const sock = new SockJS(url + "/ws/chat");
-  const client = stompJS.over(sock);
-
-  const connectStomp = () => {
-    client.connect({ myNickName }, onConnect, onError);
-  };
-
   useEffect(() => {
     if (isSuccess) {
       setChatList(data?.data);
@@ -64,40 +53,38 @@ function ChatRoom() {
   }, [isSuccess, data?.data]);
 
   useEffect(() => {
-    connectStomp();
+    onConnect();
     scrollToBot();
   }, []);
   //trouble shooting... useeffect를 잘 나누어 쓰자..
   const onConnect = () => {
-    userEnter();
-    scrollToBot();
-    //setChatList(data?.data);
-    onSub();
-    // 연결되면 이전데이터로 chatlist 설정
+    if (client.connected) {
+      userEnter();
+      scrollToBot();
+      //setChatList(data?.data);
+      onSub();
+      // 연결되면 이전데이터로 chatlist 설정
+    }
     console.log("연결성공~");
-  };
-
-  const onError = () => {
-    console.log("에러에요 ");
   };
 
   const onSub = () => {
     client.subscribe(`/sub/chat/room/${id}`, (e) => onMessageRecieve(e));
   };
 
-  const onLeave = () => {
-    const payload = {
-      type: "QUIT",
-      roomId: id,
-      sender: myNickName,
-      message: "퇴장",
-    };
-    client.send(
-      `/pub/api/chat/message`,
-      { myNickName },
-      JSON.stringify(payload)
-    );
-  };
+  // const onLeave = () => {
+  //   const payload = {
+  //     type: "QUIT",
+  //     roomId: id,
+  //     sender: myNickName,
+  //     message: "퇴장",
+  //   };
+  //   client.send(
+  //     `/pub/api/chat/message`,
+  //     { myNickName },
+  //     JSON.stringify(payload)
+  //   );
+  // };
   //-------------------------------------------------
 
   const onMessageRecieve = (e: Message) => {
@@ -200,7 +187,7 @@ function ChatRoom() {
       </STContainer>
     </LayOut>
   );
-}
+};
 
 const STContainer = styled.div`
   width: 100%;
