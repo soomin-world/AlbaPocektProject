@@ -155,6 +155,7 @@ const Msg = styled.div<{ fontColor: Boolean }>`
   font-size: 15px;
   font-weight: 400;
   margin: 5px 0px 10px 0px;
+  cursor: pointer;
 `;
 
 const MsgBottom = styled.div`

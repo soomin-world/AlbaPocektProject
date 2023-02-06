@@ -37,6 +37,7 @@ const STHeader = styled.div<{
   img {
     width: 24px;
     height: 24px;
+    cursor: pointer;
   }
   h1 {
     //border: 1px solid black;
@@ -57,6 +58,7 @@ const STHeader = styled.div<{
     font-size: 13px;
     font-weight: 400;
     color: #ff3b30;
+    cursor: pointer;
   }
 `;
 

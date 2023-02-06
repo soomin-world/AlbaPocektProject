@@ -237,6 +237,7 @@ const Selector = styled.div`
   font-weight: 400;
   display: flex;
   align-items: center;
+  cursor: pointer;
 
   img {
     width: 24px;
@@ -254,6 +255,8 @@ const List = styled.div`
   border-radius: 10px;
   animation: modal-bg-show 0.6s;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+
   div {
     font-size: 15px;
     padding: 6px 8px 6px 8px;

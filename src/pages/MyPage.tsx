@@ -187,6 +187,7 @@ const MyPageEditBtn = styled.button`
   align-items: center;
   font-size: 15px;
   padding: 0;
+  cursor: pointer;
   /* &:first-child {
     margin-right: 15px;
   } */
@@ -213,6 +214,7 @@ const Tap = styled.div<{ isActive: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `;
 
 const PageNum = styled.div`

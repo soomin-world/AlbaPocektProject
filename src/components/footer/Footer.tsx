@@ -116,6 +116,9 @@ const STContainer = styled.div`
   border-top-right-radius: 20px;
   padding: 10px;
 
+  img {
+    cursor: pointer;
+  }
   div {
     font-size: 30px;
     cursor: pointer;
