@@ -152,9 +152,17 @@ function PostDetail() {
       <div className="like">
         <div onClick={onClickLikeHandler}>
           {data.likePost === true ? (
-            <img src="/image/iconRedHeart.svg" alt="heart" />
+            <img
+              src="/image/iconRedHeart.svg"
+              alt="heart"
+              style={{ cursor: "pointer" }}
+            />
           ) : (
-            <img src="/image/iconEmptyHeart.svg" alt="miniHeart" />
+            <img
+              src="/image/iconEmptyHeart.svg"
+              alt="miniHeart"
+              style={{ cursor: "pointer" }}
+            />
           )}
         </div>
         <span>좋아요 {data.postLikeNum}</span>
@@ -207,6 +215,7 @@ const SContainer = styled.div`
             color: #5fce80;
             background-color: #5fce8044;
             border-radius: 4px;
+            cursor: pointer;
           }
         }
         div:first-child {

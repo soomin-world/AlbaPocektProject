@@ -58,6 +58,7 @@ const Tax = styled.div`
   display: flex;
   align-items: center;
   font-size: 13px;
+  cursor: pointer;
 
   img {
     width: 15px;

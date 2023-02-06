@@ -282,6 +282,7 @@ const UserProfileForm = styled.form`
     align-items: center;
     position: fixed;
     bottom: 17px;
+    cursor: pointer;
   }
 `;
 
@@ -326,6 +327,7 @@ const CheckBtn = styled.div<{ color: any }>`
   justify-content: center;
   align-items: center;
   border-radius: 15px;
+  cursor: pointer;
 `;
 
 export default MyPageEdit;

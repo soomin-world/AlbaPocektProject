@@ -58,6 +58,7 @@ const CellTodo = styled.div<{ color: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 
   div {
     height: 11px;

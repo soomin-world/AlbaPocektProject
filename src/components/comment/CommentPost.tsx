@@ -65,6 +65,7 @@ const STContainer = styled.div`
       height: 30px;
       border: none;
       background-color: white;
+      cursor: pointer;
     }
   }
 `;

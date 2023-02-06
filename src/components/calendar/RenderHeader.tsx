@@ -122,6 +122,7 @@ const SelectMonth = styled.div`
   img {
     width: 24px;
     height: 24px;
+    cursor: pointer;
   }
 `;
 
@@ -138,6 +139,7 @@ const Button = styled.button`
   align-items: center;
   padding: 0;
   margin-left: -30px;
+  cursor: pointer;
 
   img {
     width: 20px;

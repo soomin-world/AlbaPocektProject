@@ -94,7 +94,7 @@ const Search = () => {
   return (
     <>
       <LayOut height="100vh">
-        <Header title={"게시물 검색"} padding="5% 0 5% 0" />
+        <Header title="게시물 검색" padding="5% 0 5% 0" marginLeft="110px" />
 
         <SearchInputBox>
           <SearchInput
@@ -123,8 +123,8 @@ const Search = () => {
           </SearchEmpty>
         ) : null}
 
-        <PageNum>{numList}</PageNum>
-        {/* {numList?.length === 1 ? null : <PageNum>{numList}</PageNum>} */}
+        {/* <PageNum>{numList}</PageNum> */}
+        {numList?.length === 1 ? null : <PageNum>{numList}</PageNum>}
 
         {/* <Footer /> */}
       </LayOut>
@@ -173,6 +173,7 @@ const SearchBtn = styled.button`
     width: 22px;
     height: 22px;
     margin-top: 1px;
+    cursor: pointer;
   }
 `;
 
