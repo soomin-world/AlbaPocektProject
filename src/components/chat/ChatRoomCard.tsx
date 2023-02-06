@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
@@ -17,9 +17,11 @@ type ChatCardType = {
 
 const ChatRoomCard = () => {
   const [otherNickname, setOtherNickName] = useRecoilState(otherNickName);
+  const [chatRoomList, setChatRoomList] = useState<ChatCardType[]>();
   const navigate = useNavigate();
-  const { data } = useQuery(["chat"], () => getChatList());
-  console.log(data);
+  const { data, isSuccess } = useQuery(["chat"], () => getChatList());
+  console.log(data?.data);
+
   const detailDate = (a: Date) => {
     const milliSeconds = new Date().getTime() - a.getTime();
     const seconds = milliSeconds / 1000;
@@ -44,17 +46,18 @@ const ChatRoomCard = () => {
   };
 
   useEffect(() => {
-    getChatList();
-  }, [data]);
+    console.log(data);
+    setChatRoomList(data?.data);
+  }, [isSuccess, data]);
 
   return (
     <>
-      {data?.data.length !== 0 ? (
-        data?.data.map((c: ChatCardType) => {
+      {chatRoomList?.length !== 0 ? (
+        chatRoomList?.map((c: ChatCardType) => {
           return (
             <STContainer key={c.roomId} onClick={() => onClickHandler(c)}>
               <div className="profileImg">
-                <img src={c.profileImage} />
+                <img src={c.profileImage} alt="프로필이미지" />
               </div>
               <div className="body">
                 <h1>{c.nickname}</h1>
