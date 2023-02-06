@@ -12,6 +12,7 @@ type ChatCardType = {
   profileImage: string;
   lastMessage: string;
   createdAt: string;
+  count: number;
 };
 
 const ChatRoomCard = () => {
@@ -41,6 +42,11 @@ const ChatRoomCard = () => {
     setOtherNickName(e?.nickname);
     navigate(`/chat/${e?.roomId}`);
   };
+
+  useEffect(() => {
+    getChatList();
+  }, [data]);
+
   return (
     <>
       {data?.data.length !== 0 ? (
@@ -60,6 +66,11 @@ const ChatRoomCard = () => {
                 <h3>
                   {c.createdAt ? detailDate(new Date(c.createdAt)) : null}
                 </h3>
+                {c.count === 0 ? null : (
+                  <div className="count">
+                    <p>{c.count}</p>
+                  </div>
+                )}
               </div>
             </STContainer>
           );
@@ -127,10 +138,24 @@ const STContainer = styled.div`
     width: 15%;
     height: 60%;
     font-size: 10px;
-    padding: 2px;
+    //padding: 2px;
     //border: 1px solid black;
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: column;
+    align-items: flex-end;
+    .count {
+      width: 18px;
+      height: 18px;
+      border-radius: 100%;
+      background-color: #f65730;
+      color: white;
+      font-size: 13px;
+      font-weight: 400;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 25px;
+    }
   }
 `;
 
