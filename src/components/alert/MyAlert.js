@@ -133,7 +133,7 @@ const MyAlert = () => {
     }
   }, []);
 
-  console.log(notification[0]?.time);
+  console.log(notification[0]?.url);
   // const eventSource = new EventSource("https://woooo.shop/subscribe", HEADER);
 
   // eventSource.onmessage = (event) => {
