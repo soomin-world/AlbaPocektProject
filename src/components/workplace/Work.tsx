@@ -1,14 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { getMonthlyWage } from "../../APIs/workApi";
 import comma from "../../hooks/comma";
+import { WorkType } from "../../types/workType";
 import DropDown from "../dropDown/DropDown";
-import { WorkType } from "./WorkPlace";
 
-const Work = ({ placeId, placeName, placeColor, salaryDay }: WorkType) => {
+const Work = ({ placeId, placeName, placeColor }: WorkType) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const today = new Date();
@@ -17,9 +16,6 @@ const Work = ({ placeId, placeName, placeColor, salaryDay }: WorkType) => {
   ).split(" ");
 
   const month = yearMonth[3] + "년" + yearMonth[2] + "월";
-  const dropDownHandler = () => {
-    setIsOpen(!isOpen);
-  };
 
   const data = useQuery(["post", placeId], () => getMonthlyWage(placeId));
   window.addEventListener("scroll", () => setIsOpen(false));
@@ -51,8 +47,7 @@ const Work = ({ placeId, placeName, placeColor, salaryDay }: WorkType) => {
       </div>
       <div className="footer">
         <button onClick={() => navigate(`/addShift/${placeId}`)}>
-          <img src="/image/iconAddShift.svg" alt="+" />
-          {/* <div className="addShift">근무등록</div> */}
+          <img src="/image/iconAddShift.svg" alt="+" />{" "}
         </button>
         <div className="money"> ₩ {comma(String(data?.data?.totalWage))}</div>
       </div>
@@ -113,7 +108,6 @@ const STCard = styled.div`
       img {
         width: 73px;
         min-width: 73px;
-        //height: 19px;
         margin: -2px 0px 0px 2px;
       }
       div {
