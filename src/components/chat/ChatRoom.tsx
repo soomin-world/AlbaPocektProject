@@ -4,7 +4,7 @@ import { useRecoilValue } from "recoil";
 import SockJS from "sockjs-client";
 import styled from "styled-components";
 import { baseURL } from "../../APIs/axios";
-import { getDetailChat } from "../../APIs/chatApi";
+import { getChatList, getDetailChat } from "../../APIs/chatApi";
 import { otherNickName } from "../../atoms";
 import ChatHeader from "../header/ChatHeader";
 import LayOut from "../layout/LayOut";
@@ -40,7 +40,6 @@ function ChatRoom() {
   const scrollToBot = () => {
     window.scrollTo(0, document.body.scrollHeight);
   };
-  console.log(data);
   //------------------------------------------------
 
   // stompclient생성부분
@@ -50,25 +49,29 @@ function ChatRoom() {
   const connectStomp = () => {
     client.connect({ myNickName }, onConnect, onError);
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      setChatList(data?.data);
+    }
+    if (data?.data.length === 0) {
+      setIsData(false);
+      console.log("방폭파");
+    } else {
+      setIsData(true);
+    }
+    console.log("eeee");
+  }, [isSuccess, data?.data]);
+
   useEffect(() => {
     connectStomp();
     scrollToBot();
   }, []);
-  useEffect(() => {
-    setChatList(data?.data);
-    if (data?.data.length === 0) {
-      setIsData(false);
-    } else {
-      setIsData(true);
-    }
-    console.log("제발");
-  }, [isSuccess, data?.data]);
-
   //trouble shooting... useeffect를 잘 나누어 쓰자..
   const onConnect = () => {
     userEnter();
     scrollToBot();
-    setChatList(data?.data);
+    //setChatList(data?.data);
     onSub();
     // 연결되면 이전데이터로 chatlist 설정
     console.log("연결성공~");
@@ -151,17 +154,6 @@ function ChatRoom() {
     e.preventDefault();
     sendMessage();
   };
-
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     setChatList(data?.data);
-  //   }
-  //   if (data?.data.length === 0) {
-  //     setIsData(false);
-  //   } else {
-  //     setIsData(true);
-  //   }
-  // }, [isSuccess, data?.data]);
 
   if (isLoading) {
     return <div> 로딩중</div>;
