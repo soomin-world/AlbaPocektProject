@@ -32,8 +32,8 @@ const kakaoLogin = (code: string | null) => {
       console.log(res.headers.authorization); // 토큰이 넘어올 것임
       const accessToken = res.headers.authorization;
       const userId = res.data.userId;
-      const nickname = res.data.nickname;
-      setNickname(nickname);
+      // const nickname = res.data.nickname;
+      // setNickname(nickname);
       setAccessToken(accessToken);
       setUserId(userId);
 
