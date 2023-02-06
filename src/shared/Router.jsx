@@ -31,12 +31,12 @@ import { baseURL } from "../APIs/axios";
 import stompJS from "stompjs";
 
 function Router() {
-  // const myNickName = localStorage.getItem("nickname");
+  const myNickName = localStorage.getItem("nickname");
 
-  // const url = baseURL;
-  // const sock = new SockJS(url + "/ws/chat");
-  // const client = stompJS.over(sock);
-  // client.connect({ myNickName }, (f) => f);
+  const url = baseURL;
+  const sock = new SockJS(url + "/ws/chat");
+  const client = stompJS.over(sock);
+  client.connect({ myNickName }, (f) => f);
 
   return (
     <BrowserRouter>
@@ -77,7 +77,7 @@ function Router() {
         <Route path="/chart" element={<Chart />} />
 
         <Route path="/chat" element={<ChatList />} />
-        <Route path="/chat/:id" element={<ChatRoom />} />
+        <Route path="/chat/:id" element={<ChatRoom client={client} />} />
 
         <Route path="/loading" element={<Loading />} />
         <Route path="/alert" element={<Alert />} />
