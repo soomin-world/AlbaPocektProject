@@ -51,7 +51,6 @@ export const loginApi = async (userInfo: ILogin) => {
   const accessToken = data.headers.authorization;
   const userId = data.data.userId;
   const myNickName = data.data.nickname;
-  console.log(data.data.nickname);
   setAccessToken(accessToken);
   setUserId(userId);
   setNickName(myNickName);
@@ -60,6 +59,5 @@ export const loginApi = async (userInfo: ILogin) => {
 
 export const emailAuth = async (payload: IEmail) => {
   const { data } = await instance.post("/api/user/email", payload);
-  console.log(data.msg);
   return data;
 };
