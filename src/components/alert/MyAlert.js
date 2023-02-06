@@ -102,7 +102,7 @@ const MyAlert = () => {
         if (event) {
           console.log("에러발생 시 뜨는 것", event);
           eventSource.close();
-          window.location.href = "/";
+          window.location.reload();
         }
       };
 
