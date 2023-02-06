@@ -31,6 +31,7 @@ const MyLike = () => {
   for (let i = 1; i <= data?.totalPages; i++) {
     numList.push(
       <div
+        style={{ cursor: "pointer" }}
         onClick={() => {
           pageParam = i;
           console.log(pageParam);

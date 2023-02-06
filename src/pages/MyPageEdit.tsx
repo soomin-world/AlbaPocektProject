@@ -60,13 +60,11 @@ const MyPageEdit = () => {
       // console.log(nickname);
       const formData = new FormData();
 
-      if (getData?.nickname) {
-        if (!data.nickname) {
-          formData.append("nickname", getData?.nickname);
-        } else {
-          formData.append("nickname", data.nickname);
-        }
+      // if (getData?.nickname) {
+      if (data.nickname) {
+        formData.append("nickname", data.nickname);
       }
+      //}
 
       formData.append("file", file);
 

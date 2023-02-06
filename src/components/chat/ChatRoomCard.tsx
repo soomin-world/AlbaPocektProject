@@ -68,7 +68,7 @@ const ChatRoomCard = () => {
                 </h3>
                 {c.count === 0 ? null : (
                   <div className="count">
-                    <p>{c.count}</p>
+                    <div>{c.count}</div>
                   </div>
                 )}
               </div>
@@ -149,12 +149,16 @@ const STContainer = styled.div`
       border-radius: 100%;
       background-color: #f65730;
       color: white;
-      font-size: 13px;
+      font-size: 11px;
       font-weight: 400;
       display: flex;
       justify-content: center;
       align-items: center;
       margin-top: 25px;
+
+      div {
+        height: 15px;
+      }
     }
   }
 `;

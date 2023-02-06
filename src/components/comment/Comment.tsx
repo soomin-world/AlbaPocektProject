@@ -131,11 +131,16 @@ const Comment: React.FC<CommentType> = (props) => {
           </div>
           <div className="body">
             <div className="comment">{comment}</div>
-            <div className="like">
+            <div
+              className="like"
+              onClick={() => {
+                onClickLikeHandler();
+              }}
+            >
               <span
-                onClick={() => {
-                  onClickLikeHandler();
-                }}
+              // onClick={() => {
+              //   onClickLikeHandler();
+              // }}
               >
                 {like === true ? (
                   <img src="/image/iconRedHeart.svg" />
@@ -283,6 +288,7 @@ const STContainer = styled.div`
     }
     .btn {
       margin-top: -2px;
+      cursor: pointer;
       img {
         width: 15px;
         height: 15px;
@@ -319,6 +325,8 @@ const STContainer = styled.div`
     border: 1px solid #d9d9d9;
     border-radius: 3px;
     background-color: white;
+    cursor: pointer;
+
     span {
       width: 13px;
       height: 13px;

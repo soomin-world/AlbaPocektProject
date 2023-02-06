@@ -156,7 +156,7 @@ function ChatRoom() {
   };
 
   if (isLoading) {
-    return <div> 로딩중</div>;
+    return <div>로딩중</div>;
   }
 
   return (
