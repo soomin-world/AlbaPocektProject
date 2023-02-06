@@ -149,6 +149,7 @@ function ChatRoom() {
       setMessage("");
       scrollToBot();
       setIsData(true);
+      queryClient.invalidateQueries(["chat"]);
     }
   };
 
