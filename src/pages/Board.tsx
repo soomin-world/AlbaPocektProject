@@ -80,7 +80,7 @@ function Board() {
   if (status === "error") return <div>에러다 </div>;
 
   return (
-    <LayOut height="100vh">
+    <LayOut>
       <STContainer>
         <Navigate>
           <Selector
@@ -206,6 +206,7 @@ const Icon = styled.div`
     width: 24px;
     height: 24px;
     margin-left: 15px;
+    cursor: pointer;
   }
   img:nth-child(3) {
     margin-left: 12px;
@@ -225,11 +226,11 @@ const Plus = styled.div`
   background-color: #5fce80;
   position: fixed;
   bottom: 70px;
-
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `;
 
 const Selector = styled.div`
@@ -281,6 +282,7 @@ const Scroll = styled.div`
   justify-content: center;
   align-items: center;
   padding-bottom: 2px;
+  cursor: pointer;
 
   img {
     width: 20px;

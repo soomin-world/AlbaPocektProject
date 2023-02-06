@@ -39,6 +39,7 @@ const MyPage = () => {
           console.log(pageParam);
           refetch();
         }}
+        style={{ cursor: "pointer" }}
       >
         {i}
       </div>

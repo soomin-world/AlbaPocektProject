@@ -133,7 +133,7 @@ const MyAlert = () => {
     }
   }, []);
 
-  console.log(notification[0]?.time);
+  // console.log(notification[0]?.url.slice(1, 5));
   // const eventSource = new EventSource("https://woooo.shop/subscribe", HEADER);
 
   // eventSource.onmessage = (event) => {
@@ -170,9 +170,17 @@ const MyAlert = () => {
         >
           <div
             onClick={() => {
-              readNoti(notification[0]?.id).then((res) =>
-                navigate(`${notification[0]?.url}`)
-              );
+              if (notification[0]?.url.slice(1, 5) === "chat") {
+                navigate(`${notification[0]?.url}`);
+              } else {
+                readNoti(notification[0]?.id).then((res) =>
+                  navigate(`${notification[0]?.url}`)
+                );
+              }
+
+              // readNoti(notification[0]?.id).then((res) =>
+              //   navigate(`${notification[0]?.url}`)
+              // );
             }}
           >
             {notification[0]?.content}
