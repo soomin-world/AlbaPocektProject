@@ -37,7 +37,7 @@ const kakaoLogin = (code: string | null) => {
       setAccessToken(accessToken);
       setUserId(userId);
 
-      //window.location.href = "/"; // 토큰 받았았고 로그인됐으니 화면 전환시켜줌(메인으로)
+      window.location.href = "/"; // 토큰 받았았고 로그인됐으니 화면 전환시켜줌(메인으로)
     })
     .catch((err: any) => {
       console.log("소셜로그인 에러", err);
