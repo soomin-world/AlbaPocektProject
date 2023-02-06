@@ -10,7 +10,7 @@ import ChatHeader from "../header/ChatHeader";
 import LayOut from "../layout/LayOut";
 import Chat, { ChatType } from "./Chat";
 import stompJS, { Message } from "stompjs";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { IPayload } from "../../types/chatType";
 
 function ChatRoom() {
@@ -19,7 +19,7 @@ function ChatRoom() {
   const myNickName = localStorage.getItem("nickname");
   const url = baseURL;
   //----------------------------------------------
-
+  const queryClient = useQueryClient();
   // 입력받은 message값
   const [message, setMessage] = useState("");
   // chat내용 리스트
@@ -31,7 +31,6 @@ function ChatRoom() {
     () => getDetailChat(id),
     {
       onSuccess: (data) => {
-        //console.log(data);
         setChatList(data.data);
       },
     }
@@ -101,6 +100,7 @@ function ChatRoom() {
   //-------------------------------------------------
 
   const onMessageRecieve = (e: Message) => {
+    queryClient.invalidateQueries(["chat"]);
     // 메세지가 오면 받아온 데이터의 body를 json.parse해서 data 라는 변수에 넣음
     let data = JSON.parse(e.body);
     if (data.type === "TALK") {
@@ -108,6 +108,7 @@ function ChatRoom() {
         return setChatList([...res.data]);
       });
     }
+
     scrollToBot();
   };
 
@@ -128,6 +129,7 @@ function ChatRoom() {
       JSON.stringify(payload)
     );
     scrollToBot();
+    queryClient.invalidateQueries(["chat"]);
     console.log("유저입장");
   };
 
@@ -147,6 +149,7 @@ function ChatRoom() {
       setMessage("");
       scrollToBot();
       setIsData(true);
+      queryClient.invalidateQueries(["chat"]);
     }
   };
 
