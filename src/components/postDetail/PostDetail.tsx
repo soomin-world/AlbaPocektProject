@@ -74,6 +74,8 @@ function PostDetail() {
     setOtherNickName(data.nickname);
   };
 
+  console.log(document.referrer);
+
   return (
     <SContainer className="detailContainer">
       <Header
