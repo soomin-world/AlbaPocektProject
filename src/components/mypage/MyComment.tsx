@@ -58,10 +58,11 @@ const MyComment = () => {
 
   return (
     <>
-      {data?.content.map((comment: CommentType) => {
-        return <CommentCard key={comment.commentId} comment={comment} />;
-      })}
-
+      <Container margin={numList?.length === 1}>
+        {data?.content.map((comment: CommentType) => {
+          return <CommentCard key={comment.commentId} comment={comment} />;
+        })}
+      </Container>
       {numList?.length === 1 ? null : <PageNum>{numList}</PageNum>}
       <CommentDelete>
         <div>
@@ -97,6 +98,7 @@ const MyComment = () => {
             let copy: number[] = [];
             setDeleteList(copy);
             setOnClickAll(false);
+            refetch();
           }}
         >
           <span>삭제</span>
@@ -195,6 +197,10 @@ const CommentDelete = styled.div`
       margin: 0 0 3px 3px;
     }
   }
+`;
+
+const Container = styled.div<{ margin: boolean }>`
+  margin-bottom: ${(props) => (props.margin ? "60px" : "0px")};
 `;
 
 const PageNum = styled.div`

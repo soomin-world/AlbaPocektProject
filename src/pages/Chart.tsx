@@ -35,12 +35,21 @@ const data = {
 
 const Chart = () => {
   const navigate = useNavigate();
+  const token = localStorage.getItem("is_login");
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+    }
+  }, []);
+
   const [date, setDate] = useState(new Date().toISOString().slice(0, 7));
   const [startDate, setStartDate] = useState(new Date());
   // let date = new Date().toISOString().slice(0, 7);
   const { data, isLoading, refetch } = useQuery(["getHours"], () =>
     getHours(format(startDate, "yyyyMM"))
   );
+
   const { data: fiveMthsData, isLoading: fiveMthsLoading } = useQuery(
     ["getFiveMonths"],
     () => getFiveMonths()
@@ -230,7 +239,6 @@ const Chart = () => {
           />
         </>
       )}
-      {/* <Footer /> */}
     </LayOut>
   );
 };

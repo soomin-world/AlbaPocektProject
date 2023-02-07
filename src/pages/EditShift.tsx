@@ -149,6 +149,14 @@ const STButton = styled.button`
   align-items: center;
   position: fixed;
   bottom: 17px;
+  cursor: pointer;
+  transition: all 0.5s linear;
+
+  &:hover {
+    background-color: white;
+    border: 1px solid #5fce80;
+    color: #5fce80;
+  }
 `;
 
 export default EditShift;

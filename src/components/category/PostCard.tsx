@@ -82,7 +82,7 @@ const PostCard = ({ post, padding }: postProps) => {
                 />
               )}
 
-              <div>{postLikeNum}</div>
+              <div>{post.postLikeNum}</div>
             </div>
           </div>
         </UnderInfo>

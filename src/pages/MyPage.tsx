@@ -4,11 +4,11 @@ import { Outlet, useLocation, useMatch, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { deleteMyComment, getMyPage } from "../APIs/myPageApi";
 import PostCard from "../components/category/PostCard";
-import Header from "../components/header/Header";
 import LayOut from "../components/layout/LayOut";
 import { IMyPage } from "../types/myPageType";
 import { IAllPosts } from "../types/postType";
 import { dataType } from "./Board";
+import Swal from "sweetalert2";
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -24,10 +24,12 @@ const MyPage = () => {
   );
 
   const LogoutHandler = () => {
-    localStorage.removeItem("is_login");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("nickname");
-    navigate("/login");
+    if (window.confirm("로그아웃하시겠습니까?")) {
+      localStorage.removeItem("is_login");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("nickname");
+      navigate("/login");
+    }
   };
 
   const numList = [];
@@ -47,33 +49,33 @@ const MyPage = () => {
   }
   // console.log(numList);
   const locationNow = useLocation();
+
   return (
     <>
       <LayOut padding="0" position="relative" height="100vh">
-        <Header
-          title="마이페이지"
-          padding="0 3% 0 3%"
-          option={LogoutHandler}
-          button="로그아웃"
-          marginLeft="115px"
-          location="/"
-        />
+        <Header>마이페이지</Header>
         <MyPageProfile>
           <ProfileInfo>
             <div>
               <img src={data?.profileImage} />
               <span>{data?.nickname}</span>
             </div>
+            <div>
+              <img src="/image/iconProfilePencil.svg" />
+              <div
+                onClick={() => {
+                  navigate("/mypage/edit");
+                }}
+              >
+                수정하기
+              </div>
+            </div>
           </ProfileInfo>
 
           <div>
-            <MyPageEditBtn
-              onClick={() => {
-                navigate("/mypage/edit");
-              }}
-            >
-              <img src="/image/iconMypagePencil.svg" />
-              수정하기
+            <MyPageEditBtn onClick={LogoutHandler}>
+              <img src="/image/iconLogout.svg" />
+              로그아웃
             </MyPageEditBtn>
           </div>
         </MyPageProfile>
@@ -103,19 +105,21 @@ const MyPage = () => {
           </Tap>
         </Taps>
         <Outlet></Outlet>
-        {mypageMatch ? (
-          <div>
-            {data?.pageable[0].content.map((post: IAllPosts) => {
-              return (
-                <PostCard
-                  key={post.postId}
-                  post={post}
-                  padding="0 15px 0 15px"
-                />
-              );
-            })}
-          </div>
-        ) : null}
+        <Container margin={numList?.length === 1 && mypageMatch !== null}>
+          {mypageMatch ? (
+            <div>
+              {data?.pageable[0].content.map((post: IAllPosts) => {
+                return (
+                  <PostCard
+                    key={post.postId}
+                    post={post}
+                    padding="0 15px 0 15px"
+                  />
+                );
+              })}
+            </div>
+          ) : null}
+        </Container>
         {mypageMatch === null || numList?.length === 1 ? null : (
           <PageNum>{numList}</PageNum>
         )}
@@ -130,15 +134,13 @@ const MyPage = () => {
   );
 };
 
-const MypageBar = styled.div`
-  width: 100%;
-  height: 50px;
+const Header = styled.div`
+  min-height: 50px;
+  font-size: 17px;
+  font-weight: 500;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 17px;
-  font-weight: 500;
-  padding: 5%;
 `;
 
 const MyPageProfile = styled.div`
@@ -173,6 +175,17 @@ const ProfileInfo = styled.div`
   div:first-child {
     font-size: 19px;
     font-weight: 500;
+  }
+  div:nth-child(2) {
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+
+    img {
+      width: 20px;
+      height: 20px;
+      margin: 5px;
+    }
   }
 `;
 
@@ -219,10 +232,14 @@ const Tap = styled.div<{ isActive: boolean }>`
   cursor: pointer;
 `;
 
+const Container = styled.div<{ margin: boolean }>`
+  margin-bottom: ${(props) => (props.margin ? "40px" : "0px")};
+`;
+
 const PageNum = styled.div`
   display: flex;
   margin: 0 auto;
-  margin-bottom: 20px;
+  margin-bottom: 70px;
 
   div {
     margin: 0px 10px 0px 10px;

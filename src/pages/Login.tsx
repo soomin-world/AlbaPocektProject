@@ -5,14 +5,7 @@ import { KAKAO_AUTH_URL } from "../APIs/OAuth";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import LayOut from "../components/layout/LayOut";
-
-interface IErrormsg {
-  response: {
-    data: {
-      msg: string;
-    };
-  };
-}
+import Swal from "sweetalert2";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -35,14 +28,16 @@ const Login = () => {
   const token = localStorage.getItem("is_login");
   useEffect(() => {
     if (token) {
-      alert("뒤로가기막기");
+      alert("이미 로그인하셨습니다.");
       navigate("/");
     }
   }, []);
+
   return (
     <LayOut height="100vh">
       <Total>
         <Header>이메일 로그인</Header>
+        <HeaderImg src="/image/iconLogo.svg" />
         <Form
           onSubmit={(e) => {
             e.preventDefault();
@@ -98,11 +93,17 @@ const Total = styled.div`
   font-family: "Noto Sans KR", sans-serif;
 `;
 
+const HeaderImg = styled.img`
+  margin-top: 28px;
+  margin-bottom: 50px;
+  width: 160px;
+`;
+
 const Header = styled.div`
   width: 100%;
   height: 60px;
-  font-size: 15px;
-  font-weight: 400;
+  font-size: 17px;
+  font-weight: 500;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -123,6 +124,14 @@ const Form = styled.form`
     background-color: #5fce80;
     font-size: 17px;
     color: white;
+    cursor: pointer;
+    transition: all 0.5s linear;
+
+    &:hover {
+      background-color: white;
+      border: 1px solid #5fce80;
+      color: #5fce80;
+    }
 
     div {
       height: 17px;
@@ -177,4 +186,5 @@ const Line = styled.div`
     color: #a4a4a7;
   }
 `;
+
 export default Login;
