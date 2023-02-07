@@ -38,7 +38,6 @@ const Chart = () => {
   const [date, setDate] = useState(new Date().toISOString().slice(0, 7));
   const [startDate, setStartDate] = useState(new Date());
   // let date = new Date().toISOString().slice(0, 7);
-  console.log(format(startDate, "yyyyMM"));
   const { data, isLoading, refetch } = useQuery(["getHours"], () =>
     getHours(format(startDate, "yyyyMM"))
   );
@@ -51,13 +50,9 @@ const Chart = () => {
 
   if (!isLoading) {
     for (const hour of data.series) {
-      console.log(hour);
       totalHours += hour;
     }
-    console.log(totalHours);
   }
-  // console.log(date.split("-").join(""));
-  console.log(data?.nickname);
 
   useEffect(() => {
     refetch();

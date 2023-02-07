@@ -13,7 +13,6 @@ const CommentPost = () => {
     e.preventDefault();
     const payload = [id, comment];
     if (comment) {
-      console.log(payload);
       postComment.mutate(payload);
     } else {
       alert("댓글을 입력해주세요!");

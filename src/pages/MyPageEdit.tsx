@@ -100,6 +100,8 @@ const MyPageEdit = () => {
           window.confirm("변경되었습니다!");
           resetField("nickname");
           setPassMsg("");
+          localStorage.removeItem("nickname");
+          localStorage.setItem("nickname", data.nickname);
         })
         .catch((error) => {
           setPassMsg("");
@@ -140,7 +142,12 @@ const MyPageEdit = () => {
   return (
     <>
       <LayOut padding="0" position="relative" height="100vh">
-        <Header title="프로필 수정" padding="5%" marginLeft="105px" />
+        <Header
+          title="프로필 수정"
+          padding="5%"
+          marginLeft="105px"
+          location="/mypage"
+        />
         <MyPageProfile>
           <div>
             <label htmlFor="profileImg">

@@ -25,7 +25,6 @@ function PostForm() {
     reader.onloadend = () => {
       setImgFile(reader.result);
       setFile(image);
-      console.log(title, category, content, file);
     };
   };
 
@@ -49,7 +48,6 @@ function PostForm() {
       formData.append("content", content.content);
       formData.append("category", category.category);
       formData.append("file", file);
-      console.log("formData 값:", formData);
 
       writePost
         .mutateAsync(formData)
@@ -206,7 +204,7 @@ const SBody = styled.div`
   /* margin-bottom: 20px; */
   select {
     border: none;
-    width: 83px;
+    width: 90px;
     height: 25px;
     font-size: 17px;
     font-weight: 500;

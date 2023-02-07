@@ -16,7 +16,6 @@ const CommentCard = ({ comment }: IComment) => {
   const [deleteList, setDeleteList] = useRecoilState(myCommentDeleteAtom);
 
   useEffect(() => {
-    console.log(deleteList);
     setOnClick(false);
     for (const commentId of deleteList) {
       if (commentId === comment.commentId) {
@@ -25,11 +24,11 @@ const CommentCard = ({ comment }: IComment) => {
     }
   }, [deleteList]);
 
-  // console.log(comment);
   return (
     <Comment>
       {onClickAll || onClick ? (
         <img
+          alt=""
           src="/image/iconFullCheck.svg"
           onClick={() => {
             setOnClick(false);
@@ -37,16 +36,15 @@ const CommentCard = ({ comment }: IComment) => {
               return commentId !== comment.commentId;
             });
             setDeleteList([...copy]);
-            // console.log(deleteList);
           }}
         />
       ) : (
         <img
+          alt=""
           src="/image/iconEmptyCheck.svg"
           onClick={() => {
             setOnClick(true);
             setDeleteList([...deleteList, comment.commentId]);
-            // console.log(deleteList);
           }}
         />
       )}
@@ -67,9 +65,9 @@ const CommentCard = ({ comment }: IComment) => {
             {comment.createAt.slice(5, 10)} {comment.createAt.slice(11, 16)}
           </div>
           {comment.likeComment ? (
-            <img src="/image/iconRedHeart.png" />
+            <img src="/image/iconRedHeart.png" alt="" />
           ) : (
-            <img src="/image/iconMiniHeart.png" />
+            <img src="/image/iconMiniHeart.png" alt="" />
           )}
           {/* <img src="/image/iconRedHeart.png" /> */}
           <div>1</div>

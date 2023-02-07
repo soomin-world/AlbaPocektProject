@@ -32,7 +32,7 @@ const Chat: React.FC<ChatType> = ({
       setIsRead(false);
     }
   }, [readUser]);
-  //console.log(timeToKor(createdAt));
+
   return (
     <>
       {sender === me ? (

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { loginApi } from "../APIs/loginRegisterApi";
 import { KAKAO_AUTH_URL } from "../APIs/OAuth";
@@ -32,7 +32,13 @@ const Login = () => {
       setErrorMsg(error.response.data.msg);
     });
   };
-
+  const token = localStorage.getItem("is_login");
+  useEffect(() => {
+    if (token) {
+      alert("뒤로가기막기");
+      navigate("/");
+    }
+  }, []);
   return (
     <LayOut height="100vh">
       <Total>
@@ -152,6 +158,7 @@ const Register = styled.div`
   }
   span:last-child {
     font-weight: 500;
+    cursor: pointer;
   }
 `;
 

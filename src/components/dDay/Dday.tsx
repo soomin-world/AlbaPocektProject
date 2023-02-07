@@ -1,7 +1,7 @@
 import { Carousel } from "antd";
-import { useState } from "react";
 import styled from "styled-components";
 import LayOut from "../layout/LayOut";
+import moment, { Moment } from "moment";
 
 const contentStyle: React.CSSProperties = {
   width: "90%",
@@ -29,89 +29,57 @@ interface propsType {
 //다음달의 월급날 까지 남은 일수를 구해야되는데
 // 연도랑 월만 출력
 const Dday: React.FC<propsType> = (props) => {
-  const onChange = (currentSlide: number) => {
-    console.log(currentSlide);
-  };
-
+  const onChange = (currentSlide: number) => {};
   //------------- 디데이를 구해보자 ----------
-  const today = new Date();
-  // 오늘 날짜 -> 밀리초로 바꾼부분
-  const thisMonth = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate()
-  );
+  const today = moment();
 
-  const thisMonthToString = thisMonth.toISOString();
-  const thisSalary = thisMonthToString.split("-");
+  const thisMonth = today.format("MM");
+  const thisYear = today.format("YY");
 
-  const myYear = thisSalary[0];
-  const myMonth = thisSalary[1];
-  const myDay = thisSalary[2];
+  const nextSalary = moment().add(1, "M").format("YYYY-MM-DD");
 
-  const myDate = new Date(`${myYear}-${myMonth}-${myDay}`);
+  const nextMonth = nextSalary.split("-")[1];
+  const nextYear = nextSalary.split("-")[0];
+  //03
 
-  const nextMonth = new Date(today.getFullYear(), today.getMonth() + 2);
-  // 2023 -03
-  const nextMonthToString = nextMonth.toISOString();
-
-  const nextSalary = nextMonthToString.split("-");
-
-  const year = nextSalary[0]; //2023
-  const month = nextSalary[1]; // 02
-
-  let nextSalaryDay: string[] = [];
+  let nextSalaryDay: Moment[] = [];
 
   props?.workList?.map((w) => {
     if (
-      myDate.getTime() -
-        new Date(`${myYear}-${myMonth}-${w.salaryDay}`).getTime() >
-      0
+      today.diff(
+        moment(`${thisYear}-${thisMonth}-${w.salaryDay}`, "YYYY-MM-D"),
+        "days"
+      ) > 0
     ) {
-      nextSalaryDay.push(`${year}-${month}-${w.salaryDay}`);
+      nextSalaryDay.push(
+        moment(`${nextYear}-${nextMonth}-${w.salaryDay}`, "YYYY-MM-D")
+      );
     } else if (
-      myDate.getTime() -
-        new Date(`${myYear}-${myMonth}-${w.salaryDay}`).getTime() ===
-      0
+      today.diff(
+        moment(`${thisYear}-${thisMonth}-${w.salaryDay}`, "YYYY-MM-D"),
+        "days"
+      ) === 0
     ) {
-      nextSalaryDay.push("dday");
+      nextSalaryDay.push(today);
     } else {
-      nextSalaryDay.push(`${myYear}-${myMonth}-${w.salaryDay}`);
+      nextSalaryDay.push(
+        moment(`${thisYear}-${thisMonth}-${w.salaryDay}`, "YYYY-MM-D")
+      );
     }
   });
-
-  let finalDate: Date[] = [];
-
-  nextSalaryDay.map((d) => {
-    if (d === "dday") {
-      finalDate.push(myDate);
-    } else {
-      finalDate.push(new Date(d));
-    }
-  });
-
-  let toTime: number[] = [];
-
-  finalDate.map((d) => {
-    toTime.push(d.getTime());
-  });
-
-  let diff: number[] = [];
-
-  toTime.map((t) => {
-    diff.push(t - myDate.getTime());
-  });
+  console.log(nextSalaryDay);
 
   let diffDay: number[] = [];
-  diff.map((d) => {
-    diffDay.push(Math.floor(d / (1000 * 60 * 60 * 24)));
-  });
 
+  nextSalaryDay.map((d) => {
+    diffDay.push(d.diff(today, "days"));
+  });
+  console.log(diffDay);
   //-------------------------------------------
   return (
     <LayOut>
       <Container>
-        <Carousel afterChange={onChange}>
+        <Carousel afterChange={onChange} autoplay={true}>
           {props?.workList?.length >= 1 ? (
             props?.workList?.map((w, i) => {
               return (
@@ -123,7 +91,6 @@ const Dday: React.FC<propsType> = (props) => {
                       </div>
                       {diffDay[i] === 0 ? (
                         <div>
-                          {" "}
                           <div className="dDayText">D-Day</div> 입니다!!!
                         </div>
                       ) : (

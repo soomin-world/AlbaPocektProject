@@ -4,7 +4,7 @@ import { useRecoilValue } from "recoil";
 import SockJS from "sockjs-client";
 import styled from "styled-components";
 import { baseURL } from "../../APIs/axios";
-import { getChatList, getDetailChat } from "../../APIs/chatApi";
+import { getDetailChat } from "../../APIs/chatApi";
 import { otherNickName } from "../../atoms";
 import ChatHeader from "../header/ChatHeader";
 import LayOut from "../layout/LayOut";
@@ -46,7 +46,7 @@ function ChatRoom() {
   const client = stompJS.over(sock);
 
   const connectStomp = () => {
-    client.connect({ myNickName }, onConnect, onError);
+    client.connect({ myNickName }, onConnect);
   };
 
   useEffect(() => {
@@ -55,11 +55,9 @@ function ChatRoom() {
     }
     if (data?.data.length === 0) {
       setIsData(false);
-      console.log("방폭파");
     } else {
       setIsData(true);
     }
-    console.log("eeee");
   }, [isSuccess, data?.data]);
 
   useEffect(() => {
@@ -73,30 +71,12 @@ function ChatRoom() {
     //setChatList(data?.data);
     onSub();
     // 연결되면 이전데이터로 chatlist 설정
-    console.log("연결성공~");
-  };
-
-  const onError = () => {
-    console.log("에러에요 ");
   };
 
   const onSub = () => {
     client.subscribe(`/sub/chat/room/${id}`, (e) => onMessageRecieve(e));
   };
 
-  const onLeave = () => {
-    const payload = {
-      type: "QUIT",
-      roomId: id,
-      sender: myNickName,
-      message: "퇴장",
-    };
-    client.send(
-      `/pub/api/chat/message`,
-      { myNickName },
-      JSON.stringify(payload)
-    );
-  };
   //-------------------------------------------------
 
   const onMessageRecieve = (e: Message) => {
@@ -130,7 +110,6 @@ function ChatRoom() {
     );
     scrollToBot();
     queryClient.invalidateQueries(["chat"]);
-    console.log("유저입장");
   };
 
   const sendMessage = () => {

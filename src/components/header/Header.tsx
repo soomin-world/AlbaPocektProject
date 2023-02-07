@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { HeaderProps } from "../../types/header";
 
@@ -7,14 +8,19 @@ const Header: React.FC<HeaderProps> = ({
   option,
   button,
   marginLeft,
+  location,
 }) => {
+  const navigate = useNavigate();
+  const onArrowHandler = () => {
+    if (location) {
+      navigate(`${location}`);
+    } else {
+      window.history.back();
+    }
+  };
   return (
     <STHeader padding={padding} marginLeft={marginLeft}>
-      <img
-        src="/image/iconLeftArrow.svg"
-        alt="<"
-        onClick={() => window.history.back()}
-      />
+      <img src="/image/iconLeftArrow.svg" alt="<" onClick={onArrowHandler} />
       <h1>{title}</h1>
       {option ? <div onClick={option}>{button}</div> : null}
     </STHeader>
