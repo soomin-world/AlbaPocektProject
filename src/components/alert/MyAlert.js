@@ -5,13 +5,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import MuiAlert from "@mui/material/Alert";
 import { Snackbar } from "@mui/material";
-import {
-  getNotifications,
-  getNotificationsCnt,
-  notificationDelete,
-  notificationDeleteAll,
-  notificationRead,
-} from "../../APIs/alertApi";
+import { notificationRead } from "../../APIs/alertApi";
 
 const AlertMsg = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -33,6 +27,7 @@ const MyAlert = () => {
     setAlertOpen(false);
   };
 
+
   const { data, isLoading, refetch } = useQuery(["getNotifications"], () =>
     getNotifications()
   );
@@ -42,9 +37,8 @@ const MyAlert = () => {
     refetch: cntRefetch,
   } = useQuery(["getNotificationsCnt"], () => getNotificationsCnt());
 
+
   const { mutateAsync: readNoti } = useMutation(notificationRead);
-  const { mutateAsync: deleteNoti } = useMutation(notificationDelete);
-  const { mutateAsync: deleteAllNoti } = useMutation(notificationDeleteAll);
 
   // const EventSource = EventSourcePolyfill || NativeEventSource;
 

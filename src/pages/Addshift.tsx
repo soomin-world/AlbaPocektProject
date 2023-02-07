@@ -152,6 +152,7 @@ const WorkDayInput = styled.div`
   img {
     width: 18px;
     height: 18px;
+    cursor: pointer;
   }
 `;
 

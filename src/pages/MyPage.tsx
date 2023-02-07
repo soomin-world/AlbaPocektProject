@@ -26,6 +26,7 @@ const MyPage = () => {
   const LogoutHandler = () => {
     localStorage.removeItem("is_login");
     localStorage.removeItem("userId");
+    localStorage.removeItem("nickname");
     navigate("/login");
   };
 

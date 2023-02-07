@@ -212,6 +212,7 @@ const STColor = styled.div`
     height: 36px;
     border-radius: 50%;
     border: none;
+    cursor: pointer;
     //  box-shadow: rgb(0 0 0 / 20%) 2px 2px 8px;
   }
   .btnactive {
@@ -220,6 +221,7 @@ const STColor = styled.div`
     border-radius: 50%;
     border: none;
     box-shadow: 0 0 0 4px #706f6f53;
+    cursor: pointer;
   }
 `;
 
@@ -237,6 +239,13 @@ const SaveBtn = styled.button`
   align-items: center;
   position: fixed;
   bottom: 17px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: white;
+    border: 1px solid #5fce80;
+    color: #5fce80;
+  }
 `;
 
 export default AddWorkForm;

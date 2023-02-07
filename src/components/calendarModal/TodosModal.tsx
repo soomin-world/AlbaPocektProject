@@ -246,6 +246,7 @@ const ModalPlus = styled.div`
 
   background-color: #d0e6a5;
   border-radius: 10px;
+  cursor: pointer;
 
   div {
     height: 16px;

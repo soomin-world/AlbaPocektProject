@@ -39,7 +39,7 @@ const MainHeader: React.FC<PathType> = ({ location }) => {
           />
           {totalCount?.totalCount >= 1 ? (
             <div className="chatCnt">
-              <h3>{totalCount?.totalCount}</h3>
+              <div>{totalCount?.totalCount}</div>
             </div>
           ) : null}
         </div>
@@ -121,6 +121,10 @@ const STHeader = styled.div`
         left: 15px;
         top: -7px;
         font-size: 10px;
+
+        div {
+          height: 13px;
+        }
       }
     }
   }
