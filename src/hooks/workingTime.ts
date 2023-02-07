@@ -8,7 +8,7 @@ const workingTime = (workingTime: string) => {
   }
 
   if (times[1] !== "0") {
-    return `${times[0]}시간${times[1]}분`;
+    return `${times[0]}시간 ${times[1]}분`;
   } else {
     return `${times[0]}시간`;
   }

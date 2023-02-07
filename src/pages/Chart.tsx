@@ -314,7 +314,7 @@ const SelectMonth = styled.div`
 `;
 
 const Button = styled.button`
-  width: 120px;
+  width: 125px;
   height: 44px;
   font-family: "Noto Sans KR";
   font-size: 15px;
@@ -327,7 +327,7 @@ const Button = styled.button`
   img {
     width: 20px;
     height: 20px;
-    margin-left: 2px;
+    margin-left: 7px;
   }
 `;
 

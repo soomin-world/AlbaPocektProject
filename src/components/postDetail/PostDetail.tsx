@@ -88,7 +88,6 @@ function PostDetail() {
             ? "110px"
             : "0px"
         }
-        location="/board"
       />
       <div className="header">
         <img src={data.profileImage} alt="유저프로필사진" className="profile" />

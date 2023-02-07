@@ -40,6 +40,7 @@ const Comment: React.FC<CommentType> = (props) => {
       queryClient.invalidateQueries(["comment", id]);
     },
   });
+
   const putComment = useMutation(editComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(["comment", id]);
@@ -51,6 +52,7 @@ const Comment: React.FC<CommentType> = (props) => {
     delComment.mutate(id);
     alert("삭제되었습니다");
   };
+
   const commentEdit = (id: number) => {
     const payload = [id, newComment];
     putComment.mutate(payload);
@@ -58,6 +60,7 @@ const Comment: React.FC<CommentType> = (props) => {
 
     alert("수정되었습니다");
   };
+
   const mutatelike = useMutation(changeLikeComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(["post"]);
@@ -71,16 +74,21 @@ const Comment: React.FC<CommentType> = (props) => {
       setLikeNum(likeNum + 1);
     }
     setLike(!like);
-    mutatelike.mutateAsync(commentId);
+    mutatelike
+      .mutateAsync(commentId)
+      .then((res) => queryClient.invalidateQueries(["comment", id]));
   };
+
   const { mutateAsync } = useMutation(createChatRoom, {
     onSuccess: () => {
       queryClient.invalidateQueries(["chat"]);
     },
   });
+
   const onCommentClick = () => {
     setCommentClick(!commentClick);
   };
+
   const onChatHandler = (e: string) => {
     mutateAsync(e).then((roomId) => navigate(`/chat/${roomId}`));
     setOtherNickName(nickname);
