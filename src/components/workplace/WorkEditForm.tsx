@@ -32,7 +32,7 @@ function WorkEditForm() {
     }
   }, [isSuccess]);
   const openModal = () => {
-    setModalOpen(true);
+    setModalOpen(!modalOpen);
   };
 
   let i = 0;
@@ -170,6 +170,8 @@ const STBody = styled.div`
       padding-left: 15px;
       margin-top: 15px;
       justify-content: space-between;
+      cursor: pointer;
+
       img {
         width: 18px;
         height: 18px;
@@ -203,6 +205,8 @@ const DropDown = styled.div`
   border-bottom-right-radius: 8px;
   border-top: none;
   font-weight: 500;
+
+  cursor: pointer;
   ::-webkit-scrollbar {
     display: none; /* Chrome , Safari , Opera */
   }
@@ -222,6 +226,7 @@ const STColor = styled.div`
     height: 36px;
     border-radius: 50%;
     border: none;
+    cursor: pointer;
     // box-shadow: rgb(0 0 0 / 20%) 2px 2px 8px;
   }
   .btnactive {
@@ -229,6 +234,7 @@ const STColor = styled.div`
     height: 36px;
     border-radius: 50%;
     border: none;
+    cursor: pointer;
     box-shadow: 0 0 0 4px #afadad;
   }
 `;
@@ -247,6 +253,13 @@ const SaveBtn = styled.button`
   align-items: center;
   position: fixed;
   bottom: 17px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: white;
+    border: 1px solid #5fce80;
+    color: #5fce80;
+  }
 `;
 
 export default WorkEditForm;

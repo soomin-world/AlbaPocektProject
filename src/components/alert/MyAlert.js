@@ -5,13 +5,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import MuiAlert from "@mui/material/Alert";
 import { Snackbar } from "@mui/material";
-import {
-  getNotifications,
-  getNotificationsCnt,
-  notificationDelete,
-  notificationDeleteAll,
-  notificationRead,
-} from "../../APIs/alertApi";
+import { notificationRead } from "../../APIs/alertApi";
 
 const AlertMsg = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -34,21 +28,10 @@ const MyAlert = () => {
     setAlertOpen(false);
   };
 
-  const { data, isLoading, refetch } = useQuery(["getNotifications"], () =>
-    getNotifications()
-  );
-  const {
-    data: count,
-    isLoading: cntLoading,
-    refetch: cntRefetch,
-  } = useQuery(["getNotificationsCnt"], () => getNotificationsCnt());
-
   // console.log("받아온 알림", data);
   // console.log("안 읽은 알림 개수", count?.count);
 
   const { mutateAsync: readNoti } = useMutation(notificationRead);
-  const { mutateAsync: deleteNoti } = useMutation(notificationDelete);
-  const { mutateAsync: deleteAllNoti } = useMutation(notificationDeleteAll);
 
   // const EventSource = EventSourcePolyfill || NativeEventSource;
 
