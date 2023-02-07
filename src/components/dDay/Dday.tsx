@@ -67,14 +67,12 @@ const Dday: React.FC<propsType> = (props) => {
       );
     }
   });
-  console.log(nextSalaryDay);
 
   let diffDay: number[] = [];
 
   nextSalaryDay.map((d) => {
     diffDay.push(d.diff(today, "days"));
   });
-  console.log(diffDay);
   //-------------------------------------------
   return (
     <LayOut>

@@ -21,7 +21,8 @@ function PostDetail() {
   const [postLikeNum, setPostLikeNum] = useState<number>(data?.postLikeNum);
   const [isOpen, setIsOpen] = useState(false);
   const [category, setCategory] = useState("");
-  const createTime = data?.createAt.substr(11, 5);
+  const createTime = data?.createAt.split("T")[1].split(":");
+  console.log(createTime);
   const [otherNickname, setOtherNickName] = useRecoilState(otherNickName);
 
   const categoryToKor = (e: string) => {
@@ -106,7 +107,7 @@ function PostDetail() {
               </div>
               <div>
                 {data.createAt.substr(5, 2)}/{data.createAt.substr(8, 2)}{" "}
-                {createTime}
+                {createTime[0] + ":" + createTime[1]}
               </div>
             </div>
           </div>

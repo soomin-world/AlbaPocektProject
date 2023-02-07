@@ -27,17 +27,6 @@ const MyAlert = () => {
     setAlertOpen(false);
   };
 
-
-  const { data, isLoading, refetch } = useQuery(["getNotifications"], () =>
-    getNotifications()
-  );
-  const {
-    data: count,
-    isLoading: cntLoading,
-    refetch: cntRefetch,
-  } = useQuery(["getNotificationsCnt"], () => getNotificationsCnt());
-
-
   const { mutateAsync: readNoti } = useMutation(notificationRead);
 
   // const EventSource = EventSourcePolyfill || NativeEventSource;
