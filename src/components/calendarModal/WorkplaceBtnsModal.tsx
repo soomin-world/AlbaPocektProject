@@ -90,6 +90,7 @@ const Button = styled.div<{ color: string }>`
   font-weight: 500;
   color: #545456;
   padding-left: 15px;
+  cursor: pointer;
 
   span {
     height: 16px;

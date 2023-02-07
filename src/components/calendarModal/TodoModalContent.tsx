@@ -27,7 +27,11 @@ const TodoModalContent = ({ todo }: ITodoProps) => {
         style={{ display: "flex", alignItems: "center", position: "relative" }}
       >
         <div>{comma(todo.dayWage)}원</div>
-        <img src="/image/iconDots.svg" onClick={() => setIsOpen(!isOpen)} />
+        <img
+          src="/image/iconDots.svg"
+          onClick={() => setIsOpen(!isOpen)}
+          style={{ cursor: "pointer" }}
+        />
         <Wrap>
           {isOpen ? (
             <DropDown
@@ -48,4 +52,5 @@ const Wrap = styled.div`
   top: 27px;
   left: 57px;
 `;
+
 export default TodoModalContent;
