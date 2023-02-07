@@ -1,3 +1,5 @@
+import { ExclamationCircleFilled, FrownOutlined } from "@ant-design/icons";
+import { Button, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { quitChatRoom } from "../../APIs/chatApi";
@@ -12,7 +14,24 @@ const ChatHeader: React.FC<HeaderProps> = ({
   margin,
   isData,
 }) => {
-  const navigate = useNavigate();
+  const { confirm } = Modal;
+  const showConfirm = () => {
+    confirm({
+      title: "정말 채팅방을 나가시나요?",
+      icon: <FrownOutlined />,
+      content:
+        "퇴장후에는 이전기록을 다시 불러오실수 없습니다, 그래도 퇴장하시겠습니까?",
+      onOk() {
+        quitChatRoom(menu);
+      },
+      onCancel() {},
+      okText: "네",
+      cancelText: "아니요!",
+      centered: true,
+      okButtonProps: { danger: true, type: "text" },
+      cancelButtonProps: { type: "text" },
+    });
+  };
   const myNickName = localStorage.getItem("nickname");
   const onArrowClick = () => {
     if (client) {
@@ -34,6 +53,7 @@ const ChatHeader: React.FC<HeaderProps> = ({
     }
     window.history.back();
   };
+
   return (
     <STHeader>
       <div className="wrap">
@@ -43,13 +63,15 @@ const ChatHeader: React.FC<HeaderProps> = ({
         <h1 style={{ marginLeft: `${margin}` }}>{title}</h1>
       </div>
       {menu && (
-        <div className="icons">
-          <img
-            src="/image/icon-out-mono.svg"
-            alt="menu"
-            onClick={() => quitChatRoom(menu)}
-          />
-        </div>
+        <>
+          <div className="icons">
+            <img
+              src="/image/icon-out-mono.svg"
+              alt="menu"
+              onClick={showConfirm}
+            />
+          </div>
+        </>
       )}
     </STHeader>
   );

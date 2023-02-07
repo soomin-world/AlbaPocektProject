@@ -22,9 +22,9 @@ const Alert = () => {
     refetch: cntRefetch,
   } = useQuery(["getNotificationsCnt"], () => getNotificationsCnt());
 
-  console.log("받아온 알림", data);
-  console.log("안 읽은 알림 개수", count?.count);
-
+  // console.log("받아온 알림", data);
+  // console.log("안 읽은 알림 개수", count?.count);
+  // console.log(data);
   const { mutateAsync: readNoti } = useMutation(notificationRead);
   const { mutateAsync: deleteNoti } = useMutation(notificationDelete);
   const { mutateAsync: deleteAllNoti } = useMutation(notificationDeleteAll);
@@ -60,7 +60,7 @@ const Alert = () => {
           <MsgList>
             {data.map((alert: any) => {
               return (
-                <MsgBox>
+                <MsgBox key={alert.id}>
                   <MsgTop fontColor={alert.status}>
                     <div>
                       {alert.type === "FREEPOST"

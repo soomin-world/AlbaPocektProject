@@ -77,19 +77,6 @@ function ChatRoom() {
     client.subscribe(`/sub/chat/room/${id}`, (e) => onMessageRecieve(e));
   };
 
-  const onLeave = () => {
-    const payload = {
-      type: "QUIT",
-      roomId: id,
-      sender: myNickName,
-      message: "퇴장",
-    };
-    client.send(
-      `/pub/api/chat/message`,
-      { myNickName },
-      JSON.stringify(payload)
-    );
-  };
   //-------------------------------------------------
 
   const onMessageRecieve = (e: Message) => {

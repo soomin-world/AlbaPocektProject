@@ -125,7 +125,15 @@ const Register = () => {
   return (
     <LayOut height="100vh">
       <Total>
-        <Header>회원가입</Header>
+        <Header>
+          <div className="wrap">
+            <img
+              src="/image/iconLeftArrow.svg"
+              onClick={() => navigate("/login")}
+            />
+            <div>회원가입</div>
+          </div>
+        </Header>
         <Form
           style={{ display: "flex", flexDirection: "column" }}
           onSubmit={handleSubmit(onValid)}
@@ -239,9 +247,9 @@ const Register = () => {
           errors?.nickname?.message ||
           errors?.password?.message ||
           errors?.passwordCheck?.message ? (
-            <button disabled>확인</button>
+            <button disabled>회원가입</button>
           ) : (
-            <button>확인</button>
+            <button>회원가입</button>
           )}
           <span>{errors?.extraError?.message}</span>
         </Form>
@@ -265,7 +273,12 @@ const Header = styled.div`
   font-weight: 500;
   margin-bottom: 20px;
   display: flex;
-  justify-content: center;
+  .wrap {
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+  }
+  //justify-content: center;
   align-items: center;
 `;
 

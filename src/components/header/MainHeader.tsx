@@ -10,16 +10,13 @@ export type PathType = {
 };
 
 const MainHeader: React.FC<PathType> = ({ location }) => {
-  console.log(location);
   const navigate = useNavigate();
   const {
     data: count,
     isLoading: cntLoading,
     refetch: cntRefetch,
   } = useQuery(["getNotificationsCnt"], () => getNotificationsCnt());
-  const { data: totalCount, isSuccess } = useQuery(["chat"], () =>
-    getChatCnt()
-  );
+  const { data: totalCount } = useQuery(["chat"], () => getChatCnt());
 
   // useEffect(() => {
   //   setchatCnt(totalCount?.toalCount);

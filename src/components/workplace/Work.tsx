@@ -11,11 +11,8 @@ const Work = ({ placeId, placeName, placeColor }: WorkType) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const today = new Date();
-  const yearMonth = String(
-    new Date(today.getFullYear(), today.getMonth())
-  ).split(" ");
-
-  const month = yearMonth[3] + "년" + yearMonth[2] + "월";
+  const yearMonth = today.toLocaleDateString().split(".");
+  const month = yearMonth[0] + "년" + yearMonth[1] + "월";
 
   const data = useQuery(["post", placeId], () => getMonthlyWage(placeId));
   window.addEventListener("scroll", () => setIsOpen(false));

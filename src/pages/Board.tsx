@@ -71,7 +71,7 @@ function Board() {
     }
   );
   const { data: totalCount } = useQuery(["chat"], () => getChatCnt());
-  console.log(totalCount);
+
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();

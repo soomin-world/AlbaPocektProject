@@ -10,8 +10,6 @@ const RenderTodos = ({ day, Month, todos }: ITodosProps) => {
   // console.log(date);
   const todoList = [];
 
-  // console.log(Month);
-
   // 현재 달에 해당하지 않으면 표시 X...다음달에 표시 X
   for (const todo of todos) {
     if (
@@ -20,8 +18,6 @@ const RenderTodos = ({ day, Month, todos }: ITodosProps) => {
       dayMonth === Month &&
       todo.date === date[2]
     ) {
-      console.log(workingTime(todo.workingTime).length);
-
       // if (workingTime(todo.workingTime).length !== 8) {
       todoList.push(
         <CellTodo key={todo.todoId} color={todo.color}>

@@ -302,7 +302,6 @@ const Calendar = () => {
     data: todosData,
     refetch: refetchTodos,
   } = useQuery(["monthly"], () => getMonthly(YYYYMM));
-  console.log(todosData);
 
   // 근무달력 조회 (주휴수당)
   const {
@@ -310,7 +309,6 @@ const Calendar = () => {
     data: bonusData,
     refetch: refetchBonus,
   } = useQuery(["bonus"], () => getBonus(YYYYMM));
-  console.log(bonusData);
 
   // TotalWage get 요청
   const {
@@ -347,7 +345,6 @@ const Calendar = () => {
     // queryClient.invalidateQueries(["monthly"]);
     // queryClient.invalidateQueries(["bonus"]);
     // queryClient.invalidateQueries(["totalWage"]);
-    console.log(currentMonth);
   }, [currentMonth]);
 
   /////// 모달창 기능
@@ -362,7 +359,6 @@ const Calendar = () => {
   const [isTax, setIsTax] = useRecoilState(calendarTax);
   // console.log(isMoreBtns);
   // console.log(isWorkplaceBtns);
-  console.log(data);
 
   return (
     <>

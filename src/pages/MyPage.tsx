@@ -23,8 +23,6 @@ const MyPage = () => {
     getMyPage(pageParam)
   );
 
-  console.log(data);
-
   const LogoutHandler = () => {
     localStorage.removeItem("is_login");
     localStorage.removeItem("userId");
@@ -48,7 +46,6 @@ const MyPage = () => {
   }
   // console.log(numList);
   const locationNow = useLocation();
-  console.log(locationNow);
   return (
     <>
       <LayOut padding="0" position="relative" height="100vh">
