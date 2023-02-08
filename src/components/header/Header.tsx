@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { searchKeywordAtom } from "../../atoms";
 import { HeaderProps } from "../../types/header";
 
 const Header: React.FC<HeaderProps> = ({
@@ -11,13 +13,22 @@ const Header: React.FC<HeaderProps> = ({
   location,
 }) => {
   const navigate = useNavigate();
+  const [keyword, setKeyword] = useRecoilState(searchKeywordAtom);
+
+  console.log(location);
+  console.log(typeof location);
+
   const onArrowHandler = () => {
-    if (location) {
-      navigate(`${location}`);
+    setKeyword("");
+    if (location !== undefined) {
+      // console.log("원하는 대로 이동");
+      navigate("/board");
     } else {
+      // console.log("뒤로 이동");
       window.history.back();
     }
   };
+
   return (
     <STHeader padding={padding} marginLeft={marginLeft}>
       <img src="/image/iconLeftArrow.svg" alt="<" onClick={onArrowHandler} />

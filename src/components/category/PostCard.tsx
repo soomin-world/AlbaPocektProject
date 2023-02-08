@@ -8,9 +8,10 @@ import { IAllPosts } from "../../types/postType";
 type postProps = {
   post: IAllPosts; // 부모컴포넌트에서 import 해온 타입을 재사용 해 줍시다.
   padding?: string;
+  location?: number;
 };
 
-const PostCard = ({ post, padding }: postProps) => {
+const PostCard = ({ post, padding, location }: postProps) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [likePost, setLikePost] = useState(() => post.likePost);

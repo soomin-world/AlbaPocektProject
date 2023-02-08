@@ -14,6 +14,7 @@ function Footer() {
   const comMatch = useMatch("/board");
   const comDetailMatch = useMatch("/post/:id");
   const chartMatch = useMatch("/chart");
+  const searchMatch = useMatch("/search");
   const { id } = useParams();
 
   if (locationNow.pathname === "/login") return null;
@@ -65,7 +66,7 @@ function Footer() {
           />
         )}
 
-        {comMatch || comDetailMatch ? (
+        {comMatch || comDetailMatch || searchMatch ? (
           <img
             src="/image/iconComFull.svg"
             alt="커뮤니티"

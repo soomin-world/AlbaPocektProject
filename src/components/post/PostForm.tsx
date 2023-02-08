@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { addPost } from "../../APIs/postApi";
+import sweetAlert from "../../util/sweetAlert";
 
 function PostForm() {
   const navigate = useNavigate();
@@ -15,9 +16,14 @@ function PostForm() {
   const [category, setCategory] = useState({ category: "" });
   const [content, setContent] = useState({ content: "" });
   const [file, setFile] = useState<string | Blob>();
+  const [boardModal, setBoardModal] = useState(false);
+  const [boardType, setBoardType] = useState("카테고리");
   //const [submitColor, setSubmitColor] = useState("#c5c5c5");
   //preview image 설정 부분
   const [imgFile, setImgFile] = useState<any>("");
+
+  const writePost = useMutation(addPost);
+
   const getImage = (e: any) => {
     const image = e.target.files[0];
     const reader = new FileReader();
@@ -51,31 +57,27 @@ function PostForm() {
 
       writePost
         .mutateAsync(formData)
+        .then((res) => {
+          sweetAlert(1000, "success", "등록되었습니다!");
+          navigate(`/post/${res.postId}/0`);
+        })
         .catch((error) => alert(error.response.data.msg));
     } else {
       const formData = new FormData();
       formData.append("title", title.title);
       formData.append("content", content.content);
       formData.append("category", category.category);
-      // formData.append(
-      //   "title",
-      //   new Blob([JSON.stringify(title)], { type: "application/json" })
-      // );
-      // formData.append(
-      //   "content",
-      //   new Blob([JSON.stringify(content)], { type: "application/json" })
-      // );
-      // formData.append(
-      //   "category",
-      //   new Blob([JSON.stringify(category)], { type: "application/json" })
-      // );
 
       writePost
         .mutateAsync(formData)
+        .then((res) => {
+          sweetAlert(1000, "success", "등록되었습니다!");
+          navigate(`/post/${res.postId}/0`);
+        })
         .catch((error) => alert(error.response.data.msg));
     }
   };
-  const writePost = useMutation(addPost);
+
   return (
     <>
       <STHeader>
@@ -93,17 +95,46 @@ function PostForm() {
       </STHeader>
 
       <SBody>
-        <select
-          onChange={(e) => {
-            const { value } = e.target;
-            setCategory({ category: value });
+        <Selector
+          onClick={() => {
+            setBoardModal(!boardModal);
           }}
         >
-          <option defaultValue="">카테고리</option>
-          <option value="free">자유</option>
-          <option value="partTime">알바고민</option>
-          <option value="cover">대타</option>
-        </select>
+          {boardType}
+          <img src="/image/iconCategory.svg" />
+        </Selector>
+        {boardModal ? (
+          <List>
+            <div
+              onClick={(e) => {
+                setBoardType("자유 게시판");
+                setBoardModal(false);
+                setCategory({ category: "free" });
+              }}
+            >
+              자유 게시판
+            </div>
+            <div
+              onClick={(e) => {
+                setBoardType("알바 고민");
+                setBoardModal(false);
+                setCategory({ category: "partTime" });
+              }}
+            >
+              알바 고민
+            </div>
+            <div
+              onClick={(e) => {
+                setBoardType("대타 구해요");
+                setBoardModal(false);
+                setCategory({ category: "cover" });
+              }}
+            >
+              대타 구해요
+            </div>
+          </List>
+        ) : null}
+
         <div className="titleForm">
           <input
             type="text"
@@ -129,20 +160,12 @@ function PostForm() {
         <div className="preview">
           {imgFile ? (
             <>
-              {/* <div
-                onClick={() => {
-                  setFile(undefined);
-                  setImgFile("");
-                }}
-              >
-                X
-              </div> */}
               <img
                 onClick={() => {
                   setFile(undefined);
                   setImgFile("");
                 }}
-                src="/image/iconX.svg"
+                src="/image/iconPostX.svg"
               />
               <img src={imgFile} />
             </>
@@ -197,10 +220,12 @@ const STHeader = styled.div`
     }
   }
 `;
+
 const SBody = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: relative;
   /* margin-bottom: 20px; */
   select {
     border: none;
@@ -241,6 +266,38 @@ const SBody = styled.div`
   }
 `;
 
+const Selector = styled.div`
+  font-size: 18px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 5px;
+
+  img {
+    width: 24px;
+    height: 24px;
+    margin: 2px 0px 0px 5px;
+  }
+`;
+
+const List = styled.div`
+  width: 90px;
+  background-color: white;
+  position: absolute;
+  top: 35px;
+  left: -3px;
+  border-radius: 10px;
+  animation: modal-bg-show 0.6s;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+
+  div {
+    font-size: 15px;
+    padding: 6px 8px 6px 8px;
+  }
+`;
+
 const STImageUpLoad = styled.div`
   position: absolute;
   bottom: 10px;
@@ -263,10 +320,9 @@ const STImageUpLoad = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: white;
-      border-radius: 8px;
       position: absolute;
-      top: -1px;
+      top: -7px;
+      left: -7px;
     }
     img {
       width: 341px;

@@ -55,6 +55,7 @@ function Router() {
 
         <Route path="/search" element={<Search />} />
         <Route path="/post/:id" element={<Post />} />
+        <Route path="/post/:id/:locationId" element={<Post />} />
 
         <Route path="/mypage" element={<MyPage />}>
           <Route path="myLike" element={<MyLike />} />

@@ -132,6 +132,7 @@ const TimeSelector = styled.div`
     font-weight: 500;
     padding: 10px;
     margin-bottom: 290px;
+    font-family: "Noto Sans KR";
   }
 `;
 

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getPost, putPost } from "../../APIs/detailPostApi";
+import sweetAlert from "../../util/sweetAlert";
 
 function PostEditForm() {
   const navigate = useNavigate();
@@ -70,7 +71,10 @@ function PostEditForm() {
 
       mutatePost
         .mutateAsync(payload)
-        .then((res) => alert("수정되었습니다!"))
+        .then((res) => {
+          sweetAlert(1000, "success", "수정되었습니다!");
+          navigate(`/post/${data.postId}/0`);
+        })
         .catch((error) => alert(error.response.data.msg));
     } else {
       const formData = new FormData();
@@ -82,7 +86,10 @@ function PostEditForm() {
 
       mutatePost
         .mutateAsync(payload)
-        .then((res) => alert("수정되었습니다!"))
+        .then((res) => {
+          sweetAlert(1000, "success", "수정되었습니다!");
+          navigate(`/post/${data.postId}/0`);
+        })
         .catch((error) => alert(error.response.data.msg));
     }
   };
@@ -145,22 +152,14 @@ function PostEditForm() {
           <div className="preview" id="previewer">
             {imgFile ? (
               <>
-                {/* <div
-                  onClick={() => {
-                    setIsDelete({ isDelete: "true" });
-                    setFile(undefined);
-                    setImgFile("");
-                  }}
-                > */}
                 <img
                   onClick={() => {
                     setIsDelete({ isDelete: "true" });
                     setFile(undefined);
                     setImgFile("");
                   }}
-                  src="/image/iconX.svg"
+                  src="/image/iconPostX.svg"
                 />
-                {/* </div> */}
                 <img src={imgFile} />
               </>
             ) : null}
@@ -277,10 +276,9 @@ const STImageUpLoad = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: white;
-      border-radius: 8px;
       position: absolute;
-      top: -1px;
+      top: -7px;
+      left: -7px;
     }
     img:last-child {
       width: 341px;
