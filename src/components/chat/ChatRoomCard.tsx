@@ -49,7 +49,7 @@ const ChatRoomCard = () => {
   }, [isSuccess, data]);
 
   return (
-    <>
+    <Container>
       {chatRoomList?.length !== 0 ? (
         chatRoomList?.map((c: ChatCardType) => {
           return (
@@ -82,7 +82,7 @@ const ChatRoomCard = () => {
           <p>생성된 채팅방이 없습니다.</p>
         </EmptyChatList>
       )}
-    </>
+    </Container>
   );
 
   // <STContainer onClick={() => navigate(`/chat/${1}`)}>
@@ -96,6 +96,9 @@ const ChatRoomCard = () => {
   //   <div className="lastMsgTime">오후 9:47</div>
   // </STContainer>
 };
+const Container = styled.div`
+  margin-bottom: 55px;
+`;
 
 const STContainer = styled.div`
   width: 100%;

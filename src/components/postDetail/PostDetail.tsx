@@ -40,6 +40,10 @@ function PostDetail() {
   }, [data]);
 
   const myId = localStorage.getItem("userId");
+
+  const { locationId } = useParams();
+  console.log(locationId);
+
   const { mutateAsync } = useMutation(createChatRoom, {
     onSuccess: () => {
       queryClient.invalidateQueries(["chat"]);
@@ -88,7 +92,7 @@ function PostDetail() {
             ? "110px"
             : "0px"
         }
-        location="/board"
+        location={locationId}
       />
       <div className="header">
         <img src={data.profileImage} alt="유저프로필사진" className="profile" />

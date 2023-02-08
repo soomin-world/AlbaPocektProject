@@ -35,12 +35,21 @@ const data = {
 
 const Chart = () => {
   const navigate = useNavigate();
+  const token = localStorage.getItem("is_login");
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+    }
+  }, []);
+
   const [date, setDate] = useState(new Date().toISOString().slice(0, 7));
   const [startDate, setStartDate] = useState(new Date());
   // let date = new Date().toISOString().slice(0, 7);
   const { data, isLoading, refetch } = useQuery(["getHours"], () =>
     getHours(format(startDate, "yyyyMM"))
   );
+
   const { data: fiveMthsData, isLoading: fiveMthsLoading } = useQuery(
     ["getFiveMonths"],
     () => getFiveMonths()
@@ -230,7 +239,6 @@ const Chart = () => {
           />
         </>
       )}
-      {/* <Footer /> */}
     </LayOut>
   );
 };
@@ -306,7 +314,7 @@ const SelectMonth = styled.div`
 `;
 
 const Button = styled.button`
-  width: 120px;
+  width: 140px;
   height: 44px;
   font-family: "Noto Sans KR";
   font-size: 15px;
@@ -319,7 +327,7 @@ const Button = styled.button`
   img {
     width: 20px;
     height: 20px;
-    margin-left: 2px;
+    margin-left: 7px;
   }
 `;
 

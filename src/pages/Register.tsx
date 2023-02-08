@@ -134,6 +134,7 @@ const Register = () => {
             <div>회원가입</div>
           </div>
         </Header>
+        <HeaderImg src="/image/iconLogo.svg" />
         <Form
           style={{ display: "flex", flexDirection: "column" }}
           onSubmit={handleSubmit(onValid)}
@@ -282,6 +283,12 @@ const Header = styled.div`
   align-items: center;
 `;
 
+const HeaderImg = styled.img`
+  margin-top: -2px;
+  margin-bottom: 40px;
+  width: 160px;
+`;
+
 const Form = styled.form`
   width: 340px;
   display: flex;
@@ -302,7 +309,14 @@ const Form = styled.form`
     align-items: center;
     position: fixed;
     bottom: 17px;
+    cursor: pointer;
+    transition: all 0.5s linear;
 
+    &:hover {
+      background-color: white;
+      border: 1px solid #5fce80;
+      color: #5fce80;
+    }
     div {
       height: 17px;
     }
@@ -339,6 +353,14 @@ const Check = styled.div<{ color: any }>`
   justify-content: center;
   align-items: center;
   border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.5s linear;
+
+  &:hover {
+    background-color: white;
+    border: 1px solid #5fce80;
+    color: #5fce80;
+  }
 `;
 
 const Input = styled.input`

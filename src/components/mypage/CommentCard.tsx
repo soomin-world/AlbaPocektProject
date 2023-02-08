@@ -70,7 +70,7 @@ const CommentCard = ({ comment }: IComment) => {
             <img src="/image/iconMiniHeart.png" alt="" />
           )}
           {/* <img src="/image/iconRedHeart.png" /> */}
-          <div>1</div>
+          <div>{comment.commentLikeNum}</div>
         </CommentInfo>
 
         <div>{comment.title}</div>

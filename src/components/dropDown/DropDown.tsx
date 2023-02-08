@@ -1,11 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { deleteTodo } from "../../APIs/calendarApi";
 import { deletePost } from "../../APIs/detailPostApi";
 import { deleteWork } from "../../APIs/workApi";
+import sweetAlert from "../../util/sweetAlert";
 
 interface propsType {
   id: number;
@@ -22,6 +23,7 @@ const DropDown: React.FC<propsType> = ({
   address,
   deleteValue,
 }) => {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { todoId } = useParams();
   const [value, setValue] = useState<() => {}>();
@@ -46,8 +48,11 @@ const DropDown: React.FC<propsType> = ({
   });
 
   const deletePostHandler = () => {
-    mutatePostDelete.mutateAsync(id).then(() => setIsOpen(false));
-    alert("삭제되었습니다!");
+    mutatePostDelete.mutateAsync(id).then(() => {
+      setIsOpen(false);
+      sweetAlert(1000, "success", "삭제되었습니다!");
+      navigate("/board");
+    });
   };
   const deleteWorkHandler = () => {
     mutateDelete.mutateAsync(id).then(() => setIsOpen(false));
