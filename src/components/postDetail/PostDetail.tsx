@@ -21,7 +21,7 @@ function PostDetail() {
   const [postLikeNum, setPostLikeNum] = useState<number>(data?.postLikeNum);
   const [isOpen, setIsOpen] = useState(false);
   const [category, setCategory] = useState("");
-  const createTime = data?.createAt.substr(11, 5);
+  const createTime = data?.createAt.split("T")[1].split(":");
   const [otherNickname, setOtherNickName] = useRecoilState(otherNickName);
 
   const categoryToKor = (e: string) => {
@@ -110,7 +110,7 @@ function PostDetail() {
               </div>
               <div>
                 {data.createAt.substr(5, 2)}/{data.createAt.substr(8, 2)}{" "}
-                {createTime}
+                {createTime[0] + ":" + createTime[1]}
               </div>
             </div>
           </div>
@@ -140,7 +140,9 @@ function PostDetail() {
           <h1>{data.title}</h1>
         </div>
         <div className="contentArea">
-          <div className="contentBody">{data.content}</div>
+          <div className="contentBody">
+            <pre>{data.content}</pre>
+          </div>
         </div>
         <div className="imageBox">
           {data.imgUrl ? (
@@ -210,9 +212,9 @@ const SContainer = styled.div`
             border: none;
             min-width: 44px;
             height: 15px;
-            font-size: 10px;
-            color: #5fce80;
-            background-color: #5fce8044;
+            font-size: 11px;
+            color: #03b037;
+            background-color: #61cd8144;
             border-radius: 4px;
             cursor: pointer;
           }
@@ -257,6 +259,11 @@ const SContainer = styled.div`
         font-size: 15px;
         font-weight: 400;
         line-height: 1.5;
+        //border: 1px solid black;
+        pre {
+          //border: 1px solid black;
+          white-space: pre-wrap;
+        }
       }
     }
     .title {

@@ -63,6 +63,7 @@ function EditShift() {
       <SThourlyWage>
         <label>시급</label>
         <input
+          maxLength={6}
           value={hourlyWage}
           placeholder="시급을 입력해주세요"
           onChange={(e) => setHourlyWage(e.target.value)}

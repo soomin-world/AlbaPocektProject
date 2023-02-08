@@ -67,19 +67,17 @@ const Dday: React.FC<propsType> = (props) => {
       );
     }
   });
-  console.log(nextSalaryDay);
 
   let diffDay: number[] = [];
 
   nextSalaryDay.map((d) => {
     diffDay.push(d.diff(today, "days"));
   });
-  console.log(diffDay);
   //-------------------------------------------
   return (
     <LayOut>
       <Container>
-        <Carousel afterChange={onChange} autoplay={true}>
+        <Carousel afterChange={onChange} autoplay={true} autoplaySpeed={3500}>
           {props?.workList?.length >= 1 ? (
             props?.workList?.map((w, i) => {
               return (
