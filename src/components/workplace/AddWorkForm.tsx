@@ -86,13 +86,9 @@ function AddWorkForm() {
         <div className="salary">
           <p>월급일</p>
           <div>
-            <div className="input">
+            <div className="input" onClick={openModal}>
               <p>{salaryDay}</p>
-              <img
-                src="/image/iconArrowDecrease.svg"
-                alt="arrow"
-                onClick={openModal}
-              />
+              <img src="/image/iconArrowDecrease.svg" alt="arrow" />
             </div>
             {modalOpen ? (
               <DropDown>
@@ -161,6 +157,7 @@ const STBody = styled.div`
       background-color: #f9f9f9;
       border: 1px solid #efefef;
       border-radius: 8px;
+      cursor: pointer;
       /* border-top-right-radius: 8px;
       border-top-left-radius: 8px; */
       display: flex;
@@ -174,7 +171,6 @@ const STBody = styled.div`
       img {
         width: 18px;
         height: 18px;
-        cursor: pointer;
       }
     }
     select {
@@ -213,6 +209,7 @@ const DropDown = styled.div`
     display: none; /* Chrome , Safari , Opera */
   }
   div {
+    cursor: pointer;
     list-style: none;
     padding: 3px;
     text-align: center;

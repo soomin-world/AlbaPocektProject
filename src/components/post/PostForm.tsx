@@ -139,6 +139,7 @@ function PostForm() {
         <div className="titleForm">
           <input
             type="text"
+            maxLength={50}
             placeholder="제목"
             onChange={(e) => {
               const { value } = e.target;
@@ -148,7 +149,8 @@ function PostForm() {
         </div>
         <div className="content">
           <textarea
-            placeholder="내용을 작성해주세요"
+            maxLength={500}
+            placeholder="내용을 작성해주세요 (500자 이내)"
             onChange={(e) => {
               const { value } = e.target;
               setContent({ content: value });
@@ -224,6 +226,7 @@ const STHeader = styled.div`
 `;
 
 const SBody = styled.div`
+  font-family: "Noto Sans KR";
   //border: 1px solid black;
   display: flex;
   flex-direction: column;
@@ -242,6 +245,7 @@ const SBody = styled.div`
   .titleForm {
     border-bottom: 0.5px solid rgba(197, 197, 197, 0.7);
     margin-bottom: 10px;
+
     input {
       width: 100%;
       height: 45px;
@@ -250,14 +254,16 @@ const SBody = styled.div`
       line-height: 35px;
       border: none;
       margin-bottom: 10px;
+      font-family: "Noto Sans KR";
+      outline: none;
     }
   }
   .content {
     textarea {
+      font-family: "Noto Sans KR";
       border: none;
       width: 100%;
-      min-height: 200px;
-      max-height: 200px;
+      height: 250px;
       font-weight: 400;
       font-size: 15px;
       resize: none;

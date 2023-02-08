@@ -213,7 +213,7 @@ const MyPageEditBtn = styled.button`
 const Taps = styled.div`
   width: 100%;
   display: flex;
-  border-bottom: 0.5px solid #d9d9d9;
+  border-bottom: 1px solid #d9d9d9;
   margin-bottom: 15px;
 `;
 

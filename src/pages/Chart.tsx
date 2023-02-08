@@ -250,6 +250,10 @@ const ChartBar = styled.div`
   align-items: center;
   font-size: 17px;
   font-weight: 500;
+
+  img {
+    cursor: pointer;
+  }
 `;
 
 const ChartText = styled.div<{ marginTop: string }>`

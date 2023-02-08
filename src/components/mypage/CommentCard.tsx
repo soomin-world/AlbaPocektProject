@@ -73,7 +73,7 @@ const CommentCard = ({ comment }: IComment) => {
           <div>{comment.commentLikeNum}</div>
         </CommentInfo>
 
-        <div>{comment.title}</div>
+        <div className="title">{comment.title}</div>
       </CommentText>
     </Comment>
   );
@@ -103,6 +103,14 @@ const CommentText = styled.div`
     height: 39px;
     line-height: 150%;
     margin-top: -3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   div:nth-child(2) {
     margin: 5px 0px 5px 0px;

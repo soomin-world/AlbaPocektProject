@@ -56,10 +56,6 @@ function PostDetail() {
     },
   });
 
-  const dropDownHandler = () => {
-    setIsOpen(!isOpen);
-  };
-
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error!!!!!!</div>;
 
@@ -194,6 +190,7 @@ const SContainer = styled.div`
       .dropDown {
         img {
           margin-top: 2px;
+          cursor: pointer;
         }
       }
       .userInfo {
@@ -297,8 +294,4 @@ const SContainer = styled.div`
   }
 `;
 
-const userNickname = styled.div`
-  display: flex;
-  align-items: center;
-`;
 export default PostDetail;

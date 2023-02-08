@@ -10,22 +10,13 @@ interface ITodoProps {
 const TodoModalContent = ({ todo }: ITodoProps) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <>
-      {/* {isOpen ? (
-        <DropDown
-          id={todo.todoId}
-          address={`/editShift/${todo.todoId}`}
-          deleteValue="shift"
-        />
-      ) : null} */}
-      <div style={{ display: "flex", alignItems: "center" }}>
+    <Container>
+      <Top>
         <div className="color"></div>
         <div className="placeName">{todo.placeName}</div>
-      </div>
+      </Top>
 
-      <div
-        style={{ display: "flex", alignItems: "center", position: "relative" }}
-      >
+      <Top>
         <div>{comma(todo.dayWage)}원</div>
         <img
           src="/image/iconDots.svg"
@@ -43,15 +34,28 @@ const TodoModalContent = ({ todo }: ITodoProps) => {
             />
           ) : null}
         </Wrap>
-      </div>
-    </>
+      </Top>
+    </Container>
   );
 };
 
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-family: "Noto Sans KR";
+  position: relative;
+`;
+
+const Top = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const Wrap = styled.div`
   position: absolute;
-  top: 27px;
-  left: 57px;
+  top: 30px;
+  right: 15px;
 `;
 
 export default TodoModalContent;

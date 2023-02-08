@@ -22,6 +22,7 @@ const MyPageEdit = () => {
     formState: { errors },
     setError,
     resetField,
+    reset,
   } = useForm<IForm>({ mode: "onChange" });
 
   const {
@@ -74,6 +75,7 @@ const MyPageEdit = () => {
           sweetAlert(1000, "success", "변경되었습니다!");
           resetField("nickname");
           setPassMsg("");
+          reset();
         })
         .catch((error) => {
           setPassMsg("");
@@ -88,13 +90,10 @@ const MyPageEdit = () => {
       //   formData.append("nickname", nickname);
       // }
 
-      if (getData?.nickname) {
-        if (!data.nickname) {
-          formData.append("nickname", getData?.nickname);
-        } else {
-          formData.append("nickname", data.nickname);
-        }
-      }
+      if (!data.nickname)
+        return sweetAlert(1000, "error", "프로필 정보를 변경해주세요!");
+
+      formData.append("nickname", data.nickname);
 
       mutateAsync(formData)
         .then((res) => {
@@ -103,11 +102,12 @@ const MyPageEdit = () => {
           setPassMsg("");
           localStorage.removeItem("nickname");
           localStorage.setItem("nickname", data.nickname);
+          reset();
         })
         .catch((error) => {
           setPassMsg("");
           setError("extraError", { message: error.response.data.msg });
-          sweetAlert(1000, "error", error.response.data.msg);
+          // weetAlert(1000, "error", error.response.data.msg);
         });
     }
   };
@@ -184,7 +184,7 @@ const MyPageEdit = () => {
                       "가능한 문자 : 영문 대소문자, 글자 단위 한글, 숫자 ",
                   },
                 })}
-                placeholder="한글/영어 대소문자/숫자 가능 (5~10자)"
+                placeholder="한글 / 영어 대소문자 / 숫자 가능"
                 onBlur={() => {
                   setClickNicknameCheck(false);
                 }}
@@ -201,9 +201,9 @@ const MyPageEdit = () => {
           </EditNickname>
 
           {errors?.nickname?.message ? (
-            <button disabled>확인</button>
+            <button disabled>수정하기</button>
           ) : (
-            <button>확인</button>
+            <button>수정하기</button>
           )}
         </UserProfileForm>
       </LayOut>

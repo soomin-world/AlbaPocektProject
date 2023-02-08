@@ -22,6 +22,7 @@ time, mark, audio, video {
   padding: 0;
   border: 0;
   font-size: 100%;
+  font-family: "Noto Sans KR";
   font: inherit;
   vertical-align: baseline;
 }
