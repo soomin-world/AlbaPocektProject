@@ -5,7 +5,7 @@ import { KAKAO_AUTH_URL } from "../APIs/OAuth";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import LayOut from "../components/layout/LayOut";
-import Swal from "sweetalert2";
+import sweetAlert from "../util/sweetAlert";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -20,15 +20,21 @@ const Login = () => {
 
     const userInfo = { userId: userId, password: password };
     console.log(userInfo);
-    mutateAsync(userInfo).catch((error) => {
-      console.log(error.response.data.msg);
-      setErrorMsg(error.response.data.msg);
-    });
+    mutateAsync(userInfo)
+      .then((res) => {
+        sweetAlert(1000, "success", "로그인 성공!");
+        navigate("/");
+      })
+      .catch((error) => {
+        // console.log(error.response.data.msg);
+        setErrorMsg(error.response.data.msg);
+      });
   };
+
   const token = localStorage.getItem("is_login");
   useEffect(() => {
     if (token) {
-      alert("이미 로그인하셨습니다.");
+      sweetAlert(1000, "error", "이미 로그인하셨습니다!");
       navigate("/");
     }
   }, []);

@@ -15,6 +15,7 @@ import Footer from "../components/footer/Footer";
 import Header from "../components/header/Header";
 import LayOut from "../components/layout/LayOut";
 import { IAllPosts } from "../types/postType";
+import sweetAlert from "../util/sweetAlert";
 
 const Search = () => {
   const queryClient = useQueryClient();
@@ -29,7 +30,7 @@ const Search = () => {
 
   const onClickSearchBtnHandler = () => {
     if (keyword.length === 0) {
-      alert("한 글자 이상 입력해주세요.");
+      sweetAlert(1000, "error", "한 글자 이상 입력해주세요.");
       setIsBtnClick(false);
     } else {
       refetch();

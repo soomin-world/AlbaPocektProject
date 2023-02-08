@@ -8,7 +8,6 @@ import LayOut from "../components/layout/LayOut";
 import { IMyPage } from "../types/myPageType";
 import { IAllPosts } from "../types/postType";
 import { dataType } from "./Board";
-import Swal from "sweetalert2";
 
 const MyPage = () => {
   const navigate = useNavigate();

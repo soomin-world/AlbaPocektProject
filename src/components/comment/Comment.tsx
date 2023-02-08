@@ -14,6 +14,7 @@ import {
 } from "../../APIs/detailPostApi";
 import { otherNickName } from "../../atoms";
 import { CommentType } from "../../types/postType";
+import sweetAlert from "../../util/sweetAlert";
 import LayOut from "../layout/LayOut";
 
 const Comment: React.FC<CommentType> = (props) => {
@@ -74,7 +75,7 @@ const Comment: React.FC<CommentType> = (props) => {
     const payload = [id, newComment];
     putComment.mutate(payload);
     setIsClicked(false);
-    alert("수정되었습니다");
+    sweetAlert(1000, "success", "수정되었습니다");
   };
 
   const mutatelike = useMutation(changeLikeComment, {

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getWork, putWork } from "../../APIs/workApi";
+import sweetAlert from "../../util/sweetAlert";
 import Header from "../header/Header";
 import LayOut from "../layout/LayOut";
 import Modal from "../modal/Modal";
@@ -21,6 +22,7 @@ function WorkEditForm() {
   console.log(editWork.placeColor);
   const { data, isSuccess } = useQuery(["work", id], () => getWork(id));
   const colors = ["#FFB69E", "#FDE569", "#6CDA8D", "#9BBCFF", "#AB8CFE"];
+  const mutateEditwork = useMutation(putWork);
 
   useEffect(() => {
     if (isSuccess) {
@@ -43,23 +45,25 @@ function WorkEditForm() {
   const payload = [id, editWork];
   const addWorkHandler = () => {
     if (editWork.placeName === "") {
-      alert("근무지명을 입력하세요 ");
+      sweetAlert(1000, "error", "근무지명을 입력하세요!");
       return;
     }
     if (editWork.placeName.length > 10) {
-      alert("근무지명은 최대 10자까지 입력가능합니다");
+      sweetAlert(1000, "error", "근무지명은 최대 10자까지 입력가능합니다!");
       return;
     }
     if (editWork.salaryDay === "" || null) {
-      alert("월급일을 입력해주세요");
+      sweetAlert(1000, "error", "월급일을 입력해주세요!");
       return;
     }
     if (editWork.placeColor === "" || null) {
-      alert("색상을 선택해주세요");
+      sweetAlert(1000, "error", "색상을 선택해주세요!");
       return;
     }
-
-    mutateEditwork.mutate(payload);
+    mutateEditwork.mutateAsync(payload).then((res) => {
+      sweetAlert(1000, "success", "근무지를 수정하였습니다!");
+      navigate("/");
+    });
   };
   const onColorClick = (i: number, v: string) => {
     setIsClicked(String(i));
@@ -73,7 +77,7 @@ function WorkEditForm() {
     });
     setModalOpen(false);
   };
-  const mutateEditwork = useMutation(putWork);
+
   return (
     <LayOut position="relative" height="100vh">
       <Header title="근무지수정" padding="5% 0" marginLeft="110px" />
@@ -171,12 +175,11 @@ const STBody = styled.div`
       display: flex;
       align-items: center;
       padding: 7px;
-      padding-left: 15px;
       margin-top: 15px;
       justify-content: space-between;
       font-size: 18px;
       p {
-        margin-left: 23px;
+        margin-left: 19px;
       }
       img {
         width: 18px;

@@ -38,15 +38,15 @@ function PostForm() {
     e.preventDefault();
     //setContent({ content: content.content.replace("\n", "<br>") });
     if (title.title === "") {
-      alert("제목을 입력해주세요!");
+      sweetAlert(1000, "error", "제목을 입력해주세요!");
       return;
     }
     if (category.category === "") {
-      alert("카테고리를 선택해주세요");
+      sweetAlert(1000, "error", "카테고리를 선택해주세요!");
       return;
     }
     if (content.content === "") {
-      alert("내용을 입력해 주세요");
+      sweetAlert(1000, "error", "내용을 입력해 주세요!");
       return;
     }
     if (file) {
@@ -62,7 +62,7 @@ function PostForm() {
           sweetAlert(1000, "success", "등록되었습니다!");
           navigate(`/post/${res.postId}/0`);
         })
-        .catch((error) => alert(error.response.data.msg));
+        .catch((error) => sweetAlert(1000, "error", error.response.data.msg));
     } else {
       const formData = new FormData();
       formData.append("title", title.title);
@@ -75,7 +75,7 @@ function PostForm() {
           sweetAlert(1000, "success", "등록되었습니다!");
           navigate(`/post/${res.postId}/0`);
         })
-        .catch((error) => alert(error.response.data.msg));
+        .catch((error) => sweetAlert(1000, "error", error.response.data.msg));
     }
   };
 
@@ -167,7 +167,7 @@ function PostForm() {
                   setImgFile("");
                 }}
                 src="/image/iconPostX.svg"
-                  alt=""
+                alt=""
               />
               <img src={imgFile} alt="" />
             </>

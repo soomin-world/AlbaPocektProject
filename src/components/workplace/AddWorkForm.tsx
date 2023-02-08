@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { addWork } from "../../APIs/workApi";
+import sweetAlert from "../../util/sweetAlert";
 import Header from "../header/Header";
 import LayOut from "../layout/LayOut";
 
@@ -14,6 +15,13 @@ function AddWorkForm() {
   const [color, setColor] = useState("");
   const [isClicked, setIsClicked] = useState("");
   const colors = ["#FFB69E", "#FDE569", "#6CDA8D", "#9BBCFF", "#AB8CFE"];
+
+  const mutateWork = useMutation(addWork, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["work"]);
+    },
+  });
+
   const openModal = () => {
     setModalOpen(!modalOpen);
   };
@@ -31,28 +39,27 @@ function AddWorkForm() {
   console.log(color);
   const addWorkHandler = () => {
     if (placeName === "") {
-      alert("근무지명을 입력하세요 ");
+      sweetAlert(1000, "error", "근무지명을 입력하세요!");
       return;
     }
     if (placeName.length > 10) {
-      alert("근무지명은 최대 10자까지 입력가능합니다");
+      sweetAlert(1000, "errot", "근무지명은 최대 10자까지 입력가능합니다!");
       return;
     }
     if (salaryDay === "" || null) {
-      alert("월급일을 입력해주세요");
+      sweetAlert(1000, "errot", "월급일을 입력해주세요!");
       return;
     }
     if (color === "" || null) {
-      alert("색상을 선택해주세요");
+      sweetAlert(1000, "errot", "색상을 선택해주세요!");
       return;
     }
-    mutateWork.mutate(workPlaceForm);
+    mutateWork.mutateAsync(workPlaceForm).then((res) => {
+      sweetAlert(1000, "success", "근무지를 추가하였습니다!");
+      navigate("/");
+    });
   };
-  const mutateWork = useMutation(addWork, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["work"]);
-    },
-  });
+
   const onColorClick = (i: number, v: string) => {
     setIsClicked(String(i));
     setColor(v);
@@ -62,6 +69,7 @@ function AddWorkForm() {
     setModalOpen(false);
   };
   const navigate = useNavigate();
+
   return (
     <LayOut position="relative" height="100vh">
       <Header title="근무지추가" padding="5% 0" marginLeft="110px" />
@@ -158,11 +166,10 @@ const STBody = styled.div`
       display: flex;
       align-items: center;
       padding: 7px;
-      padding-left: 15px;
       margin-top: 15px;
       justify-content: space-between;
       p {
-        margin-left: 23px;
+        margin-left: 19px;
       }
       img {
         width: 18px;

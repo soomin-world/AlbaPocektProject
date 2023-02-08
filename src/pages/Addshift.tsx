@@ -10,6 +10,7 @@ import { addShift } from "../APIs/workApi";
 import LayOut from "../components/layout/LayOut";
 import Header from "../components/header/Header";
 import { format } from "date-fns";
+import sweetAlert from "../util/sweetAlert";
 
 export type EventValue<DateType> = DateType | null;
 export type RangeValue<DateType> =
@@ -57,17 +58,20 @@ function AddShift() {
   const mutateWork = useMutation(addShift);
   const onClickHandler = () => {
     if (work.hourlyWage === 0) {
-      alert("시급을 입력해주세요!");
+      sweetAlert(1000, "error", "시급을 입력해주세요!");
       return;
     } else if (workingTime === null) {
-      alert("근무시간을 입력해주세요!");
+      sweetAlert(1000, "error", "근무시간을 입력해주세요!");
       return;
     }
     if (dayList.length === 0) {
-      alert("근무일자를 입력해주세요!");
+      sweetAlert(1000, "error", "근무일자를 입력해주세요!");
       return;
     }
-    mutateWork.mutate(payload);
+    mutateWork.mutateAsync(payload).then((res) => {
+      sweetAlert(1000, "success", "근무 일정이 등록되었습니다!");
+      navigate("/calendar");
+    });
     // navigate(-1);
   };
   console.log(work.hourlyWage);

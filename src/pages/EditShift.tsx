@@ -11,6 +11,7 @@ import { addShift, editWork, getEditWork } from "../APIs/workApi";
 import { getPost } from "../APIs/detailPostApi";
 import LayOut from "../components/layout/LayOut";
 import Header from "../components/header/Header";
+import sweetAlert from "../util/sweetAlert";
 
 interface IEditWork {
   endTime: string;
@@ -28,7 +29,6 @@ function EditShift() {
   const { data } = useQuery<IEditWork>(["editWork", todoId], () =>
     getEditWork(todoId)
   );
-  console.log(data);
 
   const { mutateAsync } = useMutation(editWork);
 
@@ -50,10 +50,16 @@ function EditShift() {
 
   const payload = [todoId, work];
 
+  // console.log(String(data?.workDay).split("-").join(""));
+  const dayId = String(data?.workDay).split("-").join("");
+
   const onClickHandler = () => {
     console.log(work);
     setIsMoreBtns(false);
-    mutateAsync(payload).then(() => navigate(-1));
+    mutateAsync(payload).then(() => {
+      sweetAlert(1000, "success", "근무 일정이 수정되었습니다!");
+      navigate(`/calendar/${dayId}/${todoId}`);
+    });
   };
 
   return (

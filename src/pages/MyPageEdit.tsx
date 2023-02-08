@@ -9,6 +9,7 @@ import Header from "../components/header/Header";
 import LayOut from "../components/layout/LayOut";
 import { IForm } from "../types/loginRegisterType";
 import { IMyPage } from "../types/myPageType";
+import sweetAlert from "../util/sweetAlert";
 
 const MyPageEdit = () => {
   const navigate = useNavigate();
@@ -54,7 +55,7 @@ const MyPageEdit = () => {
   const onValid = (data: IForm) => {
     console.log("submit!!!");
     if (!onClickNicknameCheck && data.nickname)
-      return alert("닉네임 중복확인 버튼을 눌러주세요!");
+      return sweetAlert(1000, "error", "닉네임 중복확인 버튼을 눌러주세요!");
 
     if (file) {
       // console.log(nickname);
@@ -70,14 +71,14 @@ const MyPageEdit = () => {
 
       mutateAsync(formData)
         .then((res) => {
-          window.confirm("변경되었습니다!");
+          sweetAlert(1000, "success", "변경되었습니다!");
           resetField("nickname");
           setPassMsg("");
         })
         .catch((error) => {
           setPassMsg("");
           setError("extraError", { message: error.response.data.msg });
-          alert(error.response.data.msg);
+          sweetAlert(1000, "error", error.response.data.msg);
         });
     } else {
       // console.log(nickname);
@@ -97,7 +98,7 @@ const MyPageEdit = () => {
 
       mutateAsync(formData)
         .then((res) => {
-          window.confirm("변경되었습니다!");
+          sweetAlert(1000, "success", "변경되었습니다!");
           resetField("nickname");
           setPassMsg("");
           localStorage.removeItem("nickname");
@@ -106,7 +107,7 @@ const MyPageEdit = () => {
         .catch((error) => {
           setPassMsg("");
           setError("extraError", { message: error.response.data.msg });
-          alert(error.response.data.msg);
+          sweetAlert(1000, "error", error.response.data.msg);
         });
     }
   };
