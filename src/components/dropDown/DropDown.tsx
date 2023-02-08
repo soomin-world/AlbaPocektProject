@@ -1,4 +1,6 @@
+import { FrownOutlined } from "@ant-design/icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Modal } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
@@ -44,20 +46,36 @@ const DropDown: React.FC<propsType> = ({
       queryClient.invalidateQueries(["totalWage"]);
     },
   });
-
+  const { confirm } = Modal;
+  const showConfirm = (value: (() => {}) | undefined) => {
+    confirm({
+      title: "삭제",
+      icon: <FrownOutlined />,
+      content: "정말 삭제하시겠습니까?",
+      onOk() {
+        if (value) {
+          let temp = value;
+          temp();
+        }
+      },
+      onCancel() {},
+      okText: "네",
+      cancelText: "아니요!",
+      centered: true,
+      okButtonProps: { danger: true, type: "text" },
+      cancelButtonProps: { type: "text" },
+    });
+  };
   const deletePostHandler = () => {
     mutatePostDelete.mutateAsync(id).then(() => setIsOpen(false));
-    alert("삭제되었습니다!");
   };
   const deleteWorkHandler = () => {
     mutateDelete.mutateAsync(id).then(() => setIsOpen(false));
-    alert("삭제되었습니다!");
   };
   const deleteShiftHandler = () => {
     mutateAsync(String(id)).then(() => setIsOpen(false));
-    alert("삭제되었습니다!");
   };
-
+  console.log(value);
   useEffect(() => {
     if (deleteValue === "post") {
       setValue(() => deletePostHandler);
@@ -77,7 +95,7 @@ const DropDown: React.FC<propsType> = ({
         </a>
       </li>
       <li>
-        <div className="delete" onClick={value}>
+        <div className="delete" onClick={() => showConfirm(value)}>
           삭제하기 <img src="/image/iconBin.svg" alt="삭제" />
         </div>
       </li>

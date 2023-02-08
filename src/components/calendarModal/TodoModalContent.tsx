@@ -31,6 +31,7 @@ const TodoModalContent = ({ todo }: ITodoProps) => {
           src="/image/iconDots.svg"
           onClick={() => setIsOpen(!isOpen)}
           style={{ cursor: "pointer" }}
+          alt=""
         />
         <Wrap>
           {isOpen ? (

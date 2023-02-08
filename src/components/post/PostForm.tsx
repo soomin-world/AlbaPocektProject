@@ -30,6 +30,7 @@ function PostForm() {
 
   const submitHandler = (e: any) => {
     e.preventDefault();
+    //setContent({ content: content.content.replace("\n", "<br>") });
     if (title.title === "") {
       alert("제목을 입력해주세요!");
       return;
@@ -143,8 +144,9 @@ function PostForm() {
                   setImgFile("");
                 }}
                 src="/image/iconX.svg"
+                alt=""
               />
-              <img src={imgFile} />
+              <img src={imgFile} alt="" />
             </>
           ) : null}
         </div>
@@ -155,7 +157,7 @@ function PostForm() {
         <input
           className="signup-profileImg-input"
           type="file"
-          accept="image/*"
+          accept=".gif, .jpg, .png, .jpeg, .svg"
           id="profileImg"
           onChange={getImage}
         />
@@ -198,6 +200,7 @@ const STHeader = styled.div`
   }
 `;
 const SBody = styled.div`
+  //border: 1px solid black;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -245,6 +248,7 @@ const STImageUpLoad = styled.div`
   position: absolute;
   bottom: 10px;
   width: 375px;
+  //border: 1px solid black;
 
   @media screen and (max-height: 600px) {
     display: none;
@@ -253,7 +257,7 @@ const STImageUpLoad = styled.div`
   .preview {
     position: absolute;
     bottom: 50px;
-    // border: 1px solid black;
+    //border: 1px solid black;
     width: 341px;
     height: 220px;
     img:first-child {

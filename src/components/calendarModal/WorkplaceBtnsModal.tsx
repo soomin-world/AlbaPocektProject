@@ -84,7 +84,7 @@ const Button = styled.div<{ color: string }>`
   height: 54px;
   display: flex;
   align-items: center;
-  font-size: 16px;
+  font-size: 14px;
   border-bottom: 1px solid #d9d9d9;
   font-weight: 500;
   color: #545456;

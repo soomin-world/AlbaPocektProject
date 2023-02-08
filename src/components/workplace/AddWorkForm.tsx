@@ -34,6 +34,10 @@ function AddWorkForm() {
       alert("근무지명을 입력하세요 ");
       return;
     }
+    if (placeName.length > 10) {
+      alert("근무지명은 최대 10자까지 입력가능합니다");
+      return;
+    }
     if (salaryDay === "" || null) {
       alert("월급일을 입력해주세요");
       return;
@@ -144,7 +148,7 @@ const STBody = styled.div`
       line-height: 22px;
     }
     .input {
-      width: 70px;
+      width: 90px;
       height: 44px;
       background-color: #f9f9f9;
       border: 1px solid #efefef;
@@ -157,9 +161,13 @@ const STBody = styled.div`
       padding-left: 15px;
       margin-top: 15px;
       justify-content: space-between;
+      p {
+        margin-left: 23px;
+      }
       img {
         width: 18px;
         height: 18px;
+        cursor: pointer;
       }
     }
     select {
@@ -181,8 +189,8 @@ const DropDown = styled.div`
   padding: 5px;
   color: #8f8b8b;
   //margin-top: px;
-  width: 70px;
-  height: 150px;
+  width: 90px;
+  height: 300px;
   margin-top: -5px;
   overflow: auto;
   animation: modal-bg-show 0.6s;
@@ -193,6 +201,7 @@ const DropDown = styled.div`
   border-bottom-right-radius: 8px;
   border-top: none;
   font-weight: 500;
+  font-size: 18px;
   ::-webkit-scrollbar {
     display: none; /* Chrome , Safari , Opera */
   }

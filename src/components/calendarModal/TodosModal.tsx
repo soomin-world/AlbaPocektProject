@@ -28,7 +28,6 @@ const TodosModal = ({ children, onClose }: any) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { id } = useParams();
-  console.log(id);
   const setIsMoreBtns = useSetRecoilState(moreBtnsAtom);
   const setIsWorkplaceBtns = useSetRecoilState(workplaceBtnsAtom);
   const [isOpen, setIsOpen] = useState(false);
@@ -37,7 +36,6 @@ const TodosModal = ({ children, onClose }: any) => {
   const { isLoading, data } = useQuery<ITodos[]>(["todos", id], () =>
     getDaily(id)
   );
-  console.log(data);
 
   const { data: bonusData } = useQuery<IBonus[]>(["bonus", id], () =>
     getDayBonus(id)
@@ -150,7 +148,7 @@ const TodosModal = ({ children, onClose }: any) => {
 
 const Modal = styled.div`
   position: absolute;
-  width: 250px;
+  width: 275px;
   height: 327px;
   left: 0;
   right: 0;
@@ -165,10 +163,10 @@ const Modal = styled.div`
 `;
 
 const Position = styled.div`
-  width: 250px;
+  width: 275px;
   height: 327px;
   position: "relative";
-
+  //border: 1px solid black;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -201,7 +199,7 @@ const ModalContentTop = styled.div<{ color: string }>`
   padding: 15px 5px 5px 15px;
   display: flex;
   justify-content: space-between;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
   position: relative;
 

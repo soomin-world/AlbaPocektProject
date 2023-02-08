@@ -60,9 +60,8 @@ const STCard = styled.div`
   color: white;
   padding: 10px;
   position: relative;
-
   .info {
-    width: 106px;
+    width: 90%;
     height: 43px;
     font-weight: 500;
     .placeName {

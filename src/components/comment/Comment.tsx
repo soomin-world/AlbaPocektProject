@@ -1,4 +1,6 @@
+import { FrownOutlined } from "@ant-design/icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Modal } from "antd";
 import { useState } from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
@@ -45,17 +47,31 @@ const Comment: React.FC<CommentType> = (props) => {
       queryClient.invalidateQueries(["comment", id]);
     },
   });
-
+  const { confirm } = Modal;
+  const showConfirm = (id: number) => {
+    confirm({
+      title: "댓글삭제",
+      icon: <FrownOutlined />,
+      content: "정말 삭제하시겠습니까?",
+      onOk() {
+        commentDelete(id);
+      },
+      onCancel() {},
+      okText: "네",
+      cancelText: "아니요!",
+      centered: true,
+      okButtonProps: { danger: true, type: "text" },
+      cancelButtonProps: { type: "text" },
+    });
+  };
   //-----------------
   const commentDelete = (id: number) => {
     delComment.mutate(id);
-    alert("삭제되었습니다");
   };
   const commentEdit = (id: number) => {
     const payload = [id, newComment];
     putComment.mutate(payload);
     setIsClicked(false);
-
     alert("수정되었습니다");
   };
   const mutatelike = useMutation(changeLikeComment, {
@@ -113,7 +129,7 @@ const Comment: React.FC<CommentType> = (props) => {
                 <>
                   {commentClick ? (
                     <>
-                      <button onClick={() => commentDelete(commentId)}>
+                      <button onClick={() => showConfirm(commentId)}>
                         삭제
                       </button>
                       <button onClick={() => setIsClicked(true)}>수정</button>
@@ -277,9 +293,9 @@ const STContainer = styled.div`
         border: none;
         min-width: 44px;
         height: 15px;
-        font-size: 10px;
-        color: #5fce80;
-        background-color: #5fce8044;
+        font-size: 11px;
+        color: #03b037;
+        background-color: #61cd8144;
         border-radius: 4px;
         display: flex;
         justify-content: center;

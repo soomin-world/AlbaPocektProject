@@ -77,7 +77,7 @@ const Dday: React.FC<propsType> = (props) => {
   return (
     <LayOut>
       <Container>
-        <Carousel afterChange={onChange} autoplay={true}>
+        <Carousel afterChange={onChange} autoplay={true} autoplaySpeed={3500}>
           {props?.workList?.length >= 1 ? (
             props?.workList?.map((w, i) => {
               return (

@@ -29,6 +29,7 @@ import MyAlert from "../components/alert/MyAlert";
 import SockJS from "sockjs-client";
 import { baseURL } from "../APIs/axios";
 import stompJS from "stompjs";
+import Splash from "../pages/Splash";
 
 function Router() {
   // const myNickName = localStorage.getItem("nickname");
@@ -42,6 +43,7 @@ function Router() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Main />} />
+        <Route path="/start" element={<Splash />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/oauth/callback/kakao" element={<KakaoSocial />} />

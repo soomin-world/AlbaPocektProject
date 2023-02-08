@@ -159,6 +159,7 @@ function PostEditForm() {
                     setImgFile("");
                   }}
                   src="/image/iconX.svg"
+                  alt=""
                 />
                 {/* </div> */}
                 <img src={imgFile} />
@@ -172,7 +173,7 @@ function PostEditForm() {
           <input
             className="signup-profileImg-input"
             type="file"
-            accept="image/*"
+            accept=".gif, .jpg, .png, .jpeg, .svg"
             id="profileImg"
             onChange={getImage}
             multiple

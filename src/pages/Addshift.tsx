@@ -56,7 +56,7 @@ function AddShift() {
   const payload = [id, work];
   const mutateWork = useMutation(addShift);
   const onClickHandler = () => {
-    if (isNaN(work.hourlyWage)) {
+    if (work.hourlyWage === 0) {
       alert("시급을 입력해주세요!");
       return;
     } else if (workingTime === null) {
@@ -70,7 +70,7 @@ function AddShift() {
     mutateWork.mutate(payload);
     // navigate(-1);
   };
-  console.log(dayList[0]);
+  console.log(work.hourlyWage);
   return (
     <LayOut position="relative" height="100vh">
       <Header title="근무등록" padding="5% 0" marginLeft="120px" />
@@ -101,6 +101,7 @@ function AddShift() {
       <SThourlyWage>
         <label>시급</label>
         <input
+          maxLength={6}
           placeholder="시급을 입력해주세요"
           onChange={(e) => setHourlyWage(e.target.value)}
         />
