@@ -135,7 +135,7 @@ const TodosModal = ({ children, onClose }: any) => {
                   setIsWorkplaceBtns(true);
                 }}
               >
-                <div>근무 추가</div>
+                <div>근무 등록</div>
               </ModalPlus>
             </ModalBtn>
           </Position>

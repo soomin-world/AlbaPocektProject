@@ -58,7 +58,13 @@ table {
 body {
   font-weight: 300;
   line-height: 1.2;
-  background-color: #409e5c23;
+  // background-color: #409e5c23;
+  /* width: 100%;
+  height: 100%;
+
+  background-image: url("image/뒷 배경.jpeg");
+  background-size: auto;
+  object-fit: cover; */
 }
 a {
   text-decoration:none;
@@ -74,7 +80,7 @@ function App() {
         <GlobalStyle />
         <Router />
         {/* <MyAlert /> */}
-        <ReactQueryDevtools />
+        {/* <ReactQueryDevtools /> */}
       </QueryClientProvider>
     </>
   );

@@ -30,6 +30,14 @@ export type dataType = {
 
 function Board() {
   const navigate = useNavigate();
+  const token = localStorage.getItem("is_login");
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+    }
+  }, []);
+
   const { ref, inView } = useInView();
   const [showButton, setShowButton] = useState(false);
 

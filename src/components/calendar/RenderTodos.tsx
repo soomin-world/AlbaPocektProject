@@ -18,19 +18,19 @@ const RenderTodos = ({ day, Month, todos }: ITodosProps) => {
       dayMonth === Month &&
       todo.date === date[2]
     ) {
-      // if (workingTime(todo.workingTime).length !== 8) {
-      todoList.push(
-        <CellTodo key={todo.todoId} color={todo.color}>
-          <div>{workingTime(todo.workingTime)}</div>
-        </CellTodo>
-      );
-      // } else {
-      //   todoList.push(
-      //     <CellTodo key={todo.todoId} color={todo.color}>
-      //       {workingTime(todo.workingTime)}
-      //     </CellTodo>
-      //   );
-      // }
+      if (workingTime(todo.workingTime).length !== 8) {
+        todoList.push(
+          <CellTodo key={todo.todoId} color={todo.color}>
+            <div>{workingTime(todo.workingTime)}</div>
+          </CellTodo>
+        );
+      } else {
+        todoList.push(
+          <CellTodo key={todo.todoId} color={todo.color}>
+            {workingTime(todo.workingTime).slice(0, -1)}
+          </CellTodo>
+        );
+      }
       // todoList.push(
       //   <CellTodo key={todo.todoId} color={todo.color}>
       //     {workingTime(todo.workingTime)}

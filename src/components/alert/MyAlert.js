@@ -74,13 +74,14 @@ const MyAlert = () => {
         setListening(true);
       });
 
-      // eventSource.onerror = async (event) => {
-      //   if (event) {
-      //     console.log("에러발생 시 뜨는 것", event);
-      //     eventSource.close();
-      //     window.location.reload();
-      //   }
-      // };
+      eventSource.onerror = async (event) => {
+        if (event) {
+          console.log("에러발생 시 뜨는 것");
+          console.log("에러발생 시 뜨는 것", event);
+          eventSource.close();
+          // window.location.reload();
+        }
+      };
 
       // eventSource.addEventListener("error", function (event) {
       //   console.log("에러발생 시 뜨는 것", event);

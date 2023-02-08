@@ -50,7 +50,7 @@ const STAdd = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0px auto 70px auto;
+  margin: 0px auto 75px auto;
   border-radius: 8px;
 
   img {
@@ -61,82 +61,4 @@ const STAdd = styled.div`
   }
 `;
 
-const STCard = styled.div`
-  width: 90%;
-  height: 110px;
-  border-radius: 8px;
-  margin: 10px auto 20px auto;
-  color: #ffffff;
-  padding: 10px;
-  .info {
-    width: 106px;
-    height: 43px;
-    font-weight: 500;
-    .placeName {
-      font-size: 17px;
-    }
-    .month {
-      font-size: 13px;
-    }
-  }
-
-  .button {
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-  }
-  .wrap {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  .footer {
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: 10px;
-    button {
-      width: 75px;
-      height: 29px;
-      font-size: 13px;
-      color: white;
-      background-color: transparent;
-      border: none;
-      display: flex;
-      gap: 1px;
-      font-weight: 500;
-      cursor: pointer;
-      img {
-        width: 17px;
-        height: 17px;
-      }
-    }
-    div {
-      display: flex;
-      justify-content: flex-end;
-      width: 111px;
-      height: 29px;
-      font-size: 24px;
-      font-weight: 500;
-    }
-  }
-`;
-
-const STHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin: 20px 20px 20px 20px;
-  .nav {
-    gap: 15px;
-    display: flex;
-    height: 24px;
-    width: 63px;
-    cursor: pointer;
-  }
-  .logo {
-    width: 39px;
-    height: 19px;
-    cursor: pointer;
-  }
-`;
 export default WorkPlace;

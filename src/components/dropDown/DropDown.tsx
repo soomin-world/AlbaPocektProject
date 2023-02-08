@@ -2,12 +2,13 @@ import { FrownOutlined } from "@ant-design/icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Modal } from "antd";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { deleteTodo } from "../../APIs/calendarApi";
 import { deletePost } from "../../APIs/detailPostApi";
 import { deleteWork } from "../../APIs/workApi";
+import sweetAlert from "../../util/sweetAlert";
 
 interface propsType {
   id: number;
@@ -24,6 +25,7 @@ const DropDown: React.FC<propsType> = ({
   address,
   deleteValue,
 }) => {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { todoId } = useParams();
   const [value, setValue] = useState<() => {}>();
@@ -67,7 +69,9 @@ const DropDown: React.FC<propsType> = ({
     });
   };
   const deletePostHandler = () => {
+
     mutatePostDelete.mutateAsync(id).then(() => setIsOpen(false));
+
   };
   const deleteWorkHandler = () => {
     mutateDelete.mutateAsync(id).then(() => setIsOpen(false));

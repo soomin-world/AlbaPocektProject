@@ -288,6 +288,13 @@ const UserProfileForm = styled.form`
     position: fixed;
     bottom: 17px;
     cursor: pointer;
+    transition: all 0.5s linear;
+
+    &:hover {
+      background-color: white;
+      border: 1px solid #5fce80;
+      color: #5fce80;
+    }
   }
 `;
 
@@ -333,6 +340,13 @@ const CheckBtn = styled.div<{ color: any }>`
   align-items: center;
   border-radius: 15px;
   cursor: pointer;
+  transition: all 0.5s linear;
+
+  &:hover {
+    background-color: white;
+    border: 1px solid #5fce80;
+    color: #5fce80;
+  }
 `;
 
 export default MyPageEdit;

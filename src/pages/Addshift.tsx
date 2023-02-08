@@ -73,7 +73,7 @@ function AddShift() {
   console.log(work.hourlyWage);
   return (
     <LayOut position="relative" height="100vh">
-      <Header title="근무등록" padding="5% 0" marginLeft="120px" />
+      <Header title="근무 등록" padding="5% 0" marginLeft="120px" />
 
       <STLabel>
         <h1>날짜</h1>
@@ -195,6 +195,7 @@ const TimeSelector = styled.div`
     font-weight: 500;
     padding: 10px;
     margin-bottom: 290px;
+    font-family: "Noto Sans KR";
   }
 `;
 
@@ -212,6 +213,14 @@ const STButton = styled.button`
   align-items: center;
   position: fixed;
   bottom: 17px;
+  cursor: pointer;
+  transition: all 0.5s linear;
+
+  &:hover {
+    background-color: white;
+    border: 1px solid #5fce80;
+    color: #5fce80;
+  }
 `;
 
 export default AddShift;

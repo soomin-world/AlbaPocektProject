@@ -14,19 +14,21 @@ function Footer() {
   const comMatch = useMatch("/board");
   const comDetailMatch = useMatch("/post/:id");
   const chartMatch = useMatch("/chart");
+  const searchMatch = useMatch("/search");
   const { id } = useParams();
 
   if (locationNow.pathname === "/login") return null;
   if (locationNow.pathname === "/register") return null;
-  if (locationNow.pathname === "/mypage") return null;
-  if (locationNow.pathname === "/mypage/myLike") return null;
+  // if (locationNow.pathname === "/mypage") return null;
+  // if (locationNow.pathname === "/mypage/myLike") return null;
   if (locationNow.pathname === "/mypage/myComment") return null;
   if (locationNow.pathname === "/mypage/edit") return null;
   if (locationNow.pathname === "/alert") return null;
   if (locationNow.pathname === "/loading") return null;
   if (locationNow.pathname === "/start") return null;
   if (locationNow.pathname.slice(0, 6) === "/oauth") return null;
-  if (locationNow.pathname.slice(0, 5) === "/chat") return null;
+  if (locationNow.pathname.slice(0, 6) === "/chat/") return null;
+  // if (locationNow.pathname.slice(0, 5) === "/chat") return null;
   if (window.location.pathname.slice(0, 8) === "/posting") return null;
   if (window.location.pathname.slice(0, 8) === "/addwork") return null;
   if (window.location.pathname.slice(0, 9) === "/addShift") return null;
@@ -65,7 +67,7 @@ function Footer() {
           />
         )}
 
-        {comMatch || comDetailMatch ? (
+        {comMatch || comDetailMatch || searchMatch ? (
           <img
             src="/image/iconComFull.svg"
             alt="커뮤니티"
@@ -107,7 +109,7 @@ const STContainer = styled.div`
   bottom: 0px;
   display: flex;
   width: 375px;
-  height: 50px;
+  height: 55px;
   justify-content: space-around;
   // transform: translateY(-100%);
   background-color: white;

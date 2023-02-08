@@ -249,6 +249,7 @@ const SaveBtn = styled.button`
   position: fixed;
   bottom: 17px;
   cursor: pointer;
+  transition: all 0.5s linear;
 
   &:hover {
     background-color: white;

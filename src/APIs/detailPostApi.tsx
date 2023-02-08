@@ -9,13 +9,14 @@ export const getPost = async (id: any) => {
 //게시글 수정
 export const putPost = async (payload: any) => {
   await instance.put(`/api/posts/${payload[0]}`, payload[1]);
-  return (window.location.href = `/post/${payload[0]}`);
+  return;
 };
 
 //게시글 삭제
 export const deletePost = async (payload: any) => {
   await instance.delete(`/api/posts/${payload}`);
-  return (window.location.href = "/board");
+  // return (window.location.href = "/board");
+  return;
 };
 
 /* -----------댓글 ---------*/

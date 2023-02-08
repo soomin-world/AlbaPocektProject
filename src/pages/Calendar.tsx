@@ -289,6 +289,15 @@ const RenderCells = ({
 };
 
 const Calendar = () => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("is_login");
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+    }
+  }, []);
+
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -436,18 +445,6 @@ const CellsNum = styled.div<{ color: string; backgroundColor: string }>`
 
   div {
     height: 11px;
-  }
-`;
-
-const TotalWage = styled.div`
-  width: 365px;
-  text-align: right;
-  margin-right: 14px;
-  font-weight: 400;
-
-  label {
-    font-weight: 300;
-    margin-right: 10px;
   }
 `;
 
