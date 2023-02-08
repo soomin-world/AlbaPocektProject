@@ -7,6 +7,7 @@ import {
   INickname,
   ILogin,
   IData,
+  IEmail,
 } from "../types/loginRegisterType";
 // import useAccessToken from "../hooks/useAccessToken";
 
@@ -14,8 +15,12 @@ const setAccessToken = (accessToken: string) => {
   localStorage.setItem("is_login", accessToken);
 };
 
-const setNickname = (nickname: string) => {
-  localStorage.setItem("nickname", nickname);
+const setUserId = (userId: string) => {
+  localStorage.setItem("userId", userId);
+};
+
+const setNickName = (myNickName: string) => {
+  localStorage.setItem("nickname", myNickName);
 };
 
 export const registerApi = async (registerInfo: IForm) => {
@@ -44,8 +49,15 @@ export const nicknameCheckApi = async (nickname: IForm) => {
 export const loginApi = async (userInfo: ILogin) => {
   const data: IData = await instance.post("/api/user/login", userInfo);
   const accessToken = data.headers.authorization;
-  const nickname = data.data.nickname;
+  const userId = data.data.userId;
+  const myNickName = data.data.nickname;
   setAccessToken(accessToken);
-  setNickname(nickname);
+  setUserId(userId);
+  setNickName(myNickName);
   window.location.href = "/";
+};
+
+export const emailAuth = async (payload: IEmail) => {
+  const { data } = await instance.post("/api/user/email", payload);
+  return data;
 };
