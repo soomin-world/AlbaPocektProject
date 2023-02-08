@@ -98,13 +98,9 @@ function WorkEditForm() {
         <div className="salary">
           <p>월급일</p>
           <div>
-            <div className="input">
+            <div className="input" onClick={openModal}>
               <p>{editWork.salaryDay}</p>
-              <img
-                src="/image/iconArrowDecrease.svg"
-                alt="arrow"
-                onClick={openModal}
-              />
+              <img src="/image/iconArrowDecrease.svg" alt="arrow" />
             </div>
             {modalOpen ? (
               <DropDown>
@@ -178,13 +174,13 @@ const STBody = styled.div`
       margin-top: 15px;
       justify-content: space-between;
       font-size: 18px;
+      cursor: pointer;
       p {
         margin-left: 19px;
       }
       img {
         width: 18px;
         height: 18px;
-        cursor: pointer;
       }
     }
   }
