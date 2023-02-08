@@ -60,15 +60,13 @@ const MyPage = () => {
               <img src={data?.profileImage} />
               <span>{data?.nickname}</span>
             </div>
-            <div>
+            <div
+              onClick={() => {
+                navigate("/mypage/edit");
+              }}
+            >
               <img src="/image/iconProfilePencil.svg" />
-              <div
-                onClick={() => {
-                  navigate("/mypage/edit");
-                }}
-              >
-                수정하기
-              </div>
+              <div>수정하기</div>
             </div>
           </ProfileInfo>
 

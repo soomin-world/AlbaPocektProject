@@ -103,6 +103,11 @@ const Search = () => {
               // seIsBtnClick(false);
               setKeyword(e.target.value);
             }}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                onClickSearchBtnHandler();
+              }
+            }}
           />
           <SearchBtn onClick={onClickSearchBtnHandler}>
             <img src="/image/iconSearchGray.svg" />
