@@ -31,4 +31,5 @@ export interface IData {
 
 export interface IEmail {
   email: string | undefined;
+  code?: string | undefined;
 }

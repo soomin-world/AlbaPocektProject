@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useMutation } from "react-query";
-import { instance } from "./axios";
+import { instance, jinstance } from "./axios";
 import {
   IForm,
   IUserId,
@@ -58,6 +58,11 @@ export const loginApi = async (userInfo: ILogin) => {
 };
 
 export const emailAuth = async (payload: IEmail) => {
-  const { data } = await instance.post("/api/user/email", payload);
+  const { data } = await jinstance.post("/api/user/email", payload);
+  return data;
+};
+
+export const emailAuthCheck = async (payload: IEmail) => {
+  const data = await jinstance.post("/api/user/emailcheck", payload);
   return data;
 };

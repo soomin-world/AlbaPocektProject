@@ -84,8 +84,8 @@ const Dday: React.FC<propsType> = (props) => {
                 <div key={w.workId}>
                   <div style={contentStyle}>
                     <SalaryWrap>
-                      <div style={{ marginLeft: "20px" }}>
-                        {w.placeName} 월급날
+                      <div style={{ marginLeft: "10px" }}>
+                        {w.placeName} 월급날까지
                       </div>
                       {diffDay[i] === 0 ? (
                         <div>
@@ -132,7 +132,10 @@ const Dday: React.FC<propsType> = (props) => {
 
 export const Container = styled.div`
   margin-bottom: 20px;
-
+  .slick-dots li.slick-active button:before {
+    // your code here
+    color: #5fce80;
+  }
   button {
     border: 1px solid black;
   }
@@ -140,7 +143,6 @@ export const Container = styled.div`
 
 export const BlankWrap = styled.div`
   display: flex;
-
   width: 100%;
   height: 100%;
   justify-content: space-between;
@@ -175,7 +177,7 @@ export const BlankWrap = styled.div`
 
 export const SalaryWrap = styled.div`
   //border: 1px solid black;
-  // min-width: 200px;
+  width: 60%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -184,7 +186,6 @@ export const SalaryWrap = styled.div`
   color: #37adae;
   font-size: 18px;
   font-weight: 500;
-
   div {
     display: flex;
     align-items: center;
@@ -213,4 +214,5 @@ export const STPig = styled.img`
   //border: 1px solid black;
   width: 50%;
 `;
+
 export default Dday;

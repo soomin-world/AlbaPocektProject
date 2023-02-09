@@ -61,7 +61,9 @@ function ChatRoom() {
   }, [isSuccess, data?.data]);
 
   useEffect(() => {
-    connectStomp();
+    if (!client.connected) {
+      connectStomp();
+    }
     scrollToBot();
   }, []);
   //trouble shooting... useeffect를 잘 나누어 쓰자..
