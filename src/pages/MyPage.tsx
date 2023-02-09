@@ -8,7 +8,6 @@ import LayOut from "../components/layout/LayOut";
 import { IMyPage } from "../types/myPageType";
 import { IAllPosts } from "../types/postType";
 import { dataType } from "./Board";
-import Swal from "sweetalert2";
 import { Modal } from "antd";
 import { FrownOutlined } from "@ant-design/icons";
 
@@ -78,15 +77,13 @@ const MyPage = () => {
               <img src={data?.profileImage} />
               <span>{data?.nickname}</span>
             </div>
-            <div>
+            <div
+              onClick={() => {
+                navigate("/mypage/edit");
+              }}
+            >
               <img src="/image/iconProfilePencil.svg" />
-              <div
-                onClick={() => {
-                  navigate("/mypage/edit");
-                }}
-              >
-                수정하기
-              </div>
+              <div>수정하기</div>
             </div>
           </ProfileInfo>
 
@@ -234,7 +231,7 @@ const MyPageEditBtn = styled.button`
 const Taps = styled.div`
   width: 100%;
   display: flex;
-  border-bottom: 0.5px solid #d9d9d9;
+  border-bottom: 1px solid #d9d9d9;
   margin-bottom: 15px;
 `;
 

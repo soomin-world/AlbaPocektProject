@@ -49,15 +49,15 @@ function PostEditForm() {
   const submitHandler = (e: any) => {
     e.preventDefault();
     if (title.title === "") {
-      alert("제목을 입력해주세요!");
+      sweetAlert(1000, "error", "제목을 입력해주세요!");
       return;
     }
     if (category.category === "") {
-      alert("카테고리를 선택해주세요");
+      sweetAlert(1000, "error", "카테고리를 선택해주세요");
       return;
     }
     if (content.content === "") {
-      alert("내용을 입력해 주세요");
+      sweetAlert(1000, "error", "내용을 입력해 주세요");
       return;
     }
     if (file) {
@@ -75,7 +75,7 @@ function PostEditForm() {
           sweetAlert(1000, "success", "수정되었습니다!");
           navigate(`/post/${data.postId}/0`);
         })
-        .catch((error) => alert(error.response.data.msg));
+        .catch((error) => sweetAlert(1000, "error", error.response.data.msg));
     } else {
       const formData = new FormData();
       formData.append("title", title.title);
@@ -90,7 +90,7 @@ function PostEditForm() {
           sweetAlert(1000, "success", "수정되었습니다!");
           navigate(`/post/${data.postId}/0`);
         })
-        .catch((error) => alert(error.response.data.msg));
+        .catch((error) => sweetAlert(1000, "error", error.response.data.msg));
     }
   };
 
@@ -129,6 +129,7 @@ function PostEditForm() {
         <div className="titleForm">
           <input
             type="text"
+            maxLength={50}
             value={title.title}
             placeholder="제목"
             onChange={(e) => {
@@ -139,7 +140,8 @@ function PostEditForm() {
         </div>
         <div className="content">
           <textarea
-            placeholder="내용을 작성해주세요"
+            maxLength={500}
+            placeholder="내용을 작성해주세요 (500자 이내)"
             value={content.content}
             onChange={(e) => {
               const { value } = e.target;
@@ -159,7 +161,7 @@ function PostEditForm() {
                     setImgFile("");
                   }}
                   src="/image/iconPostX.svg"
-                    alt=""
+                  alt=""
                 />
                 <img src={imgFile} />
               </>
@@ -229,6 +231,7 @@ const SContianer = styled.div`
   .titleForm {
     border-bottom: 0.5px solid rgba(197, 197, 197, 0.7);
     margin-bottom: 10px;
+
     input {
       width: 100%;
       height: 45px;
@@ -237,10 +240,13 @@ const SContianer = styled.div`
       line-height: 35px;
       border: none;
       margin-bottom: 10px;
+      font-family: "Noto Sans KR";
+      outline: none;
     }
   }
   .content {
     textarea {
+      font-family: "Noto Sans KR";
       border: none;
       width: 100%;
       height: 250px;

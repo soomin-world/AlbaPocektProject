@@ -201,7 +201,8 @@ export const SalaryWrap = styled.div`
 `;
 
 export const STWrap = styled.div`
-  width: 40%;
+  width: 122px;
+
   img {
     position: absolute;
     top: -10px;

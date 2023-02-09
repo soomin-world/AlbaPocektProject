@@ -149,7 +149,7 @@ export const CalendarModal = () => {
               setDayList([]);
             }}
           >
-            닫기
+            취소
           </button>
           <button
             onClick={() => {

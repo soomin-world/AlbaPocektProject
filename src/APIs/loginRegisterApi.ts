@@ -54,7 +54,7 @@ export const loginApi = async (userInfo: ILogin) => {
   setAccessToken(accessToken);
   setUserId(userId);
   setNickName(myNickName);
-  window.location.href = "/";
+  // window.location.href = "/";
 };
 
 export const emailAuth = async (payload: IEmail) => {

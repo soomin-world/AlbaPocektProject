@@ -6,10 +6,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { getDaily, getDayBonus } from "../../APIs/calendarApi";
+import { getWorks } from "../../APIs/workApi";
 import { moreBtnsAtom, workplaceBtnsAtom } from "../../atoms";
 import comma from "../../hooks/comma";
 import workingTime from "../../hooks/workingTime";
 import { ITodos } from "../../types/calendar";
+import sweetAlert from "../../util/sweetAlert";
 import DropDown from "../dropDown/DropDown";
 import TodoModalContent from "./TodoModalContent";
 
@@ -32,6 +34,9 @@ const TodosModal = ({ children, onClose }: any) => {
   const setIsWorkplaceBtns = useSetRecoilState(workplaceBtnsAtom);
   const [isOpen, setIsOpen] = useState(false);
 
+  const { data: workList } = useQuery(["workList"], () => getWorks());
+
+  // console.log(workList?.data.workist);
   // 여기서 id를 가지고 get요청
   const { isLoading, data } = useQuery<ITodos[]>(["todos", id], () =>
     getDaily(id)
@@ -40,7 +45,7 @@ const TodosModal = ({ children, onClose }: any) => {
   const { data: bonusData } = useQuery<IBonus[]>(["bonus", id], () =>
     getDayBonus(id)
   );
-  // console.log(bonusData);
+  console.log(data?.length);
 
   return ReactDOM.createPortal(
     <>
@@ -132,6 +137,21 @@ const TodosModal = ({ children, onClose }: any) => {
               </ModalPlus>
               <ModalPlus
                 onClick={() => {
+                  if (workList?.data.workList.length === 0) {
+                    navigate("/calendar");
+                    return sweetAlert(
+                      1000,
+                      "error",
+                      "근무지를 먼저 등록해주세요!"
+                    );
+                  }
+                  if (data?.length === 3) {
+                    return sweetAlert(
+                      1000,
+                      "error",
+                      "최대 3개의 근무 일정을 등록할 수 있습니다!"
+                    );
+                  }
                   setIsWorkplaceBtns(true);
                 }}
               >
@@ -233,7 +253,7 @@ const ModalBtn = styled.div`
 `;
 
 const ModalPlus = styled.div`
-  width: 106px;
+  width: 133px;
   height: 48px;
   display: flex;
   justify-content: center;
@@ -252,7 +272,7 @@ const ModalPlus = styled.div`
     font-weight: 500;
   }
   &:first-child {
-    margin: 0px 10px 0px 0px;
+    margin: 0px 11px 0px 0px;
     background-color: #f2f3f5;
   }
   &:last-child {
