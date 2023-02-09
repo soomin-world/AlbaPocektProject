@@ -10,6 +10,8 @@ import { addShift } from "../APIs/workApi";
 import LayOut from "../components/layout/LayOut";
 import Header from "../components/header/Header";
 import { format } from "date-fns";
+import sweetAlert from "../util/sweetAlert";
+import inputPriceFormat from "../hooks/inputComma";
 
 export type EventValue<DateType> = DateType | null;
 export type RangeValue<DateType> =
@@ -39,15 +41,11 @@ function AddShift() {
     console.log(format(new Date(), "HH:mm"));
     console.log(dayList);
   }, []);
-  const onChangeHandler = (
-    time: RangeValue<dayjs.Dayjs>,
-    timestring: [string, string]
-  ) => {
-    setWorkingTime(timestring);
-  };
 
   const work = {
-    hourlyWage: Number(hourlyWage),
+    hourlyWage: Number(
+      hourlyWage.split(",").reduce((curr, acc) => curr + acc, "")
+    ),
     startTime: startTime,
     endTime: endTime,
     workDay: dayList,
@@ -56,18 +54,22 @@ function AddShift() {
   const payload = [id, work];
   const mutateWork = useMutation(addShift);
   const onClickHandler = () => {
+    if (dayList.length === 0) {
+      sweetAlert(1000, "error", "근무일자를 입력해주세요!");
+      return;
+    }
     if (work.hourlyWage === 0) {
-      alert("시급을 입력해주세요!");
+      sweetAlert(1000, "error", "시급을 입력해주세요!");
       return;
     } else if (workingTime === null) {
-      alert("근무시간을 입력해주세요!");
+      sweetAlert(1000, "error", "근무시간을 입력해주세요!");
       return;
     }
-    if (dayList.length === 0) {
-      alert("근무일자를 입력해주세요!");
-      return;
-    }
-    mutateWork.mutate(payload);
+    mutateWork.mutateAsync(payload).then((res) => {
+      sweetAlert(1000, "success", "근무 일정이 등록되었습니다!");
+      navigate("/calendar");
+      setDayList([]);
+    });
     // navigate(-1);
   };
   console.log(work.hourlyWage);
@@ -78,33 +80,39 @@ function AddShift() {
       <STLabel>
         <h1>날짜</h1>
       </STLabel>
-      <WorkDayInput>
+      <WorkDayInput onClick={() => setIsCalendarBtns((pre) => !pre)}>
         <div>
+          {dayList.length === 0 ? (
+            <div className="overlap">날짜를 중복 선택할 수 있어요!</div>
+          ) : null}
           {dayList[0]
-            ? dayList[0].slice(4, 6) + "." + dayList[0].slice(6, 8)
+            ? `${dayList[0].slice(4, 6)}.${dayList[0].slice(6, 8)} `
             : null}
           {dayList[1]
-            ? "/" +
-              dayList[1].slice(4, 6) +
-              "." +
-              dayList[1].slice(6, 8) +
-              "..."
+            ? `/ ${dayList[1].slice(4, 6)}.${dayList[1].slice(6, 8)} `
+            : null}
+          {dayList[2]
+            ? `/ ${dayList[2].slice(4, 6)}.${dayList[2].slice(6, 8)}...`
             : null}
         </div>
         <img
           src="/image/iconCalendar.svg"
-          onClick={() => setIsCalendarBtns((pre) => !pre)}
+          // onClick={() => setIsCalendarBtns((pre) => !pre)}
           alt="달력"
         />
       </WorkDayInput>
       {isCalendarBtns && <CalendarModal />}
       <SThourlyWage>
         <label>시급</label>
-        <input
-          maxLength={6}
-          placeholder="시급을 입력해주세요"
-          onChange={(e) => setHourlyWage(e.target.value)}
-        />
+        <div>
+          <input
+            value={hourlyWage}
+            maxLength={6}
+            placeholder="시급을 입력해주세요."
+            onChange={(e) => setHourlyWage(inputPriceFormat(e.target.value))}
+          />
+          <span>원</span>
+        </div>
       </SThourlyWage>
 
       <TimeSelector className="workingTime">
@@ -118,7 +126,7 @@ function AddShift() {
               setStartTime(e.target.value);
             }}
           />
-          <span> - </span>
+          <span> ~ </span>
           <input
             type="time"
             value={endTime}
@@ -150,16 +158,25 @@ const WorkDayInput = styled.div`
   align-items: center;
   padding: 10px;
   margin-bottom: 30px;
+  font-family: "Noto Sans KR";
+  cursor: pointer;
+
   img {
     width: 18px;
     height: 18px;
-    cursor: pointer;
+  }
+  .overlap {
+    padding-left: 1px;
+    font-size: 15px;
+    font-weight: 400;
+    color: #656464;
   }
 `;
 
 const SThourlyWage = styled.div`
   display: flex;
   flex-direction: column;
+
   label {
     font-size: 15px;
     font-weight: 500;
@@ -174,7 +191,10 @@ const SThourlyWage = styled.div`
     font-size: 15px;
     font-weight: 500;
     padding: 10px;
-    margin-bottom: 30px;
+    margin: 0px 10px 30px 0px;
+  }
+  span {
+    font-weight: 500;
   }
 `;
 const TimeSelector = styled.div`

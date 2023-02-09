@@ -14,6 +14,7 @@ import {
 } from "../../APIs/detailPostApi";
 import { otherNickName } from "../../atoms";
 import { CommentType } from "../../types/postType";
+import sweetAlert from "../../util/sweetAlert";
 import LayOut from "../layout/LayOut";
 
 const Comment: React.FC<CommentType> = (props) => {
@@ -37,6 +38,7 @@ const Comment: React.FC<CommentType> = (props) => {
   const navigate = useNavigate();
   const [commentClick, setCommentClick] = useState(false);
   const [newComment, setNewComment] = useState(comment);
+
   const delComment = useMutation(deleteComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(["comment", id]);
@@ -45,7 +47,7 @@ const Comment: React.FC<CommentType> = (props) => {
 
   const putComment = useMutation(editComment, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["comment", id]);
+      queryClient.invalidateQueries(["comment"]);
     },
   });
   const { confirm } = Modal;
@@ -74,7 +76,7 @@ const Comment: React.FC<CommentType> = (props) => {
     const payload = [id, newComment];
     putComment.mutate(payload);
     setIsClicked(false);
-    alert("수정되었습니다");
+    sweetAlert(1000, "success", "수정되었습니다");
   };
 
   const mutatelike = useMutation(changeLikeComment, {
@@ -195,6 +197,8 @@ const Comment: React.FC<CommentType> = (props) => {
             </div>
             <div className="editInput">
               <textarea
+                placeholder="댓글을 작성해주세요."
+                maxLength={100}
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
               />
@@ -238,7 +242,7 @@ const STContainer = styled.div`
         display: flex;
         gap: 4px;
         button:first-child {
-          margin-top: 2.5px;
+          margin-top: 5px;
           background-color: #f2f3f5;
           border: none;
           color: #aeaeae;
@@ -248,7 +252,7 @@ const STContainer = styled.div`
           font-size: 13px;
         }
         button:nth-child(2) {
-          margin-top: 2.5px;
+          margin-top: 5px;
           background-color: #5fce80;
           color: white;
           border: none;
@@ -259,8 +263,10 @@ const STContainer = styled.div`
         }
       }
       textarea {
+        font-family: "Noto Sans KR";
         min-width: 68%;
         max-width: 68%;
+        height: 40px;
         border: none;
         resize: none;
         outline: none;
@@ -322,8 +328,8 @@ const STContainer = styled.div`
         border: none;
         background-color: #d9d9d972;
         border-radius: 2px;
-        font-size: 11px;
-        margin-left: 4px;
+        font-size: 13px;
+        margin-left: 5px;
         cursor: pointer;
       }
     }
@@ -339,6 +345,7 @@ const STContainer = styled.div`
   }
   .comment {
     width: 80%;
+    word-break: break-all;
   }
   .like {
     width: 44px;
@@ -365,4 +372,5 @@ const STContainer = styled.div`
     }
   }
 `;
+
 export default Comment;

@@ -60,7 +60,7 @@ const ChatRoomCard = () => {
               <div className="body">
                 <h1>{c.nickname}</h1>
                 <div className="content">
-                  {c.lastMessage ? c.lastMessage : "첫 메세지롤 보내보세요!"}
+                  {c.lastMessage ? c.lastMessage : "첫 메세지를 보내보세요!"}
                 </div>
               </div>
               <div className="lastMsgTime">
@@ -107,19 +107,18 @@ const STContainer = styled.div`
   padding: 4px;
   align-items: center;
   justify-content: space-between;
-  //border: 1px solid black;
+
   .profileImg {
     width: 20%;
     height: 80%;
-    //border: 1px solid black;
+
     display: flex;
     align-items: center;
     img {
       width: 60px;
       height: 60px;
       object-fit: cover;
-      border-radius: 100%;
-      //border: 1px solid black;
+      border-radius: 50%;
     }
   }
   .body {
@@ -128,7 +127,21 @@ const STContainer = styled.div`
     display: flex;
     flex-direction: column;
     //gap: 10px;
-    //border: 1px solid black;
+    .content {
+      display: inline-block;
+      width: 220px;
+      height: 39px;
+      line-height: 150%;
+      margin-top: 5px;
+      white-space: normal;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      word-wrap: break-word;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
     h1 {
       font-weight: 500;
       font-size: 15px;
@@ -185,4 +198,5 @@ const EmptyChatList = styled.div`
     font-weight: 400;
   }
 `;
+
 export default ChatRoomCard;
