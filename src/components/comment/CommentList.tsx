@@ -40,7 +40,7 @@ const Stcontainer = styled.div`
   width: 100%;
   flex-direction: column;
   /* padding: 5%; */
-  // margin-bottom: 50px;
+  margin-bottom: 5px;
   // background-color: #fbfbfb;
   height: 100%;
 `;

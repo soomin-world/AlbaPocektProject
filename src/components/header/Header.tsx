@@ -20,7 +20,6 @@ const Header: React.FC<HeaderProps> = ({
   console.log(typeof location);
 
   const onArrowHandler = () => {
-    setKeyword("");
     setDayList([]);
     if (location !== undefined) {
       // console.log("원하는 대로 이동");
@@ -50,9 +49,7 @@ const STHeader = styled.div<{
   align-items: center;
   //height: 100%;
   min-height: 50px;
-  // padding: 0 3% 0 3%;
   padding: ${(props) => (props.padding ? props.padding : "null")};
-  //border: 1px solid black;
   img {
     width: 24px;
     height: 24px;

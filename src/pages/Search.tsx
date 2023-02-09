@@ -12,7 +12,7 @@ import { getSearch } from "../APIs/communityBoardApi";
 import { searchAtom, searchKeywordAtom } from "../atoms";
 import PostCard from "../components/category/PostCard";
 import Footer from "../components/footer/Footer";
-import Header from "../components/header/Header";
+// import Header from "../components/header/Header";
 import LayOut from "../components/layout/LayOut";
 import { IAllPosts } from "../types/postType";
 import sweetAlert from "../util/sweetAlert";
@@ -56,46 +56,21 @@ const Search = () => {
     );
   }
 
-  // for (let i = 1; i <= data?.totalPages; i++) {
-  //   let copy = numList;
-  //   copy?.push(
-  //     <Num
-  //       bgcolor={pageParam === i}
-  //       onClick={() => {
-  //         setPageParam(i);
-  //         console.log(pageParam);
-  //         refetch();
-  //       }}
-  //     ></Num>
-  //   );
-  //   setNumList(copy);
-  // }
-
-  // useEffect(() => {
-  //   for (let i = 1; i <= data?.totalPages; i++) {
-  //     console.log(numList);
-  //     let copy = numList;
-  //     copy?.push(
-  //       <Num
-  //         bgcolor={pageParam === i}
-  //         onClick={() => {
-  //           setPageParam(i);
-  //           console.log(pageParam);
-  //           refetch();
-  //         }}
-  //       ></Num>
-  //     );
-  //     console.log(copy);
-  //     setNumList(copy);
-  //     // numList = copy;
-  //   }
-  // }, [data, pageParam]);
-
   console.log(numList);
   return (
     <>
       <LayOut height="100vh">
-        <Header title="게시물 검색" padding="5% 0 5% 0" marginLeft="110px" />
+        <Header>
+          <img
+            src="/image/iconLeftArrow.svg"
+            alt="<"
+            onClick={() => {
+              setKeyword("");
+              window.history.back();
+            }}
+          />
+          <h1>게시물 검색</h1>
+        </Header>
 
         <SearchInputBox>
           <SearchInput
@@ -147,6 +122,20 @@ const SearchBar = styled.div`
   font-size: 17px;
   font-weight: 500;
   padding: 5%;
+`;
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  min-height: 50px;
+
+  h1 {
+    width: 83px;
+    height: 25px;
+    font-size: 17px;
+    font-weight: 500;
+    margin-left: 105px;
+  }
 `;
 
 const SearchInputBox = styled.div`

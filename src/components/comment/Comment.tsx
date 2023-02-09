@@ -345,6 +345,7 @@ const STContainer = styled.div`
   }
   .comment {
     width: 80%;
+    word-break: break-all;
   }
   .like {
     width: 44px;

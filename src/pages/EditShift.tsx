@@ -12,6 +12,7 @@ import { getPost } from "../APIs/detailPostApi";
 import LayOut from "../components/layout/LayOut";
 import Header from "../components/header/Header";
 import sweetAlert from "../util/sweetAlert";
+import inputPriceFormat from "../hooks/inputComma";
 
 interface IEditWork {
   endTime: string;
@@ -43,7 +44,9 @@ function EditShift() {
   }, [data]);
 
   const work = {
-    hourlyWage: hourlyWage,
+    hourlyWage: Number(
+      hourlyWage?.split(",").reduce((curr, acc) => curr + acc, "")
+    ),
     startTime: startTime,
     endTime: endTime,
   };
@@ -68,12 +71,15 @@ function EditShift() {
 
       <SThourlyWage>
         <label>시급</label>
-        <input
-          maxLength={6}
-          value={hourlyWage}
-          placeholder="시급을 입력해주세요."
-          onChange={(e) => setHourlyWage(e.target.value)}
-        />
+        <div>
+          <input
+            value={inputPriceFormat(String(hourlyWage))}
+            maxLength={6}
+            placeholder="시급을 입력해주세요."
+            onChange={(e) => setHourlyWage(inputPriceFormat(e.target.value))}
+          />
+          <span>원</span>
+        </div>
       </SThourlyWage>
       <TimeSelector className="workingTime">
         <label>근무시간</label>
@@ -85,7 +91,7 @@ function EditShift() {
               setStartTime(e.target.value);
             }}
           />
-          <span> - </span>
+          <span> ~ </span>
           <input
             type="time"
             value={endTime}
@@ -118,7 +124,10 @@ const SThourlyWage = styled.div`
     font-size: 15px;
     font-weight: 500;
     padding: 10px;
-    margin-bottom: 30px;
+    margin: 0px 10px 30px 0px;
+  }
+  span {
+    font-weight: 500;
   }
 `;
 const TimeSelector = styled.div`

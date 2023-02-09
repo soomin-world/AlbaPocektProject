@@ -54,7 +54,7 @@ const CommentCard = ({ comment }: IComment) => {
           navigate(`/post/${comment.postId}`);
         }}
       >
-        <div className="first">
+        <div className="content">
           {comment.comment}
           {/* 제 일도 아닌데 너무 억울하네요.제 일도 아닌데 너무 억울하네요.제 일도
           아닌데 너무 억울하네요. */}
@@ -99,13 +99,20 @@ const CommentText = styled.div`
   font-size: 13px;
   font-weight: 400;
 
-  .first {
+  .content {
+    display: inline-block;
+    width: 315px;
     height: 39px;
     line-height: 150%;
     margin-top: -3px;
-    white-space: nowrap;
+    white-space: normal;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
   .title {
     white-space: nowrap;
