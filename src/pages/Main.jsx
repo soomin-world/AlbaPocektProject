@@ -11,7 +11,7 @@ function Main() {
 
   useEffect(() => {
     if (!token) {
-      navigate("/login");
+      navigate("/start");
     }
   }, []);
 
