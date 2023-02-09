@@ -122,7 +122,9 @@ function AddWorkForm() {
           </STColor>
         </div>
       </STBody>
-      <SaveBtn onClick={addWorkHandler}>저장하기</SaveBtn>
+      <SaveBtn onClick={addWorkHandler}>
+        <div>저장하기</div>
+      </SaveBtn>
     </LayOut>
   );
 }
@@ -135,6 +137,8 @@ const STBody = styled.div`
       margin: 21px 0px 15px 0px;
     }
     input {
+      font-family: "Noto Sans KR";
+      font-weight: 500;
       width: 90%;
       height: 44px;
       background-color: #f9f9f9;
@@ -246,14 +250,19 @@ const SaveBtn = styled.button`
   border-radius: 10px;
   color: white;
   font-size: 17px;
-  font-weight: 500;
+  font-weight: 600;
   display: flex;
   justify-content: center;
   align-items: center;
   position: fixed;
   bottom: 17px;
   cursor: pointer;
-  transition: all 0.5s linear;
+  transition: all 0.3s linear;
+  font-family: "Noto Sans KR";
+
+  div {
+    height: 27px;
+  }
 
   &:hover {
     background-color: white;

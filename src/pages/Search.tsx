@@ -145,7 +145,10 @@ const SearchInputBox = styled.div`
   align-items: center;
   margin-bottom: 15px;
 `;
+
 const SearchInput = styled.input`
+  font-family: "Noto Sans KR";
+  font-weight: 400;
   width: 300px;
   height: 40px;
   border: none;

@@ -277,7 +277,7 @@ const SBody = styled.div`
 
 const Selector = styled.div`
   font-size: 18px;
-  font-weight: 400;
+  font-weight: 500;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -303,6 +303,7 @@ const List = styled.div`
 
   div {
     font-size: 15px;
+    font-weight: 400;
     padding: 6px 8px 6px 8px;
   }
 `;

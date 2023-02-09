@@ -90,12 +90,17 @@ const MyPage = () => {
           <div>
             <MyPageEditBtn onClick={showConfirm}>
               <img src="/image/iconLogout.svg" />
-              로그아웃
+              <div>로그아웃</div>
             </MyPageEditBtn>
           </div>
         </MyPageProfile>
 
-        <p style={{ padding: "10px 10px 10px 4%", fontWeight: "400" }}>
+        <p
+          style={{
+            padding: "10px 10px 10px 4%",
+            fontWeight: "500",
+          }}
+        >
           내 활동
         </p>
 
@@ -215,8 +220,9 @@ const MyPageEditBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: "Noto Sans KR";
   font-size: 15px;
-  padding: 0;
+
   cursor: pointer;
   /* &:first-child {
     margin-right: 15px;
@@ -224,7 +230,11 @@ const MyPageEditBtn = styled.button`
   img {
     width: 18px;
     height: 18px;
+    margin-top: -1px;
     margin-right: 5px;
+  }
+  div {
+    margin-top: -2px;
   }
 `;
 
@@ -240,7 +250,7 @@ const Tap = styled.div<{ isActive: boolean }>`
   height: 40px;
   color: ${(props) => (props.isActive ? "#5FCE80" : "black")};
   border-bottom: ${(props) => (props.isActive ? "2px solid #5FCE80" : null)};
-  font-weight: 400;
+  font-weight: 500;
   display: flex;
   justify-content: center;
   align-items: center;

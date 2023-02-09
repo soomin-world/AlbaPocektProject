@@ -160,7 +160,7 @@ function Board() {
               />
               {totalCount?.totalCount >= 1 ? (
                 <div className="chatCnt">
-                  <h3>{totalCount?.totalCount}</h3>
+                  <div>{totalCount?.totalCount}</div>
                 </div>
               ) : null}
             </div>
@@ -237,9 +237,13 @@ const Icon = styled.div`
       display: flex;
       align-items: center;
       justify-content: center;
-      right: 30px;
-      top: -7px;
+      right: 33px;
+      top: -3px;
       font-size: 10px;
+
+      div {
+        height: 13px;
+      }
     }
   }
   img {
@@ -275,7 +279,7 @@ const Plus = styled.div`
 
 const Selector = styled.div`
   font-size: 20px;
-  font-weight: 400;
+  font-weight: 500;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -300,6 +304,7 @@ const List = styled.div`
 
   div {
     font-size: 15px;
+    font-weight: 400;
     padding: 6px 8px 6px 8px;
   }
 `;

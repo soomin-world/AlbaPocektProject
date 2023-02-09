@@ -229,6 +229,7 @@ const Buttons = styled.div`
     height: 30px;
     border: none;
     border-radius: 5px;
+    font-family: "Noto Sans KR";
     font-weight: 500;
   }
   & :first-child {

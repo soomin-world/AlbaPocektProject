@@ -67,7 +67,7 @@ const Tax = styled.div`
   }
 
   div {
-    height: 13px;
+    height: 16px;
   }
 `;
 
@@ -77,13 +77,13 @@ const TotalText = styled.div`
 
   div:first-child {
     font-size: 13px;
-    height: 13px;
+    height: 17px;
     margin-right: 10px;
   }
 
   div:last-child {
     font-size: 18px;
-    height: 18px;
+    height: 24px;
     font-weight: 500;
   }
 `;

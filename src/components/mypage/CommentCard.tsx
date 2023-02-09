@@ -86,6 +86,7 @@ const Comment = styled.div`
   display: flex;
   padding: 0px 15px 15px 15px;
   margin-bottom: 15px;
+  font-family: "Noto Sans KR";
 
   img {
     width: 15px;
@@ -98,6 +99,7 @@ const CommentText = styled.div`
   width: 315px;
   font-size: 13px;
   font-weight: 400;
+  font-family: "Noto Sans KR";
 
   .content {
     display: inline-block;
@@ -131,6 +133,7 @@ const CommentInfo = styled.div`
   display: flex;
   align-items: center;
   color: #aeaeae;
+  font-family: "Noto Sans KR";
 
   div {
     margin-right: 10px;

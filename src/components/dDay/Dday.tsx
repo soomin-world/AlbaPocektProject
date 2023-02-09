@@ -84,9 +84,18 @@ const Dday: React.FC<propsType> = (props) => {
                 <div key={w.workId}>
                   <div style={contentStyle}>
                     <SalaryWrap>
-                      <div style={{ marginLeft: "10px" }}>
-                        {w.placeName} 월급날까지
-                      </div>
+                      <SalaryTop flex={w.placeName.length >= 5}>
+                        {w.placeName.length <= 5 ? (
+                          <div style={{ fontWeight: "600" }}>{w.placeName}</div>
+                        ) : (
+                          <div style={{ fontSize: "17px", fontWeight: "600" }}>
+                            {w.placeName}
+                          </div>
+                        )}{" "}
+                        <SalaryDay fontSize={w.placeName.length >= 5}>
+                          월급날까지
+                        </SalaryDay>
+                      </SalaryTop>
                       {diffDay[i] === 0 ? (
                         <div>
                           <div className="dDayText">D-Day</div> 입니다!!!
@@ -186,11 +195,13 @@ export const SalaryWrap = styled.div`
   color: #37adae;
   font-size: 18px;
   font-weight: 500;
+
   div {
     display: flex;
     align-items: center;
     margin-left: 10px;
   }
+
   .dDayText {
     font-family: "Montserrat";
     font-size: 24px;
@@ -200,6 +211,16 @@ export const SalaryWrap = styled.div`
   }
 `;
 
+const SalaryTop = styled.div<{ flex: boolean }>`
+  margin-left: 20px;
+  display: flex;
+  flex-direction: ${(props) => (props.flex ? "column" : "row")};
+`;
+
+const SalaryDay = styled.div<{ fontSize: boolean }>`
+  font-size: ${(props) => (props.fontSize ? "15px" : "18px")};
+  margin-top: ${(props) => (props.fontSize ? "5px" : "0px")};
+`;
 export const STWrap = styled.div`
   width: 122px;
 

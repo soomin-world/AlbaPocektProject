@@ -73,7 +73,7 @@ const PostCard = ({ post, padding, location }: postProps) => {
                 <img
                   className="heart"
                   src="/image/iconRedHeart.svg"
-                  alt="하트 "
+                  alt="하트"
                 />
               ) : (
                 <img
