@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import {
   emailAuth,
+  emailAuthCheck,
   nicknameCheckApi,
   registerApi,
   userIdCheckApi,
@@ -27,7 +28,7 @@ const Register = () => {
   const { mutateAsync: userIdCheckMutate } = useMutation(userIdCheckApi);
   const { mutateAsync: nicknameCheckMutate } = useMutation(nicknameCheckApi);
   const { mutateAsync: emailAuthMutate } = useMutation(emailAuth);
-
+  const { mutateAsync: codeAuthMutate } = useMutation(emailAuthCheck);
   const [onClickIdCheck, setClickIdCheck] = useState(false);
   const [onClickNicknameCheck, setClickNicknameCheck] = useState(false);
   const [onEmailAuthClickCheck, setEmailAuthClickCheck] = useState(false);
@@ -35,6 +36,7 @@ const Register = () => {
   const [userIdPassMsg, setUserIdPassMsg] = useState("");
   const [nicknamePassMsg, setNicknamePassMsg] = useState("");
   const [emailAuthPassMsg, setEmailAuthPassMsg] = useState("");
+  const [disable, setDisable] = useState(false);
 
   const [email, setEmail] = useState("");
   const [emailCode, setEmailCode] = useState("");
@@ -49,8 +51,6 @@ const Register = () => {
       return sweetAlert(1000, "error", "인증코드를 다시 한번 확인해주세요!");
     if (!onClickNicknameCheck)
       return sweetAlert(1000, "error", "닉네임 중복확인 버튼을 눌러주세요!");
-
-    console.log(errors?.email?.message);
 
     if (data.password !== data.passwordCheck) {
       setError(
@@ -73,17 +73,24 @@ const Register = () => {
     // setError("extraError", { message: "Server offline." });
   };
   // console.log(errors);
-
+  useEffect(() => {
+    if (userIdPassMsg === "사용가능한 이메일입니다") {
+      alert("입력하신 이메일로 인증메일이 발송되었습니다.");
+      emailAuthMutate({ email: email });
+    }
+    if (onEmailAuthPass) {
+      setDisable(true);
+    }
+  }, [userIdPassMsg, onEmailAuthPass]);
   const userIdCheck = () => {
     setClickIdCheck(true);
     const userId: IForm = watch();
     userIdCheckMutate(userId)
       .then((res) => {
-        console.log(res);
-        setError("email", { message: "" });
-        setUserIdPassMsg("이메일 인증버튼을 눌러주세요");
-        //alert("이메일 인증을 진행해주세요!");
         setEmail(userId.email);
+        setError("email", { message: "" });
+        setUserIdPassMsg("사용가능한 이메일입니다");
+        //setEmailAuthClickCheck(true);
         console.log(email);
       })
       .catch((error) => {
@@ -109,23 +116,18 @@ const Register = () => {
       });
   };
 
-  const emailAuthCheckMail = () => {
-    setEmailAuthClickCheck(true);
-    sweetAlert(1000, "success", "인증 메일이 발송되었습니다!");
-    emailAuthMutate({ email: email }).then((res) => {
-      setCode(res.msg);
-    });
-  };
+  const onCodeAuth = () => {
+    codeAuthMutate({ email: email, code: code })
+      .then((res) => {
+        setEmailAuthPassMsg("확인되었습니다");
+        setEmailAuthClickCheck(true);
+        setEmailAuthPass(true);
+        setDisable(true);
+      })
+      .catch(() => {
+        setEmailAuthPassMsg("인증코드를 다시한번 확인해주세요");
+      });
 
-  const onEmailCheckHandler = (c: string) => {
-    if (c !== code) {
-      setEmailAuthPass(false);
-      setEmailAuthPassMsg("잘못된 코드입니다");
-      return;
-    } else {
-      setEmailAuthPass(true);
-      setEmailAuthPassMsg("인증되었습니다");
-    }
   };
   return (
     <LayOut height="100vh">
@@ -146,6 +148,7 @@ const Register = () => {
         >
           <div style={{ display: "flex" }}>
             <Input
+              disabled={disable}
               {...register("email", {
                 required: "필수 정보입니다.",
                 pattern: {
@@ -169,19 +172,15 @@ const Register = () => {
           ) : (
             <Msg style={{ color: "#5fce80" }}>{userIdPassMsg}</Msg>
           )}
-          {onClickIdCheck &&
-          userIdPassMsg === "이메일 인증버튼을 눌러주세요" ? (
+          {onClickIdCheck && userIdPassMsg === "사용가능한 이메일입니다" ? (
             <>
               <EmailAuth>
                 <Input
-                  placeholder="인증코드"
-                  onChange={(e) => onEmailCheckHandler(e.target.value)}
+                  placeholder="전송받으신 인증코드를 입력해주세요"
+                  onChange={(e) => setCode(e.target.value)}
                 />
-                <Check
-                  onClick={emailAuthCheckMail}
-                  color={onEmailAuthClickCheck}
-                >
-                  이메일 인증
+                <Check onClick={onCodeAuth} color={onEmailAuthClickCheck}>
+                  코드확인
                 </Check>
               </EmailAuth>
               {onEmailAuthPass ? (

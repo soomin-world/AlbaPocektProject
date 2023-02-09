@@ -1,7 +1,7 @@
-import Carousel from "../components/carousel/Carousel";
+import Guide from "../components/carousel/Guide";
 
 function Splash() {
-  return <Carousel />;
+  return <Guide />;
 }
 
 export default Splash;

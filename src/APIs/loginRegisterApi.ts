@@ -61,3 +61,8 @@ export const emailAuth = async (payload: IEmail) => {
   const { data } = await instance.post("/api/user/email", payload);
   return data;
 };
+
+export const emailAuthCheck = async (payload: IEmail) => {
+  const data = await instance.post("/api/user/emailcheck", payload);
+  return data;
+};

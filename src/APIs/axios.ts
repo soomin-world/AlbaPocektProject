@@ -18,6 +18,17 @@ export const instance = axios.create({
   },
 });
 
+export const jinstance = axios.create({
+  withCredentials: true,
+  baseURL: "https://jaeha.shop",
+  headers: {
+    // "content-type": "application/json;charset=UTF-8",
+    //accept: "application/json,",
+    "Access-Control-Allow-Origin": "*",
+    //"Content-type": "application/json",
+  },
+});
+
 export const postInstance = axios.create({
   baseURL: "https://woooo.shop",
   headers: {

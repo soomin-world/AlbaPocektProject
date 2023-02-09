@@ -8,6 +8,8 @@ import LayOut from "../components/layout/LayOut";
 import { IMyPage } from "../types/myPageType";
 import { IAllPosts } from "../types/postType";
 import { dataType } from "./Board";
+import { Modal } from "antd";
+import { FrownOutlined } from "@ant-design/icons";
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -22,13 +24,29 @@ const MyPage = () => {
     getMyPage(pageParam)
   );
 
+  const { confirm } = Modal;
+  const showConfirm = () => {
+    confirm({
+      title: "로그아웃",
+      icon: <FrownOutlined />,
+      content: "로그아웃 하시겠습니까?",
+      onOk() {
+        LogoutHandler();
+      },
+      onCancel() {},
+      okText: "로그아웃",
+      cancelText: "아니요!",
+      centered: true,
+      okButtonProps: { danger: true, type: "text" },
+      cancelButtonProps: { type: "text" },
+    });
+  };
+
   const LogoutHandler = () => {
-    if (window.confirm("로그아웃하시겠습니까?")) {
-      localStorage.removeItem("is_login");
-      localStorage.removeItem("userId");
-      localStorage.removeItem("nickname");
-      navigate("/login");
-    }
+    localStorage.removeItem("is_login");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("nickname");
+    navigate("/login");
   };
 
   const numList = [];
@@ -70,7 +88,7 @@ const MyPage = () => {
           </ProfileInfo>
 
           <div>
-            <MyPageEditBtn onClick={LogoutHandler}>
+            <MyPageEditBtn onClick={showConfirm}>
               <img src="/image/iconLogout.svg" />
               로그아웃
             </MyPageEditBtn>
