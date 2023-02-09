@@ -43,15 +43,15 @@ function AddWorkForm() {
       return;
     }
     if (placeName.length > 10) {
-      sweetAlert(1000, "errot", "근무지명은 최대 10자까지 입력가능합니다!");
+      sweetAlert(1000, "error", "근무지명은 최대 10자까지 입력가능합니다!");
       return;
     }
     if (salaryDay === "" || null) {
-      sweetAlert(1000, "errot", "월급일을 입력해주세요!");
+      sweetAlert(1000, "error", "월급일을 입력해주세요!");
       return;
     }
     if (color === "" || null) {
-      sweetAlert(1000, "errot", "색상을 선택해주세요!");
+      sweetAlert(1000, "error", "색상을 선택해주세요!");
       return;
     }
     mutateWork.mutateAsync(workPlaceForm).then((res) => {

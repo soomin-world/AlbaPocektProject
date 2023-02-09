@@ -45,7 +45,7 @@ const TodosModal = ({ children, onClose }: any) => {
   const { data: bonusData } = useQuery<IBonus[]>(["bonus", id], () =>
     getDayBonus(id)
   );
-  // console.log(bonusData);
+  console.log(data?.length);
 
   return ReactDOM.createPortal(
     <>
@@ -143,6 +143,13 @@ const TodosModal = ({ children, onClose }: any) => {
                       1000,
                       "error",
                       "근무지를 먼저 등록해주세요!"
+                    );
+                  }
+                  if (data?.length === 3) {
+                    return sweetAlert(
+                      1000,
+                      "error",
+                      "최대 3개의 근무 일정을 등록할 수 있습니다!"
                     );
                   }
                   setIsWorkplaceBtns(true);

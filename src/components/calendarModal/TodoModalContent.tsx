@@ -17,7 +17,7 @@ const TodoModalContent = ({ todo }: ITodoProps) => {
       </Top>
 
       <Top>
-        <div>{comma(todo.dayWage)}원</div>
+        <div className="placeName">{comma(todo.dayWage)}원</div>
         <img
           src="/image/iconDots.svg"
           onClick={() => setIsOpen(!isOpen)}
@@ -50,6 +50,10 @@ const Container = styled.div`
 const Top = styled.div`
   display: flex;
   align-items: center;
+
+  .placeName {
+    margin-top: -2px;
+  }
 `;
 
 const Wrap = styled.div`

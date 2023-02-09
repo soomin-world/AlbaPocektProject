@@ -66,6 +66,7 @@ const STCard = styled.div`
     font-weight: 500;
     .placeName {
       font-size: 17px;
+      margin-bottom: 2px;
     }
     .month {
       font-size: 13px;
