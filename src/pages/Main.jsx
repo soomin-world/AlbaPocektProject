@@ -10,15 +10,14 @@ function Main() {
 
   useEffect(() => {
     if (!token) {
-      navigate("/login");
+      navigate("/start");
     }
   }, []);
 
   return (
     <>
-      <LayOut>
+      <LayOut height="100vh">
         <WorkPlace />
-        <Footer />
       </LayOut>
     </>
   );

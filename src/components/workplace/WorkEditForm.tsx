@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getWork, putWork } from "../../APIs/workApi";
+import sweetAlert from "../../util/sweetAlert";
 import Header from "../header/Header";
 import LayOut from "../layout/LayOut";
 import Modal from "../modal/Modal";
@@ -20,14 +21,9 @@ function WorkEditForm() {
   });
   console.log(editWork.placeColor);
   const { data, isSuccess } = useQuery(["work", id], () => getWork(id));
-  const colors = [
-    "#ee9071",
-    "#F6E279",
-    "#5FCE80",
-    "#6290F0",
-    "#6532E9",
-    "#ab51b9d7",
-  ];
+  const colors = ["#FFB69E", "#FDE569", "#6CDA8D", "#9BBCFF", "#AB8CFE"];
+  const mutateEditwork = useMutation(putWork);
+
   useEffect(() => {
     if (isSuccess) {
       setEditWork({
@@ -38,7 +34,7 @@ function WorkEditForm() {
     }
   }, [isSuccess]);
   const openModal = () => {
-    setModalOpen(true);
+    setModalOpen(!modalOpen);
   };
 
   let i = 0;
@@ -49,23 +45,30 @@ function WorkEditForm() {
   const payload = [id, editWork];
   const addWorkHandler = () => {
     if (editWork.placeName === "") {
-      alert("근무지명을 입력하세요 ");
+      sweetAlert(1000, "error", "근무지명을 입력하세요!");
+      return;
+    }
+    if (editWork.placeName.length > 10) {
+      sweetAlert(1000, "error", "근무지명은 최대 10자까지 입력가능합니다!");
       return;
     }
     if (editWork.salaryDay === "" || null) {
-      alert("월급일을 입력해주세요");
+      sweetAlert(1000, "error", "월급일을 입력해주세요!");
       return;
     }
     if (editWork.placeColor === "" || null) {
-      alert("색상을 선택해주세요");
+      sweetAlert(1000, "error", "색상을 선택해주세요!");
       return;
     }
-
-    mutateEditwork.mutate(payload);
+    mutateEditwork.mutateAsync(payload).then((res) => {
+      sweetAlert(1000, "success", "근무지를 수정하였습니다!");
+      navigate("/");
+    });
   };
   const onColorClick = (i: number, v: string) => {
     setIsClicked(String(i));
     setColor(v);
+    setEditWork({ ...editWork, placeColor: v });
   };
   const onSalaryClick = (e: any) => {
     setEditWork({
@@ -74,10 +77,11 @@ function WorkEditForm() {
     });
     setModalOpen(false);
   };
-  const mutateEditwork = useMutation(putWork);
+
   return (
-    <LayOut position="relative">
-      <Header title={"근무지수정"} />
+    <LayOut position="relative" height="100vh">
+      <Header title="근무지수정" padding="5% 0" marginLeft="110px" />
+
       <STBody>
         <div className="place">
           <p>어디에서 일하시나요?</p>
@@ -94,13 +98,9 @@ function WorkEditForm() {
         <div className="salary">
           <p>월급일</p>
           <div>
-            <div className="input">
+            <div className="input" onClick={openModal}>
               <p>{editWork.salaryDay}</p>
-              <img
-                src="/image/arrowDecrease.png"
-                alt="arrow"
-                onClick={openModal}
-              />
+              <img src="/image/iconArrowDecrease.svg" alt="arrow" />
             </div>
             {modalOpen ? (
               <DropDown>
@@ -143,7 +143,7 @@ const STBody = styled.div`
     p {
       font-size: 15px;
       font-weight: 500;
-      margin: 21.5px 0px 15px 0px;
+      margin: 21px 0px 15px 0px;
     }
     input {
       width: 90%;
@@ -151,18 +151,19 @@ const STBody = styled.div`
       background-color: #f9f9f9;
       border: 1px solid #efefef;
       border-radius: 8px;
-      margin-bottom: 41px;
+      margin-bottom: 40px;
+      padding-left: 10px;
     }
   }
   .salary {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     p {
       font-size: 15px;
       font-weight: 500;
       line-height: 22px;
     }
     .input {
-      width: 20%;
+      width: 90px;
       height: 44px;
       background-color: #f9f9f9;
       border: 1px solid #efefef;
@@ -170,7 +171,13 @@ const STBody = styled.div`
       display: flex;
       align-items: center;
       padding: 7px;
+      margin-top: 15px;
       justify-content: space-between;
+      font-size: 18px;
+      cursor: pointer;
+      p {
+        margin-left: 19px;
+      }
       img {
         width: 18px;
         height: 18px;
@@ -192,8 +199,9 @@ const DropDown = styled.div`
   padding: 5px;
   color: #8f8b8b;
   //margin-top: px;
-  width: 70px;
-  height: 150px;
+  width: 90px;
+  height: 300px;
+  margin-top: -5px;
   overflow: auto;
   animation: modal-bg-show 0.6s;
   background-color: #f9f9f9;
@@ -203,6 +211,8 @@ const DropDown = styled.div`
   border-bottom-right-radius: 8px;
   border-top: none;
   font-weight: 500;
+  font-size: 18px;
+  cursor: pointer;
   ::-webkit-scrollbar {
     display: none; /* Chrome , Safari , Opera */
   }
@@ -215,20 +225,23 @@ const DropDown = styled.div`
 
 const STColor = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 15px;
   margin-bottom: 290px;
   .btn {
     width: 36px;
     height: 36px;
-    border-radius: 100%;
+    border-radius: 50%;
     border: none;
+    cursor: pointer;
+    // box-shadow: rgb(0 0 0 / 20%) 2px 2px 8px;
   }
   .btnactive {
     width: 36px;
     height: 36px;
-    border-radius: 100%;
+    border-radius: 50%;
     border: none;
-    box-shadow: 0 0 0 2px #777877;
+    cursor: pointer;
+    box-shadow: 0 0 0 4px #afadad;
   }
 `;
 
@@ -244,9 +257,16 @@ const SaveBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  left: 17px;
+  position: fixed;
   bottom: 17px;
+  cursor: pointer;
+  transition: all 0.5s linear;
+
+  &:hover {
+    background-color: white;
+    border: 1px solid #5fce80;
+    color: #5fce80;
+  }
 `;
 
 export default WorkEditForm;

@@ -1,17 +1,20 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getPost, putPost } from "../../APIs/detailPostApi";
+import sweetAlert from "../../util/sweetAlert";
 
 function PostEditForm() {
   const navigate = useNavigate();
   const [title, setTitle] = useState({ title: "" });
   const [category, setCategory] = useState({ category: "" });
   const [content, setContent] = useState({ content: "" });
+  const [isDelete, setIsDelete] = useState({ isDelete: "false" });
   const [file, setFile] = useState<string | Blob>();
   const { id } = useParams();
   const [imgFile, setImgFile] = useState<any>("");
+
   const getImage = (e: any) => {
     const image = e.target.files[0];
     const reader = new FileReader();
@@ -25,42 +28,6 @@ function PostEditForm() {
   const { data, isError, isLoading, isSuccess } = useQuery(["post", id], () =>
     getPost(id)
   );
-  console.log(data);
-  useEffect(() => {
-    if (isSuccess) {
-      setTitle(data.title);
-      setCategory(data.category);
-      setContent(data.content);
-      setImgFile(data.imgUrl);
-    }
-  }, [isSuccess]);
-  const queryClient = useQueryClient();
-
-  const submitHandler = (e: any) => {
-    e.preventDefault();
-    if (title.title === "") {
-      alert("제목을 입력해주세요!");
-      return;
-    }
-    if (category.category === "") {
-      alert("카테고리를 선택해주세요");
-      return;
-    }
-    if (content.content === "") {
-      alert("내용을 입력해 주세요");
-      return;
-    }
-    if (file) {
-      const formData = new FormData();
-      formData.append("title", title.title);
-      formData.append("content", content.content);
-      formData.append("category", category.category);
-      formData.append("file", file);
-      const payload = [id, formData];
-      mutatePost.mutate(payload);
-      alert("수정되었습니다!");
-    }
-  };
 
   const mutatePost = useMutation(putPost, {
     onSuccess: () => {
@@ -68,33 +35,101 @@ function PostEditForm() {
     },
   });
 
+  useEffect(() => {
+    if (data) {
+      setTitle({ title: data.title });
+      setCategory({ category: data.category });
+      setContent({ content: data.content });
+      setImgFile(data.imgUrl);
+    }
+  }, [data]);
+
+  const queryClient = useQueryClient();
+
+  const submitHandler = (e: any) => {
+    e.preventDefault();
+    if (title.title === "") {
+      sweetAlert(1000, "error", "제목을 입력해주세요!");
+      return;
+    }
+    if (category.category === "") {
+      sweetAlert(1000, "error", "카테고리를 선택해주세요");
+      return;
+    }
+    if (content.content === "") {
+      sweetAlert(1000, "error", "내용을 입력해 주세요");
+      return;
+    }
+    if (file) {
+      const formData = new FormData();
+      formData.append("title", title.title);
+      formData.append("content", content.content);
+      formData.append("category", category.category);
+      formData.append("isDelete", isDelete.isDelete);
+      formData.append("file", file);
+      const payload = [id, formData];
+
+      mutatePost
+        .mutateAsync(payload)
+        .then((res) => {
+          sweetAlert(1000, "success", "수정되었습니다!");
+          navigate(`/post/${data.postId}/0`);
+        })
+        .catch((error) => sweetAlert(1000, "error", error.response.data.msg));
+    } else {
+      const formData = new FormData();
+      formData.append("title", title.title);
+      formData.append("content", content.content);
+      formData.append("category", category.category);
+      formData.append("isDelete", isDelete.isDelete);
+      const payload = [id, formData];
+
+      mutatePost
+        .mutateAsync(payload)
+        .then((res) => {
+          sweetAlert(1000, "success", "수정되었습니다!");
+          navigate(`/post/${data.postId}/0`);
+        })
+        .catch((error) => sweetAlert(1000, "error", error.response.data.msg));
+    }
+  };
+
   if (isError) return <div>Error!!!!!!</div>;
   if (isLoading) return <div>Loading~~~</div>;
+
   return (
     <>
       <STHeader>
-        <img src="/image/x.png" alt="x" onClick={() => navigate("/board")} />
+        <img
+          src="/image/iconX.svg"
+          alt="x"
+          onClick={() => window.history.back()}
+        />
         <div className="wrap">
-          <span>게시판 ·</span>
-          <select
-            value={category.category}
-            onChange={(e) => {
-              const { value } = e.target;
-              setCategory({ category: value });
-            }}
-          >
-            <option defaultValue="">카테고리</option>
-            <option value="free">자유</option>
-            <option value="partTime">알바고민</option>
-            <option value="cover">대타</option>
-          </select>
+          <div>게시글 수정</div>
         </div>
-        <button onClick={submitHandler}>등록</button>
+        <button onClick={submitHandler}>
+          <div>등록</div>
+        </button>
       </STHeader>
+
       <SContianer>
+        <select
+          value={category.category}
+          onChange={(e) => {
+            const { value } = e.target;
+            setCategory({ category: value });
+          }}
+        >
+          <option defaultValue="">카테고리</option>
+          <option value="free">자유</option>
+          <option value="partTime">알바고민</option>
+          <option value="cover">대타</option>
+        </select>
         <div className="titleForm">
           <input
             type="text"
+            maxLength={50}
             value={title.title}
             placeholder="제목"
             onChange={(e) => {
@@ -105,7 +140,8 @@ function PostEditForm() {
         </div>
         <div className="content">
           <textarea
-            placeholder="내용을 작성해주세요"
+            maxLength={500}
+            placeholder="내용을 작성해주세요 (500자 이내)"
             value={content.content}
             onChange={(e) => {
               const { value } = e.target;
@@ -113,22 +149,32 @@ function PostEditForm() {
             }}
           />
         </div>
-        <div className="preview">
-          <img
-            src={imgFile ? imgFile : `/images/pencil.png`}
-            alt="임시기본이미지"
-          />
-        </div>
 
         <STImageUpLoad>
+          <div className="preview" id="previewer">
+            {imgFile ? (
+              <>
+                <img
+                  onClick={() => {
+                    setIsDelete({ isDelete: "true" });
+                    setFile(undefined);
+                    setImgFile("");
+                  }}
+                  src="/image/iconPostX.svg"
+                  alt=""
+                />
+                <img src={imgFile} />
+              </>
+            ) : null}
+          </div>
           <div className="line" />
           <label className="signup-profileImg-label" htmlFor="profileImg">
-            <img src="/image/camera-mono.png" alt="카메라" />
+            <img src="/image/iconCamera.svg" alt="카메라" />
           </label>
           <input
             className="signup-profileImg-input"
             type="file"
-            accept="image/*"
+            accept=".gif, .jpg, .png, .jpeg, .svg"
             id="profileImg"
             onChange={getImage}
             multiple
@@ -139,24 +185,22 @@ function PostEditForm() {
   );
 }
 const STHeader = styled.div`
-  display: flex;
   margin: 12px 0px 19.36px 0px;
   height: 35px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   img {
     width: 24px;
     height: 24px;
     cursor: pointer;
   }
   .wrap {
-    margin-left: 85px;
+    // margin-left: 85px;
     font-size: 17px;
     font-weight: 500;
-    select {
-      border: none;
-      width: 83px;
-      height: 25px;
-      font-size: 17px;
-      font-weight: 500;
+    div {
+      height: 19px;
     }
   }
   button {
@@ -166,16 +210,28 @@ const STHeader = styled.div`
     border: none;
     background-color: transparent;
     color: #5fce80;
-    margin-left: 44px;
+    // margin-left: 44px;
+    div {
+      font-size: 17px;
+      height: 19px;
+    }
   }
 `;
 const SContianer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  select {
+    border: none;
+    width: 83px;
+    height: 25px;
+    font-size: 17px;
+    font-weight: 500;
+  }
   .titleForm {
     border-bottom: 0.5px solid rgba(197, 197, 197, 0.7);
     margin-bottom: 10px;
+
     input {
       width: 100%;
       height: 45px;
@@ -184,10 +240,13 @@ const SContianer = styled.div`
       line-height: 35px;
       border: none;
       margin-bottom: 10px;
+      font-family: "Noto Sans KR";
+      outline: none;
     }
   }
   .content {
     textarea {
+      font-family: "Noto Sans KR";
       border: none;
       width: 100%;
       height: 250px;
@@ -200,24 +259,43 @@ const SContianer = styled.div`
       }
     }
   }
-  .preview {
-    img {
-      width: 345px;
-      height: 258px;
-      min-width: 345px;
-      min-height: 258px;
-      border: 0.5px solid rgba(197, 197, 197, 0.7);
-      margin-bottom: 43px;
-      object-fit: cover;
-    }
-  }
 `;
 const STImageUpLoad = styled.div`
   position: absolute;
   bottom: 10px;
   width: 375px;
+
+  @media screen and (max-height: 600px) {
+    display: none;
+  }
+
+  .preview {
+    position: absolute;
+    bottom: 50px;
+    // border: 1px solid black;
+    width: 341px;
+    height: 220px;
+
+    img:first-child {
+      // border: 1px solid black;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: -7px;
+      left: -7px;
+    }
+    img:last-child {
+      width: 341px;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+  }
   .line {
-    width: 90%;
+    width: 341px;
     height: 0px;
     border: 0.5px solid rgba(197, 197, 197, 0.7);
     margin-bottom: 10px;

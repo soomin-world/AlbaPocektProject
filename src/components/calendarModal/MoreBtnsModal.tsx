@@ -47,6 +47,7 @@ const MoreBtnsModal = ({ children }: any) => {
           <span
             onClick={() => {
               navigate(`/editShift/${todoId}`);
+              setIsMoreBtns(false);
             }}
           >
             수정
@@ -70,7 +71,6 @@ const Modal = styled.div`
   top: 0;
   bottom: 0;
   margin: auto;
-
   background-color: white;
   border-radius: 10px;
 `;

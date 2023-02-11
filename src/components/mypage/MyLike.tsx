@@ -31,6 +31,7 @@ const MyLike = () => {
   for (let i = 1; i <= data?.totalPages; i++) {
     numList.push(
       <div
+        style={{ cursor: "pointer" }}
         onClick={() => {
           pageParam = i;
           console.log(pageParam);
@@ -45,22 +46,26 @@ const MyLike = () => {
 
   return (
     <>
-      <div>
+      <Container margin={numList?.length === 1}>
         {data?.content.map((data: IAllPosts) => {
           return (
             <PostCard key={data.postId} post={data} padding="0 15px 0 15px" />
           );
         })}
-      </div>
+      </Container>
       {numList?.length === 1 ? null : <PageNum>{numList}</PageNum>}
     </>
   );
 };
 
+const Container = styled.div<{ margin: boolean }>`
+  margin-bottom: ${(props) => (props.margin ? "40px" : "0px")};
+`;
+
 const PageNum = styled.div`
   display: flex;
   margin: 0 auto;
-  margin-bottom: 20px;
+  margin-bottom: 70px;
 
   div {
     margin: 0px 10px 0px 10px;

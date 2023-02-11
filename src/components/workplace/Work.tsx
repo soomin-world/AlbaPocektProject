@@ -4,22 +4,19 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getMonthlyWage } from "../../APIs/workApi";
 import comma from "../../hooks/comma";
+import { WorkType } from "../../types/workType";
 import DropDown from "../dropDown/DropDown";
-import { WorkType } from "./WorkPlace";
 
-const Work = ({ placeId, placeName, placeColor, salaryDay }: WorkType) => {
+const Work = ({ placeId, placeName, placeColor }: WorkType) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const today = new Date();
-  const yearMonth = String(
-    new Date(today.getFullYear(), today.getMonth())
-  ).split(" ");
-  const month = yearMonth[3] + "년" + yearMonth[2] + "월";
-  const dropDownHandler = () => {
-    setIsOpen(!isOpen);
-  };
+  const yearMonth = today.toLocaleDateString().split(".");
+  const month = yearMonth[0] + "년" + yearMonth[1] + "월";
+
   const data = useQuery(["post", placeId], () => getMonthlyWage(placeId));
   window.addEventListener("scroll", () => setIsOpen(false));
+
   return (
     <STCard key={placeId} style={{ backgroundColor: `${placeColor}` }}>
       <div className="wrap">
@@ -29,7 +26,7 @@ const Work = ({ placeId, placeName, placeColor, salaryDay }: WorkType) => {
         </div>
         <div>
           <img
-            src="/image/dots.png"
+            src="/image/iconMoreDots.svg"
             alt=":"
             className="button"
             onClick={() => setIsOpen(!isOpen)}
@@ -38,7 +35,7 @@ const Work = ({ placeId, placeName, placeColor, salaryDay }: WorkType) => {
             <DropDown
               id={placeId}
               open={isOpen}
-              close={dropDownHandler}
+              setIsOpen={setIsOpen}
               address={`/addwork/${placeId}`}
               deleteValue={"workPlace"}
             />
@@ -47,8 +44,7 @@ const Work = ({ placeId, placeName, placeColor, salaryDay }: WorkType) => {
       </div>
       <div className="footer">
         <button onClick={() => navigate(`/addShift/${placeId}`)}>
-          <img src="/image/Group 180.png" alt="+" />
-          근무등록
+          <img src="/image/iconAddShift.svg" alt="+" />{" "}
         </button>
         <div className="money"> ₩ {comma(String(data?.data?.totalWage))}</div>
       </div>
@@ -61,16 +57,16 @@ const STCard = styled.div`
   height: 110px;
   border-radius: 8px;
   margin: 0px auto 20px auto;
-  color: #ffffff;
+  color: white;
   padding: 10px;
   position: relative;
-
   .info {
-    width: 106px;
+    width: 90%;
     height: 43px;
     font-weight: 500;
     .placeName {
       font-size: 17px;
+      margin-bottom: 2px;
     }
     .month {
       font-size: 13px;
@@ -91,20 +87,32 @@ const STCard = styled.div`
     display: flex;
     justify-content: space-between;
     padding-bottom: 10px;
+    .addShift {
+      min-width: 57px;
+    }
     button {
-      width: 75px;
+      width: 73px;
       height: 29px;
-      font-size: 13px;
       color: white;
       background-color: transparent;
       border: none;
       display: flex;
+      align-items: center;
       gap: 1px;
-      font-weight: 500;
+      padding: 0;
+
       cursor: pointer;
       img {
-        width: 17px;
-        height: 17px;
+        width: 73px;
+        min-width: 73px;
+        margin: -2px 0px 0px 2px;
+      }
+      div {
+        height: 15px;
+        min-width: 57px;
+        font-size: 15px;
+        font-weight: 500;
+        margin-bottom: 2px;
       }
     }
     div {

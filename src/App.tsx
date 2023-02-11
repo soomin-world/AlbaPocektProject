@@ -2,6 +2,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createGlobalStyle } from "styled-components";
 import Router from "./shared/Router";
+import MyAlert from "./components/alert/MyAlert";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -21,6 +22,7 @@ time, mark, audio, video {
   padding: 0;
   border: 0;
   font-size: 100%;
+  font-family: "Noto Sans KR";
   font: inherit;
   vertical-align: baseline;
 }
@@ -71,7 +73,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <GlobalStyle />
         <Router />
-        {/* <ReactQueryDevtools /> */}
+        <ReactQueryDevtools />
       </QueryClientProvider>
     </>
   );

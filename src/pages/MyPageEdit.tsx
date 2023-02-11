@@ -1,64 +1,115 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { nicknameCheckApi } from "../APIs/loginRegisterApi";
 import { editMyPage, getMyPage } from "../APIs/myPageApi";
 import Header from "../components/header/Header";
 import LayOut from "../components/layout/LayOut";
+import { IForm } from "../types/loginRegisterType";
 import { IMyPage } from "../types/myPageType";
+import sweetAlert from "../util/sweetAlert";
 
 const MyPageEdit = () => {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const { isLoading, isError, data } = useQuery<IMyPage>(["myPage"], () =>
-    getMyPage(1)
-  );
+  const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { errors },
+    setError,
+    resetField,
+    reset,
+  } = useForm<IForm>({ mode: "onChange" });
 
-  const { mutate } = useMutation(editMyPage, {
+  const {
+    isLoading,
+    isError,
+    data: getData,
+  } = useQuery<IMyPage>(["myPage"], () => getMyPage(1));
+
+  const { mutateAsync } = useMutation(editMyPage, {
     onSuccess: () => {
       queryClient.invalidateQueries(["myPage"]);
     },
   });
+  const { mutateAsync: nicknameCheckMutate } = useMutation(nicknameCheckApi);
 
-  const [nickname, setNickname] = useState("");
+  const [onClickNicknameCheck, setClickNicknameCheck] =
+    useState<boolean>(false);
+  const [passMsg, setPassMsg] = useState("");
   const [file, setFile] = useState<File | undefined>();
-  const [userImage, setUserImage] = useState(data?.profileImage);
+  const [userImage, setUserImage] = useState(getData?.profileImage);
 
   useEffect(() => {
     // setNickname(data?.nickname);
-    setUserImage(data?.profileImage);
-  }, [data]);
+    setUserImage(getData?.profileImage);
+  }, [getData]);
 
   const getImage = (e: any) => {
     setFile(e.target.files[0]);
   };
 
-  const onSubmitHandler = (e: any) => {
-    e.preventDefault();
+  const onValid = (data: IForm) => {
     console.log("submit!!!");
+    if (!onClickNicknameCheck && data.nickname)
+      return sweetAlert(1000, "error", "닉네임 중복확인 버튼을 눌러주세요!");
 
     if (file) {
       // console.log(nickname);
       const formData = new FormData();
 
-      if (nickname !== undefined) {
-        formData.append("nickname", nickname);
+      // if (getData?.nickname) {
+      if (data.nickname) {
+        formData.append("nickname", data.nickname);
       }
+      //}
 
       formData.append("file", file);
 
-      mutate(formData);
+      mutateAsync(formData)
+        .then((res) => {
+          sweetAlert(1000, "success", "변경되었습니다!");
+          resetField("nickname");
+          setPassMsg("");
+          reset();
+        })
+        .catch((error) => {
+          setPassMsg("");
+          setError("extraError", { message: error.response.data.msg });
+          sweetAlert(1000, "error", error.response.data.msg);
+        });
     } else {
       // console.log(nickname);
       const formData = new FormData();
 
-      if (nickname !== undefined) {
-        formData.append("nickname", nickname);
-      }
+      // if (nickname !== undefined) {
+      //   formData.append("nickname", nickname);
+      // }
 
-      mutate(formData);
+      if (!data.nickname)
+        return sweetAlert(1000, "error", "프로필 정보를 변경해주세요!");
+
+      formData.append("nickname", data.nickname);
+
+      mutateAsync(formData)
+        .then((res) => {
+          sweetAlert(1000, "success", "변경되었습니다!");
+          resetField("nickname");
+          setPassMsg("");
+          localStorage.removeItem("nickname");
+          localStorage.setItem("nickname", data.nickname);
+          reset();
+        })
+        .catch((error) => {
+          setPassMsg("");
+          setError("extraError", { message: error.response.data.msg });
+          // weetAlert(1000, "error", error.response.data.msg);
+        });
     }
-    window.confirm("변경되었습니다!");
-    setNickname("");
   };
 
   const imgPreview = (e: any) => {
@@ -73,10 +124,26 @@ const MyPageEdit = () => {
     };
   };
 
+  const nicknameCheck = () => {
+    setClickNicknameCheck(true);
+    const nickname: IForm = watch();
+    nicknameCheckMutate(nickname)
+      .then((res) => {
+        console.log(res);
+        setError("nickname", { message: "" });
+        setPassMsg("멋진 닉네임이네요!");
+      })
+      .catch((error) => {
+        console.log(error.response.data.msg);
+        setPassMsg("");
+        setError("nickname", { message: error.response.data.msg });
+      });
+  };
+
   return (
     <>
-      <LayOut padding="0" position="relative">
-        <Header title={"프로필 수정"} />
+      <LayOut padding="0" position="relative" height="100vh">
+        <Header title="프로필 수정" padding="5%" marginLeft="105px" />
         <MyPageProfile>
           <div>
             <label htmlFor="profileImg">
@@ -93,23 +160,51 @@ const MyPageEdit = () => {
               }}
             />
 
-            <span>{data?.nickname}</span>
+            <span>{getData?.nickname}</span>
           </div>
         </MyPageProfile>
 
-        <UserProfileForm onSubmit={onSubmitHandler}>
+        <UserProfileForm onSubmit={handleSubmit(onValid)}>
           <EditNickname>
             <span>닉네임</span>
-            <input
-              value={nickname}
-              placeholder="한글/영어 대소문자/숫자 가능 (5~10자)"
-              onChange={(e) => {
-                setNickname(e.target.value);
-              }}
-            ></input>
+            <div style={{ display: "flex" }}>
+              <input
+                {...register("nickname", {
+                  minLength: {
+                    value: 5,
+                    message: "5~10글자를 적어주세요.",
+                  },
+                  maxLength: {
+                    value: 10,
+                    message: "5~10글자를 적어주세요.",
+                  },
+                  pattern: {
+                    value: /^[A-za-z0-9가-힣]{5,10}$/,
+                    message:
+                      "가능한 문자 : 영문 대소문자, 글자 단위 한글, 숫자 ",
+                  },
+                })}
+                placeholder="한글 / 영어 대소문자 / 숫자 가능"
+                onBlur={() => {
+                  setClickNicknameCheck(false);
+                }}
+              ></input>
+              <CheckBtn onClick={nicknameCheck} color={onClickNicknameCheck}>
+                중복확인
+              </CheckBtn>
+            </div>
+            {errors?.nickname?.message ? (
+              <span>{errors?.nickname?.message}</span>
+            ) : (
+              <span style={{ color: "#5fce80" }}>{passMsg}</span>
+            )}
           </EditNickname>
 
-          <button>확인</button>
+          {errors?.nickname?.message ? (
+            <button disabled>수정하기</button>
+          ) : (
+            <button>수정하기</button>
+          )}
         </UserProfileForm>
       </LayOut>
     </>
@@ -152,6 +247,7 @@ const MyPageProfile = styled.div`
     object-fit: cover;
     border-radius: 50%;
     margin-bottom: 10px;
+    cursor: pointer;
   }
   input {
     display: none;
@@ -162,15 +258,16 @@ const Camera = styled.div`
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-image: url("/image/iconCamera.png");
+  background-image: url("/image/iconMypageCamera.svg");
   background-size: cover;
   position: absolute;
   right: 155px;
   bottom: 50px;
+  cursor: pointer;
 `;
 
 const UserProfileForm = styled.form`
-  padding: 15px;
+  padding: 17px;
 
   button {
     width: 340px;
@@ -184,9 +281,16 @@ const UserProfileForm = styled.form`
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
-    left: 17px;
+    position: fixed;
     bottom: 17px;
+    cursor: pointer;
+    transition: all 0.5s linear;
+
+    &:hover {
+      background-color: white;
+      border: 1px solid #5fce80;
+      color: #5fce80;
+    }
   }
 `;
 
@@ -199,33 +303,45 @@ const EditNickname = styled.div`
     font-weight: 400;
     margin-bottom: 15px;
   }
+  span:last-child {
+    font-size: 13px;
+    color: red;
+    margin: 10px 0px 10px 0px;
+  }
   input {
-    width: 340px;
+    width: 240px;
     height: 48px;
     padding: 15px;
     font-size: 15px;
     border-radius: 15px;
     border: 1px solid #efefef;
   }
+  input:focus {
+    outline: 1px solid #5fce80;
+  }
 `;
 
-const ImagePlus = styled.div`
-  width: 60px;
-  height: 60px;
-  border: 3px solid #c5c5c5;
-  border-radius: 50%;
+const CheckBtn = styled.div<{ color: any }>`
+  width: 90px;
+  height: 48px;
+  border: 1px solid ${(props) => (props.color ? "#5fce80" : "gray")};
+  color: ${(props) => (props.color ? "#5fce80" : "gray")};
+  margin-left: 11px;
+  /* border: 1px solid #5fce80;
+  color: #5fce80; */
+  font-size: 14px;
+  font-weight: 400;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 10px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.5s linear;
 
-  img {
-    width: 30px;
-    height: 30px;
-    margin: 0;
-  }
-  input {
-    display: none;
+  &:hover {
+    background-color: white;
+    border: 1px solid #5fce80;
+    color: #5fce80;
   }
 `;
 

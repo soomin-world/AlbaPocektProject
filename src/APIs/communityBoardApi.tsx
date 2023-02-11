@@ -20,12 +20,6 @@ export const getInfinitePostByCategory = async (
   return { content, last, nextPage: pageParam + 1 };
 };
 
-//전체 게시글 조회
-export const getAllPosts = async () => {
-  const { data } = await instance.get("/api/posts");
-  return data;
-};
-
 //카테고리별 조회
 export const getPosts = async (payload: string) => {
   const { data } = await instance.get(`/api/posts/category?keyword=${payload}`);

@@ -25,5 +25,11 @@ export interface IData {
   };
   data: {
     userId: string;
+    nickname: string;
   };
+}
+
+export interface IEmail {
+  email: string | undefined;
+  code?: string | undefined;
 }

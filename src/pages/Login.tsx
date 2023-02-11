@@ -1,17 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { loginApi } from "../APIs/loginRegisterApi";
 import { KAKAO_AUTH_URL } from "../APIs/OAuth";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-
-interface IErrormsg {
-  response: {
-    data: {
-      msg: string;
-    };
-  };
-}
+import LayOut from "../components/layout/LayOut";
+import sweetAlert from "../util/sweetAlert";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -26,59 +20,75 @@ const Login = () => {
 
     const userInfo = { userId: userId, password: password };
     console.log(userInfo);
-    mutateAsync(userInfo).catch((error) => {
-      console.log(error.response.data.msg);
-      setErrorMsg(error.response.data.msg);
-    });
+    mutateAsync(userInfo)
+      .then((res) => {
+        sweetAlert(1000, "success", "로그인 성공!");
+        navigate("/");
+      })
+      .catch((error) => {
+        // console.log(error.response.data.msg);
+        setErrorMsg(error.response.data.msg);
+      });
   };
 
+  const token = localStorage.getItem("is_login");
+  useEffect(() => {
+    if (token) {
+      sweetAlert(1000, "error", "이미 로그인하셨습니다!");
+      navigate("/");
+    }
+  }, []);
+
   return (
-    <Total>
-      <Header>이메일 로그인</Header>
-      <Form
-        onSubmit={(e) => {
-          e.preventDefault();
-          const userInfo = { userId: userId, password: password };
-          onSubmitHandler();
-        }}
-      >
-        <Input
-          onChange={(e) => {
-            setUserId(e.target.value);
+    <LayOut height="100vh">
+      <Total>
+        <Header>이메일 로그인</Header>
+        <HeaderImg src="/image/iconLogo.svg" />
+        <Form
+          onSubmit={(e) => {
+            e.preventDefault();
+            const userInfo = { userId: userId, password: password };
+            onSubmitHandler();
           }}
-          placeholder="이메일"
-        ></Input>
-        <Input
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-          placeholder="비밀번호"
-          type="password"
-        ></Input>
-        <span>{errorMsg}</span>
-        <button>
-          <div>시작하기</div>
-        </button>
-        <Register>
-          <span>회원이 아니신가요? </span>
-          <span
-            onClick={() => {
-              navigate("/register");
+        >
+          <Input
+            onChange={(e) => {
+              setUserId(e.target.value);
             }}
-          >
-            회원 가입하기
-          </span>
-        </Register>
-        <Line>
-          <hr />
-          <div>또는</div>
-          <hr />
-        </Line>
-        <a href={KAKAO_AUTH_URL}>
-          <img src="/image/kakao.png" />
-        </a>
-      </Form>
-    </Total>
+            placeholder="이메일"
+          ></Input>
+          <Input
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            placeholder="비밀번호"
+            type="password"
+          ></Input>
+          <span>{errorMsg}</span>
+          <button>
+            <div>시작하기</div>
+          </button>
+          <Register>
+            <span>회원이 아니신가요? </span>
+            <span
+              onClick={() => {
+                navigate("/register");
+              }}
+            >
+              회원 가입하기
+            </span>
+          </Register>
+          <Line>
+            <hr />
+            <div>또는</div>
+            <hr />
+          </Line>
+          <a href={KAKAO_AUTH_URL}>
+            <img src="/image/iconKakao.svg" />
+          </a>
+        </Form>
+      </Total>
+    </LayOut>
   );
 };
 const Total = styled.div`
@@ -89,11 +99,17 @@ const Total = styled.div`
   font-family: "Noto Sans KR", sans-serif;
 `;
 
+const HeaderImg = styled.img`
+  margin-top: 28px;
+  margin-bottom: 50px;
+  width: 160px;
+`;
+
 const Header = styled.div`
   width: 100%;
   height: 60px;
-  font-size: 15px;
-  font-weight: 400;
+  font-size: 17px;
+  font-weight: 500;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -114,6 +130,14 @@ const Form = styled.form`
     background-color: #5fce80;
     font-size: 17px;
     color: white;
+    cursor: pointer;
+    transition: all 0.5s linear;
+
+    &:hover {
+      background-color: white;
+      border: 1px solid #5fce80;
+      color: #5fce80;
+    }
 
     div {
       height: 17px;
@@ -133,6 +157,11 @@ const Input = styled.input`
   background-color: #f9f9f9;
   padding-left: 15px;
   margin-bottom: 15px;
+
+  &:focus {
+    outline: 1px solid #5fce80;
+    background-color: white;
+  }
 `;
 
 const Register = styled.div`
@@ -144,6 +173,7 @@ const Register = styled.div`
   }
   span:last-child {
     font-weight: 500;
+    cursor: pointer;
   }
 `;
 
@@ -162,4 +192,5 @@ const Line = styled.div`
     color: #a4a4a7;
   }
 `;
+
 export default Login;

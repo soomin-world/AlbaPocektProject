@@ -231,10 +231,11 @@ const RenderCells = ({
           }
           backgroundColor={
             isSameDay(day, selectedDate)
-              ? "#D1DFE8"
-              : isSameDay(day, currentDay)
-              ? "#EDE1E3"
-              : "transparent"
+              ? " rgba(207, 240, 217, 0.3)"
+              : // isSameDay(day, currentDay)
+                // ? "#EDE1E3"
+                // :
+                "transparent"
           }
           onClick={() => {
             onDateClick(toDate(cloneDay));
@@ -245,10 +246,19 @@ const RenderCells = ({
             color={
               format(currentMonth, "M") !== format(day, "M")
                 ? "#adb5bd"
+                : isSameDay(day, currentDay)
+                ? "white"
                 : "black"
             }
+            backgroundColor={
+              format(currentMonth, "M") !== format(day, "M")
+                ? "transparent"
+                : isSameDay(day, currentDay)
+                ? "#5FCE80"
+                : "transparent"
+            }
           >
-            {formattedDate}
+            <div>{formattedDate}</div>
           </CellsNum>
 
           {isLoadingTodos ? null : (
@@ -279,6 +289,15 @@ const RenderCells = ({
 };
 
 const Calendar = () => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("is_login");
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+    }
+  }, []);
+
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -292,7 +311,6 @@ const Calendar = () => {
     data: todosData,
     refetch: refetchTodos,
   } = useQuery(["monthly"], () => getMonthly(YYYYMM));
-  console.log(todosData);
 
   // 근무달력 조회 (주휴수당)
   const {
@@ -300,7 +318,6 @@ const Calendar = () => {
     data: bonusData,
     refetch: refetchBonus,
   } = useQuery(["bonus"], () => getBonus(YYYYMM));
-  console.log(bonusData);
 
   // TotalWage get 요청
   const {
@@ -309,8 +326,14 @@ const Calendar = () => {
     refetch: refetchTotalWage,
   } = useQuery(["totalWage"], () => getTotal(YYYYMM));
 
+  const selectedMonth = (date: Date) => {
+    setCurrentMonth(date);
+    return currentMonth;
+  };
+
   const prevMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
+    console.log("바뀐 이전 달", currentMonth);
     return currentMonth;
   };
 
@@ -331,7 +354,6 @@ const Calendar = () => {
     // queryClient.invalidateQueries(["monthly"]);
     // queryClient.invalidateQueries(["bonus"]);
     // queryClient.invalidateQueries(["totalWage"]);
-    console.log(currentMonth);
   }, [currentMonth]);
 
   /////// 모달창 기능
@@ -346,32 +368,32 @@ const Calendar = () => {
   const [isTax, setIsTax] = useRecoilState(calendarTax);
   // console.log(isMoreBtns);
   // console.log(isWorkplaceBtns);
-  console.log(data);
 
   return (
     <>
-      <Total>
-        <RenderHeader
-          currentMonth={currentMonth}
-          prevMonth={prevMonth}
-          nextMonth={nextMonth}
-        />
-        <RenderDays />
-        <RenderCells
-          currentMonth={currentMonth}
-          selectedDate={selectedDate}
-          onDateClick={onDateClick}
-          todosData={todosData}
-          bonusData={bonusData}
-          isLoadingTodos={isLoadingTodos}
-          isLoadingBonus={isLoadingBonus}
-        />
-        <RenderTotalWage data={data} />
-        <Footer />
-      </Total>
-
+      <LayOut height="100vh" font="null">
+        <Total>
+          <RenderHeader
+            currentMonth={currentMonth}
+            selectedMonth={selectedMonth}
+            prevMonth={prevMonth}
+            nextMonth={nextMonth}
+          />
+          <RenderDays />
+          <RenderCells
+            currentMonth={currentMonth}
+            selectedDate={selectedDate}
+            onDateClick={onDateClick}
+            todosData={todosData}
+            bonusData={bonusData}
+            isLoadingTodos={isLoadingTodos}
+            isLoadingBonus={isLoadingBonus}
+          />
+          <RenderTotalWage data={data} />
+        </Total>
+      </LayOut>
       {dayMatch || dayBtnMatch ? <TodosModal /> : null}
-      {isMoreBtns && <MoreBtnsModal />}
+      {/* {isMoreBtns && <MoreBtnsModal />} */}
       {isWorkplaceBtns && <WorkplaceBtnsModal />}
     </>
   );
@@ -386,7 +408,7 @@ const Total = styled.div`
 const CellsRow = styled.div`
   display: flex;
   &:last-child {
-    border-bottom: 1px solid #adb5bd;
+    border-bottom: 1px solid #d9d9d9;
   }
 `;
 
@@ -398,8 +420,7 @@ const CellsBody = styled.div`
 
 const Cells = styled.div<{ color: string; backgroundColor: string }>`
   width: 50px;
-  height: 100px;
-  padding-top: 2px;
+  height: 93px;
   border-top: 1px solid #d9d9d9;
   /* ${(props) => props.color} */
   background-color: ${(props) => props.backgroundColor};
@@ -409,22 +430,21 @@ const Cells = styled.div<{ color: string; backgroundColor: string }>`
   align-items: center;
 `;
 
-const CellsNum = styled.span<{ color: string }>`
+const CellsNum = styled.div<{ color: string; backgroundColor: string }>`
+  width: 20px;
+  height: 20px;
   color: ${(props) => props.color};
   font-size: 11px;
   font-weight: 400;
+  border-radius: 50%;
   margin: 2px 0px 2px 0px;
-`;
+  background-color: ${(props) => props.backgroundColor};
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-const TotalWage = styled.div`
-  width: 365px;
-  text-align: right;
-  margin-right: 14px;
-  font-weight: 400;
-
-  label {
-    font-weight: 300;
-    margin-right: 10px;
+  div {
+    height: 11px;
   }
 `;
 

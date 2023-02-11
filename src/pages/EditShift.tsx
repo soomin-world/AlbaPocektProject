@@ -2,7 +2,7 @@ import { TimePicker } from "antd";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { calendarAtom, calendarDayList, moreBtnsAtom } from "../atoms";
-import { CalendarModal } from "./Test";
+import { CalendarModal } from "./CalendarModal";
 import dayjs from "dayjs";
 import styled from "styled-components";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -11,6 +11,8 @@ import { addShift, editWork, getEditWork } from "../APIs/workApi";
 import { getPost } from "../APIs/detailPostApi";
 import LayOut from "../components/layout/LayOut";
 import Header from "../components/header/Header";
+import sweetAlert from "../util/sweetAlert";
+import inputPriceFormat from "../hooks/inputComma";
 
 interface IEditWork {
   endTime: string;
@@ -28,9 +30,8 @@ function EditShift() {
   const { data } = useQuery<IEditWork>(["editWork", todoId], () =>
     getEditWork(todoId)
   );
-  console.log(data);
 
-  const { mutate } = useMutation(editWork);
+  const { mutateAsync } = useMutation(editWork);
 
   const [hourlyWage, setHourlyWage] = useState(data?.hourlyWage);
   const [startTime, setStartTime] = useState(data?.startTime);
@@ -43,30 +44,42 @@ function EditShift() {
   }, [data]);
 
   const work = {
-    hourlyWage: hourlyWage,
+    hourlyWage: Number(
+      hourlyWage?.split(",").reduce((curr, acc) => curr + acc, "")
+    ),
     startTime: startTime,
     endTime: endTime,
   };
 
   const payload = [todoId, work];
 
+  // console.log(String(data?.workDay).split("-").join(""));
+  const dayId = String(data?.workDay).split("-").join("");
+
   const onClickHandler = () => {
     console.log(work);
-    mutate(payload);
     setIsMoreBtns(false);
-    navigate(-1);
+    mutateAsync(payload).then(() => {
+      sweetAlert(1000, "success", "근무 일정이 수정되었습니다!");
+      navigate(`/calendar/${dayId}/${todoId}`);
+    });
   };
 
   return (
-    <LayOut position="relative">
-      <Header title={"근무수정"} />
+    <LayOut position="relative" height="100vh">
+      <Header title="근무수정" padding="5% 0" marginLeft="120px" />
+
       <SThourlyWage>
         <label>시급</label>
-        <input
-          value={hourlyWage}
-          placeholder="시급을 입력해주세요"
-          onChange={(e) => setHourlyWage(e.target.value)}
-        />
+        <div>
+          <input
+            value={inputPriceFormat(String(hourlyWage))}
+            maxLength={6}
+            placeholder="시급을 입력해주세요."
+            onChange={(e) => setHourlyWage(inputPriceFormat(e.target.value))}
+          />
+          <span>원</span>
+        </div>
       </SThourlyWage>
       <TimeSelector className="workingTime">
         <label>근무시간</label>
@@ -78,7 +91,7 @@ function EditShift() {
               setStartTime(e.target.value);
             }}
           />
-          <span> - </span>
+          <span> ~ </span>
           <input
             type="time"
             value={endTime}
@@ -110,8 +123,11 @@ const SThourlyWage = styled.div`
     border: 1px solid #efefef;
     font-size: 15px;
     font-weight: 500;
-    padding: 5px;
-    margin-bottom: 30px;
+    padding: 10px;
+    margin: 0px 10px 30px 0px;
+  }
+  span {
+    font-weight: 500;
   }
 `;
 const TimeSelector = styled.div`
@@ -130,8 +146,9 @@ const TimeSelector = styled.div`
     border: 1px solid #efefef;
     font-size: 15px;
     font-weight: 500;
-    padding: 5px;
-    margin-bottom: 390px;
+    padding: 10px;
+    margin-bottom: 290px;
+    font-family: "Noto Sans KR";
   }
 `;
 
@@ -147,9 +164,16 @@ const STButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  left: 17px;
+  position: fixed;
   bottom: 17px;
+  cursor: pointer;
+  transition: all 0.5s linear;
+
+  &:hover {
+    background-color: white;
+    border: 1px solid #5fce80;
+    color: #5fce80;
+  }
 `;
 
 export default EditShift;

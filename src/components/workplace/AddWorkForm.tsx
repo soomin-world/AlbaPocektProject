@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { addWork } from "../../APIs/workApi";
+import sweetAlert from "../../util/sweetAlert";
 import Header from "../header/Header";
 import LayOut from "../layout/LayOut";
 
@@ -13,14 +14,14 @@ function AddWorkForm() {
   const [salaryDay, setSalaryday] = useState<string | undefined>("");
   const [color, setColor] = useState("");
   const [isClicked, setIsClicked] = useState("");
-  const colors = [
-    "#ee9071",
-    "#F6E279",
-    "#5FCE80",
-    "#6290F0",
-    "#6532E9",
-    "#ab51b9d7",
-  ];
+  const colors = ["#FFB69E", "#FDE569", "#6CDA8D", "#9BBCFF", "#AB8CFE"];
+
+  const mutateWork = useMutation(addWork, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["work"]);
+    },
+  });
+
   const openModal = () => {
     setModalOpen(!modalOpen);
   };
@@ -38,24 +39,27 @@ function AddWorkForm() {
   console.log(color);
   const addWorkHandler = () => {
     if (placeName === "") {
-      alert("근무지명을 입력하세요 ");
+      sweetAlert(1000, "error", "근무지명을 입력하세요!");
+      return;
+    }
+    if (placeName.length > 10) {
+      sweetAlert(1000, "error", "근무지명은 최대 10자까지 입력가능합니다!");
       return;
     }
     if (salaryDay === "" || null) {
-      alert("월급일을 입력해주세요");
+      sweetAlert(1000, "error", "월급일을 입력해주세요!");
       return;
     }
     if (color === "" || null) {
-      alert("색상을 선택해주세요");
+      sweetAlert(1000, "error", "색상을 선택해주세요!");
       return;
     }
-    mutateWork.mutate(workPlaceForm);
+    mutateWork.mutateAsync(workPlaceForm).then((res) => {
+      sweetAlert(1000, "success", "근무지를 추가하였습니다!");
+      navigate("/");
+    });
   };
-  const mutateWork = useMutation(addWork, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["work"]);
-    },
-  });
+
   const onColorClick = (i: number, v: string) => {
     setIsClicked(String(i));
     setColor(v);
@@ -65,9 +69,11 @@ function AddWorkForm() {
     setModalOpen(false);
   };
   const navigate = useNavigate();
+
   return (
-    <LayOut position="relative">
-      <Header title={"근무지추가"} />
+    <LayOut position="relative" height="100vh">
+      <Header title="근무지추가" padding="5% 0" marginLeft="110px" />
+
       <STBody>
         <div className="place">
           <p>어디에서 일하시나요?</p>
@@ -80,13 +86,9 @@ function AddWorkForm() {
         <div className="salary">
           <p>월급일</p>
           <div>
-            <div className="input">
+            <div className="input" onClick={openModal}>
               <p>{salaryDay}</p>
-              <img
-                src="/image/arrowDecrease.png"
-                alt="arrow"
-                onClick={openModal}
-              />
+              <img src="/image/iconArrowDecrease.svg" alt="arrow" />
             </div>
             {modalOpen ? (
               <DropDown>
@@ -130,7 +132,7 @@ const STBody = styled.div`
     p {
       font-size: 15px;
       font-weight: 500;
-      margin: 21.5px 0px 15px 0px;
+      margin: 21px 0px 15px 0px;
     }
     input {
       width: 90%;
@@ -138,28 +140,34 @@ const STBody = styled.div`
       background-color: #f9f9f9;
       border: 1px solid #efefef;
       border-radius: 8px;
-      margin-bottom: 41px;
+      margin-bottom: 40px;
+      padding-left: 10px;
     }
   }
   .salary {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     p {
       font-size: 15px;
       font-weight: 500;
       line-height: 22px;
     }
     .input {
-      width: 20%;
+      width: 90px;
       height: 44px;
       background-color: #f9f9f9;
       border: 1px solid #efefef;
-      border-bottom: none;
-      border-top-right-radius: 8px;
-      border-top-left-radius: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      /* border-top-right-radius: 8px;
+      border-top-left-radius: 8px; */
       display: flex;
       align-items: center;
       padding: 7px;
+      margin-top: 15px;
       justify-content: space-between;
+      p {
+        margin-left: 19px;
+      }
       img {
         width: 18px;
         height: 18px;
@@ -184,8 +192,9 @@ const DropDown = styled.div`
   padding: 5px;
   color: #8f8b8b;
   //margin-top: px;
-  width: 70px;
-  height: 150px;
+  width: 90px;
+  height: 300px;
+  margin-top: -5px;
   overflow: auto;
   animation: modal-bg-show 0.6s;
   background-color: #f9f9f9;
@@ -195,10 +204,12 @@ const DropDown = styled.div`
   border-bottom-right-radius: 8px;
   border-top: none;
   font-weight: 500;
+  font-size: 18px;
   ::-webkit-scrollbar {
     display: none; /* Chrome , Safari , Opera */
   }
   div {
+    cursor: pointer;
     list-style: none;
     padding: 3px;
     text-align: center;
@@ -207,20 +218,23 @@ const DropDown = styled.div`
 
 const STColor = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 15px;
   margin-bottom: 290px;
   .btn {
     width: 36px;
     height: 36px;
-    border-radius: 100%;
+    border-radius: 50%;
     border: none;
+    cursor: pointer;
+    //  box-shadow: rgb(0 0 0 / 20%) 2px 2px 8px;
   }
   .btnactive {
     width: 36px;
     height: 36px;
-    border-radius: 100%;
+    border-radius: 50%;
     border: none;
-    box-shadow: 0 0 0 2px #777877;
+    box-shadow: 0 0 0 4px #706f6f53;
+    cursor: pointer;
   }
 `;
 
@@ -236,8 +250,16 @@ const SaveBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  left: 17px;
+  position: fixed;
   bottom: 17px;
+  cursor: pointer;
+  transition: all 0.5s linear;
+
+  &:hover {
+    background-color: white;
+    border: 1px solid #5fce80;
+    color: #5fce80;
+  }
 `;
+
 export default AddWorkForm;

@@ -15,7 +15,7 @@ const CommentList = () => {
   //     setDataList(data);
   //   }
   // }, [data]);
-  console.log(data);
+
   return (
     <Stcontainer>
       {data?.map((e: CommentType) => (
@@ -40,8 +40,8 @@ const Stcontainer = styled.div`
   width: 100%;
   flex-direction: column;
   /* padding: 5%; */
-  margin-bottom: 50px;
-  background-color: #fbfbfb;
+  margin-bottom: 5px;
+  // background-color: #fbfbfb;
   height: 100%;
 `;
 
