@@ -62,11 +62,6 @@ const ChatRoom = () => {
 
   useEffect(() => {
     connectStomp();
-    if (client.current?.connected) {
-      onConnect();
-    } else {
-      client.current?.connect({ myNickName }, onConnect);
-    }
     scrollToBot();
   }, []);
   //trouble shooting... useeffect를 잘 나누어 쓰자..
