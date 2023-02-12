@@ -69,7 +69,7 @@ const MyAlert = () => {
           setAlertOpen(true);
         }
         // const result = await e.data;
-        // console.log(JSON.parse(result));
+
         // setData(result);
         setListening(true);
       });

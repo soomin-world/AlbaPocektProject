@@ -19,7 +19,7 @@ function WorkEditForm() {
     salaryDay: "",
     placeColor: "",
   });
-  console.log(editWork.placeColor);
+
   const { data, isSuccess } = useQuery(["work", id], () => getWork(id));
   const colors = ["#FFB69E", "#FDE569", "#6CDA8D", "#9BBCFF", "#AB8CFE"];
   const mutateEditwork = useMutation(putWork);

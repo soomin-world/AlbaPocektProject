@@ -54,7 +54,6 @@ const MyComment = () => {
       </div>
     );
   }
-  // console.log(numList);
 
   return (
     <>
@@ -79,7 +78,7 @@ const MyComment = () => {
                 let copy = [...allCommentList];
                 console.log(copy);
                 setDeleteList(copy);
-                // console.log(deleteList);
+
                 setOnClickAll(true);
               }}
             />

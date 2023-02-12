@@ -9,9 +9,6 @@ const RenderDayTotal = ({ day, Month, todos, bonus }: IDayTotalProps) => {
   const dayMonth = format(day, "MM");
   const dayDate = format(day, "dd");
 
-  // console.log(bonus);
-  // console.log(dayDate);
-  // console.log(todos);
   let num = 0;
 
   const result = todos.filter(
@@ -21,12 +18,10 @@ const RenderDayTotal = ({ day, Month, todos, bonus }: IDayTotalProps) => {
       dayMonth === Month &&
       todo.date === dayDate
   );
-  // console.log(result);
 
   for (const r of result) {
     num = num + Number(r.dayWage);
   }
-  // console.log(num);
 
   if (bonus !== undefined) {
     const result2 = bonus.filter(
@@ -36,7 +31,6 @@ const RenderDayTotal = ({ day, Month, todos, bonus }: IDayTotalProps) => {
         dayMonth === Month &&
         b.date === dayDate
     );
-    // console.log(result2);
 
     for (const r of result2) {
       num = num + Number(r.bonus);

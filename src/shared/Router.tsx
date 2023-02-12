@@ -33,15 +33,9 @@ import Splash from "../pages/Splash";
 import { useEffect } from "react";
 
 function Router() {
-  const myNickName = localStorage.getItem("nickname");
-
   const url = baseURL;
   const sock = new SockJS(url + "/ws/chat");
   const client = stompJS.over(sock);
-
-  client.heartbeat.outgoing = 20000;
-  client.heartbeat.incoming = 20000;
-  client.connect({ myNickName }, () => {});
 
   return (
     <BrowserRouter>

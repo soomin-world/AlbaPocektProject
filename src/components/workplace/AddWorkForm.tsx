@@ -36,7 +36,7 @@ function AddWorkForm() {
     placeColor: color,
   };
   const queryClient = useQueryClient();
-  console.log(color);
+
   const addWorkHandler = () => {
     if (placeName === "") {
       sweetAlert(1000, "error", "근무지명을 입력하세요!");
