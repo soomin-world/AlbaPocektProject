@@ -16,16 +16,11 @@ const Header: React.FC<HeaderProps> = ({
   const [keyword, setKeyword] = useRecoilState(searchKeywordAtom);
   const [dayList, setDayList] = useRecoilState(calendarDayList);
 
-  console.log(location);
-  console.log(typeof location);
-
   const onArrowHandler = () => {
     setDayList([]);
     if (location !== undefined) {
-      // console.log("원하는 대로 이동");
       navigate("/board");
     } else {
-      // console.log("뒤로 이동");
       window.history.back();
     }
   };

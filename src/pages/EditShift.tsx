@@ -53,11 +53,9 @@ function EditShift() {
 
   const payload = [todoId, work];
 
-  // console.log(String(data?.workDay).split("-").join(""));
   const dayId = String(data?.workDay).split("-").join("");
 
   const onClickHandler = () => {
-    console.log(work);
     setIsMoreBtns(false);
     mutateAsync(payload).then(() => {
       sweetAlert(1000, "success", "근무 일정이 수정되었습니다!");

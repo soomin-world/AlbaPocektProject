@@ -72,7 +72,6 @@ const Register = () => {
     }
     // setError("extraError", { message: "Server offline." });
   };
-  // console.log(errors);
   useEffect(() => {
     if (userIdPassMsg === "사용가능한 이메일입니다") {
       alert("입력하신 이메일로 인증메일이 발송되었습니다.");
@@ -91,10 +90,8 @@ const Register = () => {
         setError("email", { message: "" });
         setUserIdPassMsg("사용가능한 이메일입니다");
         //setEmailAuthClickCheck(true);
-        console.log(email);
       })
       .catch((error) => {
-        console.log(error.response.data.msg);
         setUserIdPassMsg("");
         setError("email", { message: error.response.data.msg });
       });
@@ -105,12 +102,10 @@ const Register = () => {
     const nickname: IForm = watch();
     nicknameCheckMutate(nickname)
       .then((res) => {
-        console.log(res);
         setError("nickname", { message: "" });
         setNicknamePassMsg("멋진 닉네임이네요!");
       })
       .catch((error) => {
-        console.log(error.response.data.msg);
         setNicknamePassMsg("");
         setError("nickname", { message: error.response.data.msg });
       });
@@ -127,7 +122,6 @@ const Register = () => {
       .catch(() => {
         setEmailAuthPassMsg("인증코드를 다시한번 확인해주세요");
       });
-
   };
   return (
     <LayOut height="100vh">
