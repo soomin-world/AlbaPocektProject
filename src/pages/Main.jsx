@@ -8,6 +8,8 @@ function Main() {
   const navigate = useNavigate();
   const token = localStorage.getItem("is_login");
 
+  console.log(token);
+
   useEffect(() => {
     if (!token) {
       navigate("/start");

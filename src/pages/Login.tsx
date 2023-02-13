@@ -32,6 +32,7 @@ const Login = () => {
   };
 
   const token = localStorage.getItem("is_login");
+
   useEffect(() => {
     if (token) {
       sweetAlert(1000, "error", "이미 로그인하셨습니다!");

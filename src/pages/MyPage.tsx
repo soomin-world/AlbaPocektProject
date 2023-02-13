@@ -46,7 +46,7 @@ const MyPage = () => {
     localStorage.removeItem("is_login");
     localStorage.removeItem("userId");
     localStorage.removeItem("nickname");
-    navigate("/login");
+    navigate("/start");
   };
 
   const numList = [];
