@@ -116,6 +116,7 @@ const CommentDelete = styled.div`
   //box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
   background-color: rgba(0, 0, 0, 0.03);
   padding: 0px 15px 0px 15px;
+
   font-size: 13px;
   font-weight: 400;
   margin-top: -15px;
@@ -130,6 +131,8 @@ const CommentDelete = styled.div`
   div {
     display: flex;
     align-items: center;
+    font-family: "Noto Sans KR";
+    font-weight: 500;
   }
   img {
     width: 15px;
@@ -146,11 +149,13 @@ const CommentDelete = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: "Noto Sans KR";
+    font-weight: 500;
 
     img {
       width: 13px;
       height: 13px;
-      margin: 0 0 3px 3px;
+      margin: 3px 0 3px 3px;
     }
   }
 `;

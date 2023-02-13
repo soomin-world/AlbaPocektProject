@@ -23,13 +23,14 @@ const RenderDays = ({ dayWith, daysWith }: IDaysProps) => {
 const Day = styled.div<{ dayWith: boolean | undefined }>`
   width: ${(props) => (props.dayWith ? "40px" : "50px")};
   margin-left: ${(props) => (props.dayWith ? "0px" : "0px")};
+  font-family: "Noto Sans KR";
   font-size: ${(props) => (props.dayWith ? "13px" : "11px")};
   font-weight: 400;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: ${(props) => (props.dayWith ? "5px" : "null")};
-  margin-bottom: ${(props) => (props.dayWith ? "5px" : "null")};
+  margin-bottom: ${(props) => (props.dayWith ? "8px" : "null")};
 
   div {
     height: ${(props) => (props.dayWith ? "13px" : "11px")};

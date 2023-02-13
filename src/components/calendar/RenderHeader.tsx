@@ -43,15 +43,6 @@ const RenderHeader = ({
             className="selectedMonth"
             customInput={<ExampleCustomInput />}
           />
-          {/* <input
-            type="month"
-            value={date}
-            onChange={(e) => {
-              console.log(e.target.value);
-              setDate(() => e.target.value);
-              selectedMonth(new Date(e.target.value));
-            }}
-          /> */}
           <img
             src="/image/iconMypage.svg"
             onClick={() => navigate("/mypage")}
@@ -59,11 +50,6 @@ const RenderHeader = ({
         </SelectMonth>
       ) : (
         <HeaderIcon>
-          {/* <Icon
-            icon="bi:arrow-left-circle-fill"
-            onClick={prevMonth}
-            style={{ marginRight: "9px" }}
-          /> */}
           <img
             src="/image/iconCalendarLeftArrow.svg"
             onClick={prevMonth}
@@ -100,7 +86,7 @@ const HeaderText = styled.div`
     height: 21px;
   }
   div:first-child {
-    margin-right: 10px;
+    margin-right: 11px;
   }
   div:last-child {
     margin-right: 8px;
@@ -108,9 +94,14 @@ const HeaderText = styled.div`
 `;
 
 const HeaderIcon = styled.div`
+  font-family: "Noto Sans KR";
   height: 16px;
   display: flex;
   align-items: center;
+
+  img {
+    margin-top: 4px;
+  }
 `;
 
 const SelectMonth = styled.div`
@@ -131,6 +122,7 @@ const Button = styled.button`
   height: 50px;
   font-size: 20px;
   font-family: "Noto Sans KR";
+  font-weight: 500;
   border: none;
   border-radius: 8px;
   background-color: white;

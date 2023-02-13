@@ -136,7 +136,9 @@ function AddShift() {
           />
         </div>
       </TimeSelector>
-      <STButton onClick={onClickHandler}>저장하기</STButton>
+      <STButton onClick={onClickHandler}>
+        <div>저장하기</div>
+      </STButton>
     </LayOut>
   );
 }
@@ -168,7 +170,7 @@ const WorkDayInput = styled.div`
   .overlap {
     padding-left: 1px;
     font-size: 15px;
-    font-weight: 400;
+    font-weight: 500;
     color: #656464;
   }
 `;
@@ -183,6 +185,7 @@ const SThourlyWage = styled.div`
     margin-bottom: 15px;
   }
   input {
+    font-family: "Noto Sans KR";
     width: 159.78px;
     height: 44px;
     border-radius: 8px;
@@ -227,15 +230,19 @@ const STButton = styled.button`
   border-radius: 10px;
   color: white;
   font-size: 17px;
-  font-weight: 500;
+  font-weight: 600;
   display: flex;
   justify-content: center;
   align-items: center;
   position: fixed;
   bottom: 17px;
   cursor: pointer;
-  transition: all 0.5s linear;
+  transition: all 0.3s linear;
+  font-family: "Noto Sans KR";
 
+  div {
+    height: 27px;
+  }
   &:hover {
     background-color: white;
     border: 1px solid #5fce80;

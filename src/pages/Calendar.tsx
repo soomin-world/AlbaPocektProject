@@ -400,6 +400,7 @@ const Calendar = () => {
 };
 
 const Total = styled.div`
+  font-family: "Noto Sans KR";
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -413,6 +414,7 @@ const CellsRow = styled.div`
 `;
 
 const CellsBody = styled.div`
+  font-family: "Noto Sans KR";
   display: flex;
   flex-direction: column;
   padding: 5px;
@@ -444,7 +446,7 @@ const CellsNum = styled.div<{ color: string; backgroundColor: string }>`
   align-items: center;
 
   div {
-    height: 11px;
+    height: 14px;
   }
 `;
 

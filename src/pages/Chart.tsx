@@ -109,20 +109,7 @@ const Chart = () => {
                 customInput={<ExampleCustomInput />}
               />
             </div>
-            {/* <input
-              type="month"
-              value={date}
-              onChange={(e) => {
-                setDate(() => e.target.value);
-                console.log(date);
-              }}
-            /> */}
           </SelectMonth>
-
-          {/* <ChartText marginTop="0px">
-            {date?.slice(5)[0] === "0" ? date.slice(6) : date.slice(5)}월 달
-            소득 비중
-          </ChartText> */}
 
           <ReactApexChart
             options={{
@@ -266,13 +253,6 @@ const ChartText = styled.div<{ marginTop: string }>`
   margin-top: ${(props) => (props.marginTop ? props.marginTop : "0px")};
 `;
 
-const Input = styled.input`
-  width: 120px;
-  min-height: 30px;
-  font-size: 15px;
-  margin: 20px 0px 20px 0px;
-`;
-
 const WorkingHours = styled.div`
   font-weight: 400;
 
@@ -291,36 +271,13 @@ const SelectMonth = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 15px 0px 15px 0px;
-
-  input {
-    width: 120px;
-    min-height: 44px;
-    padding: 10px;
-    font-size: 15px;
-    font-weight: 500;
-    font-family: "Noto Sans KR";
-    height: 21px;
-    border: none;
-    border-radius: 8px;
-    color: #545456;
-    background-color: #f7f7f7;
-    /* background: url("image/iconCalendarInput.png") no-repeat right 3px center /
-      24px auto; */
-  }
-  input[type="month"]::-webkit-inner-spin-button,
-  input[type="month"]::-webkit-calendar-picker-indicator {
-    /* background: transparent;
-    -webkit-appearance: none; */
-  }
-  input:focus {
-    outline: none;
-  }
 `;
 
 const Button = styled.button`
   width: 140px;
   height: 44px;
   font-family: "Noto Sans KR";
+  font-weight: 500;
   font-size: 15px;
   border: none;
   border-radius: 8px;

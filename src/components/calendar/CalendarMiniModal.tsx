@@ -96,6 +96,7 @@ const CalendarMiniModal = ({
 };
 
 const Cells = styled.div<{ color: string; backgroundColor: string }>`
+  font-family: "Noto Sans KR";
   width: 40px;
   height: 40px;
   position: relative;
@@ -108,6 +109,7 @@ const Cells = styled.div<{ color: string; backgroundColor: string }>`
 `;
 
 const CellsNum = styled.span<{ color: string }>`
+  margin-bottom: 2px;
   color: ${(props) => props.color};
 `;
 

@@ -70,7 +70,13 @@ function PostDetail() {
   };
 
   const onChatHandler = (e: string) => {
-    mutateAsync(e).then((roomId) => navigate(`/chat/${roomId}`));
+    mutateAsync(e).then((roomId) =>
+      navigate(`/chat/${roomId}`, {
+        state: {
+          postId: id,
+        },
+      })
+    );
     setOtherNickName(data.nickname);
   };
 

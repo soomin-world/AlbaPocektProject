@@ -23,12 +23,14 @@ const Guide = () => {
   const token = localStorage.getItem("is_login");
   const navigate = useNavigate();
   const onChange = (currentSlide: number) => {};
+
   useEffect(() => {
     if (token) {
       alert("이미 로그인하셨습니다.");
       navigate("/");
     }
   }, []);
+
   return (
     <LayOut height="100vh" padding="0px">
       <STContainer>
@@ -81,6 +83,7 @@ const STButton = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+
   .kakaoLogin {
     width: 339.89px;
     height: 56px;
@@ -92,6 +95,7 @@ const STButton = styled.div`
     img {
       width: 208px;
       height: 25px;
+      margin-top: -4px;
     }
   }
 `;
