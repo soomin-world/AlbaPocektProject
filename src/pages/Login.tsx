@@ -19,14 +19,12 @@ const Login = () => {
     if (password.length === 0) return setErrorMsg("비밀번호를 입력하세요.");
 
     const userInfo = { userId: userId, password: password };
-    console.log(userInfo);
     mutateAsync(userInfo)
       .then((res) => {
         sweetAlert(1000, "success", "로그인 성공!");
         navigate("/");
       })
       .catch((error) => {
-        // console.log(error.response.data.msg);
         setErrorMsg(error.response.data.msg);
       });
   };

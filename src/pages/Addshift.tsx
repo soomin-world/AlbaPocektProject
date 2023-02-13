@@ -22,7 +22,7 @@ function AddShift() {
   const navigate = useNavigate();
   const { id } = useParams();
   const { dateId } = useParams();
-  // console.log(dateId);
+
   const [hourlyWage, setHourlyWage] = useState("");
   const [isCalendarBtns, setIsCalendarBtns] = useRecoilState(calendarAtom);
   const [dayList, setDayList] = useRecoilState(calendarDayList);
@@ -37,9 +37,6 @@ function AddShift() {
     const nowTime = format(new Date(), "HH:mm");
     setStartTime(nowTime);
     setEndTime(nowTime);
-    console.log(new Date());
-    console.log(format(new Date(), "HH:mm"));
-    console.log(dayList);
   }, []);
 
   const work = {
@@ -72,7 +69,6 @@ function AddShift() {
     });
     // navigate(-1);
   };
-  console.log(work.hourlyWage);
   return (
     <LayOut position="relative" height="100vh">
       <Header title="근무 등록" padding="5% 0" marginLeft="120px" />
@@ -122,7 +118,6 @@ function AddShift() {
             type="time"
             value={startTime}
             onChange={(e) => {
-              console.log(e.target.value);
               setStartTime(e.target.value);
             }}
           />

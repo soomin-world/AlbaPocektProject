@@ -42,7 +42,6 @@ function PostDetail() {
   const myId = localStorage.getItem("userId");
 
   const { locationId } = useParams();
-  console.log(locationId);
 
   const { mutateAsync } = useMutation(createChatRoom, {
     onSuccess: () => {

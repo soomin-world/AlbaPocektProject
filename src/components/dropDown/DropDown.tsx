@@ -87,7 +87,6 @@ const DropDown: React.FC<propsType> = ({
     mutateAsync(String(id)).then(() => setIsOpen(false));
   };
 
-  console.log(value);
   useEffect(() => {
     if (deleteValue === "post") {
       setValue(() => deletePostHandler);
