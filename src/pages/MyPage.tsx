@@ -8,7 +8,8 @@ import LayOut from "../components/layout/LayOut";
 import { IMyPage } from "../types/myPageType";
 import { IAllPosts } from "../types/postType";
 import { dataType } from "./Board";
-import Swal from "sweetalert2";
+import { Modal } from "antd";
+import { FrownOutlined } from "@ant-design/icons";
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -23,13 +24,29 @@ const MyPage = () => {
     getMyPage(pageParam)
   );
 
+  const { confirm } = Modal;
+  const showConfirm = () => {
+    confirm({
+      title: "로그아웃",
+      icon: <FrownOutlined />,
+      content: "로그아웃 하시겠습니까?",
+      onOk() {
+        LogoutHandler();
+      },
+      onCancel() {},
+      okText: "로그아웃",
+      cancelText: "아니요!",
+      centered: true,
+      okButtonProps: { danger: true, type: "text" },
+      cancelButtonProps: { type: "text" },
+    });
+  };
+
   const LogoutHandler = () => {
-    if (window.confirm("로그아웃하시겠습니까?")) {
-      localStorage.removeItem("is_login");
-      localStorage.removeItem("userId");
-      localStorage.removeItem("nickname");
-      navigate("/login");
-    }
+    localStorage.removeItem("is_login");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("nickname");
+    navigate("/start");
   };
 
   const numList = [];
@@ -60,27 +77,30 @@ const MyPage = () => {
               <img src={data?.profileImage} />
               <span>{data?.nickname}</span>
             </div>
-            <div>
+            <div
+              onClick={() => {
+                navigate("/mypage/edit");
+              }}
+            >
               <img src="/image/iconProfilePencil.svg" />
-              <div
-                onClick={() => {
-                  navigate("/mypage/edit");
-                }}
-              >
-                수정하기
-              </div>
+              <div>수정하기</div>
             </div>
           </ProfileInfo>
 
           <div>
-            <MyPageEditBtn onClick={LogoutHandler}>
+            <MyPageEditBtn onClick={showConfirm}>
               <img src="/image/iconLogout.svg" />
-              로그아웃
+              <div>로그아웃</div>
             </MyPageEditBtn>
           </div>
         </MyPageProfile>
 
-        <p style={{ padding: "10px 10px 10px 4%", fontWeight: "400" }}>
+        <p
+          style={{
+            padding: "10px 10px 10px 4%",
+            fontWeight: "500",
+          }}
+        >
           내 활동
         </p>
 
@@ -200,8 +220,9 @@ const MyPageEditBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: "Noto Sans KR";
   font-size: 15px;
-  padding: 0;
+
   cursor: pointer;
   /* &:first-child {
     margin-right: 15px;
@@ -209,14 +230,18 @@ const MyPageEditBtn = styled.button`
   img {
     width: 18px;
     height: 18px;
+    margin-top: -1px;
     margin-right: 5px;
+  }
+  div {
+    margin-top: -2px;
   }
 `;
 
 const Taps = styled.div`
   width: 100%;
   display: flex;
-  border-bottom: 0.5px solid #d9d9d9;
+  border-bottom: 1px solid #d9d9d9;
   margin-bottom: 15px;
 `;
 
@@ -225,7 +250,7 @@ const Tap = styled.div<{ isActive: boolean }>`
   height: 40px;
   color: ${(props) => (props.isActive ? "#5FCE80" : "black")};
   border-bottom: ${(props) => (props.isActive ? "2px solid #5FCE80" : null)};
-  font-weight: 400;
+  font-weight: 500;
   display: flex;
   justify-content: center;
   align-items: center;

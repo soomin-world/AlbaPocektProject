@@ -84,9 +84,18 @@ const Dday: React.FC<propsType> = (props) => {
                 <div key={w.workId}>
                   <div style={contentStyle}>
                     <SalaryWrap>
-                      <div style={{ marginLeft: "20px" }}>
-                        {w.placeName} 월급날
-                      </div>
+                      <SalaryTop flex={w.placeName.length >= 5}>
+                        {w.placeName.length <= 5 ? (
+                          <div style={{ fontWeight: "600" }}>{w.placeName}</div>
+                        ) : (
+                          <div style={{ fontSize: "17px", fontWeight: "600" }}>
+                            {w.placeName}
+                          </div>
+                        )}{" "}
+                        <SalaryDay fontSize={w.placeName.length >= 5}>
+                          월급날까지
+                        </SalaryDay>
+                      </SalaryTop>
                       {diffDay[i] === 0 ? (
                         <div>
                           <div className="dDayText">D-Day</div> 입니다!!!
@@ -132,7 +141,10 @@ const Dday: React.FC<propsType> = (props) => {
 
 export const Container = styled.div`
   margin-bottom: 20px;
-
+  .slick-dots li.slick-active button:before {
+    // your code here
+    color: #5fce80;
+  }
   button {
     border: 1px solid black;
   }
@@ -140,7 +152,6 @@ export const Container = styled.div`
 
 export const BlankWrap = styled.div`
   display: flex;
-
   width: 100%;
   height: 100%;
   justify-content: space-between;
@@ -175,7 +186,7 @@ export const BlankWrap = styled.div`
 
 export const SalaryWrap = styled.div`
   //border: 1px solid black;
-  // min-width: 200px;
+  width: 60%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -190,6 +201,7 @@ export const SalaryWrap = styled.div`
     align-items: center;
     margin-left: 10px;
   }
+
   .dDayText {
     font-family: "Montserrat";
     font-size: 24px;
@@ -199,8 +211,19 @@ export const SalaryWrap = styled.div`
   }
 `;
 
+const SalaryTop = styled.div<{ flex: boolean }>`
+  margin-left: 20px;
+  display: flex;
+  flex-direction: ${(props) => (props.flex ? "column" : "row")};
+`;
+
+const SalaryDay = styled.div<{ fontSize: boolean }>`
+  font-size: ${(props) => (props.fontSize ? "15px" : "18px")};
+  margin-top: ${(props) => (props.fontSize ? "5px" : "0px")};
+`;
 export const STWrap = styled.div`
-  width: 40%;
+  width: 122px;
+
   img {
     position: absolute;
     top: -10px;
@@ -213,4 +236,5 @@ export const STPig = styled.img`
   //border: 1px solid black;
   width: 50%;
 `;
+
 export default Dday;

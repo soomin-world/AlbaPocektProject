@@ -1,6 +1,6 @@
 import { ExclamationCircleFilled, FrownOutlined } from "@ant-design/icons";
 import { Button, Modal } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { quitChatRoom } from "../../APIs/chatApi";
 import { HeaderProps } from "../../types/header";
@@ -15,6 +15,12 @@ const ChatHeader: React.FC<HeaderProps> = ({
   isData,
 }) => {
   const { confirm } = Modal;
+  const navigate = useNavigate();
+  const useLocations = useLocation();
+  const postId = useLocations.state?.postId;
+  console.log(postId);
+
+  console.log(location);
   const showConfirm = () => {
     confirm({
       title: "정말 채팅방을 나가시나요?",
@@ -22,7 +28,13 @@ const ChatHeader: React.FC<HeaderProps> = ({
       content:
         "퇴장후에는 이전기록을 다시 불러오실수 없습니다, 그래도 퇴장하시겠습니까?",
       onOk() {
-        quitChatRoom(menu);
+        quitChatRoom(menu).then((res) =>
+          navigate("/chat", {
+            state: {
+              id: postId,
+            },
+          })
+        );
       },
       onCancel() {},
       okText: "네",
@@ -51,6 +63,7 @@ const ChatHeader: React.FC<HeaderProps> = ({
     if (isData === false) {
       quitChatRoom(menu);
     }
+
     window.history.back();
   };
 
@@ -93,13 +106,14 @@ const STHeader = styled.div`
     img {
       width: 24px;
       height: 24px;
+      cursor: pointer;
     }
     h1 {
       //width: 83px;
       height: 25px;
       font-size: 20px;
       font-weight: 500;
-      margin-left: 10px;
+      margin-left: 15px;
     }
   }
   .icons {

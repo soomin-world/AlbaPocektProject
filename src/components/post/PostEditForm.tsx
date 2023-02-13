@@ -11,6 +11,8 @@ function PostEditForm() {
   const [category, setCategory] = useState({ category: "" });
   const [content, setContent] = useState({ content: "" });
   const [isDelete, setIsDelete] = useState({ isDelete: "false" });
+  const [boardModal, setBoardModal] = useState(false);
+  const [boardType, setBoardType] = useState("");
   const [file, setFile] = useState<string | Blob>();
   const { id } = useParams();
   const [imgFile, setImgFile] = useState<any>("");
@@ -41,6 +43,10 @@ function PostEditForm() {
       setCategory({ category: data.category });
       setContent({ content: data.content });
       setImgFile(data.imgUrl);
+
+      if (data.category === "free") setBoardType("자유 게시판");
+      if (data.category === "partTime") setBoardType("알바 고민");
+      if (data.category === "cover") setBoardType("대타 구해요");
     }
   }, [data]);
 
@@ -49,15 +55,15 @@ function PostEditForm() {
   const submitHandler = (e: any) => {
     e.preventDefault();
     if (title.title === "") {
-      alert("제목을 입력해주세요!");
+      sweetAlert(1000, "error", "제목을 입력해주세요!");
       return;
     }
     if (category.category === "") {
-      alert("카테고리를 선택해주세요");
+      sweetAlert(1000, "error", "카테고리를 선택해주세요");
       return;
     }
     if (content.content === "") {
-      alert("내용을 입력해 주세요");
+      sweetAlert(1000, "error", "내용을 입력해 주세요");
       return;
     }
     if (file) {
@@ -75,7 +81,7 @@ function PostEditForm() {
           sweetAlert(1000, "success", "수정되었습니다!");
           navigate(`/post/${data.postId}/0`);
         })
-        .catch((error) => alert(error.response.data.msg));
+        .catch((error) => sweetAlert(1000, "error", error.response.data.msg));
     } else {
       const formData = new FormData();
       formData.append("title", title.title);
@@ -90,7 +96,7 @@ function PostEditForm() {
           sweetAlert(1000, "success", "수정되었습니다!");
           navigate(`/post/${data.postId}/0`);
         })
-        .catch((error) => alert(error.response.data.msg));
+        .catch((error) => sweetAlert(1000, "error", error.response.data.msg));
     }
   };
 
@@ -114,7 +120,48 @@ function PostEditForm() {
       </STHeader>
 
       <SContianer>
-        <select
+        <div style={{ position: "relative" }}>
+          <Selector
+            onClick={() => {
+              setBoardModal(!boardModal);
+            }}
+          >
+            {boardType}
+            <img src="/image/iconCategory.svg" />
+          </Selector>
+          {boardModal ? (
+            <List>
+              <div
+                onClick={(e) => {
+                  setBoardType("자유 게시판");
+                  setBoardModal(false);
+                  setCategory({ category: "free" });
+                }}
+              >
+                자유 게시판
+              </div>
+              <div
+                onClick={(e) => {
+                  setBoardType("알바 고민");
+                  setBoardModal(false);
+                  setCategory({ category: "partTime" });
+                }}
+              >
+                알바 고민
+              </div>
+              <div
+                onClick={(e) => {
+                  setBoardType("대타 구해요");
+                  setBoardModal(false);
+                  setCategory({ category: "cover" });
+                }}
+              >
+                대타 구해요
+              </div>
+            </List>
+          ) : null}
+
+          {/* <select
           value={category.category}
           onChange={(e) => {
             const { value } = e.target;
@@ -125,27 +172,30 @@ function PostEditForm() {
           <option value="free">자유</option>
           <option value="partTime">알바고민</option>
           <option value="cover">대타</option>
-        </select>
-        <div className="titleForm">
-          <input
-            type="text"
-            value={title.title}
-            placeholder="제목"
-            onChange={(e) => {
-              const { value } = e.target;
-              setTitle({ title: value });
-            }}
-          />
-        </div>
-        <div className="content">
-          <textarea
-            placeholder="내용을 작성해주세요"
-            value={content.content}
-            onChange={(e) => {
-              const { value } = e.target;
-              setContent({ content: value });
-            }}
-          />
+        </select> */}
+          <div className="titleForm">
+            <input
+              type="text"
+              maxLength={50}
+              value={title.title}
+              placeholder="제목"
+              onChange={(e) => {
+                const { value } = e.target;
+                setTitle({ title: value });
+              }}
+            />
+          </div>
+          <div className="content">
+            <textarea
+              maxLength={500}
+              placeholder="내용을 작성해주세요 (500자 이내)"
+              value={content.content}
+              onChange={(e) => {
+                const { value } = e.target;
+                setContent({ content: value });
+              }}
+            />
+          </div>
         </div>
 
         <STImageUpLoad>
@@ -159,7 +209,7 @@ function PostEditForm() {
                     setImgFile("");
                   }}
                   src="/image/iconPostX.svg"
-                    alt=""
+                  alt=""
                 />
                 <img src={imgFile} />
               </>
@@ -219,6 +269,7 @@ const SContianer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+
   select {
     border: none;
     width: 83px;
@@ -229,6 +280,7 @@ const SContianer = styled.div`
   .titleForm {
     border-bottom: 0.5px solid rgba(197, 197, 197, 0.7);
     margin-bottom: 10px;
+
     input {
       width: 100%;
       height: 45px;
@@ -237,10 +289,13 @@ const SContianer = styled.div`
       line-height: 35px;
       border: none;
       margin-bottom: 10px;
+      font-family: "Noto Sans KR";
+      outline: none;
     }
   }
   .content {
     textarea {
+      font-family: "Noto Sans KR";
       border: none;
       width: 100%;
       height: 250px;
@@ -254,6 +309,40 @@ const SContianer = styled.div`
     }
   }
 `;
+
+const Selector = styled.div`
+  font-size: 18px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 5px;
+
+  img {
+    width: 24px;
+    height: 24px;
+    margin: 2px 0px 0px 5px;
+  }
+`;
+
+const List = styled.div`
+  width: 90px;
+  background-color: white;
+  position: absolute;
+  top: 35px;
+  left: -3px;
+  border-radius: 10px;
+  animation: modal-bg-show 0.6s;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+
+  div {
+    font-size: 15px;
+    font-weight: 400;
+    padding: 6px 8px 6px 8px;
+  }
+`;
+
 const STImageUpLoad = styled.div`
   position: absolute;
   bottom: 10px;

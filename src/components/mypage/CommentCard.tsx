@@ -54,7 +54,7 @@ const CommentCard = ({ comment }: IComment) => {
           navigate(`/post/${comment.postId}`);
         }}
       >
-        <div className="first">
+        <div className="content">
           {comment.comment}
           {/* 제 일도 아닌데 너무 억울하네요.제 일도 아닌데 너무 억울하네요.제 일도
           아닌데 너무 억울하네요. */}
@@ -73,7 +73,7 @@ const CommentCard = ({ comment }: IComment) => {
           <div>{comment.commentLikeNum}</div>
         </CommentInfo>
 
-        <div>{comment.title}</div>
+        <div className="title">{comment.title}</div>
       </CommentText>
     </Comment>
   );
@@ -86,6 +86,7 @@ const Comment = styled.div`
   display: flex;
   padding: 0px 15px 15px 15px;
   margin-bottom: 15px;
+  font-family: "Noto Sans KR";
 
   img {
     width: 15px;
@@ -98,11 +99,27 @@ const CommentText = styled.div`
   width: 315px;
   font-size: 13px;
   font-weight: 400;
+  font-family: "Noto Sans KR";
 
-  .first {
+  .content {
+    display: inline-block;
+    width: 315px;
     height: 39px;
     line-height: 150%;
     margin-top: -3px;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   div:nth-child(2) {
     margin: 5px 0px 5px 0px;
@@ -116,6 +133,7 @@ const CommentInfo = styled.div`
   display: flex;
   align-items: center;
   color: #aeaeae;
+  font-family: "Noto Sans KR";
 
   div {
     margin-right: 10px;

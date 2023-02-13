@@ -9,6 +9,7 @@ import Header from "../components/header/Header";
 import LayOut from "../components/layout/LayOut";
 import { IForm } from "../types/loginRegisterType";
 import { IMyPage } from "../types/myPageType";
+import sweetAlert from "../util/sweetAlert";
 
 const MyPageEdit = () => {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ const MyPageEdit = () => {
     formState: { errors },
     setError,
     resetField,
+    reset,
   } = useForm<IForm>({ mode: "onChange" });
 
   const {
@@ -54,7 +56,7 @@ const MyPageEdit = () => {
   const onValid = (data: IForm) => {
     console.log("submit!!!");
     if (!onClickNicknameCheck && data.nickname)
-      return alert("닉네임 중복확인 버튼을 눌러주세요!");
+      return sweetAlert(1000, "error", "닉네임 중복확인 버튼을 눌러주세요!");
 
     if (file) {
       // console.log(nickname);
@@ -70,14 +72,15 @@ const MyPageEdit = () => {
 
       mutateAsync(formData)
         .then((res) => {
-          window.confirm("변경되었습니다!");
+          sweetAlert(1000, "success", "변경되었습니다!");
           resetField("nickname");
           setPassMsg("");
+          reset();
         })
         .catch((error) => {
           setPassMsg("");
           setError("extraError", { message: error.response.data.msg });
-          alert(error.response.data.msg);
+          sweetAlert(1000, "error", error.response.data.msg);
         });
     } else {
       // console.log(nickname);
@@ -87,26 +90,24 @@ const MyPageEdit = () => {
       //   formData.append("nickname", nickname);
       // }
 
-      if (getData?.nickname) {
-        if (!data.nickname) {
-          formData.append("nickname", getData?.nickname);
-        } else {
-          formData.append("nickname", data.nickname);
-        }
-      }
+      if (!data.nickname)
+        return sweetAlert(1000, "error", "프로필 정보를 변경해주세요!");
+
+      formData.append("nickname", data.nickname);
 
       mutateAsync(formData)
         .then((res) => {
-          window.confirm("변경되었습니다!");
+          sweetAlert(1000, "success", "변경되었습니다!");
           resetField("nickname");
           setPassMsg("");
           localStorage.removeItem("nickname");
           localStorage.setItem("nickname", data.nickname);
+          reset();
         })
         .catch((error) => {
           setPassMsg("");
           setError("extraError", { message: error.response.data.msg });
-          alert(error.response.data.msg);
+          // weetAlert(1000, "error", error.response.data.msg);
         });
     }
   };
@@ -142,12 +143,7 @@ const MyPageEdit = () => {
   return (
     <>
       <LayOut padding="0" position="relative" height="100vh">
-        <Header
-          title="프로필 수정"
-          padding="5%"
-          marginLeft="105px"
-          location="/mypage"
-        />
+        <Header title="프로필 수정" padding="5%" marginLeft="105px" />
         <MyPageProfile>
           <div>
             <label htmlFor="profileImg">
@@ -188,7 +184,7 @@ const MyPageEdit = () => {
                       "가능한 문자 : 영문 대소문자, 글자 단위 한글, 숫자 ",
                   },
                 })}
-                placeholder="한글/영어 대소문자/숫자 가능 (5~10자)"
+                placeholder="한글 / 영어 대소문자 / 숫자 가능"
                 onBlur={() => {
                   setClickNicknameCheck(false);
                 }}
@@ -205,9 +201,9 @@ const MyPageEdit = () => {
           </EditNickname>
 
           {errors?.nickname?.message ? (
-            <button disabled>확인</button>
+            <button disabled>수정하기</button>
           ) : (
-            <button>확인</button>
+            <button>수정하기</button>
           )}
         </UserProfileForm>
       </LayOut>

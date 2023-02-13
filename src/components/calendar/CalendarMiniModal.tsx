@@ -31,20 +31,6 @@ const CalendarMiniModal = ({
   let currentDay = new Date();
   const [workDay, setWorkDay] = useState({ workday: "" });
 
-  //console.log(dayList);
-
-  // useEffect(() => {
-  //   for (const d of dayList) {
-  //     if (String(day) === d) {
-  //       console.log("같을 때", d);
-  //       setIsActive(true);
-  //     } else {
-  //       console.log("다를 때", d);
-  //       setIsActive(false);
-  //     }
-  //   }
-  // }, [currentMonth]);
-
   const onClickCellHandler = () => {
     onDateClick(toDate(cloneDay));
     setIsActive((pre) => !pre);
@@ -55,10 +41,8 @@ const CalendarMiniModal = ({
       });
       setDayList([...copy]);
     } else {
-      // console.log(format(day, "YMM"));
-      // console.log(format(day, "dd"));
       const yyyymmdd = `${format(day, "YMM")}${format(day, "dd")}`;
-      console.log(yyyymmdd);
+
       setDayList([...dayList, `${format(day, "YMM")}${format(day, "dd")}`]);
     }
   };
@@ -96,6 +80,7 @@ const CalendarMiniModal = ({
 };
 
 const Cells = styled.div<{ color: string; backgroundColor: string }>`
+  font-family: "Noto Sans KR";
   width: 40px;
   height: 40px;
   position: relative;
@@ -108,6 +93,7 @@ const Cells = styled.div<{ color: string; backgroundColor: string }>`
 `;
 
 const CellsNum = styled.span<{ color: string }>`
+  margin-bottom: 2px;
   color: ${(props) => props.color};
 `;
 

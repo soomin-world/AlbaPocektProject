@@ -1,14 +1,14 @@
 import { FrownOutlined } from "@ant-design/icons";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Modal } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { deleteTodo } from "../../APIs/calendarApi";
+import { deleteTodo, getDaily } from "../../APIs/calendarApi";
 import { deletePost } from "../../APIs/detailPostApi";
 import { deleteWork } from "../../APIs/workApi";
-import sweetAlert from "../../util/sweetAlert";
+import { ITodos } from "../../types/calendar";
 
 interface propsType {
   id: number;
@@ -35,19 +35,22 @@ const DropDown: React.FC<propsType> = ({
       queryClient.invalidateQueries(["work"]);
     },
   });
+
   const mutatePostDelete = useMutation(deletePost, {
     onSuccess: () => {
       queryClient.invalidateQueries(["post"]);
     },
   });
+
   const { mutateAsync } = useMutation(deleteTodo, {
     onSuccess: () => {
       queryClient.invalidateQueries(["monthly"]);
-      queryClient.invalidateQueries(["todos", id]);
+      queryClient.invalidateQueries(["todos"]);
       queryClient.invalidateQueries(["bonus"]);
       queryClient.invalidateQueries(["totalWage"]);
     },
   });
+
   const { confirm } = Modal;
   const showConfirm = (value: (() => {}) | undefined) => {
     confirm({
@@ -57,7 +60,7 @@ const DropDown: React.FC<propsType> = ({
       onOk() {
         if (value) {
           let temp = value;
-          temp();
+          value();
         }
       },
       onCancel() {},
@@ -68,18 +71,22 @@ const DropDown: React.FC<propsType> = ({
       cancelButtonProps: { type: "text" },
     });
   };
+
   const deletePostHandler = () => {
-
-    mutatePostDelete.mutateAsync(id).then(() => setIsOpen(false));
-
+    mutatePostDelete.mutateAsync(id).then(() => {
+      setIsOpen(false);
+      navigate("/board");
+    });
   };
+
   const deleteWorkHandler = () => {
     mutateDelete.mutateAsync(id).then(() => setIsOpen(false));
   };
+
   const deleteShiftHandler = () => {
     mutateAsync(String(id)).then(() => setIsOpen(false));
   };
-  console.log(value);
+
   useEffect(() => {
     if (deleteValue === "post") {
       setValue(() => deletePostHandler);

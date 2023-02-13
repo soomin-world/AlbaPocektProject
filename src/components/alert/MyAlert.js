@@ -69,7 +69,7 @@ const MyAlert = () => {
           setAlertOpen(true);
         }
         // const result = await e.data;
-        // console.log(JSON.parse(result));
+
         // setData(result);
         setListening(true);
       });
@@ -82,7 +82,7 @@ const MyAlert = () => {
           // window.location.reload();
         }
       };
-
+      return () => eventSource.close();
       // eventSource.addEventListener("error", function (event) {
       //   console.log("에러발생 시 뜨는 것", event);
       //   eventSource.close();

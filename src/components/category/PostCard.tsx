@@ -73,7 +73,7 @@ const PostCard = ({ post, padding, location }: postProps) => {
                 <img
                   className="heart"
                   src="/image/iconRedHeart.svg"
-                  alt="하트 "
+                  alt="하트"
                 />
               ) : (
                 <img
@@ -91,7 +91,6 @@ const PostCard = ({ post, padding, location }: postProps) => {
       {post.imgUrl ? (
         <img className="profileImage" alt="이미지" src={post.imgUrl} />
       ) : null}
-      {/* <img className="profileImage" alt="이미지" src={post.imgUrl} /> */}
     </STContainer>
   );
 };
@@ -108,6 +107,7 @@ const STContainer = styled.div<{
   justify-content: space-between;
   margin-bottom: 15px;
   padding-bottom: 15px;
+  cursor: pointer;
 
   .wrap {
     // width: 100%;

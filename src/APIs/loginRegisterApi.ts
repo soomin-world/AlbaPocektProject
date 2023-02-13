@@ -54,10 +54,15 @@ export const loginApi = async (userInfo: ILogin) => {
   setAccessToken(accessToken);
   setUserId(userId);
   setNickName(myNickName);
-  window.location.href = "/";
+  // window.location.href = "/";
 };
 
 export const emailAuth = async (payload: IEmail) => {
   const { data } = await instance.post("/api/user/email", payload);
+  return data;
+};
+
+export const emailAuthCheck = async (payload: IEmail) => {
+  const data = await instance.post("/api/user/emailcheck", payload);
   return data;
 };

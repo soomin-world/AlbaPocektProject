@@ -21,7 +21,7 @@ function Footer() {
   if (locationNow.pathname === "/register") return null;
   // if (locationNow.pathname === "/mypage") return null;
   // if (locationNow.pathname === "/mypage/myLike") return null;
-  if (locationNow.pathname === "/mypage/myComment") return null;
+  // if (locationNow.pathname === "/mypage/myComment") return null;
   if (locationNow.pathname === "/mypage/edit") return null;
   if (locationNow.pathname === "/alert") return null;
   if (locationNow.pathname === "/loading") return null;

@@ -42,7 +42,6 @@ function PostDetail() {
   const myId = localStorage.getItem("userId");
 
   const { locationId } = useParams();
-  console.log(locationId);
 
   const { mutateAsync } = useMutation(createChatRoom, {
     onSuccess: () => {
@@ -55,10 +54,6 @@ function PostDetail() {
       queryClient.invalidateQueries(["categoryPosts"]);
     },
   });
-
-  const dropDownHandler = () => {
-    setIsOpen(!isOpen);
-  };
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error!!!!!!</div>;
@@ -74,7 +69,13 @@ function PostDetail() {
   };
 
   const onChatHandler = (e: string) => {
-    mutateAsync(e).then((roomId) => navigate(`/chat/${roomId}`));
+    mutateAsync(e).then((roomId) =>
+      navigate(`/chat/${roomId}`, {
+        state: {
+          postId: id,
+        },
+      })
+    );
     setOtherNickName(data.nickname);
   };
 
@@ -194,6 +195,7 @@ const SContainer = styled.div`
       .dropDown {
         img {
           margin-top: 2px;
+          cursor: pointer;
         }
       }
       .userInfo {
@@ -297,8 +299,4 @@ const SContainer = styled.div`
   }
 `;
 
-const userNickname = styled.div`
-  display: flex;
-  align-items: center;
-`;
 export default PostDetail;

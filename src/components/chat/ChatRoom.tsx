@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import SockJS from "sockjs-client";
@@ -13,7 +13,7 @@ import stompJS, { Message } from "stompjs";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { IPayload } from "../../types/chatType";
 
-function ChatRoom() {
+const ChatRoom = () => {
   const { id } = useParams();
   const otherName = useRecoilValue(otherNickName);
   const myNickName = localStorage.getItem("nickname");
@@ -41,12 +41,12 @@ function ChatRoom() {
   };
   //------------------------------------------------
 
-  // stompclient생성부분
-  const sock = new SockJS(url + "/ws/chat");
-  const client = stompJS.over(sock);
+  const client = useRef<stompJS.Client>();
 
+  //stompclient생성부분
   const connectStomp = () => {
-    client.connect({ myNickName }, onConnect);
+    client.current = stompJS.over(new SockJS(url + "/ws/chat"));
+    client.current?.connect({ myNickName }, onConnect);
   };
 
   useEffect(() => {
@@ -74,7 +74,9 @@ function ChatRoom() {
   };
 
   const onSub = () => {
-    client.subscribe(`/sub/chat/room/${id}`, (e) => onMessageRecieve(e));
+    client.current?.subscribe(`/sub/chat/room/${id}`, (e) =>
+      onMessageRecieve(e)
+    );
   };
 
   //-------------------------------------------------
@@ -103,7 +105,7 @@ function ChatRoom() {
       sender: myNickName,
       message: "입장",
     };
-    client.send(
+    client.current?.send(
       `/pub/api/chat/message`,
       { myNickName },
       JSON.stringify(payload)
@@ -120,7 +122,7 @@ function ChatRoom() {
         sender: myNickName,
         message: message,
       };
-      client.send(
+      client.current?.send(
         `/pub/api/chat/message`,
         { myNickName },
         JSON.stringify(payload)
@@ -149,7 +151,7 @@ function ChatRoom() {
           arrow={true}
           menu={id}
           location="/chat"
-          client={client}
+          client={client.current}
           isData={isData}
         />
         <STChatList>
@@ -182,7 +184,7 @@ function ChatRoom() {
       </STContainer>
     </LayOut>
   );
-}
+};
 
 const STContainer = styled.div`
   width: 100%;

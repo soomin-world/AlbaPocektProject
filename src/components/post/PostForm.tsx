@@ -38,15 +38,15 @@ function PostForm() {
     e.preventDefault();
     //setContent({ content: content.content.replace("\n", "<br>") });
     if (title.title === "") {
-      alert("제목을 입력해주세요!");
+      sweetAlert(1000, "error", "제목을 입력해주세요!");
       return;
     }
     if (category.category === "") {
-      alert("카테고리를 선택해주세요");
+      sweetAlert(1000, "error", "카테고리를 선택해주세요!");
       return;
     }
     if (content.content === "") {
-      alert("내용을 입력해 주세요");
+      sweetAlert(1000, "error", "내용을 입력해 주세요!");
       return;
     }
     if (file) {
@@ -62,7 +62,7 @@ function PostForm() {
           sweetAlert(1000, "success", "등록되었습니다!");
           navigate(`/post/${res.postId}/0`);
         })
-        .catch((error) => alert(error.response.data.msg));
+        .catch((error) => sweetAlert(1000, "error", error.response.data.msg));
     } else {
       const formData = new FormData();
       formData.append("title", title.title);
@@ -75,7 +75,7 @@ function PostForm() {
           sweetAlert(1000, "success", "등록되었습니다!");
           navigate(`/post/${res.postId}/0`);
         })
-        .catch((error) => alert(error.response.data.msg));
+        .catch((error) => sweetAlert(1000, "error", error.response.data.msg));
     }
   };
 
@@ -139,6 +139,7 @@ function PostForm() {
         <div className="titleForm">
           <input
             type="text"
+            maxLength={50}
             placeholder="제목"
             onChange={(e) => {
               const { value } = e.target;
@@ -148,7 +149,8 @@ function PostForm() {
         </div>
         <div className="content">
           <textarea
-            placeholder="내용을 작성해주세요"
+            maxLength={500}
+            placeholder="내용을 작성해주세요 (500자 이내)"
             onChange={(e) => {
               const { value } = e.target;
               setContent({ content: value });
@@ -167,7 +169,7 @@ function PostForm() {
                   setImgFile("");
                 }}
                 src="/image/iconPostX.svg"
-                  alt=""
+                alt=""
               />
               <img src={imgFile} alt="" />
             </>
@@ -224,6 +226,7 @@ const STHeader = styled.div`
 `;
 
 const SBody = styled.div`
+  font-family: "Noto Sans KR";
   //border: 1px solid black;
   display: flex;
   flex-direction: column;
@@ -242,6 +245,7 @@ const SBody = styled.div`
   .titleForm {
     border-bottom: 0.5px solid rgba(197, 197, 197, 0.7);
     margin-bottom: 10px;
+
     input {
       width: 100%;
       height: 45px;
@@ -250,14 +254,16 @@ const SBody = styled.div`
       line-height: 35px;
       border: none;
       margin-bottom: 10px;
+      font-family: "Noto Sans KR";
+      outline: none;
     }
   }
   .content {
     textarea {
+      font-family: "Noto Sans KR";
       border: none;
       width: 100%;
-      min-height: 200px;
-      max-height: 200px;
+      height: 250px;
       font-weight: 400;
       font-size: 15px;
       resize: none;
@@ -271,7 +277,7 @@ const SBody = styled.div`
 
 const Selector = styled.div`
   font-size: 18px;
-  font-weight: 400;
+  font-weight: 500;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -297,6 +303,7 @@ const List = styled.div`
 
   div {
     font-size: 15px;
+    font-weight: 400;
     padding: 6px 8px 6px 8px;
   }
 `;

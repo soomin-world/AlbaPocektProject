@@ -118,8 +118,8 @@ const STHeader = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
-        left: 15px;
-        top: -7px;
+        left: 12px;
+        top: -4px;
         font-size: 10px;
 
         div {

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 // 근무지 추가
 export const addWork = async (payload: any) => {
   await instance.post("/api/workplace", payload);
-  return (window.location.href = "/");
+  return;
 };
 
 //근무지 조회
@@ -30,13 +30,14 @@ export const deleteWork = async (payload: number) => {
 // 근무지 수정
 export const putWork = async (payload: any) => {
   await instance.put(`/api/workplace/${payload[0]}`, payload[1]);
-  return (window.location.href = "/");
+  return;
 };
 
 //근무 추가
 export const addShift = async (payload: any) => {
   await instance.post(`/api/work/${payload[0]}`, payload[1]);
-  return (window.location.href = "/calendar");
+  // return (window.location.href = "/calendar");
+  return;
 };
 
 // 근무 등록(수정)
