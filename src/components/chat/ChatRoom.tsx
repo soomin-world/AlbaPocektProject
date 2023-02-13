@@ -25,6 +25,7 @@ const ChatRoom = () => {
   // chat내용 리스트
   const [chatList, setChatList] = useState<IPayload[]>([]);
   // 서버에서 get해온 이전 채팅 조회부분
+
   const [isData, setIsData] = useState(false);
   const { data, isSuccess, isLoading } = useQuery(
     ["chat", id],
